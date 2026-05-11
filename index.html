@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV – Nguyễn Trí Nhân | SEO Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crimson:  #C0132C;
+    --scarlet:  #E8192C;
+    --coral:    #FF4757;
+    --gold:      #D4A843;
+    --dark:      #1A0A0A;
+    --charcoal: #2D1515;
+    --muted:    #8B5555;
+    --cream:    #FFF8F5;
+    --white:    #FFFFFF;
+    --border:    rgba(192,19,44,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 0% 0%, rgba(192,19,44,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 100% 100%, rgba(232,25,44,0.05) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 40px 48px 60px;
+    animation: fadeUp .7s ease both;
+  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+
+  /* ══ HEADER ══ */
+  .header {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--charcoal) 45%, #3D0B0B 100%);
+    border-radius: 20px;
+    padding: 48px 56px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(192,19,44,0.25), 0 4px 16px rgba(0,0,0,0.3);
+    margin-bottom: 32px;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 380px; height: 380px;
+    border: 1.5px solid rgba(192,19,44,0.2);
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(232,25,44,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .header-inner {
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* Avatar */
+  .avatar-wrap {
+    flex-shrink: 0;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 3px solid rgba(192,19,44,0.5);
+    box-shadow: 0 0 0 5px rgba(192,19,44,0.15), 0 8px 28px rgba(0,0,0,0.4);
+    overflow: hidden;
+    background: var(--charcoal);
+  }
+  .avatar-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  .header-text { flex: 1; }
+
+  .name-badge {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(212,168,67,0.12);
+    border: 1px solid rgba(212,168,67,0.3);
+    padding: 5px 14px; border-radius: 30px;
+    margin-bottom: 14px;
+  }
+
+  .name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(34px, 5vw, 56px);
+    font-weight: 900; color: var(--white);
+    line-height: 1.05; letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .name span {
+    background: linear-gradient(90deg, var(--scarlet), var(--coral), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 13px; color: rgba(255,255,255,0.48);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .contact-row { display: flex; flex-wrap: wrap; gap: 10px 24px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 13px; color: rgba(255,255,255,0.72);
+  }
+  .contact-item .ico {
+    width: 26px; height: 26px;
+    background: rgba(192,19,44,0.28);
+    border: 1px solid rgba(192,19,44,0.45);
+    border-radius: 7px;
+    display: grid; place-items: center; font-size: 12px; flex-shrink: 0;
+  }
+  .contact-item a { color: inherit; text-decoration: none; }
+  .contact-item a:hover { color: var(--coral); }
+
+  /* ══ STATS ══ */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px; margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: 14px; padding: 20px 16px; text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .stat-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px; font-weight: 900;
+    color: var(--crimson); line-height: 1;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.35; font-weight: 500; }
+
+  /* ══ SECTION HEADING ══ */
+  .section { margin-bottom: 32px; }
+  .section-heading {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--dark);
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .section-heading .bar {
+    width: 5px; height: 26px;
+    background: linear-gradient(180deg, var(--scarlet), var(--coral));
+    border-radius: 4px; flex-shrink: 0;
+  }
+  .section-heading .eng {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-left: auto;
+  }
+
+  /* ══ ABOUT ══ */
+  .about-text {
+    font-size: 14.5px; line-height: 1.85; color: #3D2020;
+    background: var(--white); border-radius: 14px; padding: 26px 28px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .about-text strong { color: var(--crimson); font-weight: 700; }
+
+  /* ══ EXPERIENCE CARD ══ */
+  .exp-card {
+    background: var(--white);
+    border-radius: 16px; border: 1px solid var(--border);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+    margin-bottom: 22px; overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .exp-card:hover { box-shadow: 0 6px 28px rgba(192,19,44,0.1); }
+
+  .exp-body { padding: 28px 32px 26px; }
+
+  .exp-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .exp-company {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px; font-weight: 800; color: var(--dark);
+  }
+  .exp-period {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700; color: var(--white);
+    background: linear-gradient(90deg, var(--crimson), var(--scarlet));
+    padding: 5px 14px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .exp-role { font-size: 13px; font-weight: 700; color: var(--coral); margin-bottom: 3px; }
+  .exp-addr { font-size: 11px; color: var(--muted); margin-bottom: 16px; font-weight: 500; }
+
+  .sub-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px; font-weight: 700;
+    color: var(--crimson); text-transform: uppercase;
+    letter-spacing: 1.5px; margin: 14px 0 7px;
+  }
+
+  .task-list { list-style: none; }
+  .task-list li {
+    font-size: 13.5px; color: #2D1515;
+    padding: 4px 0 4px 20px; position: relative; line-height: 1.65;
+  }
+  .task-list li::before {
+    content: '▸'; position: absolute; left: 0;
+    color: var(--scarlet); font-size: 11px; top: 6px;
+  }
+  .task-list li strong { color: var(--crimson); font-weight: 700; }
+
+  /* ── Project images BELOW content ── */
+  .project-imgs {
+    display: grid;
+    gap: 4px;
+    overflow: hidden;
+  }
+  .project-imgs.cols-2 { grid-template-columns: 1fr 1fr; }
+  .project-imgs.cols-1 { grid-template-columns: 1fr; }
+
+  .project-imgs img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: filter .4s ease;
+    filter: brightness(0.97);
+  }
+  .project-imgs.cols-1 img:last-child {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+  .project-imgs.cols-2 img:first-child { border-bottom-left-radius: 16px; }
+  .project-imgs.cols-2 img:last-child  { border-bottom-right-radius: 16px; }
+
+  /* separator between stacked images */
+  .project-imgs.cols-1 img:not(:last-child) {
+    border-radius: 0;
+    border-bottom: 3px solid var(--border);
+  }
+
+  .project-imgs img:hover {
+    filter: brightness(1.04);
+  }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .link-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; color: var(--crimson);
+    border: 1px solid rgba(192,19,44,0.25);
+    background: rgba(192,19,44,0.04);
+    padding: 6px 14px; border-radius: 20px;
+    text-decoration: none; transition: all .2s;
+    text-transform: uppercase;
+  }
+  .link-btn:hover { background: var(--crimson); color: var(--white); border-color: var(--crimson); }
+
+  .ref-box {
+    background: linear-gradient(135deg, #FFF0F0, #FFF5F5);
+    border: 1px solid rgba(192,19,44,0.15);
+    border-left: 3px solid var(--scarlet);
+    border-radius: 10px; padding: 12px 16px;
+    margin-top: 16px; font-size: 12.5px;
+  }
+  .ref-box strong { color: var(--crimson); font-size: 13px; font-weight: 700; }
+  .ref-box p { color: var(--muted); margin-top: 2px; line-height: 1.5; font-weight: 500; }
+
+  /* ══ SKILLS ══ */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  }
+  .skill-block {
+    background: var(--white); border-radius: 14px; padding: 20px 22px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .skill-block-name {
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--muted); margin-bottom: 10px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; padding: 4px 11px; border-radius: 20px; font-weight: 600; line-height: 1.5; }
+  .tag-red  { background: rgba(192,19,44,0.08); color: var(--crimson); border: 1px solid rgba(192,19,44,0.2); }
+  .tag-gold { background: rgba(212,168,67,0.1);  color: #8B6914;        border: 1px solid rgba(212,168,67,0.25); }
+  .tag-dark { background: rgba(45,21,21,0.06);   color: var(--charcoal); border: 1px solid rgba(45,21,21,0.12); }
+
+  /* ══ EDU + FREELANCE ══ */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plain-card {
+    background: var(--white); border-radius: 14px; padding: 24px 26px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .plain-heading {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px; font-weight: 800; color: var(--dark);
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+  .plain-heading .bar { width: 4px; height: 20px; background: linear-gradient(180deg, var(--scarlet), var(--coral)); border-radius: 3px; }
+
+  .edu-school {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px; font-weight: 800; color: var(--dark); margin-bottom: 4px;
+  }
+  .edu-major { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+  .edu-degree {
+    display: inline-block; font-size: 10px; font-weight: 700; color: var(--white);
+    background: linear-gradient(90deg, var(--gold), #C8920A);
+    padding: 4px 12px; border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .freelance-link {
+    display: block; font-size: 13px; color: var(--crimson);
+    text-decoration: none; padding: 7px 0; font-weight: 600;
+    border-bottom: 1px dashed var(--border); transition: color .2s;
+  }
+  .freelance-link:last-child { border-bottom: none; }
+  .freelance-link:hover { color: var(--scarlet); }
+
+  /* ══ FOOTER ══ */
+  .footer {
+    text-align: center; font-size: 11px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-top: 48px; font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+  }
+  .footer span { color: var(--scarlet); }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 900px) {
+    .page { padding: 24px 24px 60px; }
+  }
+  @media (max-width: 680px) {
+    .header { padding: 36px 24px; }
+    .header-inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .avatar-wrap { width: 100px; height: 100px; }
+    .stats-bar { grid-template-columns: repeat(2,1fr); }
+    .skills-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .project-imgs.cols-2 { grid-template-columns: 1fr; }
+    .exp-body { padding: 20px; }
+    .project-imgs img { height: auto; }
+  }
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .page { margin: 0; padding: 20px; }
+    .exp-card { page-break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="avatar-wrap">
+        <img src="https://i.pinimg.com/736x/c6/30/d5/c630d500abb5daa0d2c08d87134283a3.jpg" alt="Nguyễn Trí Nhân">
+      </div>
+      <div class="header-text">
+        <div class="name-badge">✦ SEO Specialist &amp; Web Builder</div>
+        <h1 class="name">Nguyễn Trí <span>Nhân</span></h1>
+        <p class="subtitle">Ngày sinh: 30/11/1994</p>
+        <div class="contact-row">
+          <div class="contact-item"><span class="ico">📞</span><a href="tel:0923452338">0923 452 338</a></div>
+          <div class="contact-item"><span class="ico">✉</span><a href="mailto:nam30nguyen11@gmail.com">nam30nguyen11@gmail.com</a></div>
+          <div class="contact-item"><span class="ico">📍</span>623/20/51 CMT8 – P. Hòa Hưng, TP.HCM</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ STATS ══ -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num">~5</div><div class="stat-label">Năm kinh nghiệm SEO</div></div>
+    <div class="stat-card"><div class="stat-num">50K</div><div class="stat-label">Traffic tăng / tháng</div></div>
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Dự án website</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Freelance project</div></div>
+  </div>
+
+  <!-- ══ GIỚI THIỆU ══ -->
+  <div class="section">
+    <div class="section-heading"><span class="bar"></span>Giới Thiệu<span class="eng">About</span></div>
+    <div class="about-text">
+      Với <strong>gần 5 năm kinh nghiệm SEO</strong> thực chiến, tôi chuyên xây dựng website từ số 0, triển khai UX/UI, content chuẩn <strong>EEAT, AIO, GEO, AEO</strong>, tối ưu kỹ thuật và phát triển chiến lược backlink toàn diện. Kinh nghiệm quản lý team và roadmap content đã tiếp cận các doanh nghiệp lớn như <strong>7-Eleven, Circle K, MiniStop, Family Mart, Jollibee, GS25, Phê La, Sân bay Long Thành</strong>,... Thành tựu mang lại traffic tăng trung bình <strong>50.000 lượt/tháng</strong> cho doanh nghiệp.
+    </div>
+  </div>
+
+  <!-- ══ KINH NGHIỆM ══ -->
+  <div class="section">
+    <div class="section-heading"><span class="bar"></span>Kinh Nghiệm<span class="eng">Experience</span></div>
+
+    <!-- Smilux -->
+    <div class="exp-card">
+      <div class="exp-body">
+        <div class="exp-top">
+          <div class="exp-company">🦷 Công Ty TNHH Smilux Dental</div>
+          <div class="exp-period">10/2025 – 01/2026</div>
+        </div>
+        <div class="exp-role">Chuyên viên SEO</div>
+        <div class="exp-addr">📌 233-233A Nguyễn Trọng Tuyển, P. Phú Nhuận</div>
+        <div class="sub-heading">1. Xây dựng Website</div>
+        <ul class="task-list">
+          <li>Lead dự án và xây dựng website: <strong>smilux.vn</strong></li>
+          <li>Schema chuẩn EEAT Nha khoa: Product + Offer + Review + AggregateRating + VideoObject + Breadcrumb + LocalBusiness + FAQs</li>
+          <li>Khai báo Google GMB, GTM, Analytics, Search Console, Bing Webmaster, DMCA</li>
+          <li>Design thiết kế toàn bộ page theo Customer Journey</li>
+        </ul>
+        <div class="sub-heading">2. SEO Tổng Thể</div>
+        <ul class="task-list">
+          <li>Roadmap Content SEO (EEAT, GEO, AEO, AIO)</li>
+          <li>Strategy Backlink SEO theo đa tầng</li>
+          <li>Quản trị Wordpress: Update dịch vụ, fix lỗi, UX/UI</li>
+        </ul>
+        <div class="btn-row">
+          <a class="link-btn" href="https://www.canva.com/design/DAGBCs20W0c/FVXME_lgzEHD9xW8sTN8zw/edit" target="_blank">📊 Plan SEO Tổng Thể</a>
+          <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1hBR6JoSEwFaRlnhHt1R3AemlaXLn-lOJLI7eHuM6-M4/edit" target="_blank">🔑 Plan Keyword Research</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Happy Phone -->
+    <div class="exp-card">
+      <div class="exp-body">
+        <div class="exp-top">
+          <div class="exp-company">📱Công Ty TNHH TMDV Happy Phone</div>
+          <div class="exp-period">10/2023 – 09/2025</div>
+        </div>
+        <div class="exp-role">Chuyên viên SEO</div>
+        <div class="exp-addr">📌 483 Tô Hiến Thành, P.14, Q.10</div>
+        <div class="sub-heading">1. Xây dựng Website</div>
+        <ul class="task-list">
+          <li>Lead dự án xây dựng <strong>happyphone.vn</strong></li>
+          <li>Tính năng: so sánh, voucher, Flash Sale, Combo, mua kèm, tìm kiếm nâng cao</li>
+          <li>API Banking, CRM Táo Quân, ví điện tử</li>
+          <li>Schema: Product, Offer, Review, AggregateRating, Breadcrumb, LocalBusiness, FAQs</li>
+          <li>Triển khai Responsive, bộ lọc sản phẩm</li>
+        </ul>
+        <div class="sub-heading">2. SEO Tổng Thể</div>
+        <ul class="task-list">
+          <li>Chiến lược Entity, Onpage, Offpage, Technical</li>
+          <li>RoadMap Content: Cluster, Pillar, Semantic, GEO, AEO, AIO</li>
+          <li>Internal link theo Customer Journey Tofu–Mofu–Bofu (Wheel, Pyramid)</li>
+          <li>Backlink: Tiered Link Building, PBN, PR, Guest Post, Forum, Blog 2.0, Social</li>
+          <li>Phân bổ Dofollow / Nofollow 70/30 · Core Web Vitals · robots.txt · Sitemap</li>
+        </ul>
+        <div class="btn-row">
+          <a class="link-btn" href="https://www.canva.com/design/DAF1Dk7XxEU/5BLzZxF1WtQQn5mmUs09NA/edit" target="_blank">📊 SEO Tổng Thể</a>
+          <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1QPH1qwUJBah64NoSTZMarQlWJeuTCFKg/edit" target="_blank">🔑 Keyword Research</a>
+        </div>
+        <div class="ref-box">
+          <strong>Người tham chiếu:</strong>
+          <p>Nguyễn Thị Ngọc Hân – Chuyên viên Content SEO &nbsp;·&nbsp; 📞 (+84) 858 382 371</p>
+        </div>
+      </div>
+      <div class="project-imgs cols-1">
+        <img src="https://i.pinimg.com/736x/b9/af/36/b9af36427f143977ab2ce6c126c9cd60.jpg" alt="Happy Phone – Ảnh 1" style="border-radius:0; border-bottom-left-radius:0; border-bottom-right-radius:0;">
+        <img src="https://i.pinimg.com/736x/dc/95/55/dc95551065356b97c9588394d4e28121.jpg" alt="Happy Phone – Ảnh 2">
+      </div>
+    </div>
+
+    <!-- Ember Foods -->
+    <div class="exp-card">
+      <div class="exp-body">
+        <div class="exp-top">
+          <div class="exp-company">🔥Công Ty Cổ Phần Ember Foods</div>
+          <div class="exp-period">10/2024 – Hiện tại</div>
+        </div>
+        <div class="exp-role">Cộng tác viên SEO (Buổi tối)</div>
+        <div class="exp-addr">📌 KCN Lê Minh Xuân 3, Bình Chánh</div>
+        <ul class="task-list">
+          <li>Lead dự án xây dựng <strong>emberfoods.vn</strong></li>
+          <li>Roamap Content SEO đa quốc gia (Nhật, Trung, Hàn, Campuchia,...) AIO, GEO</li>
+          <li>Action Content đa ngôn ngữ (Việt, Anh, Trung, Hàn, Nhật,...)</li>
+          <li>Đăng bài Social: Facebook, Instagram, Threads, Pinterest</li>
+          <li>Quản trị web, báo cáo leads và đẩy leads cho sale</li>
+        </ul>
+        <div class="btn-row">
+          <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1ho6AKTc6K2Qp02Tn-INCCORp893kknfx/edit" target="_blank">📋 Content Planning</a>
+          <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1XYt_E3Ksm3qMmFn5mTVoxexUvI9fIaj4UDi5h_dGFPQ/edit" target="_blank">🔑 Keyword Research</a>
+        </div>
+        <div class="ref-box">
+          <strong>Người tham chiếu:</strong>
+          <p>Diệp Thanh Tùng – CEO &nbsp;·&nbsp; 📞 (+84) 773 903 957</p>
+        </div>
+      </div>
+      <div class="project-imgs cols-1">
+        <img src="https://i.pinimg.com/736x/e1/8d/15/e18d15d39aea7b5d473e7351a475d1a5.jpg" alt="Ember Foods – Website">
+      </div>
+    </div>
+
+    <!-- Manulife -->
+    <div class="exp-card">
+      <div class="exp-body">
+        <div class="exp-top">
+          <div class="exp-company">🏢 Công Ty TNHH Manulife Việt Nam</div>
+          <div class="exp-period">06/2021 – 10/2023</div>
+        </div>
+        <div class="exp-role">Nhân viên SEO</div>
+        <div class="exp-addr">📌 75 Hoàng Văn Thái, Q.7</div>
+        <ul class="task-list">
+          <li>Quản lý và triển khai chiến lược Content SEO Blog website chính thức</li>
+          <li>Keyword Research &amp; Topic Clustering – cụm chủ đề theo Search Intent</li>
+          <li>Technical SEO: title, meta, heading, canonical, internal link</li>
+          <li>Quản trị Content Blog phần mềm <strong>Adobe PWS</strong></li>
+        </ul>
+      </div>
+      <div class="project-imgs cols-1">
+        <img src="https://i.pinimg.com/736x/0a/0b/d0/0a0bd02ecf6813c542416dc9455c9205.jpg" alt="Manulife – Website">
+      </div>
+    </div>
+
+  </div><!-- /kinh nghiem -->
+
+  <!-- ══ KỸ NĂNG ══ -->
+  <div class="section">
+    <div class="section-heading"><span class="bar"></span>Kỹ Năng<span class="eng">Skills</span></div>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <div class="skill-block-name">SEO &amp; Content</div>
+        <div class="tags">
+          <span class="tag tag-red">Tech On-Page &amp; Off-Page</span>
+          <span class="tag tag-red">Backlink Đa Tầng</span>
+          <span class="tag tag-red">Keyword Research (TOFU–MOFU–BOFU)</span>
+          <span class="tag tag-red">EEAT · GEO · AEO · AIO</span>
+          <span class="tag tag-red">Semantic</span>
+          <span class="tag tag-red">Customer Journey</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-name">Web &amp; Technical</div>
+        <div class="tags">
+          <span class="tag tag-dark">HTML / CSS</span>
+          <span class="tag tag-dark">WordPress</span>
+          <span class="tag tag-dark">UX/UI Design</span>
+          <span class="tag tag-dark">Schema Markup</span>
+          <span class="tag tag-dark">Core Web Vitals</span>
+          <span class="tag tag-dark">Adobe PWS</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-name">Tools SEO</div>
+        <div class="tags">
+          <span class="tag tag-gold">GA4</span>
+          <span class="tag tag-gold">GSC</span>
+          <span class="tag tag-gold">SEMrush</span>
+          <span class="tag tag-gold">Ahrefs</span>
+          <span class="tag tag-gold">Yoast SEO</span>
+          <span class="tag tag-gold">RankMath</span>
+          <span class="tag tag-gold">Brightedge</span>
+          <span class="tag tag-gold">DMCA</span>
+          <span class="tag tag-gold">Google Ads KW Planner</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-name">AI &amp; Media</div>
+        <div class="tags">
+          <span class="tag tag-dark">Claude</span>
+          <span class="tag tag-dark">ChatGPT</span>
+          <span class="tag tag-dark">Gemini</span>
+          <span class="tag tag-dark">Veo3</span>
+          <span class="tag tag-dark">Kling AI</span>
+          <span class="tag tag-dark">Design AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HỌC VẤN + FREELANCE ══ -->
+  <div class="two-col">
+    <div class="plain-card">
+      <div class="plain-heading"><span class="bar"></span>Học Vấn</div>
+      <div class="edu-school">Đại học Kinh tế TP. Hồ Chí Minh</div>
+      <div class="edu-major">Chuyên ngành: Marketing</div>
+      <div class="edu-degree">Cử Nhân</div>
+    </div>
+    <div class="plain-card">
+      <div class="plain-heading"><span class="bar"></span>Freelance</div>
+      <a class="freelance-link" href="http://hiepthanhvn.com.vn" target="_blank">🌐 hiepthanhvn.com.vn</a>
+      <a class="freelance-link" href="https://fptsmarthome.vn/" target="_blank">🌐 fptsmarthome.vn</a>
+      <a class="freelance-link" href="https://fptcameraiq.vn/" target="_blank">🌐 fptcameraiq.vn</a>
+      <a class="freelance-link" href="https://www.canva.com/design/DAHGsVicq6s/xxtZrBb8r33mcRJkIu73CA/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0" target="_blank">🏥 Bệnh viện thẩm mỹ Nam An (Planning &amp; Building Web)</a>      
+    </div>
+  </div>
+
+  <div class="footer" style="margin-top:48px;">
+    CV · Nguyễn Trí Nhân · <span>SEO Specialist</span>
+  </div>
+
+</div>
+</body>
+</html>
