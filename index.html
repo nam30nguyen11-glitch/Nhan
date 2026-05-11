@@ -21,9 +21,14 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--cream);
+  }
+
   body {
     font-family: 'Montserrat', sans-serif;
-    background: var(--cream);
     color: var(--dark);
     line-height: 1.6;
   }
@@ -39,9 +44,10 @@
 
   .page {
     position: relative; z-index: 1;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px 60px;
+    width: 100%;
+    max-width: 900px;        /* ← giới hạn chiều ngang */
+    margin: 0 auto;          /* ← căn giữa */
+    padding: 40px 48px 60px;
     animation: fadeUp .7s ease both;
   }
   @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
@@ -78,7 +84,6 @@
     gap: 40px;
   }
 
-  /* Avatar */
   .avatar-wrap {
     flex-shrink: 0;
     width: 130px; height: 130px;
@@ -243,7 +248,6 @@
   }
   .task-list li strong { color: var(--crimson); font-weight: 700; }
 
-  /* ── Project images BELOW content ── */
   .project-imgs {
     display: grid;
     gap: 4px;
@@ -254,23 +258,22 @@
 
   .project-imgs img {
     width: 100%;
-    height: 320px;
-    object-fit: cover;
+    height: auto;
     display: block;
-    transition: transform .4s ease, filter .4s ease;
-    filter: brightness(0.96);
+    transition: filter .4s ease;
+    filter: brightness(0.97);
   }
-  .project-imgs.cols-1 img {
+  .project-imgs.cols-1 img:last-child {
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
   .project-imgs.cols-2 img:first-child { border-bottom-left-radius: 16px; }
   .project-imgs.cols-2 img:last-child  { border-bottom-right-radius: 16px; }
-
-  .project-imgs img:hover {
-    transform: scale(1.02);
-    filter: brightness(1.06);
+  .project-imgs.cols-1 img:not(:last-child) {
+    border-radius: 0;
+    border-bottom: 3px solid var(--border);
   }
+  .project-imgs img:hover { filter: brightness(1.04); }
 
   .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
   .link-btn {
@@ -361,6 +364,9 @@
   .footer span { color: var(--scarlet); }
 
   /* ══ RESPONSIVE ══ */
+  @media (max-width: 900px) {
+    .page { padding: 24px 24px 60px; }
+  }
   @media (max-width: 680px) {
     .header { padding: 36px 24px; }
     .header-inner { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -370,11 +376,12 @@
     .two-col { grid-template-columns: 1fr; }
     .project-imgs.cols-2 { grid-template-columns: 1fr; }
     .exp-body { padding: 20px; }
+    .project-imgs img { height: auto; }
   }
   @media print {
     body { background: white; }
     body::before { display: none; }
-    .page { margin: 0; }
+    .page { margin: 0; padding: 20px; }
     .exp-card { page-break-inside: avoid; box-shadow: none; }
   }
 </style>
@@ -485,7 +492,7 @@
         </div>
       </div>
       <div class="project-imgs cols-1">
-        <img src="https://i.pinimg.com/736x/b9/af/36/b9af36427f143977ab2ce6c126c9cd60.jpg" alt="Happy Phone – Ảnh 1" style="border-radius:0;">
+        <img src="https://i.pinimg.com/736x/b9/af/36/b9af36427f143977ab2ce6c126c9cd60.jpg" alt="Happy Phone – Ảnh 1" style="border-radius:0; border-bottom-left-radius:0; border-bottom-right-radius:0;">
         <img src="https://i.pinimg.com/736x/dc/95/55/dc95551065356b97c9588394d4e28121.jpg" alt="Happy Phone – Ảnh 2">
       </div>
     </div>
@@ -610,8 +617,12 @@
       <a class="freelance-link" href="http://hiepthanhvn.com.vn" target="_blank">🌐 hiepthanhvn.com.vn</a>
       <a class="freelance-link" href="https://fptsmarthome.vn/" target="_blank">🌐 fptsmarthome.vn</a>
       <a class="freelance-link" href="https://fptcameraiq.vn/" target="_blank">🌐 fptcameraiq.vn</a>
-      <a class="freelance-link" href="https://www.canva.com/design/DAHGsVicq6s/xxtZrBb8r33mcRJkIu73CA/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0" target="_blank"> Bệnh viện thẩm mỹ Nam An (Planning & Building Web)</a>      
+      <a class="freelance-link" href="https://www.canva.com/design/DAHGsVicq6s/xxtZrBb8r33mcRJkIu73CA/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0" target="_blank">🏥 Bệnh viện thẩm mỹ Nam An (Planning &amp; Building Web)</a>      
     </div>
+  </div>
+
+  <div class="footer" style="margin-top:48px;">
+    CV · Nguyễn Trí Nhân · <span>SEO Specialist</span>
   </div>
 
 </div>
