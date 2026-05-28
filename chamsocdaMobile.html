@@ -1,0 +1,1760 @@
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Nam An Mobile Header</title>
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Hauora', sans-serif;
+  background: #f5f0eb;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  width: 100%;
+  background: #f6f0ec;
+  border-bottom: 1px solid #ede4dc;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+}
+
+.nh-inner {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  gap: 8px;
+}
+
+/* Logo */
+.nh-logo { flex-shrink: 0; }
+.nh-logo img { height: 32px; display: block; }
+
+/* Search */
+.nh-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  background: #FAF7F5;
+  border: 1px solid #EDE8E4;
+  border-radius: 20px;
+  padding: 0 11px;
+  gap: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.nh-search:focus-within {
+  border-color: #AB8D6B;
+  box-shadow: 0 0 0 2px rgba(171,141,107,0.12);
+}
+.nh-search svg { color: #BBA89E; flex-shrink: 0; }
+.nh-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-family: 'Hauora', sans-serif;
+  font-size: 12px;
+  color: #482B25;
+}
+.nh-search input::placeholder { color: #BBA89E; }
+
+/* Right actions */
+.nh-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+/* Book button */
+.nh-book {
+  height: 34px;
+  padding: 0 13px;
+  background: #AB8D6B;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.nh-book:hover { background: #482B25; }
+
+/* Hamburger */
+.nh-ham {
+  width: 36px; height: 36px;
+  background: none;
+  border: 1.5px solid #d9cfc8;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4.5px;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.nh-ham:hover { border-color: #AB8D6B; background: #f5ede4; }
+.nh-ham span {
+  display: block;
+  width: 15px; height: 1.5px;
+  background: #3a3a3a;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  transform-origin: center;
+}
+.nh-ham.open { border-color: #AB8D6B; background: #f5ede4; }
+.nh-ham.open span { background: #AB8D6B; }
+.nh-ham.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nh-ham.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nh-ham.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── OVERLAY ── */
+.nh-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,15,10,0.45);
+  z-index: 9996;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.nh-overlay.open { opacity: 1; pointer-events: auto; }
+
+/* ── DRAWER (2-column) — limited height, not full screen ── */
+.nh-drawer {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 57px;
+  left: 0;
+  right: 0;
+  /* ✅ Giới hạn chiều cao, không full màn hình */
+  max-height: calc(100vh - 57px - 60px);
+  z-index: 9997;
+  transform: translateX(-100%);
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  border-top: 2px solid #AB8D6B;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(72,43,37,0.18);
+}
+.nh-drawer.open { transform: translateX(0); }
+
+/* ── LEFT SIDEBAR ── */
+.nh-sidebar {
+  width: 72px;
+  min-width: 72px;
+  background: #FAF7F5;
+  border-right: 1px solid #EDE8E4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.nh-sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px 8px;
+  border-bottom: 1px solid #EDE8E4;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  text-decoration: none;
+  gap: 4px;
+}
+.nh-sidebar-item:last-child { border-bottom: none; }
+.nh-sidebar-item.active,
+.nh-sidebar-item:hover { background: #fff; }
+.nh-sidebar-item.active::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: #AB8D6B;
+  border-radius: 2px 0 0 2px;
+}
+
+.nh-sidebar-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #F5EEE9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.nh-sidebar-item.active .nh-sidebar-icon,
+.nh-sidebar-item:hover .nh-sidebar-icon { background: rgba(171,141,107,0.14); }
+.nh-sidebar-icon svg { width: 15px; height: 15px; }
+.nh-sidebar-item.active .nh-sidebar-icon svg path,
+.nh-sidebar-item.active .nh-sidebar-icon svg circle,
+.nh-sidebar-item.active .nh-sidebar-icon svg polyline,
+.nh-sidebar-item.active .nh-sidebar-icon svg line,
+.nh-sidebar-item:hover .nh-sidebar-icon svg path,
+.nh-sidebar-item:hover .nh-sidebar-icon svg circle,
+.nh-sidebar-item:hover .nh-sidebar-icon svg polyline,
+.nh-sidebar-item:hover .nh-sidebar-icon svg line { stroke: #AB8D6B; }
+
+.nh-sidebar-label {
+  font-family: 'Hauora', sans-serif;
+  font-size: 8.5px;
+  font-weight: 400;
+  color: #482B25;
+  text-align: center;
+  line-height: 1.3;
+}
+.nh-sidebar-item.active .nh-sidebar-label {
+  color: #AB8D6B;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-weight: 600;
+}
+
+/* ── Mũi tên > cho item có panel ── */
+.nh-sidebar-chevron {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #EDE8E4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.nh-sidebar-chevron svg {
+  width: 7px; height: 7px;
+  stroke: #AB8D6B;
+  flex-shrink: 0;
+}
+.nh-sidebar-item.active .nh-sidebar-chevron { background: #AB8D6B; }
+.nh-sidebar-item.active .nh-sidebar-chevron svg { stroke: #fff; }
+
+/* ── RIGHT PANEL ── */
+.nh-panel {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Panel types */
+.nh-panel-simple { display: none; padding: 0 0 32px; }
+.nh-panel-simple.visible { display: block; }
+.nh-panel-mega { display: none; }
+.nh-panel-mega.visible { display: block; }
+
+/* Panel header label */
+.nh-panel-header {
+  padding: 16px 14px 0;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.nh-panel-header::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: #AB8D6B;
+}
+
+/* Simple links */
+.nh-panel-simple a {
+  display: block;
+  padding: 6px 14px;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #482B25;
+  text-decoration: none;
+  border-bottom: 1px solid #F5EEE9;
+  transition: color 0.2s, background 0.2s;
+}
+.nh-panel-simple a:hover { color: #AB8D6B; background: #FFF9F7; }
+
+/* Mega section */
+.nh-panel-section { padding: 14px 14px 6px; }
+.nh-panel-section-title {
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nh-panel-section-title::before {
+  content: '';
+  width: 12px; height: 1px;
+  background: #AB8D6B;
+  flex-shrink: 0;
+}
+
+.nh-panel-links { list-style: none; }
+.nh-panel-links li a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #482B25;
+  text-decoration: none;
+  border-bottom: 1px solid #F9F5F2;
+  transition: all 0.18s;
+}
+.nh-panel-links li a::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #DDD0C8;
+  flex-shrink: 0;
+  transition: background 0.18s;
+}
+.nh-panel-links li a:hover { color: #AB8D6B; background: #FFF9F7; }
+.nh-panel-links li a:hover::before { background: #AB8D6B; }
+
+.nh-panel-divider { height: 1px; background: #F0EAE6; margin: 2px 0; }
+
+/* Featured banner */
+.nh-panel-feat {
+  margin: 10px 14px 14px;
+  background: #FBF7F3;
+  border-radius: 8px;
+  border: 1px solid #e8ddd3;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+.nh-panel-feat:hover { box-shadow: 0 6px 20px rgba(171,141,107,0.18); }
+.nh-panel-feat img {
+  width: 54px; height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.nh-panel-feat-label {
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  margin-bottom: 3px;
+}
+.nh-panel-feat-name {
+  font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 300;
+  color: #482B25;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+.nh-panel-feat-badge {
+  display: inline-flex;
+  background: rgba(171,141,107,0.12);
+  color: #AB8D6B;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 2px;
+}
+
+/* CTA strip */
+.nh-panel-cta {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid #F5EEE9;
+}
+.nh-panel-cta .btn-o {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border: 1px solid #AB8D6B;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nh-panel-cta .btn-o:hover { background: #482B25; border-color: #482B25; color: #fff; }
+.nh-panel-cta .btn-p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  background: #AB8D6B;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(171,141,107,0.28);
+  transition: background 0.2s;
+}
+.nh-panel-cta .btn-p:hover { background: #482B25; }
+
+/* Page placeholder */
+.page-placeholder {
+  margin-top: 76px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #9b8880;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nh-inner">
+    <a href="#" class="nh-logo">
+      <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/04/footer-logo-home.svg" alt="Nam An">
+    </a>
+
+    <div class="nh-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Tìm dịch vụ...">
+    </div>
+
+    <div class="nh-actions">
+      <a href="#" class="nh-book">Đặt Lịch</a>
+      <button class="nh-ham" id="nh-ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="nh-overlay" id="nh-overlay"></div>
+
+<!-- DRAWER -->
+<div class="nh-drawer" id="nh-drawer">
+
+  <!-- LEFT SIDEBAR -->
+  <div class="nh-sidebar">
+
+    <!-- Trang Chủ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/homeMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Trang Chủ</span>
+    </a>
+
+    <!-- Giới Thiệu -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/gioithieuMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Giới Thiệu</span>
+    </a>
+
+    <!-- Dịch Vụ -->
+    <div class="nh-sidebar-item active" data-panel="panel-dich-vu">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M9 9h.01M15 9h.01"/>
+          <path d="M9 14s1 2 3 2 3-2 3-2"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Dịch Vụ</span>
+      <div class="nh-sidebar-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Kiến Thức -->
+    <div class="nh-sidebar-item" data-panel="panel-kien-thuc">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Kiến Thức</span>
+      <div class="nh-sidebar-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Bác Sĩ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/trangbacsiMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Bác Sĩ</span>
+    </a>
+
+    <!-- Liên Hệ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/lienheMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Liên Hệ</span>
+    </a>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="nh-panel">
+
+    <!-- Dịch Vụ (mega) — hiện mặc định -->
+    <div class="nh-panel-mega visible" id="panel-dich-vu">
+
+      <!-- Điêu Khắc Gương Mặt -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Gương Mặt</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Căng da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Cắt mí mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Cắt môi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Độn cằm</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Gọt hàm / Hạ gò má</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng mũi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nha khoa</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-divider"></div>
+
+      <!-- Điêu Khắc Vóc Dáng -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Vóc Dáng</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Điêu khắc vùng kín</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Hút mỡ</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng ngực</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng mông</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-divider"></div>
+
+      <!-- Điêu Khắc Làn Da -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Làn Da</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Botox</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Căng chỉ</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Chăm sóc da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Đốt và cắt nốt ruồi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Filler</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">IPL Trẻ hóa</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Laser</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Meso</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng cơ công nghệ cao</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Peel da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Phun xăm</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Tiêm làm đẹp da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Trị quầng thâm mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Trị sẹo</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Triệt lông</a></li>
+        </ul>
+      </div>
+
+      <div class="nh-panel-cta">
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html" class="btn-p">Xem toàn bộ dịch vụ
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Kiến Thức (mega) -->
+    <div class="nh-panel-mega" id="panel-kien-thuc">
+      <div class="nh-panel-section">
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Mũi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Môi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Ngực</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-cta">
+        <a href="#" class="btn-o">Xem Tất Cả Bài Viết</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+const ham     = document.getElementById('nh-ham');
+const drawer  = document.getElementById('nh-drawer');
+const overlay = document.getElementById('nh-overlay');
+
+function openDrawer() {
+  ham.classList.add('open');
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  ham.classList.remove('open');
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+ham.addEventListener('click', function() {
+  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+overlay.addEventListener('click', closeDrawer);
+
+document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item) {
+  item.addEventListener('click', function() {
+    const panelId = item.getAttribute('data-panel');
+    document.querySelectorAll('.nh-sidebar-item').forEach(s => s.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.nh-panel-mega, .nh-panel-simple').forEach(p => p.classList.remove('visible'));
+    const target = document.getElementById(panelId);
+    if (target) {
+      target.classList.add('visible');
+      document.querySelector('.nh-panel').scrollTop = 0;
+    }
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 50px;">
+  
+</div>
+
+<style>
+  .bc-wrap {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #666;
+    background: #fff;
+  }
+  .bc-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: nowrap;
+    gap: 0;
+    justify-content: center;
+  }
+  .bc-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+  .bc-item a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+  }
+  .bc-item a:hover { color: #AB8D6B; }
+  .bc-sep {
+    margin: 0 8px;
+    color: #bbb;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .bc-current {
+    color: #AB8D6B;
+    font-weight: 400;
+  }
+  .bc-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #333;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+
+<nav class="bc-wrap" aria-label="Breadcrumb">
+  <ol class="bc-list">
+    <li class="bc-item">
+      <a href="/">
+        <svg class="bc-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.75z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        Trang chủ
+      </a>
+    </li>
+    <li class="bc-sep" aria-hidden="true">/</li>
+    <li class="bc-item">
+      <span class="bc-current" aria-current="page">Dịch vụ</span>
+    </li>
+    </li>
+    <li class="bc-sep" aria-hidden="true">/</li>
+    <li class="bc-item">
+      <span class="bc-current" aria-current="page">Điêu khắc làn da</span>
+    </li>    
+  </ol>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+
+<style>
+  .gm-wrap { background:#fff; padding:8px 16px; font-family:'Hauora',sans-serif; }
+  .gm-wrap *,.gm-wrap *::before,.gm-wrap *::after { box-sizing:border-box; }
+
+  .gm-section-title { text-align:center; margin-bottom:36px; }
+  .gm-section-title h2 { font-family:'Beautique Display',serif; font-size:2.4rem; font-weight:600; color:#482B25; letter-spacing:0.12em; margin:0 0 10px; line-height:1.15; }
+  .gm-section-title h2 span { color:#AB8D6B; }
+  .gm-title-line { display:flex; align-items:center; justify-content:center; gap:10px; }
+  .gm-title-line-dot { width:6px; height:6px; border-radius:50%; background:#AB8D6B; }
+
+  .gm-services { display:flex; flex-direction:column; gap:16px; max-width:780px; margin:0 auto; }
+
+  .gm-card { min-height:150px; background:#f1eeeb; border-radius:0 80px 80px 0; display:flex; align-items:center; padding:16px 36px 16px 16px; position:relative; cursor:pointer; opacity:0; transform:translateY(32px); animation:hienMem 0.7s cubic-bezier(0.16,1,0.3,1) forwards; transition:background 0.45s cubic-bezier(0.16,1,0.3,1); overflow:hidden; }
+  .gm-card:nth-child(1){animation-delay:0.08s}
+  .gm-card:nth-child(2){animation-delay:0.18s}
+  .gm-card:nth-child(3){animation-delay:0.28s}
+  .gm-card:nth-child(4){animation-delay:0.38s}
+  .gm-card:nth-child(5){animation-delay:0.48s}
+  .gm-card:nth-child(6){animation-delay:0.58s}
+  .gm-card:nth-child(7){animation-delay:0.68s}
+  .gm-card:nth-child(8){animation-delay:0.78s}
+  .gm-card:nth-child(9){animation-delay:0.88s}
+  .gm-card:nth-child(10){animation-delay:0.98s}
+  .gm-card:nth-child(11){animation-delay:1.08s}
+  .gm-card:nth-child(12){animation-delay:1.18s}
+  @keyframes hienMem { to{ opacity:1; transform:translateY(0) } }
+
+  .gm-card:hover { background:#AB8D6B; }
+
+  .gm-card-inner { position:absolute; inset:0; border-radius:0 80px 80px 0; overflow:hidden; pointer-events:none; }
+  .gm-card-inner::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 60% 50%,#AB8D6B 0%,transparent 72%); opacity:0; transform:scale(0.4); transition:opacity 0.55s ease,transform 0.55s cubic-bezier(0.16,1,0.3,1); border-radius:inherit; }
+  .gm-card:hover .gm-card-inner::before { opacity:0.35; transform:scale(1); }
+
+  .gm-gold-ring { position:absolute; inset:-4px; pointer-events:none; z-index:10; opacity:0; transition:opacity .4s; }
+  .gm-card:hover .gm-gold-ring { opacity:1; }
+
+  .flare { position:absolute; width:55px; height:55px; pointer-events:none; z-index:11; opacity:0; transition:opacity .4s ease, transform .5s cubic-bezier(0.25,1,0.5,1); background:url('https://benhvienthammynaman.com/wp-content/uploads/2026/05/sdsdsdsd.png') center/contain no-repeat; }
+  .gm-card:hover .flare { opacity:1; transform:scale(1) rotate(15deg); animation:flarePulse 2s ease-in-out infinite alternate; }
+  @keyframes flarePulse { 0%{ transform:scale(0.88) rotate(10deg); filter:brightness(0.95); } 100%{ transform:scale(1.15) rotate(20deg); filter:brightness(1.2); } }
+  .flare.s1 { top:-20px; right:18%; }
+  .flare.s2 { bottom:8%; right:-18px; }
+
+  .gm-card-image { width:88px; height:110px; border-radius:0 26px; overflow:hidden; flex-shrink:0; margin-right:20px; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1); position:relative; z-index:1; }
+  .gm-card:hover .gm-card-image { transform:scale(1.06) translateY(-2px); }
+  .gm-card-image img { width:100%; height:100%; object-fit:cover; object-position:top center; transition:transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .gm-card:hover .gm-card-image img { transform:scale(1.1); }
+
+  .gm-card-content { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:6px; }
+  .gm-card-content h3 { font-family:'Beautique Display',serif; font-size:1.7rem; font-weight:600; color:#AB8D6B; margin:0; letter-spacing:0.07em; line-height:1.2; transition:color 0.4s; }
+  .gm-card:hover .gm-card-content h3 { color:#fff; }
+  .gm-card-content p { font-size:0.9rem; color:#8a7060; margin:0; line-height:1.5; transition:color 0.4s; max-width:620px; }
+  .gm-card:hover .gm-card-content p { color:rgba(255,255,255,0.82); }
+  .gm-card-content a { text-decoration:none; background:#AB8D6B; color:#fff; padding:5px 13px; border-radius:20px; font-size:.72rem; display:inline-flex; align-items:center; gap:5px; transition:background 0.4s,gap 0.4s; font-family:sans-serif; margin-top:4px; }
+  .gm-card:hover .gm-card-content a { background:#fff; color:#AB8D6B; gap:8px; }
+  .gm-card-content a span { display:inline-block; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+  .gm-card:hover .gm-card-content a span { transform:translateX(3px); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 480px) {
+    .gm-section-title h2 { font-size: 1.6rem; }
+    .gm-card { min-height: 120px; padding: 12px 20px 12px 12px; border-radius: 0 48px 48px 0; }
+    .gm-card-inner { border-radius: 0 48px 48px 0; }
+    .gm-card-image { width: 76px; height: 94px; margin-right: 14px; }
+    .gm-card-content h3 { font-size: 1.2rem; }
+    .gm-card-content p { font-size: 0.8rem; }
+  }
+</style>
+
+<div class="gm-wrap">
+  <div class="gm-section-title">
+    <h2>ĐIÊU KHẮC <span>LÀN DA</span></h2>
+    <div class="gm-title-line">
+      <div class="gm-title-line-dot"></div>
+      <div class="gm-title-line-dot"></div>
+      <div class="gm-title-line-dot"></div>
+    </div>
+  </div>
+
+  <div class="gm-services">
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=400&auto=format&fit=crop&crop=top" alt="Filler"></div>
+      <div class="gm-card-content">
+        <h3>Filler</h3>
+        <p>Tiêm chất làm đầy trẻ hóa da, xóa nếp nhăn và tạo đường nét căng mịn tự nhiên tức thì.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=400&auto=format&fit=crop&crop=top" alt="Botox"></div>
+      <div class="gm-card-content">
+        <h3>Botox</h3>
+        <p>Thư giãn cơ mặt, xóa mờ nếp nhăn vùng trán, đuôi mắt — làn da phẳng mịn và trẻ trung hơn.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=400&auto=format&fit=crop&crop=top" alt="Căng Chỉ"></div>
+      <div class="gm-card-content">
+        <h3>Căng Chỉ</h3>
+        <p>Nâng cơ mặt bằng chỉ sinh học, kéo căng da chảy xệ — gương mặt thon gọn và trẻ hóa rõ rệt.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=400&auto=format&fit=crop&crop=top" alt="Quầng Thâm Mắt"></div>
+      <div class="gm-card-content">
+        <h3>Quầng Thâm Mắt</h3>
+        <p>Điều trị thâm quầng mắt chuyên sâu bằng công nghệ tiên tiến, trả lại đôi mắt sáng và tươi tắn.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=80&w=400&auto=format&fit=crop&crop=top" alt="Meso"></div>
+      <div class="gm-card-content">
+        <h3>Meso</h3>
+        <p>Tiêm vi điểm dưỡng chất trực tiếp vào da, cấp ẩm sâu và phục hồi làn da căng bóng rạng rỡ.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=400&auto=format&fit=crop&crop=top" alt="Tiêm Làm Đẹp Da"></div>
+      <div class="gm-card-content">
+        <h3>Tiêm Làm Đẹp Da</h3>
+        <p>Cocktail vitamin và dưỡng chất tiêm trực tiếp giúp da sáng đều, mịn màng và ngăn lão hóa sớm.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=400&auto=format&fit=crop&crop=top" alt="Trị Sẹo"></div>
+      <div class="gm-card-content">
+        <h3>Trị Sẹo</h3>
+        <p>Xóa mờ sẹo rỗ, sẹo thâm, sẹo lồi bằng laser và công nghệ tái tạo da — da phẳng mịn trở lại.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=80&w=400&auto=format&fit=crop&crop=top" alt="Đốt và Cắt Nốt Ruồi"></div>
+      <div class="gm-card-content">
+        <h3>Đốt Và Cắt Nốt Ruồi</h3>
+        <p>Loại bỏ nốt ruồi, mụn thịt an toàn bằng laser — không để lại sẹo, phục hồi nhanh chóng.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop&crop=top" alt="Peel Face & Body"></div>
+      <div class="gm-card-content">
+        <h3>Peel Face &amp; Body</h3>
+        <p>Lột tế bào chết hóa học, tái tạo bề mặt da toàn mặt và cơ thể — da đều màu, sáng khỏe tức thì.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=400&auto=format&fit=crop&crop=top" alt="Phun Xăm"></div>
+      <div class="gm-card-content">
+        <h3>Phun Xăm</h3>
+        <p>Phun xăm thẩm mỹ lông mày, môi, mí mắt — nét đẹp tự nhiên bền lâu, tiết kiệm thời gian trang điểm.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1576426863848-c21f53c60b19?q=80&w=400&auto=format&fit=crop&crop=top" alt="Chăm Sóc Da Và Đầu"></div>
+      <div class="gm-card-content">
+        <h3>Chăm Sóc Da Và Đầu</h3>
+        <p>Liệu trình chăm sóc da mặt chuyên sâu kết hợp phục hồi da đầu — toàn diện từ gương mặt đến tóc.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+    <div class="gm-card">
+      <div class="gm-card-inner"></div><canvas class="gm-gold-ring"></canvas>
+      <div class="flare s1"></div><div class="flare s2"></div>
+      <div class="gm-card-image"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=400&auto=format&fit=crop&crop=top" alt="Máy Công Nghệ Cao"></div>
+      <div class="gm-card-content">
+        <h3>Máy Công Nghệ Cao</h3>
+        <p>Ứng dụng thiết bị thẩm mỹ hiện đại nhất — HIFU, RF, laser thế hệ mới cho kết quả vượt trội.</p>
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvuMobile.html" target="_blank">Tìm hiểu thêm <span>➜</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.gm-card').forEach(function(card){
+    var canvas=card.querySelector('.gm-gold-ring');
+    var raf=null,active=false,alpha=0,startTime=null;
+    function resize(){ canvas.width=card.offsetWidth+8; canvas.height=card.offsetHeight+8; } resize();
+    function drawShape(ctx,W,H){ var r=80; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(W-r,0); ctx.arcTo(W,0,W,r,r); ctx.lineTo(W,H-r); ctx.arcTo(W,H,W-r,H,r); ctx.lineTo(0,H); ctx.closePath(); }
+    function draw(ts){
+      if(!startTime) startTime=ts;
+      var elapsed=(ts-startTime)/1000;
+      var W=canvas.width,H=canvas.height;
+      var ctx=canvas.getContext('2d'); ctx.clearRect(0,0,W,H);
+      if(alpha<=0&&!active){ raf=null; return; }
+      ctx.save(); ctx.translate(4,4); var w=W-8,h=H-8;
+      var perim=2*(w+h),segLen=perim*0.28,offset=elapsed*perim*0.18;
+      ctx.save(); drawShape(ctx,w,h); ctx.strokeStyle='rgba(212,168,67,0.22)'; ctx.lineWidth=6; ctx.shadowColor='rgba(255,220,80,0.5)'; ctx.shadowBlur=18; ctx.globalAlpha=alpha*0.7; ctx.stroke(); ctx.restore();
+      ctx.save(); drawShape(ctx,w,h); ctx.strokeStyle='rgba(180,138,40,0.25)'; ctx.lineWidth=1.5; ctx.globalAlpha=alpha; ctx.stroke(); ctx.restore();
+      ctx.save(); ctx.globalAlpha=alpha; drawShape(ctx,w,h);
+      var g=ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0.00,'rgba(139,100,20,0)'); g.addColorStop(0.15,'rgba(200,155,50,0.6)'); g.addColorStop(0.28,'rgba(255,235,120,0.9)'); g.addColorStop(0.40,'rgba(255,248,180,1)'); g.addColorStop(0.50,'rgba(212,168,67,0.9)'); g.addColorStop(0.62,'rgba(255,240,140,0.6)'); g.addColorStop(0.75,'rgba(180,130,30,0.3)'); g.addColorStop(1.00,'rgba(139,100,20,0)');
+      ctx.strokeStyle=g; ctx.lineWidth=2.5; ctx.shadowColor='rgba(255,220,60,0.8)'; ctx.shadowBlur=14; ctx.setLineDash([segLen,perim-segLen]); ctx.lineDashOffset=-offset; ctx.stroke(); ctx.restore();
+      ctx.save(); ctx.globalAlpha=alpha*0.8; drawShape(ctx,w,h); ctx.strokeStyle='rgba(255,255,230,0.9)'; ctx.lineWidth=1.5; ctx.shadowColor='rgba(255,255,200,0.8)'; ctx.shadowBlur=10; ctx.setLineDash([10,perim-10]); ctx.lineDashOffset=-(offset+segLen-10); ctx.stroke(); ctx.restore();
+      ctx.restore();
+      alpha=active?Math.min(1,alpha+0.04):Math.max(0,alpha-0.03);
+      raf=requestAnimationFrame(draw);
+    }
+    card.addEventListener('mouseenter',function(){ active=true; if(!raf) raf=requestAnimationFrame(draw); });
+    card.addEventListener('mouseleave',function(){ active=false; if(!raf) raf=requestAnimationFrame(draw); });
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 20px;"></div>
+
+<div class="booking-container">
+    <style>
+        .booking-container {
+            --fd: 'Beautique Display Light','Beautique Display',Georgia,serif;
+            --fb: 'Hauora',sans-serif;
+            --fs: 'Hauora SemiBold',sans-serif;
+            --brand: #AB8D6B;
+            --brand-hover: #482B25;
+            --ink: #1c1c1c;
+            --border: #ecddd5;
+            --white: #ffffff;
+            all: revert;
+            font-family: var(--fb);
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0px 20px;
+        }
+        .booking-container *, .booking-container *::before, .booking-container *::after { box-sizing: border-box; }
+        .booking-container .wrap {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--white);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 8px 60px rgba(171,141,107,.15), 0 2px 16px rgba(0,0,0,.04);
+        }
+        .form-side, .info-side { padding: 44px 40px; }
+        .form-side { background: linear-gradient(160deg,#fff9f6 0%,#fff 60%); }
+        .info-side { 
+            background: linear-gradient(150deg,#AB8D6B 0%, #957a5c 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .form-title, .info-title { 
+            font-family: var(--fd); 
+            font-size: 1.6rem; 
+            margin-bottom: 24px; 
+            height: 1.6em; 
+            display: flex; 
+            align-items: center; 
+        }
+        .form-title { color: var(--ink); }
+        .info-title { color: #ffffff; }
+        .info-title em { font-style: italic; color: #fdf0e8; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .row-full { margin-bottom: 12px; }
+        .field input, .field select, .field textarea { 
+            width: 100%; background: #fff; border: 1.5px solid var(--border); 
+            border-radius: 14px; padding: 13px 16px; font-family: var(--fb); 
+        }
+        .btn { 
+            width: 100%; margin-top: 12px; background: var(--brand); color: #fff; 
+            border: none; border-radius: 14px; padding: 15px; cursor: pointer; 
+            font-family: var(--fs); font-size: 0.9rem; transition: background 0.3s ease;
+        }
+        .btn:hover { background: var(--brand-hover); }
+        .s-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.2); color: #fff; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            .booking-container { padding: 0 16px; }
+            .booking-container .wrap { grid-template-columns: 1fr; border-radius: 20px; }
+            .form-side { padding: 28px 22px 22px; }
+            .info-side { padding: 22px 22px 28px; }
+            .row { grid-template-columns: 1fr; gap: 0; }
+            .row .field { margin-bottom: 12px; }
+        }
+    </style>
+    <div class="wrap">
+        <div class="form-side">
+            <div class="form-title">Đặt lịch tư vấn</div>
+            <div class="row">
+                <div class="field"><input type="text" placeholder="Họ và Tên" /></div>
+                <div class="field"><input type="tel" placeholder="Số Điện Thoại" /></div>
+            </div>
+            <div class="row-full">
+                <div class="field">
+                    <select>
+                        <option value="" disabled selected>Chọn Dịch Vụ</option>
+                        <option>Hút Mỡ Bụng</option>
+                        <option>Hút Mỡ Đùi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row-full">
+                <div class="field"><textarea placeholder="Yêu Cầu Của Bạn (tuỳ chọn)" rows="2"></textarea></div>
+            </div>
+            <button class="btn">Đặt Lịch Hẹn Ngay</button>
+        </div>
+        <div class="info-side">
+            <div class="info-title">Lịch Làm Việc</div>
+            <div class="schedule-rows">
+                <div class="s-row"><span>Thứ Hai — Thứ Sáu</span> <span>7:00 – 17:00</span></div>
+                <div class="s-row"><span>Thứ Bảy</span> <span>7:30 – 16:00</span></div>
+                <div class="s-row" style="border:none"><span>Chủ Nhật</span> <span>Đóng Cửa</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Premium</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; overflow-x: hidden; }
+
+    /* ── FOOTER ── */
+    .na-footer-premium {
+      background-image: url('https://benhvienthammynaman.com/wp-content/uploads/2026/05/Trang-mua-hang.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      color: #733F2E;
+      padding: 60px 20px 40px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Hauora', sans-serif;
+      line-height: 1.78;
+    }
+
+    /* ── GRID ── */
+    .na-footer-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+      align-items: start;
+    }
+
+    /* ── INFO COL ── */
+    .na-info-col { display: flex; flex-direction: column; }
+
+    .na-brand-logo {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: block;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+
+    .na-hotline-highlight {
+      background: #AB8D6B;
+      color: #fff !important;
+      padding: 12px 20px;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none !important;
+      margin-bottom: 24px;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(171,141,107,0.4);
+      width: 220px;
+      justify-content: center;
+    }
+    .na-hotline-highlight:hover { transform: scale(1.05); background: #482B25; }
+
+    .na-hotline-highlight i {
+      font-size: 20px;
+      background: rgba(255,255,255,0.25);
+      color: white !important;
+      width: 38px; height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .na-hotline-text span {
+      display: block;
+      font-family: 'Hauora', sans-serif;
+      font-size: .82rem;
+      text-transform: uppercase;
+      opacity: 0.9;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .na-hotline-text b {
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: #fff;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .na-contact-details p {
+      font-size: .92rem;
+      margin: 10px 0;
+      display: flex;
+      align-items: flex-start;
+      color: #733F2E;
+    }
+
+    /* ── LINKS COL ── */
+    .na-links-col { display: flex; flex-direction: column; }
+
+    .na-footer-title {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 22px;
+      position: relative;
+      display: inline-block;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+    .na-footer-title::after {
+      content: '';
+      position: absolute;
+      width: 30px; height: 2px;
+      background: #AB8D6B;
+      bottom: -8px; left: 0;
+    }
+
+    .na-footer-links { list-style: none; }
+    .na-footer-links li { margin-bottom: 11px; }
+    .na-footer-links a {
+      font-size: .92rem;
+      color: #733F2E !important;
+      text-decoration: none;
+      transition: 0.3s;
+      opacity: 0.85;
+    }
+    .na-footer-links a:hover { color: #AB8D6B !important; padding-left: 8px; opacity: 1; }
+
+    .na-links-bottom {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(115,63,46,0.25);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .na-tax-text {
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: .92rem;
+      color: #733F2E;
+      font-weight: 600;
+    }
+    .na-dmca-badge {
+      display: inline-block;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(115,63,46,0.2);
+      background: #fff;
+      padding: 5px 8px;
+      flex-shrink: 0;
+      transition: 0.3s;
+    }
+    .na-dmca-badge img { width: 90px; height: auto; display: block; }
+    .na-dmca-badge:hover { transform: translateY(-2px); border-color: #AB8D6B; box-shadow: 0 4px 12px rgba(171,141,107,0.2); }
+
+    /* ── FORM COL ── */
+    .na-form-col {
+      background: rgba(255,255,255,0.55);
+      padding: 22px 26px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(115,63,46,0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .na-form-col h3 {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+
+    .na-footer-form input,
+    .na-footer-form textarea {
+      width: 100%;
+      padding: 9px 13px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(115,63,46,0.25);
+      background: rgba(255,255,255,0.95);
+      font-family: 'Hauora', sans-serif;
+      font-size: .92rem;
+      color: #733F2E;
+    }
+    .na-footer-form input::placeholder,
+    .na-footer-form textarea::placeholder { color: #a07060; }
+    .na-footer-form textarea { height: 65px; resize: none; }
+
+    .na-footer-form button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 8px;
+      border: none;
+      background: #AB8D6B;
+      color: #fff;
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: .92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      text-transform: uppercase;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+    .na-footer-form button:hover { background: #482B25; transform: translateY(-2px); }
+
+    /* ── LICENSE ROW ── */
+    .na-license-row {
+      max-width: 1200px;
+      margin: 36px auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .na-license-box {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(115,63,46,0.3);
+      background: rgba(255,255,255,0.1);
+      transition: 0.4s;
+    }
+    .na-license-box img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .na-license-box:hover { transform: translateY(-4px); background: rgba(255,255,255,0.25); border-color: #733F2E; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — TABLET (≤ 992px)
+    ════════════════════════════════════════ */
+    @media (max-width: 992px) {
+      .na-footer-wrapper {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      /* Form chiếm full width hàng 2 */
+      .na-form-col { grid-column: 1 / -1; }
+
+      .na-license-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — MOBILE (≤ 600px)
+    ════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .na-footer-premium {
+        padding: 40px 16px 32px;
+      }
+
+      .na-footer-wrapper {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      /* Brand */
+      .na-brand-logo { font-size: 1.15rem; margin-bottom: 16px; }
+
+      /* Hotline button full width */
+      .na-hotline-highlight {
+        width: 100%;
+        padding: 13px 18px;
+      }
+      .na-hotline-text b { font-size: 18px; }
+
+      /* Contact */
+      .na-contact-details p { font-size: .88rem; }
+
+      /* Accordion cho "Về chúng tôi" trên mobile */
+      .na-links-col { }
+      .na-footer-title {
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(115,63,46,0.18);
+      }
+      .na-footer-title::after { display: none; }
+      .na-footer-title .acc-arrow {
+        font-size: 12px;
+        transition: transform 0.3s;
+        display: inline-block;
+        color: #AB8D6B;
+      }
+      .na-links-col.open .na-footer-title .acc-arrow { transform: rotate(180deg); }
+
+      .na-footer-links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        margin-top: 0;
+      }
+      .na-links-col.open .na-footer-links {
+        max-height: 400px;
+        margin-top: 12px;
+      }
+      .na-links-col.open .na-links-bottom { display: flex; }
+      .na-links-bottom {
+        display: none;
+        margin-top: 16px;
+      }
+      .na-links-col.open .na-links-bottom { display: flex; }
+
+      /* Form */
+      .na-form-col {
+        grid-column: auto;
+        padding: 18px 16px 14px;
+        border-radius: 16px;
+      }
+      .na-form-col h3 { font-size: 1rem; margin-bottom: 12px; }
+
+      /* License 2 col trên mobile nhỏ */
+      .na-license-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 24px;
+      }
+      .na-license-box img { height: 110px; }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — NHỎ HƠN (≤ 380px)
+    ════════════════════════════════════════ */
+    @media (max-width: 380px) {
+      .na-license-row { grid-template-columns: 1fr; }
+      .na-license-box img { height: 140px; }
+      .na-hotline-text b { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<footer class="na-footer-premium">
+  <div class="na-footer-wrapper">
+
+    <!-- INFO -->
+    <div class="na-info-col">
+      <span class="na-brand-logo">BỆNH VIỆN THẨM MỸ NAM AN</span>
+      <a href="tel:0901939229" class="na-hotline-highlight">
+        <i class="fa fa-phone"></i>
+        <div class="na-hotline-text">
+          <span>Tổng đài tư vấn 24/7</span>
+          <b>0901 939 229</b>
+        </div>
+      </a>
+      <div class="na-contact-details">
+        <p><i class="fa-solid fa-location-dot" style="width:18px; margin-right:9px; flex-shrink:0"></i> 45A, Ba Tháng Hai, P. Vườn Lài, TP.HCM</p>
+        <p><i class="fa-solid fa-envelope" style="width:18px; margin-right:9px; flex-shrink:0"></i> contact@bvnaman.com</p>
+        <p><i class="fa-solid fa-clock" style="width:18px; margin-right:9px; flex-shrink:0"></i> 08:00 - 20:00 (Thứ 2 - CN)</p>
+      </div>
+    </div>
+
+    <!-- LINKS (accordion trên mobile) -->
+    <div class="na-links-col" id="links-col">
+      <h3 class="na-footer-title" id="acc-toggle">
+        VỀ CHÚNG TÔI
+        <span class="acc-arrow">▾</span>
+      </h3>
+      <ul class="na-footer-links">
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Giới thiệu bệnh viện</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Đội ngũ chuyên gia</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Cơ sở vật chất</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Chính sách bảo mật</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Quy chế hoạt động</a></li>
+      </ul>
+      <div class="na-links-bottom">
+        <span class="na-tax-text">Mã số thuế: 0315700968</span>
+        <a href="https://www.dmca.com" target="_blank" class="na-dmca-badge">
+          <img src="https://www.dmca.com/img/dmca-website-logo-2022.png" alt="DMCA Protected">
+        </a>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="na-form-col">
+      <h3>ĐĂNG KÝ TƯ VẤN</h3>
+      <form class="na-footer-form">
+        <input type="text" placeholder="Họ và tên của bạn" required>
+        <input type="tel" placeholder="Số điện thoại" required>
+        <textarea placeholder="Nhu cầu tư vấn của bạn"></textarea>
+        <button type="submit">Gửi yêu cầu ngay</button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- LICENSE -->
+  <div class="na-license-row">
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 1"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 2"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 3"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 4"></div>
+  </div>
+</footer>
+
+<script>
+  // Accordion "Về chúng tôi" chỉ hoạt động trên mobile
+  var toggle = document.getElementById('acc-toggle');
+  var col = document.getElementById('links-col');
+
+  toggle.addEventListener('click', function() {
+    if (window.innerWidth <= 600) {
+      col.classList.toggle('open');
+    }
+  });
+
+  // Desktop: luôn mở
+  function checkWidth() {
+    if (window.innerWidth > 600) {
+      col.classList.remove('open');
+      // show links always on desktop via CSS (max-height none)
+      var links = col.querySelector('.na-footer-links');
+      links.style.maxHeight = '';
+      links.style.overflow = '';
+    }
+  }
+  window.addEventListener('resize', checkWidth);
+</script>
+</body>
+</html>
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="naf-bar-wrapper">
+    <style>
+        .naf-bar-wrapper .naf-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #f5f0eb;
+            border-top: 1px solid rgba(74, 46, 30, 0.12);
+            display: flex;
+            justify-content: space-around;
+            padding: 4px 0 2px;
+            z-index: 9999;
+        }
+        .naf-bar-wrapper .naf-bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #4a2e1e;
+            flex: 1;
+        }
+        .naf-bar-wrapper .naf-bar-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(74, 46, 30, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài hình tròn */
+        }
+        /* Cấu hình ảnh bên trong icon */
+        .naf-bar-wrapper .naf-bar-icon img {
+            width: 60%; /* Tùy chỉnh độ lớn icon trong vòng tròn */
+            height: 60%;
+            object-fit: contain;
+        }
+        .naf-bar-wrapper .naf-bar-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #000000; opacity: .5; }
+        
+        @media (min-width: 768px) { .naf-bar-wrapper { display: none; } }
+    </style>
+
+    <div class="naf-bar">
+        <a href="tel:0901939229" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://marketplace.canva.com/ERSb8/MAG9_-ERSb8/1/tl/canva-golden-phone-icon-MAG9_-ERSb8.png" alt="Phone">
+            </div>
+            <div class="naf-bar-label">Liên hệ</div>
+        </a>
+        
+        <a href="https://zalo.me/0901939229" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/3840px-Icon_of_Zalo.svg.png" alt="Zalo">
+            </div>
+            <div class="naf-bar-label">Zalo</div>
+        </a>
+        
+        <a href="https://messenger.com/" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/3840px-Facebook_f_logo_%282021%29.svg.png" alt="Facebook">
+            </div>
+            <div class="naf-bar-label">Facebook</div>
+        </a>
+    </div>
+</div>
