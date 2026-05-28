@@ -294,6 +294,8 @@
 
 
 
+
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -592,7 +594,7 @@ function renderPosts(posts) {
     var el = document.createElement('a');
     el.className = 'post-item';
     el.href = p.url || 'https://nam30nguyen11-glitch.github.io/Nhan/tintuc.html';
-    el.target = '_blank';
+
     el.innerHTML = '<div class="post-thumb"><img src="' + p.img + '" alt="' + p.title + '" loading="lazy"></div>'
       + '<div class="post-info">'
       + '<span class="post-category">' + p.cat + '</span>'
@@ -652,8 +654,6 @@ loadMore();
 loadMoreVideos();
 </script>
 </body></html>
-
-
 
 
 
