@@ -819,16 +819,6 @@ document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item)
 
 
 
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -904,6 +894,8 @@ document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item)
       transition: transform .3s ease, box-shadow .3s ease;
       cursor: pointer;
       min-height: 130px;
+      text-decoration: none;
+      color: inherit;
     }
     .post-item:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(61,44,36,.10); }
 
@@ -966,7 +958,14 @@ document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item)
       gap: 16px;
     }
 
-    .video-card { display: flex; flex-direction: column; gap: 10px; cursor: pointer; }
+    .video-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
 
     .video-thumb {
       width: 100%;
@@ -1281,26 +1280,27 @@ document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item)
 <script>
 /* ── TIN TỨC ── */
 var allPosts = [
-  { date: '12.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Sụn nhân tạo hay sụn tự thân – Nên chọn loại nào?',        img: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=600&auto=format&fit=crop' },
-  { date: '10.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Quy trình nâng mũi an toàn – Điều cần biết',              img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop' },
-  { date: '05.09.2025', cat: 'Chăm Sóc',       title: 'Phục hồi sau nâng mũi: Chăm sóc đúng cách',               img: 'https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=600&auto=format&fit=crop' },
-  { date: '01.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Top 5 dạng mũi được yêu cầu nhiều nhất',                  img: 'https://images.unsplash.com/photo-1616391182219-e080b4d1043a?q=80&w=600&auto=format&fit=crop' },
-  { date: '28.08.2025', cat: 'Thẩm Mỹ Mắt',   title: 'Mắt hai mí tự nhiên – Kỹ thuật mới nhất 2025',            img: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600&auto=format&fit=crop' },
-  { date: '25.08.2025', cat: 'Filler',          title: 'Tiêm filler má – Khi nào nên và không nên?',              img: 'https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?q=80&w=600&auto=format&fit=crop' },
-  { date: '20.08.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Nâng mũi bọc sụn tai – Có nên không?',                    img: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=600&auto=format&fit=crop' },
-  { date: '18.08.2025', cat: 'Kiến Thức',      title: 'Biến chứng nâng mũi và cách xử lý kịp thời',             img: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=600&auto=format&fit=crop' },
-  { date: '15.08.2025', cat: 'Thẩm Mỹ Mũi',   title: 'So sánh nâng mũi L-line và S-line',                       img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop' },
-  { date: '10.08.2025', cat: 'Chăm Sóc Da',    title: 'Chăm sóc da sau phẫu thuật thẩm mỹ mũi',                 img: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600&auto=format&fit=crop' },
-  { date: '05.08.2025', cat: 'Căng Da',         title: 'Căng da mặt không phẫu thuật – Hiệu quả thật sự?',       img: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=600&auto=format&fit=crop' },
-  { date: '01.08.2025', cat: 'Điêu Khắc',      title: 'Tạo hình cằm V-line – Xu hướng làm đẹp 2025',            img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop' },
+  { date: '12.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Sụn nhân tạo hay sụn tự thân – Nên chọn loại nào?',        img: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '10.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Quy trình nâng mũi an toàn – Điều cần biết',              img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '05.09.2025', cat: 'Chăm Sóc',       title: 'Phục hồi sau nâng mũi: Chăm sóc đúng cách',               img: 'https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '01.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Top 5 dạng mũi được yêu cầu nhiều nhất',                  img: 'https://images.unsplash.com/photo-1616391182219-e080b4d1043a?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '28.08.2025', cat: 'Thẩm Mỹ Mắt',   title: 'Mắt hai mí tự nhiên – Kỹ thuật mới nhất 2025',            img: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '25.08.2025', cat: 'Filler',          title: 'Tiêm filler má – Khi nào nên và không nên?',              img: 'https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '20.08.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Nâng mũi bọc sụn tai – Có nên không?',                    img: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '18.08.2025', cat: 'Kiến Thức',      title: 'Biến chứng nâng mũi và cách xử lý kịp thời',             img: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '15.08.2025', cat: 'Thẩm Mỹ Mũi',   title: 'So sánh nâng mũi L-line và S-line',                       img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '10.08.2025', cat: 'Chăm Sóc Da',    title: 'Chăm sóc da sau phẫu thuật thẩm mỹ mũi',                 img: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '05.08.2025', cat: 'Căng Da',         title: 'Căng da mặt không phẫu thuật – Hiệu quả thật sự?',       img: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '01.08.2025', cat: 'Điêu Khắc',      title: 'Tạo hình cằm V-line – Xu hướng làm đẹp 2025',            img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
 ];
 var shownPosts = 0;
 
 function renderPosts(posts) {
   var container = document.getElementById('posts-container');
   posts.forEach(function(p) {
-    var el = document.createElement('div');
+    var el = document.createElement('a');
     el.className = 'post-item';
+    el.href = p.link;
     el.innerHTML = '<div class="post-thumb"><img src="' + p.img + '" alt="' + p.title + '" loading="lazy"></div>'
       + '<div class="post-info">'
       + '<span class="post-category">' + p.cat + '</span>'
@@ -1322,26 +1322,27 @@ function loadMore() {
 
 /* ── VIDEO SHORT ── */
 var allVideos = [
-  { date: '15.09.2025', title: 'Quy trình nâng mũi cấu trúc từ A–Z' },
-  { date: '12.09.2025', title: 'Mắt hai mí – Trước và sau phẫu thuật' },
-  { date: '08.09.2025', title: 'Tiêm filler môi đúng cách – Lưu ý quan trọng' },
-  { date: '04.09.2025', title: 'Căng da mặt không phẫu thuật – Hiệu quả thật sự?' },
-  { date: '01.09.2025', title: 'Tạo hình cằm V-line – Xu hướng 2025' },
-  { date: '28.08.2025', title: 'Nâng mũi S-line – Đẹp tự nhiên hơn' },
-  { date: '24.08.2025', title: 'Cấy mỡ mặt – Trẻ hóa không dao kéo' },
-  { date: '20.08.2025', title: 'Filler cằm – Tạo đường nét V-line tức thì' },
-  { date: '16.08.2025', title: 'Botox trán – Xóa nếp nhăn sau 10 phút' },
-  { date: '12.08.2025', title: 'Căng chỉ collagen – Nâng cơ mặt không xâm lấn' },
-  { date: '08.08.2025', title: 'Thu nhỏ lỗ chân lông – Liệu trình chuẩn' },
-  { date: '04.08.2025', title: 'Laser trị nám – Bí quyết da đều màu' },
+  { date: '15.09.2025', title: 'Quy trình nâng mũi cấu trúc từ A–Z', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '12.09.2025', title: 'Mắt hai mí – Trước và sau phẫu thuật', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '08.09.2025', title: 'Tiêm filler môi đúng cách – Lưu ý quan trọng', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '04.09.2025', title: 'Căng da mặt không phẫu thuật – Hiệu quả thật sự?', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '01.09.2025', title: 'Tạo hình cằm V-line – Xu hướng 2025', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '28.08.2025', title: 'Nâng mũi S-line – Đẹp tự nhiên hơn', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '24.08.2025', title: 'Cấy mỡ mặt – Trẻ hóa không dao kéo', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '20.08.2025', title: 'Filler cằm – Tạo đường nét V-line tức thì', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '16.08.2025', title: 'Botox trán – Xóa nếp nhăn sau 10 phút', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '12.08.2025', title: 'Căng chỉ collagen – Nâng cơ mặt không xâm lấn', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '08.08.2025', title: 'Thu nhỏ lỗ chân lông – Liệu trình chuẩn', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
+  { date: '04.08.2025', title: 'Laser trị nám – Bí quyết da đều màu', link: 'https://nam30nguyen11-glitch.github.io/Nhan/tintucMobile.html' },
 ];
 var shownVideos = 0;
 
 function renderVideos(videos) {
   var container = document.getElementById('video-container');
   videos.forEach(function(v) {
-    var el = document.createElement('div');
+    var el = document.createElement('a');
     el.className = 'video-card';
+    el.href = v.link;
     el.innerHTML = '<div class="video-thumb"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-meta"><span class="video-date">' + v.date + '</span><div class="video-title">' + v.title + '</div></div>';
     container.appendChild(el);
   });
@@ -1361,6 +1362,16 @@ loadMoreVideos();
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
