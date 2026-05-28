@@ -1,0 +1,1931 @@
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Nam An Mobile Header</title>
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Hauora', sans-serif;
+  background: #f5f0eb;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  width: 100%;
+  background: #f6f0ec;
+  border-bottom: 1px solid #ede4dc;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+}
+
+.nh-inner {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  gap: 8px;
+}
+
+/* Logo */
+.nh-logo { flex-shrink: 0; }
+.nh-logo img { height: 32px; display: block; }
+
+/* Search */
+.nh-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  background: #FAF7F5;
+  border: 1px solid #EDE8E4;
+  border-radius: 20px;
+  padding: 0 11px;
+  gap: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.nh-search:focus-within {
+  border-color: #AB8D6B;
+  box-shadow: 0 0 0 2px rgba(171,141,107,0.12);
+}
+.nh-search svg { color: #BBA89E; flex-shrink: 0; }
+.nh-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-family: 'Hauora', sans-serif;
+  font-size: 12px;
+  color: #482B25;
+}
+.nh-search input::placeholder { color: #BBA89E; }
+
+/* Right actions */
+.nh-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+/* Book button */
+.nh-book {
+  height: 34px;
+  padding: 0 13px;
+  background: #AB8D6B;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.nh-book:hover { background: #482B25; }
+
+/* Hamburger */
+.nh-ham {
+  width: 36px; height: 36px;
+  background: none;
+  border: 1.5px solid #d9cfc8;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4.5px;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.nh-ham:hover { border-color: #AB8D6B; background: #f5ede4; }
+.nh-ham span {
+  display: block;
+  width: 15px; height: 1.5px;
+  background: #3a3a3a;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  transform-origin: center;
+}
+.nh-ham.open { border-color: #AB8D6B; background: #f5ede4; }
+.nh-ham.open span { background: #AB8D6B; }
+.nh-ham.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nh-ham.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nh-ham.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── OVERLAY ── */
+.nh-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,15,10,0.45);
+  z-index: 9996;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.nh-overlay.open { opacity: 1; pointer-events: auto; }
+
+/* ── DRAWER (2-column) — limited height, not full screen ── */
+.nh-drawer {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 57px;
+  left: 0;
+  right: 0;
+  /* ✅ Giới hạn chiều cao, không full màn hình */
+  max-height: calc(100vh - 57px - 60px);
+  z-index: 9997;
+  transform: translateX(-100%);
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  border-top: 2px solid #AB8D6B;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(72,43,37,0.18);
+}
+.nh-drawer.open { transform: translateX(0); }
+
+/* ── LEFT SIDEBAR ── */
+.nh-sidebar {
+  width: 72px;
+  min-width: 72px;
+  background: #FAF7F5;
+  border-right: 1px solid #EDE8E4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.nh-sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px 8px;
+  border-bottom: 1px solid #EDE8E4;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  text-decoration: none;
+  gap: 4px;
+}
+.nh-sidebar-item:last-child { border-bottom: none; }
+.nh-sidebar-item.active,
+.nh-sidebar-item:hover { background: #fff; }
+.nh-sidebar-item.active::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: #AB8D6B;
+  border-radius: 2px 0 0 2px;
+}
+
+.nh-sidebar-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #F5EEE9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.nh-sidebar-item.active .nh-sidebar-icon,
+.nh-sidebar-item:hover .nh-sidebar-icon { background: rgba(171,141,107,0.14); }
+.nh-sidebar-icon svg { width: 15px; height: 15px; }
+.nh-sidebar-item.active .nh-sidebar-icon svg path,
+.nh-sidebar-item.active .nh-sidebar-icon svg circle,
+.nh-sidebar-item.active .nh-sidebar-icon svg polyline,
+.nh-sidebar-item.active .nh-sidebar-icon svg line,
+.nh-sidebar-item:hover .nh-sidebar-icon svg path,
+.nh-sidebar-item:hover .nh-sidebar-icon svg circle,
+.nh-sidebar-item:hover .nh-sidebar-icon svg polyline,
+.nh-sidebar-item:hover .nh-sidebar-icon svg line { stroke: #AB8D6B; }
+
+.nh-sidebar-label {
+  font-family: 'Hauora', sans-serif;
+  font-size: 8.5px;
+  font-weight: 400;
+  color: #482B25;
+  text-align: center;
+  line-height: 1.3;
+}
+.nh-sidebar-item.active .nh-sidebar-label {
+  color: #AB8D6B;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-weight: 600;
+}
+
+/* ── Mũi tên > cho item có panel ── */
+.nh-sidebar-chevron {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #EDE8E4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.nh-sidebar-chevron svg {
+  width: 7px; height: 7px;
+  stroke: #AB8D6B;
+  flex-shrink: 0;
+}
+.nh-sidebar-item.active .nh-sidebar-chevron { background: #AB8D6B; }
+.nh-sidebar-item.active .nh-sidebar-chevron svg { stroke: #fff; }
+
+/* ── RIGHT PANEL ── */
+.nh-panel {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Panel types */
+.nh-panel-simple { display: none; padding: 0 0 32px; }
+.nh-panel-simple.visible { display: block; }
+.nh-panel-mega { display: none; }
+.nh-panel-mega.visible { display: block; }
+
+/* Panel header label */
+.nh-panel-header {
+  padding: 16px 14px 0;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.nh-panel-header::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: #AB8D6B;
+}
+
+/* Simple links */
+.nh-panel-simple a {
+  display: block;
+  padding: 6px 14px;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #482B25;
+  text-decoration: none;
+  border-bottom: 1px solid #F5EEE9;
+  transition: color 0.2s, background 0.2s;
+}
+.nh-panel-simple a:hover { color: #AB8D6B; background: #FFF9F7; }
+
+/* Mega section */
+.nh-panel-section { padding: 14px 14px 6px; }
+.nh-panel-section-title {
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nh-panel-section-title::before {
+  content: '';
+  width: 12px; height: 1px;
+  background: #AB8D6B;
+  flex-shrink: 0;
+}
+
+.nh-panel-links { list-style: none; }
+.nh-panel-links li a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #482B25;
+  text-decoration: none;
+  border-bottom: 1px solid #F9F5F2;
+  transition: all 0.18s;
+}
+.nh-panel-links li a::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #DDD0C8;
+  flex-shrink: 0;
+  transition: background 0.18s;
+}
+.nh-panel-links li a:hover { color: #AB8D6B; background: #FFF9F7; }
+.nh-panel-links li a:hover::before { background: #AB8D6B; }
+
+.nh-panel-divider { height: 1px; background: #F0EAE6; margin: 2px 0; }
+
+/* Featured banner */
+.nh-panel-feat {
+  margin: 10px 14px 14px;
+  background: #FBF7F3;
+  border-radius: 8px;
+  border: 1px solid #e8ddd3;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+.nh-panel-feat:hover { box-shadow: 0 6px 20px rgba(171,141,107,0.18); }
+.nh-panel-feat img {
+  width: 54px; height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.nh-panel-feat-label {
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  margin-bottom: 3px;
+}
+.nh-panel-feat-name {
+  font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 300;
+  color: #482B25;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+.nh-panel-feat-badge {
+  display: inline-flex;
+  background: rgba(171,141,107,0.12);
+  color: #AB8D6B;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 2px;
+}
+
+/* CTA strip */
+.nh-panel-cta {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid #F5EEE9;
+}
+.nh-panel-cta .btn-o {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border: 1px solid #AB8D6B;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nh-panel-cta .btn-o:hover { background: #482B25; border-color: #482B25; color: #fff; }
+.nh-panel-cta .btn-p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  background: #AB8D6B;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(171,141,107,0.28);
+  transition: background 0.2s;
+}
+.nh-panel-cta .btn-p:hover { background: #482B25; }
+
+/* Page placeholder */
+.page-placeholder {
+  margin-top: 76px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #9b8880;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nh-inner">
+    <a href="#" class="nh-logo">
+      <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/04/footer-logo-home.svg" alt="Nam An">
+    </a>
+
+    <div class="nh-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Tìm dịch vụ...">
+    </div>
+
+    <div class="nh-actions">
+      <a href="#" class="nh-book">Đặt Lịch</a>
+      <button class="nh-ham" id="nh-ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="nh-overlay" id="nh-overlay"></div>
+
+<!-- DRAWER -->
+<div class="nh-drawer" id="nh-drawer">
+
+  <!-- LEFT SIDEBAR -->
+  <div class="nh-sidebar">
+
+    <!-- Trang Chủ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/homeMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Trang Chủ</span>
+    </a>
+
+    <!-- Giới Thiệu -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/gioithieuMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Giới Thiệu</span>
+    </a>
+
+    <!-- Dịch Vụ -->
+    <div class="nh-sidebar-item active" data-panel="panel-dich-vu">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M9 9h.01M15 9h.01"/>
+          <path d="M9 14s1 2 3 2 3-2 3-2"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Dịch Vụ</span>
+      <div class="nh-sidebar-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Kiến Thức -->
+    <div class="nh-sidebar-item" data-panel="panel-kien-thuc">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Kiến Thức</span>
+      <div class="nh-sidebar-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Bác Sĩ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/trangbacsiMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Bác Sĩ</span>
+    </a>
+
+    <!-- Liên Hệ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/lienheMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Liên Hệ</span>
+    </a>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="nh-panel">
+
+    <!-- Dịch Vụ (mega) — hiện mặc định -->
+    <div class="nh-panel-mega visible" id="panel-dich-vu">
+
+      <!-- Điêu Khắc Gương Mặt -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Gương Mặt</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Căng da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Cắt mí mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Cắt môi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Độn cằm</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Gọt hàm / Hạ gò má</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng mũi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nha khoa</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-divider"></div>
+
+      <!-- Điêu Khắc Vóc Dáng -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Vóc Dáng</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Điêu khắc vùng kín</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Hút mỡ</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng ngực</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng mông</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-divider"></div>
+
+      <!-- Điêu Khắc Làn Da -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Làn Da</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Botox</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Căng chỉ</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Chăm sóc da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Đốt và cắt nốt ruồi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Filler</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">IPL Trẻ hóa</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Laser</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Meso</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng cơ công nghệ cao</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Peel da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Phun xăm</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Tiêm làm đẹp da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Trị quầng thâm mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Trị sẹo</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Triệt lông</a></li>
+        </ul>
+      </div>
+
+      <div class="nh-panel-cta">
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html" class="btn-p">Xem toàn bộ dịch vụ
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Kiến Thức (mega) -->
+    <div class="nh-panel-mega" id="panel-kien-thuc">
+      <div class="nh-panel-section">
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Mũi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Môi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Ngực</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-cta">
+        <a href="#" class="btn-o">Xem Tất Cả Bài Viết</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+const ham     = document.getElementById('nh-ham');
+const drawer  = document.getElementById('nh-drawer');
+const overlay = document.getElementById('nh-overlay');
+
+function openDrawer() {
+  ham.classList.add('open');
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  ham.classList.remove('open');
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+ham.addEventListener('click', function() {
+  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+overlay.addEventListener('click', closeDrawer);
+
+document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item) {
+  item.addEventListener('click', function() {
+    const panelId = item.getAttribute('data-panel');
+    document.querySelectorAll('.nh-sidebar-item').forEach(s => s.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.nh-panel-mega, .nh-panel-simple').forEach(p => p.classList.remove('visible'));
+    const target = document.getElementById(panelId);
+    if (target) {
+      target.classList.add('visible');
+      document.querySelector('.nh-panel').scrollTop = 0;
+    }
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 50px;">
+  
+</div>
+
+<style>
+  .bc-wrap {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #666;
+    background: #fff;
+  }
+  .bc-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: nowrap;
+    gap: 0;
+    justify-content: center;
+  }
+  .bc-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+  .bc-item a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+  }
+  .bc-item a:hover { color: #AB8D6B; }
+  .bc-sep {
+    margin: 0 8px;
+    color: #bbb;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .bc-current {
+    color: #AB8D6B;
+    font-weight: 400;
+  }
+  .bc-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #333;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+
+<nav class="bc-wrap" aria-label="Breadcrumb">
+  <ol class="bc-list">
+    <li class="bc-item">
+      <a href="/">
+        <svg class="bc-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.75z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        Trang chủ
+      </a>
+    </li>
+    <li class="bc-sep" aria-hidden="true">/</li>
+    <li class="bc-item">
+      <span class="bc-current" aria-current="page">Kiến thức</span>
+    </li>
+    </li>
+    <li class="bc-sep" aria-hidden="true">/</li>
+    <li class="bc-item">
+      <span class="bc-current" aria-current="page">Điêu khắc làn da</span>
+    </li>    
+  </ol>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tin Tức LumiBeauty</title>
+  <style>
+    @import url('https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display');
+    @import url('https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light');
+    @import url('https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora');
+    @import url('https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium');
+    @import url('https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold');
+
+    :root {
+      --brown: #2e1e17;
+      --gold: #f28a57;
+      --box-radius: 16px;
+      --box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      --box-border: 1px solid #f0e8e2;
+    }
+
+    body { margin: 0; padding: 0; font-family: 'Hauora', sans-serif; background: #fff; color: #000; }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      max-width: 1200px;
+      margin: 40px auto;
+      display: flex;
+      gap: 40px;
+      padding: 0 20px;
+      align-items: flex-start;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { flex: 0 0 260px; position: sticky; top: 20px; align-self: flex-start; }
+    .sidebar-sticky {}
+    .styled-box {
+      background: #fff;
+      border: var(--box-border);
+      border-radius: var(--box-radius);
+      padding: 20px;
+      box-shadow: var(--box-shadow);
+    }
+    .menu-list { list-style: none; padding: 0; margin-top: 20px; }
+    .menu-list li { padding: 12px 0; border-bottom: 1px solid #f9f9f9; cursor: pointer; font-size: 0.9rem; color: #000; }
+    .menu-list li:hover { color: var(--gold); }
+
+    /* ── MAIN COLUMN ── */
+    .main-column { flex: 1; display: flex; flex-direction: column; gap: 0; }
+
+    /* ── TYPOGRAPHY ── */
+    .section-label {
+      font-family: 'Beautique Display', serif;
+      font-size: 1.85rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin: 0 0 16px 0;
+      color: var(--brown);
+    }
+    h3 { font-family: 'Beautique Display', serif; font-weight: 900; margin: 0 0 15px 0; color: var(--brown); }
+
+    /* ── NEWS GRID ── */
+    .news-grid { display: block; }
+
+    .side-posts { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 28px; }
+
+    .post-item {
+      background: #faf7f4;
+      border-radius: 18px;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease;
+      cursor: pointer;
+      min-height: 130px;
+    }
+    .post-item:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(61,44,36,.10); }
+
+    .post-thumb {
+      width: 145px;
+      flex-shrink: 0;
+      border-radius: 0 70px 70px 0;
+      overflow: hidden;
+      position: relative;
+      background: #e0d8d2;
+    }
+    .post-thumb img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .5s ease;
+    }
+    .post-item:hover .post-thumb img { transform: scale(1.07); }
+
+    .post-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 18px 16px 18px 18px;
+    }
+    .post-category {
+      font-family: 'Hauora Medium', 'Hauora', sans-serif;
+      display: inline-block;
+      background: #AB8D6B;
+      color: #fff;
+      padding: 4px 11px;
+      border-radius: 30px;
+      font-size: .75rem;
+      font-weight: 500;
+      align-self: flex-start;
+    }
+    .post-title {
+      font-family: 'Hauora SemiBold', 'Hauora Medium', 'Hauora', sans-serif;
+      font-size: .88rem;
+      line-height: 1.5;
+      font-weight: 600;
+      color: #2e1e17;
+      flex: 1;
+    }
+    .post-date {
+      font-family: 'Hauora', sans-serif;
+      font-size: .75rem;
+      color: #b5a89f;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .post-date::before { content: '◉'; font-size: 7px; color: #d4967a; }
+
+    /* ── VIDEO SHORT ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .video-card { display: flex; flex-direction: column; gap: 10px; cursor: pointer; }
+
+    .video-thumb {
+      width: 100%;
+      aspect-ratio: 9/16;
+      background: #eee;
+      border-radius: var(--box-radius);
+      box-shadow: var(--box-shadow);
+      border: var(--box-border);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .video-card:hover .video-thumb { transform: translateY(-3px); border-color: var(--gold); }
+
+    .play-btn {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-btn svg { width: 16px; height: 16px; fill: var(--gold); margin-left: 2px; }
+
+    .video-meta { padding: 0 2px; }
+    .video-date { font-size: 0.68rem; color: #c96b42; font-weight: bold; margin-bottom: 4px; display: block; }
+    .video-title { font-size: 0.82rem; font-weight: 600; line-height: 1.4; color: #000; }
+
+    /* ── BUTTONS ── */
+    .btn-xemthem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      margin-top: 6px;
+      padding: 11px 0;
+      background: #AB8D6B;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-family: 'Hauora', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-xemthem:hover { background: #482B25; color: #fff; }
+    .btn-arrow { font-size: 0.8rem; transition: transform 0.3s; display: inline-block; }
+    .btn-xemthem.open .btn-arrow { transform: rotate(180deg); }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 20px auto 0;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Hauora', sans-serif;
+      font-size: 0.82rem;
+      color: #b5a89f;
+    }
+    .breadcrumb a {
+      color: #b5a89f;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .breadcrumb a:hover { color: #AB8D6B; }
+    .breadcrumb .sep { font-size: 0.7rem; color: #d4c5be; }
+    .breadcrumb .current { color: #AB8D6B; font-weight: 600; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — TABLET (≤ 900px)
+    ════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .wrapper {
+        flex-direction: column;
+        gap: 24px;
+        margin: 24px auto;
+      }
+
+      /* Sidebar không sticky trên mobile */
+      .sidebar {
+        flex: none;
+        width: 100%;
+        position: static;
+      }
+
+      /* Danh sách chủ đề — ẩn bớt, dùng scroll ngang */
+      .menu-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .menu-list li {
+        border-bottom: none;
+        background: #faf7f4;
+        border: 1px solid #f0e8e2;
+        border-radius: 30px;
+        padding: 7px 14px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+      }
+
+      /* Grid bài viết — 1 cột */
+      .side-posts {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      /* Video — 2 cột */
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .section-label { font-size: 1.45rem; }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — MOBILE (≤ 600px)
+    ════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .wrapper {
+        padding: 0 14px;
+        margin: 16px auto;
+        gap: 20px;
+      }
+
+      .breadcrumb {
+        padding: 0 14px;
+        margin-top: 14px;
+      }
+
+      /* ── Sidebar ── */
+      .styled-box { padding: 16px; }
+
+      h3 { font-size: 1rem; margin-bottom: 10px; }
+
+      .menu-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+        padding-bottom: 6px;
+        /* scrollbar mỏng */
+        scrollbar-width: thin;
+        scrollbar-color: #AB8D6B #f0e8e2;
+      }
+      .menu-list::-webkit-scrollbar {
+        height: 3px;
+      }
+      .menu-list::-webkit-scrollbar-track {
+        background: #f0e8e2;
+        border-radius: 10px;
+      }
+      .menu-list::-webkit-scrollbar-thumb {
+        background: #AB8D6B;
+        border-radius: 10px;
+      }
+      .menu-list li {
+        border-bottom: none;
+        background: #faf7f4;
+        border: 1px solid #f0e8e2;
+        border-radius: 30px;
+        padding: 6px 14px;
+        font-size: 0.78rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      input[type="text"] {
+        font-size: 0.85rem;
+      }
+
+      /* ── Section label ── */
+      .section-label { font-size: 1.2rem; letter-spacing: 0.05em; margin-bottom: 12px; }
+
+      /* ── Posts: 1 cột, card nằm ngang nhỏ gọn ── */
+      .side-posts {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .post-item {
+        min-height: 100px;
+        border-radius: 14px;
+      }
+
+      .post-thumb {
+        width: 110px;
+        border-radius: 0 50px 50px 0;
+      }
+
+      .post-info {
+        padding: 12px 12px 12px 14px;
+        gap: 6px;
+      }
+
+      .post-category {
+        font-size: 0.68rem;
+        padding: 3px 9px;
+      }
+
+      .post-title {
+        font-size: 0.8rem;
+        line-height: 1.45;
+      }
+
+      .post-date { font-size: 0.68rem; }
+
+      /* ── Video: 2 cột trên mobile ── */
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .video-date { font-size: 0.62rem; }
+      .video-title { font-size: 0.75rem; }
+
+      /* Play button nhỏ hơn */
+      .play-btn {
+        width: 34px;
+        height: 34px;
+        bottom: 8px;
+      }
+      .play-btn svg { width: 13px; height: 13px; }
+
+      /* Buttons */
+      .btn-xemthem {
+        font-size: 0.8rem;
+        padding: 10px 0;
+        margin-top: 14px;
+      }
+
+      /* Video section margin */
+      div[style*="margin-top: 40px"] {
+        margin-top: 28px !important;
+      }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — NHỎ HƠN (≤ 380px)
+    ════════════════════════════════════════ */
+    @media (max-width: 380px) {
+      .post-thumb { width: 95px; }
+      .post-title { font-size: 0.75rem; }
+      .video-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .section-label { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="wrapper">
+
+  <aside class="sidebar">
+    <div class="sidebar-sticky styled-box">
+      <h3>Tìm kiếm</h3>
+      <input type="text" placeholder="Nhập từ khóa..." style="width:100%; padding:10px; border:1px solid #eee; border-radius:8px; box-sizing:border-box;">
+      <h3 style="margin-top:20px;">Chủ đề</h3>
+      <ul class="menu-list">
+        <li>Kiến thức Mũi ›</li>
+        <li>Kiến thức Mắt ›</li>
+        <li>Kiến thức Môi ›</li>
+        <li>Kiến thức Cằm ›</li>
+        <li>Kiến thức Căng da ›</li>
+        <li>Kiến thức Cằm ›</li>
+        <li>Kiến thức Căng da ›</li>
+        <li>Kiến thức Cằm ›</li>
+        <li>Kiến thức Căng da ›</li>
+        <li>Kiến thức Cằm ›</li>
+        <li>Kiến thức Căng da ›</li>
+        <li>Kiến thức Cằm ›</li>
+        <li>Kiến thức Căng da ›</li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="main-column">
+    <p class="section-label">TIN TỨC MỚI NHẤT</p>
+
+    <div class="news-grid">
+      <div id="posts-container" class="side-posts"></div>
+      <button class="btn-xemthem" id="btn-more" onclick="loadMore()" style="margin-top:20px;">
+        Xem thêm <span class="btn-arrow">▾</span>
+      </button>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <p class="section-label">VIDEO SHORT</p>
+      <div id="video-container" class="video-grid"></div>
+      <button class="btn-xemthem" id="btn-more-video" onclick="loadMoreVideos()" style="margin-top:20px;">
+        Xem thêm <span class="btn-arrow">▾</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+/* ── TIN TỨC ── */
+var allPosts = [
+  { date: '12.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Sụn nhân tạo hay sụn tự thân – Nên chọn loại nào?',        img: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=600&auto=format&fit=crop' },
+  { date: '10.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Quy trình nâng mũi an toàn – Điều cần biết',              img: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop' },
+  { date: '05.09.2025', cat: 'Chăm Sóc',       title: 'Phục hồi sau nâng mũi: Chăm sóc đúng cách',               img: 'https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=600&auto=format&fit=crop' },
+  { date: '01.09.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Top 5 dạng mũi được yêu cầu nhiều nhất',                  img: 'https://images.unsplash.com/photo-1616391182219-e080b4d1043a?q=80&w=600&auto=format&fit=crop' },
+  { date: '28.08.2025', cat: 'Thẩm Mỹ Mắt',   title: 'Mắt hai mí tự nhiên – Kỹ thuật mới nhất 2025',            img: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600&auto=format&fit=crop' },
+  { date: '25.08.2025', cat: 'Filler',          title: 'Tiêm filler má – Khi nào nên và không nên?',              img: 'https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?q=80&w=600&auto=format&fit=crop' },
+  { date: '20.08.2025', cat: 'Thẩm Mỹ Mũi',   title: 'Nâng mũi bọc sụn tai – Có nên không?',                    img: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?q=80&w=600&auto=format&fit=crop' },
+  { date: '18.08.2025', cat: 'Kiến Thức',      title: 'Biến chứng nâng mũi và cách xử lý kịp thời',             img: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=600&auto=format&fit=crop' },
+  { date: '15.08.2025', cat: 'Thẩm Mỹ Mũi',   title: 'So sánh nâng mũi L-line và S-line',                       img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop' },
+  { date: '10.08.2025', cat: 'Chăm Sóc Da',    title: 'Chăm sóc da sau phẫu thuật thẩm mỹ mũi',                 img: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600&auto=format&fit=crop' },
+  { date: '05.08.2025', cat: 'Căng Da',         title: 'Căng da mặt không phẫu thuật – Hiệu quả thật sự?',       img: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=600&auto=format&fit=crop' },
+  { date: '01.08.2025', cat: 'Điêu Khắc',      title: 'Tạo hình cằm V-line – Xu hướng làm đẹp 2025',            img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop' },
+];
+var shownPosts = 0;
+
+function renderPosts(posts) {
+  var container = document.getElementById('posts-container');
+  posts.forEach(function(p) {
+    var el = document.createElement('div');
+    el.className = 'post-item';
+    el.innerHTML = '<div class="post-thumb"><img src="' + p.img + '" alt="' + p.title + '" loading="lazy"></div>'
+      + '<div class="post-info">'
+      + '<span class="post-category">' + p.cat + '</span>'
+      + '<div class="post-title">' + p.title + '</div>'
+      + '<div class="post-date">' + p.date + '</div>'
+      + '</div>';
+    container.appendChild(el);
+  });
+}
+
+function loadMore() {
+  var next = allPosts.slice(shownPosts, shownPosts + 6);
+  renderPosts(next);
+  shownPosts += next.length;
+  if (shownPosts >= allPosts.length) {
+    document.getElementById('btn-more').style.display = 'none';
+  }
+}
+
+/* ── VIDEO SHORT ── */
+var allVideos = [
+  { date: '15.09.2025', title: 'Quy trình nâng mũi cấu trúc từ A–Z' },
+  { date: '12.09.2025', title: 'Mắt hai mí – Trước và sau phẫu thuật' },
+  { date: '08.09.2025', title: 'Tiêm filler môi đúng cách – Lưu ý quan trọng' },
+  { date: '04.09.2025', title: 'Căng da mặt không phẫu thuật – Hiệu quả thật sự?' },
+  { date: '01.09.2025', title: 'Tạo hình cằm V-line – Xu hướng 2025' },
+  { date: '28.08.2025', title: 'Nâng mũi S-line – Đẹp tự nhiên hơn' },
+  { date: '24.08.2025', title: 'Cấy mỡ mặt – Trẻ hóa không dao kéo' },
+  { date: '20.08.2025', title: 'Filler cằm – Tạo đường nét V-line tức thì' },
+  { date: '16.08.2025', title: 'Botox trán – Xóa nếp nhăn sau 10 phút' },
+  { date: '12.08.2025', title: 'Căng chỉ collagen – Nâng cơ mặt không xâm lấn' },
+  { date: '08.08.2025', title: 'Thu nhỏ lỗ chân lông – Liệu trình chuẩn' },
+  { date: '04.08.2025', title: 'Laser trị nám – Bí quyết da đều màu' },
+];
+var shownVideos = 0;
+
+function renderVideos(videos) {
+  var container = document.getElementById('video-container');
+  videos.forEach(function(v) {
+    var el = document.createElement('div');
+    el.className = 'video-card';
+    el.innerHTML = '<div class="video-thumb"><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-meta"><span class="video-date">' + v.date + '</span><div class="video-title">' + v.title + '</div></div>';
+    container.appendChild(el);
+  });
+}
+
+function loadMoreVideos() {
+  var next = allVideos.slice(shownVideos, shownVideos + 4);
+  renderVideos(next);
+  shownVideos += next.length;
+  if (shownVideos >= allVideos.length) {
+    document.getElementById('btn-more-video').style.display = 'none';
+  }
+}
+
+loadMore();
+loadMoreVideos();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Premium</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; overflow-x: hidden; }
+
+    /* ── FOOTER ── */
+    .na-footer-premium {
+      background-image: url('https://benhvienthammynaman.com/wp-content/uploads/2026/05/Trang-mua-hang.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      color: #733F2E;
+      padding: 60px 20px 40px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Hauora', sans-serif;
+      line-height: 1.78;
+    }
+
+    /* ── GRID ── */
+    .na-footer-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+      align-items: start;
+    }
+
+    /* ── INFO COL ── */
+    .na-info-col { display: flex; flex-direction: column; }
+
+    .na-brand-logo {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: block;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+
+    .na-hotline-highlight {
+      background: #AB8D6B;
+      color: #fff !important;
+      padding: 12px 20px;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none !important;
+      margin-bottom: 24px;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(171,141,107,0.4);
+      width: 220px;
+      justify-content: center;
+    }
+    .na-hotline-highlight:hover { transform: scale(1.05); background: #482B25; }
+
+    .na-hotline-highlight i {
+      font-size: 20px;
+      background: rgba(255,255,255,0.25);
+      color: white !important;
+      width: 38px; height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .na-hotline-text span {
+      display: block;
+      font-family: 'Hauora', sans-serif;
+      font-size: .82rem;
+      text-transform: uppercase;
+      opacity: 0.9;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .na-hotline-text b {
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: #fff;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .na-contact-details p {
+      font-size: .92rem;
+      margin: 10px 0;
+      display: flex;
+      align-items: flex-start;
+      color: #733F2E;
+    }
+
+    /* ── LINKS COL ── */
+    .na-links-col { display: flex; flex-direction: column; }
+
+    .na-footer-title {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 22px;
+      position: relative;
+      display: inline-block;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+    .na-footer-title::after {
+      content: '';
+      position: absolute;
+      width: 30px; height: 2px;
+      background: #AB8D6B;
+      bottom: -8px; left: 0;
+    }
+
+    .na-footer-links { list-style: none; }
+    .na-footer-links li { margin-bottom: 11px; }
+    .na-footer-links a {
+      font-size: .92rem;
+      color: #733F2E !important;
+      text-decoration: none;
+      transition: 0.3s;
+      opacity: 0.85;
+    }
+    .na-footer-links a:hover { color: #AB8D6B !important; padding-left: 8px; opacity: 1; }
+
+    .na-links-bottom {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(115,63,46,0.25);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .na-tax-text {
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: .92rem;
+      color: #733F2E;
+      font-weight: 600;
+    }
+    .na-dmca-badge {
+      display: inline-block;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(115,63,46,0.2);
+      background: #fff;
+      padding: 5px 8px;
+      flex-shrink: 0;
+      transition: 0.3s;
+    }
+    .na-dmca-badge img { width: 90px; height: auto; display: block; }
+    .na-dmca-badge:hover { transform: translateY(-2px); border-color: #AB8D6B; box-shadow: 0 4px 12px rgba(171,141,107,0.2); }
+
+    /* ── FORM COL ── */
+    .na-form-col {
+      background: rgba(255,255,255,0.55);
+      padding: 22px 26px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(115,63,46,0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .na-form-col h3 {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+
+    .na-footer-form input,
+    .na-footer-form textarea {
+      width: 100%;
+      padding: 9px 13px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(115,63,46,0.25);
+      background: rgba(255,255,255,0.95);
+      font-family: 'Hauora', sans-serif;
+      font-size: .92rem;
+      color: #733F2E;
+    }
+    .na-footer-form input::placeholder,
+    .na-footer-form textarea::placeholder { color: #a07060; }
+    .na-footer-form textarea { height: 65px; resize: none; }
+
+    .na-footer-form button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 8px;
+      border: none;
+      background: #AB8D6B;
+      color: #fff;
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: .92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      text-transform: uppercase;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+    .na-footer-form button:hover { background: #482B25; transform: translateY(-2px); }
+
+    /* ── LICENSE ROW ── */
+    .na-license-row {
+      max-width: 1200px;
+      margin: 36px auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .na-license-box {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(115,63,46,0.3);
+      background: rgba(255,255,255,0.1);
+      transition: 0.4s;
+    }
+    .na-license-box img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .na-license-box:hover { transform: translateY(-4px); background: rgba(255,255,255,0.25); border-color: #733F2E; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — TABLET (≤ 992px)
+    ════════════════════════════════════════ */
+    @media (max-width: 992px) {
+      .na-footer-wrapper {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      /* Form chiếm full width hàng 2 */
+      .na-form-col { grid-column: 1 / -1; }
+
+      .na-license-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — MOBILE (≤ 600px)
+    ════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .na-footer-premium {
+        padding: 40px 16px 32px;
+      }
+
+      .na-footer-wrapper {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      /* Brand */
+      .na-brand-logo { font-size: 1.15rem; margin-bottom: 16px; }
+
+      /* Hotline button full width */
+      .na-hotline-highlight {
+        width: 100%;
+        padding: 13px 18px;
+      }
+      .na-hotline-text b { font-size: 18px; }
+
+      /* Contact */
+      .na-contact-details p { font-size: .88rem; }
+
+      /* Accordion cho "Về chúng tôi" trên mobile */
+      .na-links-col { }
+      .na-footer-title {
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(115,63,46,0.18);
+      }
+      .na-footer-title::after { display: none; }
+      .na-footer-title .acc-arrow {
+        font-size: 12px;
+        transition: transform 0.3s;
+        display: inline-block;
+        color: #AB8D6B;
+      }
+      .na-links-col.open .na-footer-title .acc-arrow { transform: rotate(180deg); }
+
+      .na-footer-links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        margin-top: 0;
+      }
+      .na-links-col.open .na-footer-links {
+        max-height: 400px;
+        margin-top: 12px;
+      }
+      .na-links-col.open .na-links-bottom { display: flex; }
+      .na-links-bottom {
+        display: none;
+        margin-top: 16px;
+      }
+      .na-links-col.open .na-links-bottom { display: flex; }
+
+      /* Form */
+      .na-form-col {
+        grid-column: auto;
+        padding: 18px 16px 14px;
+        border-radius: 16px;
+      }
+      .na-form-col h3 { font-size: 1rem; margin-bottom: 12px; }
+
+      /* License 2 col trên mobile nhỏ */
+      .na-license-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 24px;
+      }
+      .na-license-box img { height: 110px; }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — NHỎ HƠN (≤ 380px)
+    ════════════════════════════════════════ */
+    @media (max-width: 380px) {
+      .na-license-row { grid-template-columns: 1fr; }
+      .na-license-box img { height: 140px; }
+      .na-hotline-text b { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<footer class="na-footer-premium">
+  <div class="na-footer-wrapper">
+
+    <!-- INFO -->
+    <div class="na-info-col">
+      <span class="na-brand-logo">BỆNH VIỆN THẨM MỸ NAM AN</span>
+      <a href="tel:0901939229" class="na-hotline-highlight">
+        <i class="fa fa-phone"></i>
+        <div class="na-hotline-text">
+          <span>Tổng đài tư vấn 24/7</span>
+          <b>0901 939 229</b>
+        </div>
+      </a>
+      <div class="na-contact-details">
+        <p><i class="fa-solid fa-location-dot" style="width:18px; margin-right:9px; flex-shrink:0"></i> 45A, Ba Tháng Hai, P. Vườn Lài, TP.HCM</p>
+        <p><i class="fa-solid fa-envelope" style="width:18px; margin-right:9px; flex-shrink:0"></i> contact@bvnaman.com</p>
+        <p><i class="fa-solid fa-clock" style="width:18px; margin-right:9px; flex-shrink:0"></i> 08:00 - 20:00 (Thứ 2 - CN)</p>
+      </div>
+    </div>
+
+    <!-- LINKS (accordion trên mobile) -->
+    <div class="na-links-col" id="links-col">
+      <h3 class="na-footer-title" id="acc-toggle">
+        VỀ CHÚNG TÔI
+        <span class="acc-arrow">▾</span>
+      </h3>
+      <ul class="na-footer-links">
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Giới thiệu bệnh viện</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Đội ngũ chuyên gia</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Cơ sở vật chất</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Chính sách bảo mật</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Quy chế hoạt động</a></li>
+      </ul>
+      <div class="na-links-bottom">
+        <span class="na-tax-text">Mã số thuế: 0315700968</span>
+        <a href="https://www.dmca.com" target="_blank" class="na-dmca-badge">
+          <img src="https://www.dmca.com/img/dmca-website-logo-2022.png" alt="DMCA Protected">
+        </a>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="na-form-col">
+      <h3>ĐĂNG KÝ TƯ VẤN</h3>
+      <form class="na-footer-form">
+        <input type="text" placeholder="Họ và tên của bạn" required>
+        <input type="tel" placeholder="Số điện thoại" required>
+        <textarea placeholder="Nhu cầu tư vấn của bạn"></textarea>
+        <button type="submit">Gửi yêu cầu ngay</button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- LICENSE -->
+  <div class="na-license-row">
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 1"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 2"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 3"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 4"></div>
+  </div>
+</footer>
+
+<script>
+  // Accordion "Về chúng tôi" chỉ hoạt động trên mobile
+  var toggle = document.getElementById('acc-toggle');
+  var col = document.getElementById('links-col');
+
+  toggle.addEventListener('click', function() {
+    if (window.innerWidth <= 600) {
+      col.classList.toggle('open');
+    }
+  });
+
+  // Desktop: luôn mở
+  function checkWidth() {
+    if (window.innerWidth > 600) {
+      col.classList.remove('open');
+      // show links always on desktop via CSS (max-height none)
+      var links = col.querySelector('.na-footer-links');
+      links.style.maxHeight = '';
+      links.style.overflow = '';
+    }
+  }
+  window.addEventListener('resize', checkWidth);
+</script>
+</body>
+</html>
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="naf-bar-wrapper">
+    <style>
+        .naf-bar-wrapper .naf-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #f5f0eb;
+            border-top: 1px solid rgba(74, 46, 30, 0.12);
+            display: flex;
+            justify-content: space-around;
+            padding: 4px 0 2px;
+            z-index: 9999;
+        }
+        .naf-bar-wrapper .naf-bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #4a2e1e;
+            flex: 1;
+        }
+        .naf-bar-wrapper .naf-bar-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(74, 46, 30, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài hình tròn */
+        }
+        /* Cấu hình ảnh bên trong icon */
+        .naf-bar-wrapper .naf-bar-icon img {
+            width: 60%; /* Tùy chỉnh độ lớn icon trong vòng tròn */
+            height: 60%;
+            object-fit: contain;
+        }
+        .naf-bar-wrapper .naf-bar-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #000000; opacity: .5; }
+        
+        @media (min-width: 768px) { .naf-bar-wrapper { display: none; } }
+    </style>
+
+    <div class="naf-bar">
+        <a href="tel:0901939229" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://marketplace.canva.com/ERSb8/MAG9_-ERSb8/1/tl/canva-golden-phone-icon-MAG9_-ERSb8.png" alt="Phone">
+            </div>
+            <div class="naf-bar-label">Liên hệ</div>
+        </a>
+        
+        <a href="https://zalo.me/0901939229" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/3840px-Icon_of_Zalo.svg.png" alt="Zalo">
+            </div>
+            <div class="naf-bar-label">Zalo</div>
+        </a>
+        
+        <a href="https://messenger.com/" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/3840px-Facebook_f_logo_%282021%29.svg.png" alt="Facebook">
+            </div>
+            <div class="naf-bar-label">Facebook</div>
+        </a>
+    </div>
+</div>
