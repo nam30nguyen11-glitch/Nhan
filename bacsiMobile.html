@@ -1,0 +1,2942 @@
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Nam An Mobile Header</title>
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Hauora', sans-serif;
+  background: #f5f0eb;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  width: 100%;
+  background: #f6f0ec;
+  border-bottom: 1px solid #ede4dc;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+}
+
+.nh-inner {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  gap: 8px;
+}
+
+/* Logo */
+.nh-logo { flex-shrink: 0; }
+.nh-logo img { height: 32px; display: block; }
+
+/* Search */
+.nh-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  background: #FAF7F5;
+  border: 1px solid #EDE8E4;
+  border-radius: 20px;
+  padding: 0 11px;
+  gap: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.nh-search:focus-within {
+  border-color: #AB8D6B;
+  box-shadow: 0 0 0 2px rgba(171,141,107,0.12);
+}
+.nh-search svg { color: #BBA89E; flex-shrink: 0; }
+.nh-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-family: 'Hauora', sans-serif;
+  font-size: 12px;
+  color: #482B25;
+}
+.nh-search input::placeholder { color: #BBA89E; }
+
+/* Right actions */
+.nh-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+/* Book button */
+.nh-book {
+  height: 34px;
+  padding: 0 13px;
+  background: #AB8D6B;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.nh-book:hover { background: #482B25; }
+
+/* Hamburger */
+.nh-ham {
+  width: 36px; height: 36px;
+  background: none;
+  border: 1.5px solid #d9cfc8;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4.5px;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.nh-ham:hover { border-color: #AB8D6B; background: #f5ede4; }
+.nh-ham span {
+  display: block;
+  width: 15px; height: 1.5px;
+  background: #3a3a3a;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  transform-origin: center;
+}
+.nh-ham.open { border-color: #AB8D6B; background: #f5ede4; }
+.nh-ham.open span { background: #AB8D6B; }
+.nh-ham.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nh-ham.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nh-ham.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── OVERLAY ── */
+.nh-overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,15,10,0.45);
+  z-index: 9996;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.nh-overlay.open { opacity: 1; pointer-events: auto; }
+
+/* ── DRAWER (2-column) — limited height, not full screen ── */
+.nh-drawer {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 57px;
+  left: 0;
+  right: 0;
+  /* ✅ Giới hạn chiều cao, không full màn hình */
+  max-height: calc(100vh - 57px - 60px);
+  z-index: 9997;
+  transform: translateX(-100%);
+  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  border-top: 2px solid #AB8D6B;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(72,43,37,0.18);
+}
+.nh-drawer.open { transform: translateX(0); }
+
+/* ── LEFT SIDEBAR ── */
+.nh-sidebar {
+  width: 72px;
+  min-width: 72px;
+  background: #FAF7F5;
+  border-right: 1px solid #EDE8E4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.nh-sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px 8px;
+  border-bottom: 1px solid #EDE8E4;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  text-decoration: none;
+  gap: 4px;
+}
+.nh-sidebar-item:last-child { border-bottom: none; }
+.nh-sidebar-item.active,
+.nh-sidebar-item:hover { background: #fff; }
+.nh-sidebar-item.active::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: #AB8D6B;
+  border-radius: 2px 0 0 2px;
+}
+
+.nh-sidebar-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #F5EEE9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.nh-sidebar-item.active .nh-sidebar-icon,
+.nh-sidebar-item:hover .nh-sidebar-icon { background: rgba(171,141,107,0.14); }
+.nh-sidebar-icon svg { width: 15px; height: 15px; }
+.nh-sidebar-item.active .nh-sidebar-icon svg path,
+.nh-sidebar-item.active .nh-sidebar-icon svg circle,
+.nh-sidebar-item.active .nh-sidebar-icon svg polyline,
+.nh-sidebar-item.active .nh-sidebar-icon svg line,
+.nh-sidebar-item:hover .nh-sidebar-icon svg path,
+.nh-sidebar-item:hover .nh-sidebar-icon svg circle,
+.nh-sidebar-item:hover .nh-sidebar-icon svg polyline,
+.nh-sidebar-item:hover .nh-sidebar-icon svg line { stroke: #AB8D6B; }
+
+.nh-sidebar-label {
+  font-family: 'Hauora', sans-serif;
+  font-size: 8.5px;
+  font-weight: 400;
+  color: #482B25;
+  text-align: center;
+  line-height: 1.3;
+}
+.nh-sidebar-item.active .nh-sidebar-label {
+  color: #AB8D6B;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-weight: 600;
+}
+
+/* ── Mũi tên > cho item có panel ── */
+.nh-sidebar-chevron {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #EDE8E4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.nh-sidebar-chevron svg {
+  width: 7px; height: 7px;
+  stroke: #AB8D6B;
+  flex-shrink: 0;
+}
+.nh-sidebar-item.active .nh-sidebar-chevron { background: #AB8D6B; }
+.nh-sidebar-item.active .nh-sidebar-chevron svg { stroke: #fff; }
+
+/* ── RIGHT PANEL ── */
+.nh-panel {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Panel types */
+.nh-panel-simple { display: none; padding: 0 0 32px; }
+.nh-panel-simple.visible { display: block; }
+.nh-panel-mega { display: none; }
+.nh-panel-mega.visible { display: block; }
+
+/* Panel header label */
+.nh-panel-header {
+  padding: 16px 14px 0;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.nh-panel-header::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: #AB8D6B;
+}
+
+/* Simple links */
+.nh-panel-simple a {
+  display: block;
+  padding: 6px 14px;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #482B25;
+  text-decoration: none;
+  border-bottom: 1px solid #F5EEE9;
+  transition: color 0.2s, background 0.2s;
+}
+.nh-panel-simple a:hover { color: #AB8D6B; background: #FFF9F7; }
+
+/* Mega section */
+.nh-panel-section { padding: 14px 14px 6px; }
+.nh-panel-section-title {
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nh-panel-section-title::before {
+  content: '';
+  width: 12px; height: 1px;
+  background: #AB8D6B;
+  flex-shrink: 0;
+}
+
+.nh-panel-links { list-style: none; }
+.nh-panel-links li a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #482B25;
+  text-decoration: none;
+  border-bottom: 1px solid #F9F5F2;
+  transition: all 0.18s;
+}
+.nh-panel-links li a::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #DDD0C8;
+  flex-shrink: 0;
+  transition: background 0.18s;
+}
+.nh-panel-links li a:hover { color: #AB8D6B; background: #FFF9F7; }
+.nh-panel-links li a:hover::before { background: #AB8D6B; }
+
+.nh-panel-divider { height: 1px; background: #F0EAE6; margin: 2px 0; }
+
+/* Featured banner */
+.nh-panel-feat {
+  margin: 10px 14px 14px;
+  background: #FBF7F3;
+  border-radius: 8px;
+  border: 1px solid #e8ddd3;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+.nh-panel-feat:hover { box-shadow: 0 6px 20px rgba(171,141,107,0.18); }
+.nh-panel-feat img {
+  width: 54px; height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.nh-panel-feat-label {
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  margin-bottom: 3px;
+}
+.nh-panel-feat-name {
+  font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+  font-size: 13.5px;
+  font-weight: 300;
+  color: #482B25;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+.nh-panel-feat-badge {
+  display: inline-flex;
+  background: rgba(171,141,107,0.12);
+  color: #AB8D6B;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 2px;
+}
+
+/* CTA strip */
+.nh-panel-cta {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid #F5EEE9;
+}
+.nh-panel-cta .btn-o {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border: 1px solid #AB8D6B;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #AB8D6B;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nh-panel-cta .btn-o:hover { background: #482B25; border-color: #482B25; color: #fff; }
+.nh-panel-cta .btn-p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  background: #AB8D6B;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(171,141,107,0.28);
+  transition: background 0.2s;
+}
+.nh-panel-cta .btn-p:hover { background: #482B25; }
+
+/* Page placeholder */
+.page-placeholder {
+  margin-top: 76px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #9b8880;
+  font-family: 'Hauora', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nh-inner">
+    <a href="#" class="nh-logo">
+      <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/04/footer-logo-home.svg" alt="Nam An">
+    </a>
+
+    <div class="nh-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Tìm dịch vụ...">
+    </div>
+
+    <div class="nh-actions">
+      <a href="#" class="nh-book">Đặt Lịch</a>
+      <button class="nh-ham" id="nh-ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="nh-overlay" id="nh-overlay"></div>
+
+<!-- DRAWER -->
+<div class="nh-drawer" id="nh-drawer">
+
+  <!-- LEFT SIDEBAR -->
+  <div class="nh-sidebar">
+
+    <!-- Trang Chủ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/homeMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Trang Chủ</span>
+    </a>
+
+    <!-- Giới Thiệu -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/gioithieuMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Giới Thiệu</span>
+    </a>
+
+    <!-- Dịch Vụ -->
+    <div class="nh-sidebar-item active" data-panel="panel-dich-vu">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M9 9h.01M15 9h.01"/>
+          <path d="M9 14s1 2 3 2 3-2 3-2"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Dịch Vụ</span>
+      <div class="nh-sidebar-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Kiến Thức -->
+    <div class="nh-sidebar-item" data-panel="panel-kien-thuc">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Kiến Thức</span>
+      <div class="nh-sidebar-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <!-- Bác Sĩ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/trangbacsiMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Bác Sĩ</span>
+    </a>
+
+    <!-- Liên Hệ -->
+    <a href="https://nam30nguyen11-glitch.github.io/Nhan/lienheMobile.html" class="nh-sidebar-item" data-direct="true">
+      <div class="nh-sidebar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A6A5A" stroke-width="1.6">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </div>
+      <span class="nh-sidebar-label">Liên Hệ</span>
+    </a>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="nh-panel">
+
+    <!-- Dịch Vụ (mega) — hiện mặc định -->
+    <div class="nh-panel-mega visible" id="panel-dich-vu">
+
+      <!-- Điêu Khắc Gương Mặt -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Gương Mặt</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Căng da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Cắt mí mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Cắt môi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Độn cằm</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Gọt hàm / Hạ gò má</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng mũi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nha khoa</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-divider"></div>
+
+      <!-- Điêu Khắc Vóc Dáng -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Vóc Dáng</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Điêu khắc vùng kín</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Hút mỡ</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng ngực</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng mông</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-divider"></div>
+
+      <!-- Điêu Khắc Làn Da -->
+      <div class="nh-panel-section">
+        <div class="nh-panel-section-title">Điêu Khắc Làn Da</div>
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Botox</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Căng chỉ</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Chăm sóc da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Đốt và cắt nốt ruồi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Filler</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">IPL Trẻ hóa</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Laser</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Meso</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Nâng cơ công nghệ cao</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Peel da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Phun xăm</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Tiêm làm đẹp da</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Trị quầng thâm mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Trị sẹo</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html">Triệt lông</a></li>
+        </ul>
+      </div>
+
+      <div class="nh-panel-cta">
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/dichvu.html" class="btn-p">Xem toàn bộ dịch vụ
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Kiến Thức (mega) -->
+    <div class="nh-panel-mega" id="panel-kien-thuc">
+      <div class="nh-panel-section">
+        <ul class="nh-panel-links">
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Mũi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Mắt</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Môi</a></li>
+          <li><a href="https://nam30nguyen11-glitch.github.io/Nhan/trangtintucMobile.html">Kiến Thức Ngực</a></li>
+        </ul>
+      </div>
+      <div class="nh-panel-cta">
+        <a href="#" class="btn-o">Xem Tất Cả Bài Viết</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+const ham     = document.getElementById('nh-ham');
+const drawer  = document.getElementById('nh-drawer');
+const overlay = document.getElementById('nh-overlay');
+
+function openDrawer() {
+  ham.classList.add('open');
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  ham.classList.remove('open');
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+ham.addEventListener('click', function() {
+  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+overlay.addEventListener('click', closeDrawer);
+
+document.querySelectorAll('.nh-sidebar-item[data-panel]').forEach(function(item) {
+  item.addEventListener('click', function() {
+    const panelId = item.getAttribute('data-panel');
+    document.querySelectorAll('.nh-sidebar-item').forEach(s => s.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.nh-panel-mega, .nh-panel-simple').forEach(p => p.classList.remove('visible'));
+    const target = document.getElementById(panelId);
+    if (target) {
+      target.classList.add('visible');
+      document.querySelector('.nh-panel').scrollTop = 0;
+    }
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bác Sĩ CKI Đỗ Quang Khải – Bệnh Viện Thẩm Mỹ Nam An</title>
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+
+<style>
+/* ========== CSS VARIABLES ========== */
+:root {
+  --gold: #AB8D6B;
+  --gold-hover: #482B25;
+  --dark: #482B25;
+  --light-bg: #FAF7F4;
+  --white: #ffffff;
+  --border: rgba(171, 141, 107, 0.25);
+  --shadow: rgba(72, 43, 37, 0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Hauora', sans-serif;
+  background: var(--light-bg);
+  color: var(--dark);
+  overflow-x: hidden;
+}
+
+/* ========== BREADCRUMB ========== */
+.bc-wrap {
+  background: var(--light-bg);
+  padding: 70px 40px 0;
+}
+
+.bc-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 1100px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.bc-item a,
+.bc-item-current {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--dark);
+  opacity: 0.55;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.bc-item a:hover {
+  opacity: 1;
+  color: var(--gold);
+}
+
+.bc-current {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bc-icon {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.bc-sep {
+  font-size: 11px;
+  color: var(--gold);
+  opacity: 0.4;
+  user-select: none;
+  padding: 0 2px;
+}
+
+@media (max-width: 600px) {
+  .bc-wrap { padding: 10px 20px; }
+}
+
+/* ========== HERO SECTION ========== */
+.hero-section {
+  background: var(--light-bg);
+  padding: 0 40px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding-top: 40px;
+}
+
+/* --- Ảnh bác sĩ --- */
+.hero-image-wrap {
+  flex: 0 0 360px;
+  max-width: 360px;
+  position: relative;
+}
+
+.hero-image-wrap::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--gold);
+  border-radius: 32px;
+  top: 18px;
+  left: 18px;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.hero-image-wrap::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  right: -12px;
+  width: 80px;
+  height: 80px;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.hero-image-wrap img {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  border-radius: 28px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 30px 60px var(--shadow);
+  border: 4px solid var(--white);
+}
+
+/* --- Nội dung bác sĩ --- */
+.hero-content {
+  flex: 1;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-title {
+  font-family: 'Beautique Display', serif;
+  font-size: 46px;
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.hero-title span {
+  color: var(--gold);
+}
+
+.hero-position {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+  margin-bottom: 28px;
+}
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--dark);
+  opacity: 0.85;
+  margin-bottom: 36px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 36px;
+  margin-bottom: 36px;
+}
+
+.stat-item {
+  text-align: left;
+}
+
+.stat-number {
+  font-family: 'Beautique Display', serif;
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark);
+  opacity: 0.6;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.hero-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--white);
+  padding: 14px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 30px rgba(171, 141, 107, 0.35);
+}
+
+.hero-btn:hover {
+  background: var(--gold-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(72, 43, 37, 0.3);
+  color: var(--white);
+}
+
+/* ========== SLOGAN SECTION ========== */
+.slogan-section {
+  padding: 40px 40px;
+  text-align: center;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.slogan-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.slogan-text {
+  font-family: 'Beautique Display', serif;
+  font-size: 54px;
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.slogan-text em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+/* ========== SECTION HEADER ========== */
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Beautique Display', serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.2;
+}
+
+/* ========== CERTIFICATES SLIDER ========== */
+.cert-section {
+  padding: 70px 0 80px;
+  background: var(--light-bg);
+  overflow: hidden;
+}
+
+.cert-section .section-header {
+  padding: 0 40px;
+}
+
+.cert-container {
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Slider wrapper */
+.cert-slider-wrap {
+  position: relative;
+}
+
+.cert-slider-viewport {
+  overflow: hidden;
+  padding: 20px 0 30px;
+  cursor: grab;
+  user-select: none;
+}
+
+.cert-slider-viewport:active {
+  cursor: grabbing;
+}
+
+.cert-grid {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  padding: 0 40px;
+}
+
+/* Cards */
+.cert-card {
+  background: var(--white);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 calc(25% - 18px);
+  min-width: 0;
+}
+
+.cert-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px var(--shadow);
+  border-color: var(--gold);
+}
+
+.cert-img-wrap {
+  width: 100%;
+  padding: 20px 20px 0;
+  background: #faf8f5;
+}
+
+.cert-img-wrap img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.cert-card:hover .cert-img-wrap img {
+  transform: scale(1.03);
+}
+
+.cert-body {
+  padding: 20px 22px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cert-year {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.cert-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.cert-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 6px 16px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.cert-card:hover .cert-badge {
+  background: var(--gold);
+  color: var(--white);
+}
+
+/* Nav buttons */
+.cert-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.cert-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(171, 141, 107, 0.35);
+  flex-shrink: 0;
+}
+
+.cert-btn:hover {
+  background: var(--gold-hover);
+  transform: scale(1.1);
+  box-shadow: 0 10px 28px rgba(72, 43, 37, 0.3);
+}
+
+.cert-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cert-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--white);
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Dots */
+.cert-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cert-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.cert-dot.active {
+  background: var(--gold);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.cert-dot-ellipsis {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0.45;
+  line-height: 1;
+  padding: 0 1px;
+  user-select: none;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+
+/* Counter */
+.cert-counter {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  opacity: 0.5;
+  letter-spacing: 1px;
+  min-width: 50px;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .cert-card { flex: 0 0 calc(50% - 12px); }
+}
+
+@media (max-width: 600px) {
+  .cert-card { flex: 0 0 calc(calc(50% - 8px)); }
+  .cert-section { padding: 50px 0 60px; }
+  .cert-section .section-header { padding: 0 16px; }
+  .cert-grid { padding: 0 16px; gap: 12px; }
+}
+
+/* ========== EXPERIENCE SECTION ========== */
+.exp-section {
+  padding: 70px 40px;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+}
+
+.exp-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.exp-timeline {
+  position: relative;
+  padding-left: 36px;
+}
+
+.exp-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+.exp-item {
+  position: relative;
+  margin-bottom: 36px;
+}
+
+.exp-item::before {
+  content: "";
+  position: absolute;
+  left: -42px;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+
+.exp-period {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.exp-role {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.exp-place {
+  font-size: 14px;
+  color: var(--dark);
+  opacity: 0.65;
+}
+
+/* ========== ACHIEVEMENTS ========== */
+.ach-section {
+  padding: 70px 40px;
+  background: var(--light-bg);
+  border-top: 1px solid var(--border);
+}
+
+.ach-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ach-card {
+  background: var(--white);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  padding: 30px 28px;
+  transition: all 0.3s ease;
+}
+
+.ach-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 16px 40px var(--shadow);
+  transform: translateY(-6px);
+}
+
+.ach-year {
+  font-family: 'Beautique Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0.35;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.ach-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.5;
+}
+
+/* ========== PHILOSOPHY SECTION ========== */
+.phil-section {
+  padding: 70px 40px;
+  background: var(--dark);
+  text-align: center;
+}
+
+.phil-quote {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.phil-mark {
+  font-family: 'Beautique Display', serif;
+  font-size: 100px;
+  color: var(--gold);
+  opacity: 0.25;
+  line-height: 0.6;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.phil-text {
+  font-family: 'Beautique Display', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+.phil-text em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.phil-author {
+  margin-top: 28px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+/* ========== RESPONSIVE – TABLET (≤ 992px) ========== */
+@media (max-width: 992px) {
+  /* Hero */
+  .hero-section { padding: 0 24px 48px; }
+  .bc-wrap { padding: 18px 24px 0; }
+  .hero-inner { flex-direction: column; gap: 32px; padding-top: 32px; }
+  .hero-image-wrap { flex: none; width: 100%; max-width: 380px; margin: 0 auto; }
+  .hero-image-wrap img { height: 380px; }
+  .hero-title { font-size: 36px; }
+  .hero-desc { font-size: 15px; }
+
+  /* Slogan */
+  .slogan-section { padding: 36px 24px; }
+  .slogan-text { font-size: 38px; }
+
+  /* Certs */
+  .cert-section .section-header { padding: 0 24px; }
+  .cert-grid { padding: 0 24px; }
+
+  /* Achievements */
+  .ach-section { padding: 60px 24px; }
+  .ach-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Experience */
+  .exp-section { padding: 60px 24px; }
+
+  /* Phil */
+  .phil-section { padding: 60px 24px; }
+}
+
+/* ========== RESPONSIVE – MOBILE (≤ 600px) ========== */
+@media (max-width: 600px) {
+  /* Breadcrumb */
+  .bc-wrap { padding: 14px 16px 0; }
+  .bc-list { gap: 4px; }
+  .bc-item a, .bc-current { font-size: 11px; }
+
+  /* Hero */
+  .hero-section { padding: 0 16px 40px; }
+  .hero-inner { gap: 24px; padding-top: 24px; }
+  .hero-image-wrap { max-width: 100%; }
+  .hero-image-wrap::before { top: 10px; left: 10px; border-radius: 20px; }
+  .hero-image-wrap img { height: 300px; border-radius: 20px; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; }
+  .hero-title { font-size: 28px; margin-bottom: 6px; }
+  .hero-position { font-size: 13px; margin-bottom: 16px; }
+  .hero-desc { font-size: 14px; line-height: 1.75; margin-bottom: 24px; }
+  .hero-stats { gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat-number { font-size: 28px; }
+  .stat-label { font-size: 10px; }
+  .hero-btn { padding: 12px 28px; font-size: 11px; letter-spacing: 1.5px; }
+
+  /* Slogan */
+  .slogan-section { padding: 28px 16px; }
+  .slogan-label { font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; }
+  .slogan-text { font-size: 24px; line-height: 1.3; letter-spacing: -0.5px; }
+
+  /* Section headers */
+  .section-header { margin-bottom: 32px; }
+  .section-eyebrow { font-size: 10px; letter-spacing: 3px; }
+  .section-title { font-size: 26px; }
+
+  /* Certs */
+  .cert-section { padding: 44px 0 52px; }
+  .cert-section .section-header { padding: 0 16px; }
+  .cert-grid { padding: 0 16px; gap: 12px; }
+  .cert-card { flex: 0 0 calc(50% - 6px); }
+  .cert-img-wrap img { height: 140px; }
+  .cert-body { padding: 12px 14px 14px; }
+  .cert-name { font-size: 12px; }
+  .cert-nav { gap: 10px; margin-top: 16px; padding: 0 16px; }
+  .cert-btn { width: 40px; height: 40px; }
+  .cert-dots { gap: 5px; }
+  .cert-counter { font-size: 12px; min-width: 40px; }
+
+  /* Experience */
+  .exp-section { padding: 44px 16px; }
+  .exp-timeline { padding-left: 28px; }
+  .exp-item::before { left: -34px; width: 12px; height: 12px; }
+  .exp-role { font-size: 15px; }
+  .exp-place { font-size: 13px; }
+  .exp-item { margin-bottom: 28px; }
+
+  /* Achievements */
+  .ach-section { padding: 44px 16px; }
+  .ach-grid { grid-template-columns: 1fr; gap: 14px; }
+  .ach-card { padding: 22px 20px; }
+  .ach-year { font-size: 28px; margin-bottom: 8px; }
+  .ach-title { font-size: 14px; }
+
+  /* Philosophy */
+  .phil-section { padding: 44px 16px; }
+  .phil-mark { font-size: 70px; }
+  .phil-text { font-size: 20px; line-height: 1.55; }
+  .phil-author { font-size: 11px; letter-spacing: 2px; margin-top: 20px; }
+
+  /* Lightbox on mobile */
+  #lightbox { padding: 12px; }
+  #lbBox { border-radius: 14px; }
+  #lbCaption { font-size: 11px; padding: 10px 14px; }
+}
+
+/* ========== LIGHTBOX ========== */
+@keyframes lbIn {
+  from { opacity:0; transform:scale(.94); }
+  to   { opacity:1; transform:scale(1); }
+}
+.cert-img-wrap img {
+  cursor: zoom-in !important;
+  transition: transform .5s ease, opacity .2s ease;
+}
+.cert-img-wrap img:hover { opacity:.88; }
+#lbPrev:hover, #lbNext:hover { background: #482B25 !important; }
+#lbClose:hover { background: #482B25 !important; }
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero-section">
+
+  <!-- Breadcrumb -->
+  <nav class="bc-wrap" aria-label="Breadcrumb">
+    <ol class="bc-list">
+      <li class="bc-item">
+        <a href="/">
+          <svg class="bc-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.75z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
+          Trang chủ
+        </a>
+      </li>
+      <li class="bc-sep" aria-hidden="true">/</li>
+      <li class="bc-item">
+        <a href="/bac-si">Bác sĩ</a>
+      </li>
+      <li class="bc-sep" aria-hidden="true">/</li>
+      <li class="bc-item">
+        <span class="bc-current" aria-current="page">Đỗ Quang Khải</span>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="hero-inner">
+
+    <div class="hero-image-wrap">
+      <img src="https://i.pinimg.com/736x/04/ac/56/04ac560e82fcc8cb44cd39fe8adef774.jpg" alt="Bác sĩ CKI Đỗ Quang Khải">
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Bệnh Viện Thẩm Mỹ Nam An</div>
+      <h1 class="hero-title">BÁC SĨ CKI<br><span>ĐỖ QUANG KHẢI</span></h1>
+      <div class="hero-position">Giám Đốc – Chuyên Khoa Phẫu Thuật Tạo Hình Thẩm Mỹ</div>
+      <p class="hero-desc">
+        Với hơn <strong>15 năm kinh nghiệm</strong> trong lĩnh vực phẫu thuật tạo hình thẩm mỹ, Bác sĩ Đỗ Quang Khải đã không ngừng đào tạo chuyên sâu tại các hội nghị quốc tế uy tín, từ ISAPS World Congress đến các chương trình liên tục tại Hoa Kỳ và khu vực châu Á.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">Năm Kinh Nghiệm</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">25+</div>
+          <div class="stat-label">Chứng Chỉ & Bằng Cấp</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">6+</div>
+          <div class="stat-label">Hội Nghị Quốc Tế</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end hero-inner -->
+</section>
+
+<!-- ====== SLOGAN ====== -->
+<section class="slogan-section">
+  <span class="slogan-label">Triết Lý Bác Sĩ</span>
+  <h2 class="slogan-text">Tận Tâm – Chuyên Sâu<br><em>Tôn Trọng Từng Vẻ Đẹp Riêng</em></h2>
+</section>
+
+<!-- ====== CERTIFICATES ====== -->
+<section class="cert-section">
+  <div class="cert-container">
+    <div class="section-header">
+      <span class="section-eyebrow">Bằng Cấp & Chứng Chỉ</span>
+      <h2 class="section-title">Hành Trình Học Thuật</h2>
+    </div>
+
+    <div class="cert-slider-wrap">
+      <div class="cert-slider-viewport" id="certViewport">
+        <div class="cert-grid" id="certGrid">
+
+      <!-- 2010 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2010-–-Bang-Bac-si-Da-khoa-–-Truong-DH-Y-Duoc-TP.HCM_.jpg" alt="Bằng Bác Sĩ Đa Khoa">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2010</div>
+          <div class="cert-name">Bằng Bác Sĩ Đa Khoa – Trường ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Bằng Cấp Nền Tảng</div>
+        </div>
+      </div>
+
+      <!-- 2011 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2011-–-Giay-xac-nhan-qua-trinh-thuc-hanh-tai-Benh-vien-DH-Y-Duoc-TP.HCM-–-Chuyen-nganh-Tao-hinh-tham-my.jpg" alt="Thực hành lâm sàng">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2011</div>
+          <div class="cert-name">Giấy Xác Nhận Thực Hành – Chuyên Ngành Tạo Hình Thẩm Mỹ, BV ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Thực Hành Lâm Sàng</div>
+        </div>
+      </div>
+
+      <!-- 2011 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2011-–-Giay-chung-nhan-dao-tao-lien-tuc_-Dinh-duong-lam-sang-can-ban-–-Benh-vien-DH-Y-Duoc-TP.HCM_.jpg" alt="Dinh dưỡng lâm sàng">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2011</div>
+          <div class="cert-name">Dinh Dưỡng Lâm Sàng Cơ Bản – Bệnh Viện ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2012 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2012-–-Chung-chi_-Dinh-huong-chuyen-khoa-Tao-hinh-–-Tham-my-Khoa-3-–-Truong-DH-Y-Duoc-TP.HCM_.jpg" alt="Định hướng chuyên khoa">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2012</div>
+          <div class="cert-name">Chứng Chỉ Định Hướng Chuyên Khoa Tạo Hình – Thẩm Mỹ (Khóa 3) – Trường ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Chứng Chỉ Chuyên Khoa</div>
+        </div>
+      </div>
+
+      <!-- 2012 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2012-–-Giay-chung-nhan-dao-tao-lien-tuc_-Tao-hinh-–-Tham-my-vung-mat-–-Truong-DH-Y-Duoc-TP.HCM_.jpg" alt="Tạo hình thẩm mỹ vùng mặt">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2012</div>
+          <div class="cert-name">Đào Tạo Liên Tục: Tạo Hình – Thẩm Mỹ Vùng Mặt – Trường ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2012 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2012-–-Giay-chung-nhan_-Hoi-nghi-Khoa-hoc-Ky-thuat-lan-thu-29-Dai-hoc-Y-Duoc-Tuoi-tre-TP.HCM_.jpg" alt="Hội nghị KH lần 29">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2012</div>
+          <div class="cert-name">Hội Nghị Khoa Học Kỹ Thuật Lần Thứ 29 – Đại Học Y Dược Tuổi Trẻ TP.HCM</div>
+          <div class="cert-badge">Hội Nghị Khoa Học</div>
+        </div>
+      </div>
+
+      <!-- 2013 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2013-–-Giay-chung-nhan-tham-du_-Hoi-thao-va-thuc-hanh-phau-thuat-tai-tao-vu-tren-xac-nguoi-tuoi-–-Trung-tam-Y-te-Dai-hoc-TP.HCM_.jpg" alt="Tái tạo vú">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2013</div>
+          <div class="cert-name">Hội Thảo & Thực Hành Phẫu Thuật Tái Tạo Vú Trên Xác Tươi – Trung Tâm Y Tế Đại Học TP.HCM</div>
+          <div class="cert-badge">Thực Hành Chuyên Sâu</div>
+        </div>
+      </div>
+
+      <!-- 2014 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2014-–-Giay-chung-nhan-dao-tao-lien-tuc_-Cap-nhat-kien-thuc-ve-phau-thuat-tao-hinh-tham-my-vung-mat-The-Hodges-Group-–-Hoa-Ky-giang-day-–-Benh-vien-Cho-Ray.jpg" alt="The Hodges Group USA">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2014</div>
+          <div class="cert-name">Cập Nhật PTTM Vùng Mặt – The Hodges Group (Hoa Kỳ) Giảng Dạy tại BV Chợ Rẫy</div>
+          <div class="cert-badge">Đào Tạo Quốc Tế</div>
+        </div>
+      </div>
+
+      <!-- 2015 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2015-–-Giay-chung-nhan_-Cap-nhat-nhung-tien-bo-trong-cham-soc-vet-thuong-Benh-vien-DH-Y-Duoc-TP.HCM_.jpg" alt="Chăm sóc vết thương">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2015</div>
+          <div class="cert-name">Cập Nhật Tiến Bộ Trong Chăm Sóc Vết Thương – Bệnh Viện ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2015 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2015-–-Giay-chung-nhan_-Tu-van-va-xet-nghiem-HIV-do-can-bo-y-te-de-xuat-–-Benh-vien-DH-Y-Duoc-TP.HCM_.jpg" alt="HIV tư vấn xét nghiệm">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2015</div>
+          <div class="cert-name">Tư Vấn & Xét Nghiệm HIV Do Cán Bộ Y Tế Đề Xuất – Bệnh Viện ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2015 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2015-–-Chung-chi-ESL-Ky-thuat-Truyen-thong-–-Truong-DH-Y-Duoc-TP.HCM_.jpg" alt="ESL Truyền thông">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2015</div>
+          <div class="cert-name">Chứng Chỉ ESL Kỹ Thuật Truyền Thông – Trường ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Kỹ Năng Chuyên Môn</div>
+        </div>
+      </div>
+
+      <!-- 2016 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2016-–-Giay-chung-nhan-Khoa-hoc-ISAPS-lan-thu-1-Viet-Nam-Dai-hoi-khoa-hoc-quoc-te-thuong-nien-HSPAS-lan-thu-4.jpg" alt="ISAPS Vietnam">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2016</div>
+          <div class="cert-name">Khóa Học ISAPS Lần Thứ 1 Việt Nam & Đại Hội HSPAS Lần Thứ 4</div>
+          <div class="cert-badge">Chứng Chỉ Quốc Tế</div>
+        </div>
+      </div>
+
+      <!-- 2017 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2017-–-Giay-chung-nhan-dao-tao-lien-tuc_-MOTIVA-Implants-–-Xu-huong-moi-trong-nang-nguc-tham-my-–-Benh-vien-Cho-Ray-65-tiet.jpg" alt="MOTIVA Implants">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2017</div>
+          <div class="cert-name">MOTIVA Implants – Xu Hướng Mới Trong Nâng Ngực Thẩm Mỹ – BV Chợ Rẫy</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2018 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2018-–-Bang-Chuyen-khoa-cap-I_-Phau-thuat-tao-hinh-–-Truong-DH-Y-Khoa-Pham-Ngoc-Thach-Nien-khoa-2015–2017-Xep-loai_-TB-Kha.jpg" alt="Bằng Chuyên Khoa I">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2018</div>
+          <div class="cert-name">Bằng Chuyên Khoa Cấp I – Phẫu Thuật Tạo Hình, Trường ĐH Y Khoa Phạm Ngọc Thạch</div>
+          <div class="cert-badge">Bằng Cấp Chuyên Môn</div>
+        </div>
+      </div>
+
+      <!-- 2018 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2018-–-Giay-chung-nhan-dao-tao-lien-tuc_-Cap-nhat-kien-thuc-ve-phau-thuat-tao-hinh-tham-my-mui-–-Benh-vien-Cho-Ray.jpg" alt="PTTM Mũi">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2018</div>
+          <div class="cert-name">Cập Nhật Kiến Thức Về PTTM Mũi – Bệnh Viện Chợ Rẫy</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2019 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2019-–-Giay-chung-nhan-Phau-thuat-tao-hinh-tham-my-mui-tai-cau-truc-nang-cao.jpg" alt="Rhinoplasty Training">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2019</div>
+          <div class="cert-name">Advanced Rhinoplasty & Reconstructive Surgery Training Course – BV Tai Mũi Họng TP.HCM</div>
+          <div class="cert-badge">Đào Tạo Chuyên Sâu</div>
+        </div>
+      </div>
+
+      <!-- 2020 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2020-–-Giay-chung-nhan-dao-tao-lien-tuc_-Vi-su-hoan-hao-cua-net-dep-phuong-Dong-–-Hoi-Y-hoc-TP.HCM-_-Lien-chi-Hoi-Dieu-tri-Vet-thuong.jpg" alt="Nét đẹp phương Đông">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2020</div>
+          <div class="cert-name">Vì Sự Hoàn Hảo Của Nét Đẹp Phương Đông – Hội Y Học TP.HCM / Liên Chi Hội Điều Trị Vết Thương</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2022 – ISAPS Istanbul -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2022-–-Giay-chung-nhan-ISAPS-World-Congress-Istanbul-Hoi-nghi-Phau-thuat-Tao-hinh-Tham-my-The-gioi-Istanbul-20–24_09_2022.jpg" alt="ISAPS World Congress Istanbul">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">ISAPS World Congress Istanbul – Hội Nghị PTTM Thế Giới, Thổ Nhĩ Kỳ</div>
+          <div class="cert-badge">Chứng Chỉ Quốc Tế</div>
+        </div>
+      </div>
+
+      <!-- 2022 – Laser -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2022-–-Chung-chi-dao-tao-lien-tuc_-Ung-dung-Laser-va-anh-sang-trong-da-lieu-–-Benh-vien-Da-lieu-TP.HCM_.jpg" alt="Laser Da Liễu">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">Ứng Dụng Laser & Ánh Sáng Trong Da Liễu – Bệnh Viện Da Liễu TP.HCM</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2022 – Cấp cứu -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2022-–-Chung-nhan-dao-tao-lien-tuc_-Cap-nhat-kien-thuc-cap-cuu-ban-dau-cho-bac-si-–-Truong-DH-Tra-Vinh.jpg" alt="Cấp cứu ban đầu">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">Cập Nhật Kiến Thức Cấp Cứu Ban Đầu Cho Bác Sĩ – Trường ĐH Trà Vinh</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2022 – Quản lý BV -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2022-–-Chung-nhan-dao-tao-lien-tuc_-Quan-ly-benh-vien-–-Vien-Dao-tao-YHDP-YTCC-Truong-DH-Y-Ha-Noi.jpg" alt="Quản lý bệnh viện">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">Quản Lý Bệnh Viện – Viện Đào Tạo YHDP & YTCC, Trường ĐH Y Hà Nội</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2022 – Sư phạm -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2022-–-Chung-chi-Boi-duong-nghiep-vu-su-pham-cho-giang-vien-dai-hoc-cao-dang-–-Hoc-vien-Quan-ly-Giao-duc-Ha-Noi-Xep-loai_-Kha.jpg" alt="Nghiệp vụ sư phạm">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">Bồi Dưỡng Nghiệp Vụ Sư Phạm Cho Giảng Viên ĐH, CĐ – Học Viện Quản Lý Giáo Dục, Hà Nội</div>
+          <div class="cert-badge">Kỹ Năng Giảng Dạy</div>
+        </div>
+      </div>
+
+      <!-- 2022 – Tiếng Anh -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2022-–-Giay-chung-nhan-tieng-Anh-trong-kham-benh-chua-benh-–-Truong-DH-Y-Duoc-TP.HCM_.jpg" alt="Tiếng Anh y khoa">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">Tiếng Anh Trong Khám Bệnh & Chữa Bệnh – Trường ĐH Y Dược TP.HCM</div>
+          <div class="cert-badge">Kỹ Năng Chuyên Môn</div>
+        </div>
+      </div>
+
+      <!-- 2023 – Quản lý chất lượng BV -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2023-–-Chung-chi-dao-tao-lien-tuc_-Quan-ly-chat-luong-benh-vien-–-Vien-Dao-tao-Y-hoc-Du-phong-Y-te-Cong-cong-Truong-DH-Y-Ha-Noi-48-tiet.jpg" alt="Quản lý chất lượng">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2023</div>
+          <div class="cert-name">Quản Lý Chất Lượng Bệnh Viện – Viện ĐT Y Học Dự Phòng & Y Tế Công Cộng, Trường ĐH Y Hà Nội</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2023 – In One Session -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2023-–-Giay-chung-nhan-dao-tao-lien-tuc_-Cap-nhat-nang-cao-hieu-suat-tre-hoa-voi-phuong-phap-_In-One-Session_-–-Truong-DH-Y-Khoa-Pham-Ngoc-Thach.jpg" alt="In One Session">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2023</div>
+          <div class="cert-name">Nâng Cao Hiệu Suất Trẻ Hóa Với Phương Pháp "In One Session" – Trường ĐH Y Khoa Phạm Ngọc Thạch</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2024 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2024-Giay-chung-nhan-tham-gia-cap-nhat-kien-thuc-y-khoa-lien-tuc-trong-kham-benh-chua-benh.jpg" alt="Cập nhật y khoa liên tục 2024">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2024</div>
+          <div class="cert-name">Cập Nhật Kiến Thức Y Khoa Liên Tục Trong Khám Bệnh, Chữa Bệnh</div>
+          <div class="cert-badge">Đào Tạo Liên Tục</div>
+        </div>
+      </div>
+
+      <!-- 2025 -->
+      <div class="cert-card">
+        <div class="cert-img-wrap">
+          <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/05/2025-–-Giay-chung-nhan-hoi-nghi-khoa-hoc-quoc-te-thuong-nien-phau-thuat-tao-hinh-tham-my-khu-vuc-song-Mekong-lan-thu-13.jpg" alt="Hội Nghị Mekong 2025">
+        </div>
+        <div class="cert-body">
+          <div class="cert-year">2025</div>
+          <div class="cert-name">Hội Nghị KH Quốc Tế Thường Niên PTTM Khu Vực Sông Mekong Lần Thứ 13</div>
+          <div class="cert-badge">Hội Nghị Quốc Tế</div>
+        </div>
+      </div>
+
+    </div><!-- end cert-grid -->
+      </div><!-- end cert-slider-viewport -->
+
+      <!-- Nav controls -->
+      <div class="cert-nav">
+        <button class="cert-btn" id="certPrev" aria-label="Trước">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="cert-dots" id="certDots"></div>
+        <span class="cert-counter" id="certCounter">1 / 7</span>
+        <button class="cert-btn" id="certNext" aria-label="Tiếp">
+          <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+      </div>
+    </div><!-- end cert-slider-wrap -->
+  </div><!-- end cert-container -->
+</section>
+
+<script>
+(function() {
+  const viewport = document.getElementById('certViewport');
+  const grid = document.getElementById('certGrid');
+  const prevBtn = document.getElementById('certPrev');
+  const nextBtn = document.getElementById('certNext');
+  const dotsWrap = document.getElementById('certDots');
+  const counter = document.getElementById('certCounter');
+
+  let current = 0;
+  let perPage = 4;
+  let isDragging = false;
+  let startX = 0;
+  let startTranslate = 0;
+  let currentTranslate = 0;
+
+  function getPerPage() {
+    if (window.innerWidth <= 600) return 2;
+    if (window.innerWidth <= 992) return 2;
+    return 4;
+  }
+
+  function totalCards() { return grid.children.length; }
+  function totalPages() { return Math.ceil(totalCards() / perPage); }
+
+  function getCardWidth() {
+    const card = grid.children[0];
+    if (!card) return 0;
+    const gap = window.innerWidth <= 600 ? 12 : 24;
+    return card.offsetWidth + gap;
+  }
+
+  function goTo(page) {
+    const pages = totalPages();
+    current = Math.max(0, Math.min(page, pages - 1));
+    const offset = current * perPage * getCardWidth();
+    grid.style.transform = `translateX(-${offset}px)`;
+    currentTranslate = -offset;
+    updateUI();
+  }
+
+  function updateUI() {
+    const pages = totalPages();
+    counter.textContent = `${current + 1} / ${pages}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= pages - 1;
+
+    dotsWrap.innerHTML = '';
+    const MAX = 7;
+
+    function addDot(i) {
+      const dot = document.createElement('button');
+      dot.className = 'cert-dot' + (i === current ? ' active' : '');
+      dot.setAttribute('aria-label', 'Trang ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    }
+
+    function addEllipsis() {
+      const el = document.createElement('span');
+      el.className = 'cert-dot-ellipsis';
+      el.textContent = '···';
+      dotsWrap.appendChild(el);
+    }
+
+    if (pages <= MAX) {
+      for (let i = 0; i < pages; i++) addDot(i);
+    } else {
+      const delta = 1;
+      const left  = Math.max(1, current - delta);
+      const right = Math.min(pages - 2, current + delta);
+      addDot(0);
+      if (left > 1) addEllipsis();
+      for (let i = left; i <= right; i++) addDot(i);
+      if (right < pages - 2) addEllipsis();
+      addDot(pages - 1);
+    }
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // Drag / touch
+  function onDragStart(x) {
+    isDragging = true;
+    startX = x;
+    startTranslate = currentTranslate;
+    grid.style.transition = 'none';
+  }
+
+  function onDragMove(x) {
+    if (!isDragging) return;
+    const diff = x - startX;
+    grid.style.transform = `translateX(${startTranslate + diff}px)`;
+  }
+
+  function onDragEnd(x) {
+    if (!isDragging) return;
+    isDragging = false;
+    grid.style.transition = '';
+    const diff = x - startX;
+    if (Math.abs(diff) > 60) {
+      if (diff < 0) goTo(current + 1);
+      else goTo(current - 1);
+    } else {
+      goTo(current);
+    }
+  }
+
+  // Mouse
+  viewport.addEventListener('mousedown', e => onDragStart(e.clientX));
+  window.addEventListener('mousemove', e => { if (isDragging) onDragMove(e.clientX); });
+  window.addEventListener('mouseup', e => onDragEnd(e.clientX));
+
+  // Touch
+  viewport.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
+  viewport.addEventListener('touchmove', e => onDragMove(e.touches[0].clientX), { passive: true });
+  viewport.addEventListener('touchend', e => onDragEnd(e.changedTouches[0].clientX));
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  // Resize
+  window.addEventListener('resize', () => {
+    const newPer = getPerPage();
+    if (newPer !== perPage) {
+      perPage = newPer;
+      current = 0;
+    }
+    goTo(current);
+  });
+
+  // Init
+  perPage = getPerPage();
+  goTo(0);
+})();
+</script>
+
+<!-- ====== EXPERIENCE ====== -->
+<section class="exp-section">
+  <div class="exp-container">
+    <div class="section-header">
+      <span class="section-eyebrow">Kinh Nghiệm Công Tác</span>
+      <h2 class="section-title">Hành Trình Nghề Nghiệp</h2>
+    </div>
+
+    <div class="exp-timeline">
+      <div class="exp-item">
+        <div class="exp-period">2022 – Hiện Nay</div>
+        <div class="exp-role">Giám Đốc Bệnh Viện Thẩm Mỹ Nam An</div>
+        <div class="exp-place">Đào tạo liên tục & lãnh đạo chuyên môn tại Bệnh Viện Thẩm Mỹ Nam An</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-period">2018 – Hiện Nay</div>
+        <div class="exp-role">Bác Sĩ Phẫu Thuật Tạo Hình Thẩm Mỹ</div>
+        <div class="exp-place">Bệnh Viện Đa Khoa Tân Hưng (từ 22/08/2018 – Xác nhận năm 2023)</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-period">2010 – 2016</div>
+        <div class="exp-role">Thực Hành Lâm Sàng Chuyên Ngành Tạo Hình Thẩm Mỹ</div>
+        <div class="exp-place">Bệnh Viện Đại Học Y Dược TP.HCM (từ 01/11/2010)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ACHIEVEMENTS ====== -->
+<section class="ach-section">
+  <div class="ach-container">
+    <div class="section-header">
+      <span class="section-eyebrow">Thành Tích & Nghiên Cứu</span>
+      <h2 class="section-title">Dấu Ấn Khoa Học</h2>
+    </div>
+
+    <div class="ach-grid">
+      <div class="ach-card">
+        <div class="ach-year">2022</div>
+        <div class="ach-title">Tham dự ISAPS World Congress Istanbul – Hội Nghị Phẫu Thuật Tạo Hình Thẩm Mỹ Thế Giới tại Istanbul, Thổ Nhĩ Kỳ</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-year">2016</div>
+        <div class="ach-title">Tham dự 1st ISAPS Course Vietnam kết hợp 4th Annual International Scientific Congress of HSPAS tại TP.HCM</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-year">2015</div>
+        <div class="ach-title">Certificate of Appreciation – Hỗ trợ Hội Nghị "Update Advances in Wound Care" tại Bệnh Viện ĐH Y Dược TP.HCM</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-year">2014</div>
+        <div class="ach-title">Tham dự 11th Annual International Scientific Congress "Towards The Growth of Aesthetic Surgery & Medicine" – TP.HCM</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-year">2012</div>
+        <div class="ach-title">Tham dự Hội Nghị Khoa Học Kỹ Thuật lần thứ 29 – Đại Học Y Dược Tuổi Trẻ TP.HCM</div>
+      </div>
+      <div class="ach-card">
+        <div class="ach-year">2012</div>
+        <div class="ach-title">Tham dự Hội Nghị Khoa Học & Triển Lãm Nha Khoa – Phẫu Thuật Tạo Hình Quốc Tế lần thứ 16 tại TP.HCM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== LIGHTBOX ====== -->
+<div id="lightbox" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(30,15,10,0.85);
+  backdrop-filter:blur(6px);
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  cursor:zoom-out;
+">
+  <div id="lbBox" style="
+    position:relative;
+    max-width:860px;
+    width:100%;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 40px 80px rgba(0,0,0,0.4);
+    cursor:default;
+    animation:lbIn .25s cubic-bezier(.25,.46,.45,.94);
+  ">
+    <img id="lbImg" src="" alt="" style="
+      display:block;
+      width:100%;
+      max-height:80vh;
+      object-fit:contain;
+      background:#faf8f5;
+    ">
+    <div id="lbCaption" style="
+      padding:14px 20px;
+      font-family:'Hauora',sans-serif;
+      font-size:13px;
+      font-weight:600;
+      color:#482B25;
+      text-align:center;
+      border-top:1px solid rgba(171,141,107,.2);
+    "></div>
+    <button id="lbClose" aria-label="Đóng" style="
+      position:absolute;
+      top:12px;
+      right:12px;
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      border:none;
+      background:rgba(72,43,37,.75);
+      color:#fff;
+      font-size:18px;
+      line-height:1;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:background .2s;
+    ">&#x2715;</button>
+    <!-- Prev / Next -->
+    <button id="lbPrev" aria-label="Trước" style="
+      position:absolute;
+      left:12px;
+      top:50%;
+      transform:translateY(-50%);
+      width:40px;height:40px;
+      border-radius:50%;
+      border:none;
+      background:rgba(171,141,107,.85);
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:background .2s;
+    ">&#8249;</button>
+    <button id="lbNext" aria-label="Tiếp" style="
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      width:40px;height:40px;
+      border-radius:50%;
+      border:none;
+      background:rgba(171,141,107,.85);
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:background .2s;
+    ">&#8250;</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const lb      = document.getElementById('lightbox');
+  const lbBox   = document.getElementById('lbBox');
+  const lbImg   = document.getElementById('lbImg');
+  const lbCap   = document.getElementById('lbCaption');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev  = document.getElementById('lbPrev');
+  const lbNext  = document.getElementById('lbNext');
+
+  let images = []; // { src, caption }
+  let current = 0;
+
+  // Collect all cert images
+  function buildIndex() {
+    images = [];
+    document.querySelectorAll('.cert-img-wrap img').forEach(img => {
+      const card = img.closest('.cert-card');
+      const name = card ? (card.querySelector('.cert-year')?.textContent || '') + ' – ' + (card.querySelector('.cert-name')?.textContent || '') : '';
+      images.push({ src: img.src, caption: name.trim() });
+    });
+  }
+
+  function open(idx) {
+    buildIndex();
+    current = idx;
+    show();
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lb.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function show() {
+    const item = images[current];
+    lbImg.src = item.src;
+    lbCap.textContent = item.caption;
+    lbPrev.style.display = current === 0 ? 'none' : 'flex';
+    lbNext.style.display = current === images.length - 1 ? 'none' : 'flex';
+    lbBox.style.animation = 'none';
+    lbBox.offsetHeight;
+    lbBox.style.animation = '';
+  }
+
+  document.addEventListener('click', e => {
+    const img = e.target.closest('.cert-img-wrap img');
+    if (!img) return;
+    buildIndex();
+    const allImgs = [...document.querySelectorAll('.cert-img-wrap img')];
+    const idx = allImgs.indexOf(img);
+    open(idx);
+  });
+
+  lbClose.addEventListener('click', close);
+  lbPrev.addEventListener('click', e => { e.stopPropagation(); current = Math.max(0, current - 1); show(); });
+  lbNext.addEventListener('click', e => { e.stopPropagation(); current = Math.min(images.length - 1, current + 1); show(); });
+
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+  document.addEventListener('keydown', e => {
+    if (lb.style.display !== 'flex') return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft' && current > 0) { current--; show(); }
+    if (e.key === 'ArrowRight' && current < images.length - 1) { current++; show(); }
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Premium</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/07d4ed3020d437c508d0a72f47de3121?family=Beautique+Display+Light" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/18a69d21a23b14744cfe0b8960724df7?family=Hauora" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/069f56f78ec6b7322a676112b3c2404c?family=Hauora+Medium" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/4a7fb87b90cb6b883b552f99663ec718?family=Hauora+SemiBold" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; overflow-x: hidden; }
+
+    /* ── FOOTER ── */
+    .na-footer-premium {
+      background-image: url('https://benhvienthammynaman.com/wp-content/uploads/2026/05/Trang-mua-hang.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      color: #733F2E;
+      padding: 60px 20px 40px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Hauora', sans-serif;
+      line-height: 1.78;
+    }
+
+    /* ── GRID ── */
+    .na-footer-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+      align-items: start;
+    }
+
+    /* ── INFO COL ── */
+    .na-info-col { display: flex; flex-direction: column; }
+
+    .na-brand-logo {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: block;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+
+    .na-hotline-highlight {
+      background: #AB8D6B;
+      color: #fff !important;
+      padding: 12px 20px;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none !important;
+      margin-bottom: 24px;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(171,141,107,0.4);
+      width: 220px;
+      justify-content: center;
+    }
+    .na-hotline-highlight:hover { transform: scale(1.05); background: #482B25; }
+
+    .na-hotline-highlight i {
+      font-size: 20px;
+      background: rgba(255,255,255,0.25);
+      color: white !important;
+      width: 38px; height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .na-hotline-text span {
+      display: block;
+      font-family: 'Hauora', sans-serif;
+      font-size: .82rem;
+      text-transform: uppercase;
+      opacity: 0.9;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .na-hotline-text b {
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: #fff;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .na-contact-details p {
+      font-size: .92rem;
+      margin: 10px 0;
+      display: flex;
+      align-items: flex-start;
+      color: #733F2E;
+    }
+
+    /* ── LINKS COL ── */
+    .na-links-col { display: flex; flex-direction: column; }
+
+    .na-footer-title {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 22px;
+      position: relative;
+      display: inline-block;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+    .na-footer-title::after {
+      content: '';
+      position: absolute;
+      width: 30px; height: 2px;
+      background: #AB8D6B;
+      bottom: -8px; left: 0;
+    }
+
+    .na-footer-links { list-style: none; }
+    .na-footer-links li { margin-bottom: 11px; }
+    .na-footer-links a {
+      font-size: .92rem;
+      color: #733F2E !important;
+      text-decoration: none;
+      transition: 0.3s;
+      opacity: 0.85;
+    }
+    .na-footer-links a:hover { color: #AB8D6B !important; padding-left: 8px; opacity: 1; }
+
+    .na-links-bottom {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(115,63,46,0.25);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .na-tax-text {
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: .92rem;
+      color: #733F2E;
+      font-weight: 600;
+    }
+    .na-dmca-badge {
+      display: inline-block;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(115,63,46,0.2);
+      background: #fff;
+      padding: 5px 8px;
+      flex-shrink: 0;
+      transition: 0.3s;
+    }
+    .na-dmca-badge img { width: 90px; height: auto; display: block; }
+    .na-dmca-badge:hover { transform: translateY(-2px); border-color: #AB8D6B; box-shadow: 0 4px 12px rgba(171,141,107,0.2); }
+
+    /* ── FORM COL ── */
+    .na-form-col {
+      background: rgba(255,255,255,0.55);
+      padding: 22px 26px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(115,63,46,0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .na-form-col h3 {
+      font-family: 'Beautique Display Light', 'Beautique Display', Georgia, serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #733F2E;
+      letter-spacing: 0.06em;
+      word-spacing: 2px;
+    }
+
+    .na-footer-form input,
+    .na-footer-form textarea {
+      width: 100%;
+      padding: 9px 13px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(115,63,46,0.25);
+      background: rgba(255,255,255,0.95);
+      font-family: 'Hauora', sans-serif;
+      font-size: .92rem;
+      color: #733F2E;
+    }
+    .na-footer-form input::placeholder,
+    .na-footer-form textarea::placeholder { color: #a07060; }
+    .na-footer-form textarea { height: 65px; resize: none; }
+
+    .na-footer-form button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 8px;
+      border: none;
+      background: #AB8D6B;
+      color: #fff;
+      font-family: 'Hauora SemiBold', 'Hauora', sans-serif;
+      font-size: .92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      text-transform: uppercase;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+    .na-footer-form button:hover { background: #482B25; transform: translateY(-2px); }
+
+    /* ── LICENSE ROW ── */
+    .na-license-row {
+      max-width: 1200px;
+      margin: 36px auto 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .na-license-box {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(115,63,46,0.3);
+      background: rgba(255,255,255,0.1);
+      transition: 0.4s;
+    }
+    .na-license-box img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .na-license-box:hover { transform: translateY(-4px); background: rgba(255,255,255,0.25); border-color: #733F2E; }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — TABLET (≤ 992px)
+    ════════════════════════════════════════ */
+    @media (max-width: 992px) {
+      .na-footer-wrapper {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      /* Form chiếm full width hàng 2 */
+      .na-form-col { grid-column: 1 / -1; }
+
+      .na-license-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — MOBILE (≤ 600px)
+    ════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .na-footer-premium {
+        padding: 40px 16px 32px;
+      }
+
+      .na-footer-wrapper {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      /* Brand */
+      .na-brand-logo { font-size: 1.15rem; margin-bottom: 16px; }
+
+      /* Hotline button full width */
+      .na-hotline-highlight {
+        width: 100%;
+        padding: 13px 18px;
+      }
+      .na-hotline-text b { font-size: 18px; }
+
+      /* Contact */
+      .na-contact-details p { font-size: .88rem; }
+
+      /* Accordion cho "Về chúng tôi" trên mobile */
+      .na-links-col { }
+      .na-footer-title {
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(115,63,46,0.18);
+      }
+      .na-footer-title::after { display: none; }
+      .na-footer-title .acc-arrow {
+        font-size: 12px;
+        transition: transform 0.3s;
+        display: inline-block;
+        color: #AB8D6B;
+      }
+      .na-links-col.open .na-footer-title .acc-arrow { transform: rotate(180deg); }
+
+      .na-footer-links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        margin-top: 0;
+      }
+      .na-links-col.open .na-footer-links {
+        max-height: 400px;
+        margin-top: 12px;
+      }
+      .na-links-col.open .na-links-bottom { display: flex; }
+      .na-links-bottom {
+        display: none;
+        margin-top: 16px;
+      }
+      .na-links-col.open .na-links-bottom { display: flex; }
+
+      /* Form */
+      .na-form-col {
+        grid-column: auto;
+        padding: 18px 16px 14px;
+        border-radius: 16px;
+      }
+      .na-form-col h3 { font-size: 1rem; margin-bottom: 12px; }
+
+      /* License 2 col trên mobile nhỏ */
+      .na-license-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 24px;
+      }
+      .na-license-box img { height: 110px; }
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE — NHỎ HƠN (≤ 380px)
+    ════════════════════════════════════════ */
+    @media (max-width: 380px) {
+      .na-license-row { grid-template-columns: 1fr; }
+      .na-license-box img { height: 140px; }
+      .na-hotline-text b { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<footer class="na-footer-premium">
+  <div class="na-footer-wrapper">
+
+    <!-- INFO -->
+    <div class="na-info-col">
+      <span class="na-brand-logo">BỆNH VIỆN THẨM MỸ NAM AN</span>
+      <a href="tel:0901939229" class="na-hotline-highlight">
+        <i class="fa fa-phone"></i>
+        <div class="na-hotline-text">
+          <span>Tổng đài tư vấn 24/7</span>
+          <b>0901 939 229</b>
+        </div>
+      </a>
+      <div class="na-contact-details">
+        <p><i class="fa-solid fa-location-dot" style="width:18px; margin-right:9px; flex-shrink:0"></i> 45A, Ba Tháng Hai, P. Vườn Lài, TP.HCM</p>
+        <p><i class="fa-solid fa-envelope" style="width:18px; margin-right:9px; flex-shrink:0"></i> contact@bvnaman.com</p>
+        <p><i class="fa-solid fa-clock" style="width:18px; margin-right:9px; flex-shrink:0"></i> 08:00 - 20:00 (Thứ 2 - CN)</p>
+      </div>
+    </div>
+
+    <!-- LINKS (accordion trên mobile) -->
+    <div class="na-links-col" id="links-col">
+      <h3 class="na-footer-title" id="acc-toggle">
+        VỀ CHÚNG TÔI
+        <span class="acc-arrow">▾</span>
+      </h3>
+      <ul class="na-footer-links">
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Giới thiệu bệnh viện</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Đội ngũ chuyên gia</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Cơ sở vật chất</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Chính sách bảo mật</a></li>
+        <li><a href="#"><i class="fa fa-chevron-right" style="font-size:10px; margin-right:7px"></i> Quy chế hoạt động</a></li>
+      </ul>
+      <div class="na-links-bottom">
+        <span class="na-tax-text">Mã số thuế: 0315700968</span>
+        <a href="https://www.dmca.com" target="_blank" class="na-dmca-badge">
+          <img src="https://www.dmca.com/img/dmca-website-logo-2022.png" alt="DMCA Protected">
+        </a>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="na-form-col">
+      <h3>ĐĂNG KÝ TƯ VẤN</h3>
+      <form class="na-footer-form">
+        <input type="text" placeholder="Họ và tên của bạn" required>
+        <input type="tel" placeholder="Số điện thoại" required>
+        <textarea placeholder="Nhu cầu tư vấn của bạn"></textarea>
+        <button type="submit">Gửi yêu cầu ngay</button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- LICENSE -->
+  <div class="na-license-row">
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 1"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 2"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 3"></div>
+    <div class="na-license-box"><img src="https://cdn.accgroup.vn/wp-content/uploads/2023/06/giay-phep-chua-benh.jpg" alt="Giấy phép 4"></div>
+  </div>
+</footer>
+
+<script>
+  // Accordion "Về chúng tôi" chỉ hoạt động trên mobile
+  var toggle = document.getElementById('acc-toggle');
+  var col = document.getElementById('links-col');
+
+  toggle.addEventListener('click', function() {
+    if (window.innerWidth <= 600) {
+      col.classList.toggle('open');
+    }
+  });
+
+  // Desktop: luôn mở
+  function checkWidth() {
+    if (window.innerWidth > 600) {
+      col.classList.remove('open');
+      // show links always on desktop via CSS (max-height none)
+      var links = col.querySelector('.na-footer-links');
+      links.style.maxHeight = '';
+      links.style.overflow = '';
+    }
+  }
+  window.addEventListener('resize', checkWidth);
+</script>
+</body>
+</html>
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="naf-bar-wrapper">
+    <style>
+        .naf-bar-wrapper .naf-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #f5f0eb;
+            border-top: 1px solid rgba(74, 46, 30, 0.12);
+            display: flex;
+            justify-content: space-around;
+            padding: 4px 0 2px;
+            z-index: 9999;
+        }
+        .naf-bar-wrapper .naf-bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #4a2e1e;
+            flex: 1;
+        }
+        .naf-bar-wrapper .naf-bar-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(74, 46, 30, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài hình tròn */
+        }
+        /* Cấu hình ảnh bên trong icon */
+        .naf-bar-wrapper .naf-bar-icon img {
+            width: 60%; /* Tùy chỉnh độ lớn icon trong vòng tròn */
+            height: 60%;
+            object-fit: contain;
+        }
+        .naf-bar-wrapper .naf-bar-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #000000; opacity: .5; }
+        
+        @media (min-width: 768px) { .naf-bar-wrapper { display: none; } }
+    </style>
+
+    <div class="naf-bar">
+        <a href="tel:0901939229" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://marketplace.canva.com/ERSb8/MAG9_-ERSb8/1/tl/canva-golden-phone-icon-MAG9_-ERSb8.png" alt="Phone">
+            </div>
+            <div class="naf-bar-label">Liên hệ</div>
+        </a>
+        
+        <a href="https://zalo.me/0901939229" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/3840px-Icon_of_Zalo.svg.png" alt="Zalo">
+            </div>
+            <div class="naf-bar-label">Zalo</div>
+        </a>
+        
+        <a href="https://messenger.com/" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/3840px-Facebook_f_logo_%282021%29.svg.png" alt="Facebook">
+            </div>
+            <div class="naf-bar-label">Facebook</div>
+        </a>
+    </div>
+</div>
