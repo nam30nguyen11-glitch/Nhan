@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mỡ má vì sao khó giảm? Nguyên nhân và giải pháp là gì?</title>
+<meta name="description" content="Mỡ má là tình trạng tích tụ mô mỡ dưới da ở vùng mặt khiến khuôn mặt trông tròn, đầy hoặc kém góc cạnh hơn. Tìm hiểu nguyên nhân và giải pháp giảm mỡ má hiệu quả.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--primary:#AB8D6B;
+--secondary:#8A6E50;
+--accent:#D4B99A;
+--light:#F5EFE8;
+--bg:#ffffff;
+--dark:#482B25;
+--muted:#6B5040;
+--radius:20px;
+--card-radius:16px;
+}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:'Nunito','Segoe UI','Helvetica Neue',Arial,sans-serif;background:#fff;color:var(--dark);line-height:1.8;font-size:18px;overflow-x:hidden}
+.wrap{max-width:920px;margin:0 auto;padding:24px 20px}
+/* HERO */
+.hero{
+background:linear-gradient(135deg,#2E1A10 0%,#6B4A2A 45%,#AB8D6B 100%);
+border-radius:var(--radius);padding:48px 36px;margin-bottom:32px;color:#fff;
+position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:-50px;right:-50px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(212,185,154,0.18) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-70px;left:8%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,0.16);backdrop-filter:blur(4px);color:#D4B99A;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:8px 18px;border-radius:30px;margin-bottom:22px;border:1px solid rgba(212,185,154,0.4);}
+.hero h1{font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-size:clamp(28px,5.5vw,46px);font-weight:700;margin-bottom:0;line-height:1.25;position:relative;z-index:1;}
+/* META BAR */
+.meta-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px}
+.meta-item{background:#fff;border:1px solid #D4B99A;border-radius:var(--card-radius);padding:18px 12px;text-align:center;box-shadow:0 3px 14px rgba(171,141,107,0.08);}
+.meta-label{font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.8px}
+.meta-value{font-size:15px;font-weight:800;color:var(--dark);margin-top:6px}
+/* SECTIONS */
+.section{margin-bottom:48px}
+.sec-hd{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
+.sec-num{width:38px;height:38px;min-width:38px;background:linear-gradient(135deg,#AB8D6B,#8A6E50);color:#fff;font-weight:800;font-size:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(171,141,107,0.35);margin-top:2px}
+h2{font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-size:clamp(24px,4.8vw,32px);font-weight:700;color:#482B25;line-height:1.3}
+h3{font-size:17px;font-weight:800;color:#482B25;margin-bottom:10px;margin-top:24px}
+p{color:#000;font-size:17.5px;margin-bottom:14px;line-height:1.8}
+/* HIGHLIGHT */
+.highlight{background:linear-gradient(135deg,#F5EFE8,#EDE0D0);border-left:5px solid var(--primary);padding:22px 24px;border-radius:0 14px 14px 0;margin:24px 0;box-shadow:0 3px 12px rgba(171,141,107,0.1);}
+.highlight p{margin:0;color:#000;font-size:17.5px;font-weight:600;line-height:1.85}
+/* CARD GRID */
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:20px 0}
+.card{background:#fff;border:1px solid #D4B99A;border-radius:var(--card-radius);padding:22px;transition:transform .2s,box-shadow .2s;}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(171,141,107,0.12);}
+.card h3{margin-top:0;margin-bottom:10px}
+.card p{margin-bottom:0;font-size:16.5px}
+/* WHO */
+.who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 22px 0}
+.who-card{background:#fff;border:1px solid #D4B99A;padding:16px 18px;border-radius:14px;display:flex;gap:12px;align-items:flex-start;}
+.who-dot{width:10px;height:10px;min-width:10px;background:var(--primary);border-radius:50%;margin-top:9px;flex-shrink:0;}
+.who-card p{margin:0;font-size:16.5px;color:#000}
+.contra{background:#F5EFE8;border:1px solid #D4B99A;padding:20px 22px;border-radius:var(--card-radius);margin:20px 0;}
+.contra p{margin:0;font-size:17px;color:#6B4A2A;font-weight:600;}
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0;position:relative;margin:20px 0}
+.steps::before{content:'';position:absolute;left:18px;top:22px;bottom:22px;width:2px;background:linear-gradient(to bottom,var(--accent),transparent);}
+.step{display:flex;gap:16px;align-items:flex-start;padding-bottom:20px;position:relative}
+.step:last-child{padding-bottom:0}
+.step-num{width:38px;height:38px;min-width:38px;border-radius:50%;background:#fff;border:2px solid var(--primary);color:var(--primary);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;box-shadow:0 3px 10px rgba(171,141,107,0.25);}
+.step-body{background:#fff;padding:16px 20px;border-radius:14px;border:1px solid #D4B99A;flex:1;min-width:0;}
+.step-body p{margin:0;font-size:16.5px;color:#000}
+/* NOTES */
+.notes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:22px 0}
+.note-box{border-radius:var(--card-radius);padding:22px}
+.note-box.before {background:#FFFBF0;border:1px solid #F0D9A0}
+.note-box.after {background:#F2F8F0;border:1px solid #A8CCA0}
+.note-hd{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.note-hd h3{margin:0;font-size:17px}
+.note-box.before .note-hd h3{color:#8A6A00}
+.note-box.after .note-hd h3{color:#2E7D3A}
+.note-list{list-style:none;padding:0}
+.note-list li{font-size:16px;color:#000;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:10px;align-items:flex-start;}
+.note-list li:last-child{border-bottom:none}
+.note-dot-before{width:8px;height:8px;min-width:8px;background:#8A6A00;border-radius:50%;flex-shrink:0;margin-top:8px}
+.note-dot-after{width:8px;height:8px;min-width:8px;background:#2E7D3A;border-radius:50%;flex-shrink:0;margin-top:8px}
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:12px}
+.faq-item{background:#fff;border:1px solid #D4B99A;border-radius:16px;overflow:hidden;}
+.faq-q{padding:18px 22px;font-weight:700;font-size:17px;color:#000;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;user-select:none;line-height:1.5;}
+.faq-q:hover{background:var(--light);}
+.faq-chevron{width:26px;height:26px;min-width:26px;border-radius:50%;background:var(--light);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,background .2s;font-size:13px;color:var(--primary);font-weight:900;}
+.faq-item.open .faq-chevron{transform:rotate(180deg);background:var(--accent);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-a-inner{padding:0 22px 20px;border-top:1px solid #D4B99A;font-size:16.5px;color:#000;line-height:1.8;}
+.faq-item.open .faq-a{max-height:600px}
+/* CALLOUT */
+.callout{background:linear-gradient(135deg,#AB8D6B,#8A6E50);border-radius:var(--card-radius);padding:24px 28px;color:#fff;margin:24px 0;}
+.callout p{margin:0 0 10px 0;color:#fff;font-size:16.5px;line-height:1.8}
+.callout p:last-child{margin-bottom:0}
+.callout strong{font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-size:22px;display:block;margin-bottom:12px;}
+.divider{height:1px;background:linear-gradient(to right,transparent,#D4B99A,transparent);margin:40px 0;}
+/* TECH CARD */
+.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:22px 0}
+.tech-card{background:#fff;border:1px solid #D4B99A;border-radius:var(--card-radius);padding:22px;}
+.tech-label{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+.tech-label.ml{background:#AB8D6B;color:#fff}
+.tech-label.rf{background:#D4B99A;color:#482B25}
+.tech-name{font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-size:20px;font-weight:700;color:#482B25;margin-bottom:8px}
+.tech-desc{font-size:15.5px;color:#000;line-height:1.7;margin:0}
+/* ZONE BODY GRID */
+.zone-body-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.zone-body-card{background:#fff;border:1px solid #D4B99A;border-radius:16px;padding:16px 20px;}
+/* TABLE DESIGN */
+table{width:100%;border-collapse:collapse;margin:24px 0;background:#fff;border:1px solid #D4B99A;border-radius:var(--card-radius);overflow:hidden;}
+th,td{padding:14px 18px;text-align:left;font-size:16.5px;border-bottom:1px solid #EDE0D0;line-height:1.7}
+th{background:var(--light);color:var(--dark);font-weight:800;font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-size:18px;}
+tr:last-child td{border-bottom:none}
+
+/* ========== MOBILE FIXES ========== */
+@media(max-width:600px){
+.wrap{padding:18px 16px}
+.hero{padding:36px 24px;border-radius:16px;margin-bottom:24px}
+.hero h1{font-size:26px;line-height:1.3}
+.hero-badge{font-size:11px;padding:6px 14px;letter-spacing:1.2px;margin-bottom:16px}
+.meta-bar{grid-template-columns:1fr;gap:10px;margin-bottom:28px}
+.meta-item{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;text-align:left}
+.meta-value{margin-top:0;font-size:14px}
+.sec-hd{gap:12px;margin-bottom:16px}
+h2{font-size:23px}
+h3{font-size:16.5px}
+.section{margin-bottom:36px}
+p{font-size:16.5px;margin-bottom:12px}
+.zone-body-grid{grid-template-columns:1fr}
+.zone-body-card{padding:14px 16px}
+.tech-grid{grid-template-columns:1fr}
+.tech-card{padding:20px}
+.who-grid{grid-template-columns:1fr;margin:14px 0}
+.card-grid{grid-template-columns:1fr;margin:14px 0}
+.card{padding:20px}
+.card p{font-size:15.5px}
+.notes-grid{grid-template-columns:1fr;margin:16px 0}
+.note-box{padding:20px}
+.steps::before{left:17px;top:20px;bottom:20px}
+.step{gap:14px;padding-bottom:18px}
+.step-num{width:34px;height:34px;min-width:34px;font-size:13px}
+.step-body{padding:14px 16px}
+.step-body p{font-size:15.5px}
+.faq-q{padding:16px 18px;font-size:16px}
+.faq-a-inner{padding:0 18px 16px;font-size:15.5px}
+.callout{padding:20px 22px}
+.callout strong{font-size:19px}
+.callout p{font-size:15.5px}
+.highlight{padding:18px 20px;margin:20px 0}
+.highlight p{font-size:16.5px}
+.divider{margin:30px 0}
+.contra{padding:16px 18px;margin:16px 0}
+.contra p{font-size:16px}
+.who-card{padding:14px 16px}
+.who-card p{font-size:15.5px}
+th,td{padding:12px 14px;font-size:15.5px;}
+th{font-size:16.5px}
+}
+@media(max-width:380px){
+.hero h1{font-size:22px}
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const q = item.querySelector('.faq-q');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      faqItems.forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        const a = item.querySelector('.faq-a');
+        a.style.maxHeight = a.scrollHeight + "px";
+      }
+    });
+  });
+});
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-badge">Tư vấn thẩm mỹ chuyên sâu</div>
+  <h1>Mỡ má vì sao khó giảm? Nguyên nhân và giải pháp là gì?</h1>
+</header>
+
+<div class="highlight">
+  <p>Mỡ má là tình trạng tích tụ mô mỡ dưới da ở vùng mặt khiến khuôn mặt trông tròn, đầy hoặc kém góc cạnh hơn. Nhiều người nhận thấy dù đã giảm cân thành công nhưng vùng má vẫn không thay đổi đáng kể. Nguyên nhân thường liên quan đến di truyền, cấu trúc giải phẫu khuôn mặt, cơ chế phân bố mỡ, hormone, giữ nước và quá trình lão hóa. Các giải pháp có thể bao gồm điều chỉnh lối sống, giảm tỷ lệ mỡ cơ thể hoặc áp dụng các phương pháp thẩm mỹ phù hợp sau khi được bác sĩ đánh giá trực tiếp.</p>
+</div>
+
+<div class="divider"></div>
+
+<section class="section" id="mo-ma-la-gi">
+  <div class="sec-hd">
+    <div class="sec-num">01</div>
+    <h2>Mỡ má là gì? Vì sao vùng má thường khó giảm mỡ hơn các vị trí khác?</h2>
+  </div>
+  
+  <p>Mỡ má là một phần của hệ thống mô mỡ vùng mặt, có vai trò nâng đỡ mô mềm và duy trì sự hài hòa của khuôn mặt. Không phải mọi trường hợp má to đều do mỡ. Việc hiểu đúng cấu trúc giải phẫu sẽ giúp xác định nguyên nhân và lựa chọn giải pháp phù hợp.</p>
+
+  <div>
+    <h3>Mỡ má là gì?</h3>
+    <p>Mỡ má là lượng mỡ dưới da và các khoang mỡ nằm trong cấu trúc mô mềm của khuôn mặt. Các tế bào mỡ tại đây có chức năng dự trữ năng lượng, đồng thời góp phần tạo đường nét tự nhiên cho gương mặt.</p>
+    <p>Ở góc độ thẩm mỹ, lượng mỡ vùng má quá nhiều có thể khiến khuôn mặt mất sự thanh thoát. Tuy nhiên, nếu lượng mỡ quá ít, khuôn mặt cũng dễ xuất hiện tình trạng hóp má, già nua hoặc thiếu sức sống.</p>
+  </div>
+
+  <div>
+    <h3>Cấu trúc mô mỡ vùng má hoạt động như thế nào?</h3>
+    <p>Vùng má không chỉ gồm mô mỡ đơn thuần mà còn bao gồm:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Mỡ dưới da.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Các khoang mỡ sâu.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Hệ thống dây chằng nâng đỡ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Collagen và Elastin trong da.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Cơ biểu cảm khuôn mặt.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Hệ bạch huyết và mạch máu.</p></div>
+    </div>
+    <p>Những cấu trúc này phối hợp với nhau để duy trì hình dạng khuôn mặt. Khi tuổi tác tăng lên hoặc cân nặng thay đổi, sự phân bố của mô mỡ có thể thay đổi theo.</p>
+  </div>
+
+  <div>
+    <h3>Vì sao mỡ má thường giảm chậm hơn mỡ ở các vùng khác?</h3>
+    <p>Đây là câu hỏi rất phổ biến trong thực hành thẩm mỹ.</p>
+    <p>Nguyên nhân chủ yếu gồm:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body"><p>Số lượng và kích thước tế bào mỡ vùng mặt được quyết định một phần bởi di truyền.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body"><p>Cơ thể không thể lựa chọn giảm mỡ tại một vị trí cụ thể.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body"><p>Quá trình chuyển hóa mỡ diễn ra khác nhau ở từng vùng.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body"><p>Mỡ mặt thường được bảo tồn nhằm duy trì chức năng nâng đỡ mô mềm.</p></div>
+      </div>
+    </div>
+    <p style="margin-top:14px;">Do đó, nhiều người phải giảm tỷ lệ mỡ cơ thể tương đối đáng kể mới bắt đầu thấy thay đổi rõ ở vùng má.</p>
+  </div>
+
+  <div>
+    <h3>Mỡ má, cơ cắn và phù nề khác nhau như thế nào?</h3>
+    <p>Không phải khuôn mặt to nào cũng do mỡ.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Nguyên nhân</th>
+          <th>Đặc điểm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Mỡ má</strong></td>
+          <td>Mềm, có thể véo được lớp mô dưới da</td>
+        </tr>
+        <tr>
+          <td><strong>Cơ cắn phát triển</strong></td>
+          <td>Góc hàm vuông, nổi rõ khi nghiến răng</td>
+        </tr>
+        <tr>
+          <td><strong>Phù nề</strong></td>
+          <td>Mặt sưng theo thời điểm, thường rõ vào buổi sáng</td>
+        </tr>
+        <tr>
+          <td><strong>Tuyến mang tai to</strong></td>
+          <td>Sưng vùng trước tai hoặc góc hàm</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="contra">
+      <p>Việc phân biệt chính xác cần dựa trên đánh giá lâm sàng của bác sĩ.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="nguyen-nhan-tich-tu">
+  <div class="sec-hd">
+    <div class="sec-num">02</div>
+    <h2>Những nguyên nhân khiến mỡ má tích tụ và khó giảm</h2>
+  </div>
+  <p>Mỡ má không chỉ xuất phát từ tăng cân. Trong nhiều trường hợp, nguyên nhân nằm ở sự kết hợp của yếu tố di truyền, hormone, chuyển hóa và lối sống.</p>
+
+  <div>
+    <h3>Yếu tố di truyền ảnh hưởng đến mỡ má như thế nào?</h3>
+    <p>Di truyền quyết định:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Vị trí phân bố mỡ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Số lượng tế bào mỡ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Độ dày mô mềm vùng mặt.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Hình dạng khuôn mặt tự nhiên.</p></div>
+    </div>
+    <p>Đây là lý do trong cùng một gia đình có thể xuất hiện nhiều người sở hữu khuôn mặt tròn dù cân nặng bình thường.</p>
+  </div>
+
+  <div>
+    <h3>Tuổi tác và sự thay đổi cấu trúc khuôn mặt</h3>
+    <p>Theo thời gian:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Collagen giảm dần.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Elastin suy giảm.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Dây chằng nâng đỡ giãn ra.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Các khoang mỡ dịch chuyển.</p></div>
+    </div>
+    <p>Kết quả là khuôn mặt có thể xuất hiện cảm giác đầy hoặc chảy xệ dù lượng mỡ thực tế không tăng nhiều.</p>
+  </div>
+
+  <div>
+    <h3>Chế độ ăn nhiều muối, đường và thực phẩm chế biến sẵn</h3>
+    <p>Những thực phẩm này có thể:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Làm tăng giữ nước.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Gây rối loạn chuyển hóa.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Tăng tích lũy mỡ toàn thân.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Làm khuôn mặt trông sưng hơn.</p></div>
+    </div>
+    <p>Nhiều người nhầm lẫn tình trạng giữ nước với tăng mỡ má.</p>
+  </div>
+
+  <div>
+    <h3>Thiếu vận động làm tăng tích tụ mỡ vùng mặt</h3>
+    <p>Ít vận động làm giảm tiêu hao năng lượng và góp phần tăng tỷ lệ mỡ cơ thể.</p>
+    <p>Khi lượng mỡ toàn thân tăng lên, vùng mặt thường là một trong những vị trí biểu hiện rõ nhất.</p>
+  </div>
+
+  <div>
+    <h3>Rối loạn nội tiết và hormone</h3>
+    <p>Hormone ảnh hưởng trực tiếp đến cách cơ thể tích trữ và huy động mỡ.</p>
+    <p>Các tình trạng có thể liên quan gồm:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Kháng insulin.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Hội chứng buồng trứng đa nanoc.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Rối loạn tuyến giáp.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Thay đổi hormone theo tuổi.</p></div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Tình trạng giữ nước khiến má trông to hơn</h3>
+    <p>Giữ nước thường liên quan đến:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Ăn mặn.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Thiếu ngủ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Uống ít nước.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Rối loạn bạch huyết.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Một số bệnh lý nội khoa.</p></div>
+    </div>
+    <p>Trong nhiều trường hợp, điều trị nguyên nhân giữ nước giúp khuôn mặt gọn hơn mà không cần can thiệp mỡ.</p>
+  </div>
+
+  <div>
+    <h3>Giảm cân sai cách có thể làm mỡ má khó biến mất</h3>
+    <p>Chế độ ăn quá khắt khe có thể:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Làm giảm khối cơ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Làm chậm chuyển hóa cơ thể.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Gây dao động cân nặng liên tục.</p></div>
+    </div>
+    <p>Điều này khiến hiệu quả giảm mỡ không ổn định.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Cortisol ảnh hưởng thế nào đến tích tụ mỡ?</h3>
+      <p>Cortisol là hormone được tiết ra khi cơ thể chịu stress kéo dài. Nồng độ cortisol tăng cao có thể thúc đẩy tích tụ mỡ tại một số vùng đặc trưng, đồng thời làm tăng giữ nước và thay đổi chuyển hóa năng lượng.</p>
+    </div>
+    <div class="card">
+      <h3>Thiếu ngủ có làm mặt tích mỡ không?</h3>
+      <p>Thiếu ngủ kéo dài có thể làm tăng cảm giác thèm ăn, tăng cortisol, gây giữ nước và ảnh hưởng đến insulin. Kết quả là khuôn mặt dễ trông sưng và đầy hơn.</p>
+    </div>
+  </div>
+
+  <div>
+    <h3>Stress kéo dài tác động đến khuôn mặt ra sao?</h3>
+    <p>Ngoài tác động nội tiết, stress còn làm:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Tăng giữ nước.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Rối loạn giấc ngủ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Thay đổi thói quen ăn uống.</p></div>
+    </div>
+    <p>Đây là một trong những nguyên nhân thường bị bỏ sót khi đánh giá mỡ má.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="vi-sao-giam-can-khong-giam-mo-ma">
+  <div class="sec-hd">
+    <div class="sec-num">03</div>
+    <h2>Vì sao nhiều người giảm cân nhưng mỡ má vẫn không giảm?</h2>
+  </div>
+  <p>Giảm cân không đồng nghĩa với giảm mỡ má. Sự khác biệt về phân bố mỡ và cấu trúc khuôn mặt khiến kết quả giữa các cá nhân rất khác nhau.</p>
+
+  <div>
+    <h3>Cơ chế phân bố mỡ ở mỗi người khác nhau như thế nào?</h3>
+    <p>Mỗi cơ thể có một "bản đồ phân bố mỡ" riêng.</p>
+    <p>Có người tích mỡ chủ yếu ở:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Bụng.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Đùi.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Hông.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Mặt.</p></div>
+    </div>
+    <p>Do đó tốc độ giảm mỡ ở từng vùng cũng khác nhau.</p>
+  </div>
+
+  <div>
+    <h3>Người gầy vẫn có mỡ má là do đâu?</h3>
+    <p>Đây là tình trạng gặp khá thường xuyên.</p>
+    <p>Nguyên nhân có thể gồm:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Di truyền.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Cấu trúc mô mỡ mặt bẩm sinh.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Mặt ngắn và rộng.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Má sâu phát triển.</p></div>
+    </div>
+    <p>Vì vậy người có BMI bình thường vẫn có khuôn mặt đầy đặn.</p>
+  </div>
+
+  <div>
+    <h3>Cấu trúc xương mặt có làm má trông đầy hơn không?</h3>
+    <p>Có.</p>
+    <p>Những người có:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Xương gò má thấp.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Xương hàm ngắn.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Khuôn mặt tròn.</p></div>
+    </div>
+    <p style="margin-top:14px;">thường tạo cảm giác má lớn hơn dù lượng mỡ không nhiều.</p>
+  </div>
+
+  <div>
+    <h3>Mỡ má có phải là vùng giảm sau cùng khi giảm cân?</h3>
+    <p>Ở nhiều người, câu trả lời là có.</p>
+    <p>Cơ thể ưu tiên huy động mỡ từ các vùng khác trước khi giảm đáng kể lượng mỡ ở mặt. Tuy nhiên điều này không giống nhau ở tất cả mọi người.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="cach-nhan-biet">
+  <div class="sec-hd">
+    <div class="sec-num">04</div>
+    <h2>Cách nhận biết má to do mỡ hay do nguyên nhân khác</h2>
+  </div>
+  <p>Trước khi tìm giải pháp, điều quan trọng nhất là xác định chính xác nguyên nhân khiến má to.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Dấu hiệu nhận biết má to do mỡ</h3>
+      <p>Một số dấu hiệu thường gặp: Mô mềm khi sờ, có thể véo được lớp mỡ dưới da, má tròn đều hai bên và thay đổi theo cân nặng.</p>
+    </div>
+    <div class="card">
+      <h3>Má to do cơ cắn có đặc điểm gì?</h3>
+      <p>Cơ cắn phát triển thường gặp ở người hay nhai kẹo cao su, nghiến răng, cắn chặt hàm. Khi nghiến răng, khối cơ ở góc hàm nổi rõ và săn chắc.</p>
+    </div>
+  </div>
+
+  <div>
+    <h3>Phù nề vùng mặt khác gì với mỡ má?</h3>
+    <p>Phù nề thường xuất hiện nhanh, thay đổi theo thời điểm trong ngày, rõ hơn vào buổi sáng, có thể đi kèm cảm giác căng tức. Trong khi đó mỡ má thường ổn định hơn theo thời gian.</p>
+  </div>
+
+  <div class="callout">
+    <strong>Khi nào cần thăm khám chuyên khoa?</strong>
+    <p>Nên thăm khám khi: Má to không rõ nguyên nhân, khuôn mặt thay đổi nhanh, có bất đối xứng, nghi ngờ bệnh lý tuyến nước bọt hoặc nội tiết.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="phuong-phap-tu-nhien">
+  <div class="sec-hd">
+    <div class="sec-num">05</div>
+    <h2>Mỡ má có thể giảm bằng phương pháp tự nhiên không?</h2>
+  </div>
+  <p>Trong nhiều trường hợp, việc giảm tỷ lệ mỡ cơ thể và điều chỉnh lối sống có thể giúp khuôn mặt thon gọn hơn. Tuy nhiên hiệu quả phụ thuộc nguyên nhân gây má to.</p>
+
+  <div class="notes-grid">
+    <div class="note-box before">
+      <div class="note-hd"><h3>Nên ưu tiên</h3></div>
+      <ul class="note-list">
+        <li><div class="note-dot-before"></div>Thực phẩm giàu protein.</li>
+        <li><div class="note-dot-before"></div>Rau xanh.</li>
+        <li><div class="note-dot-before"></div>Trái cây nguyên quả.</li>
+        <li><div class="note-dot-before"></div>Chất béo lành mạnh.</li>
+      </ul>
+    </div>
+    <div class="note-box after">
+      <div class="note-hd"><h3>Đồng thời hạn chế</h3></div>
+      <ul class="note-list">
+        <li><div class="note-dot-after"></div>Đường tinh luyện.</li>
+        <li><div class="note-dot-after"></div>Nước ngọt.</li>
+        <li><div class="note-dot-after"></div>Đồ ăn chế biến sẵn.</li>
+        <li><div class="note-dot-after"></div>Thực phẩm nhiều muối.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h3>Giảm tỷ lệ mỡ cơ thể có giúp giảm mỡ má không?</h3>
+    <p>Có thể. Khi Body Fat Percentage giảm xuống, lượng mỡ tại nhiều vùng trên cơ thể cũng giảm theo, bao gồm vùng mặt. Tuy nhiên tốc độ thay đổi ở má thường chậm hơn một số vùng khác.</p>
+  </div>
+
+  <div>
+    <h3>Vai trò của vận động và tập luyện</h3>
+    <p>Cardio kết hợp tập sức mạnh giúp tăng tiêu hao năng lượng, duy trì khối cơ, hỗ trợ giảm mỡ toàn thân. Đây là nền tảng quan trọng hơn bất kỳ bài tập giảm má riêng lẻ nào.</p>
+  </div>
+
+  <div>
+    <h3>Ngủ đủ giấc và kiểm soát stress</h3>
+    <p>Ngủ từ 7–9 giờ mỗi đêm giúp ổn định hormone liên quan đến đói no, cortisol, chuyển hóa năng lượng. Điều này hỗ trợ kiểm soát cân nặng và giảm tình trạng mặt sưng.</p>
+  </div>
+
+  <div>
+    <h3>Các bài tập cơ mặt có thực sự hiệu quả?</h3>
+    <p>Các bài tập cơ mặt có thể cải thiện trương lực cơ, biểu cảm khuôn mặt, tuần hoàn máu tại chỗ. Tuy nhiên bằng chứng khoa học hiện nay chưa cho thấy khả năng giảm mỡ má đáng kể thông qua các bài tập này.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Những hiểu lầm phổ biến về bài tập giảm mỡ má</h3>
+      <p>Hiểu lầm thường gặp nhất là có thể "đốt mỡ tại chỗ". Trên thực tế, cơ thể không lựa chọn giảm mỡ ở riêng vùng má thông qua vận động khu trú.</p>
+    </div>
+    <div class="card">
+      <h3>Khi nào nên kỳ vọng thấy kết quả?</h3>
+      <p>Nếu nguyên nhân chủ yếu là mỡ thừa toàn thân, thay đổi thường xuất hiện sau vài tuần đến vài tháng tùy mức độ thâm hụt calo và cơ địa từng người.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="phuong-phap-tham-my">
+  <div class="sec-hd">
+    <div class="sec-num">06</div>
+    <h2>Các phương pháp thẩm mỹ hỗ trợ giảm mỡ má hiện nay</h2>
+  </div>
+  <p>Các phương pháp thẩm mỹ có thể hỗ trợ giảm thể tích mô mỡ vùng mặt trong những trường hợp được chỉ định phù hợp. Mỗi phương pháp đều có ưu điểm và hạn chế riêng.</p>
+
+  <div>
+    <h3>Tiêm tan mỡ má là gì?</h3>
+    <p>Tiêm tan mỡ sử dụng các hoạt chất nhằm hỗ trợ phá vỡ tế bào mỡ tại vùng điều trị. Phương pháp này thường phù hợp với các vùng mỡ khu trú nhỏ và cần được thực hiện bởi người có chuyên môn phù hợp.</p>
+  </div>
+
+  <div>
+    <h3>Hút mỡ má phù hợp với đối tượng nào?</h3>
+    <p>Có thể được cân nhắc khi: Mỡ má khu trú rõ, tỷ lệ mỡ cơ thể đã ổn định, không đạt kết quả mong muốn bằng thay đổi lối sống. Việc đánh giá cần dựa trên cấu trúc khuôn mặt tổng thể.</p>
+  </div>
+
+  <div>
+    <h3>Công nghệ năng lượng hỗ trợ giảm mỡ vùng mặt</h3>
+    <p>Một số công nghệ thường được sử dụng:</p>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-label ml">Sóng RF</div>
+        <div class="tech-name">Công nghệ Radio Frequency</div>
+        <div class="tech-desc">Tác động đến mô mềm, săn chắc da hoặc hỗ trợ giảm thể tích mô dưới da ở mức độ nhất định.</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label rf">HIFU</div>
+        <div class="tech-name">Sóng siêu âm hội tụ</div>
+        <div class="tech-desc">Hỗ trợ làm săn chắc mô da sâu và tạo độ thon gọn cho đường nét khuôn mặt.</div>
+      </div>
+    </div>
+    <p>Các công nghệ này chủ yếu tác động đến mô mềm, săn chắc da hoặc hỗ trợ giảm thể tích mô dưới da ở mức độ nhất định.</p>
+  </div>
+
+  <div>
+    <h3>Ưu và nhược điểm của từng phương pháp</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Phương pháp</th>
+          <th>Ưu điểm</th>
+          <th>Hạn chế</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tiêm tan mỡ</strong></td>
+          <td>Ít xâm lấn</td>
+          <td>Hiệu quả phụ thuộc cơ địa</td>
+        </tr>
+        <tr>
+          <td><strong>Hút mỡ mặt</strong></td>
+          <td>Loại bỏ mỡ trực tiếp</td>
+          <td>Là thủ thuật xâm lấn</td>
+        </tr>
+        <tr>
+          <td><strong>RF</strong></td>
+          <td>Thời gian hồi phục ngắn</td>
+          <td>Kết quả thường từ từ</td>
+        </tr>
+        <tr>
+          <td><strong>HIFU</strong></td>
+          <td>Hỗ trợ săn chắc mô</td>
+          <td>Không phù hợp mọi trường hợp</td>
+        </tr>
+        <tr>
+          <td><strong>Laser</strong></td>
+          <td>Đa dạng chỉ định</td>
+          <td>Hiệu quả phụ thuộc công nghệ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h3>Tiêu chí lựa chọn phương pháp phù hợp</h3>
+    <p>Bác sĩ thường đánh giá:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Nguyên nhân má to.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Độ dày mô mỡ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Chất lượng da.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Tuổi.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Mong muốn thẩm mỹ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Tiền sử bệnh lý.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="rui-ro-va-luu-y">
+  <div class="sec-hd">
+    <div class="sec-num">07</div>
+    <h2>Những rủi ro và lưu ý cần biết trước khi can thiệp giảm mỡ má</h2>
+  </div>
+  <p>Mọi thủ thuật thẩm mỹ đều có nguy cơ nhất định. Hiểu rõ rủi ro giúp người bệnh đưa ra quyết định thận trọng hơn.</p>
+
+  <div>
+    <h3>Các rủi ro có thể gặp khi giảm mỡ má bằng thủ thuật</h3>
+    <p>Một số biến chứng thẩm mỹ có thể bao gồm:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Bất đối xứng khuôn mặt.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Sưng kéo dài.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Nhiễm trùng.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Tổn thương mô mềm.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Lõm má quá mức.</p></div>
+    </div>
+    <p>Mức độ nguy cơ phụ thuộc kỹ thuật thực hiện và chỉ định điều trị.</p>
+  </div>
+
+  <div>
+    <h3>Những đối tượng không nên can thiệp giảm mỡ má</h3>
+    <p>Có thể cần trì hoãn hoặc tránh can thiệp khi:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Đang mang thai.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Có bệnh lý chưa kiểm soát.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Rối loạn đông máu.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Nhiễm trùng cấp tính.</p></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Tầm quan trọng của thăm khám chuyên môn</strong>
+    <p>Đây là bước quan trọng nhất trong toàn bộ quá trình điều trị. Thăm khám giúp xác định: Má to do mỡ hay nguyên nhân khác, mức độ phù hợp của từng phương pháp, nguy cơ tiềm ẩn có thể gặp.</p>
+  </div>
+
+  <div>
+    <h3>Cách đánh giá cơ sở thực hiện an toàn</h3>
+    <p>Người bệnh nên quan tâm:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Giấy phép hoạt động theo quy định Bộ Y tế.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Bác sĩ được đào tạo chuyên khoa.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Quy trình kiểm soát nhiễm khuẩn.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Thiết bị có nguồn gốc rõ ràng.</p></div>
+    </div>
+    <p style="margin-top:14px;">Công nghệ được cơ quan quản lý như FDA cấp phép hoặc chấp thuận khi phù hợp với chỉ định.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section" id="goc-nhan-bac-si">
+  <div class="sec-hd">
+    <div class="sec-num">08</div>
+    <h2>Góc nhìn bác sĩ: Khi nào nên điều trị mỡ má và khi nào không cần can thiệp?</h2>
+  </div>
+  <p>Không phải mọi trường hợp mỡ má đều cần điều trị. Quyết định can thiệp nên dựa trên đánh giá y khoa toàn diện thay vì chỉ dựa vào mong muốn làm mặt nhỏ hơn.</p>
+
+  <div>
+    <h3>Những trường hợp có thể cải thiện bằng thay đổi lối sống</h3>
+    <p>Thường gặp ở người:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Tăng cân gần đây.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Ăn nhiều muối.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Thiếu ngủ.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Ít vận động.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Có dấu hiệu giữ nước.</p></div>
+    </div>
+    <p style="margin-top:14px;">Những trường hợp này nên ưu tiên điều chỉnh lối sống trước.</p>
+  </div>
+
+  <div>
+    <h3>Khi nào nên cân nhắc giải pháp y khoa?</h3>
+    <p>Có thể được xem xét khi: Mỡ má khu trú kéo dài, đã kiểm soát cân nặng ổn định, không có nguyên nhân nội khoa, ảnh hưởng đáng kể đến thẩm mỹ khuôn mặt.</p>
+  </div>
+
+  <div>
+    <h3>Các tiêu chí đánh giá trước khi điều trị</h3>
+    <p>Bác sĩ chuyên khoa tạo hình thẩm mỹ thường đánh giá:</p>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-dot"></div><p>Cấu trúc xương mặt.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Chất lượng da.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Mô mỡ dưới da.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Mức độ lão hóa.</p></div>
+      <div class="who-card"><div class="who-dot"></div><p>Tỷ lệ mỡ cơ thể.</p></div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <p>Tầm quan trọng của cá nhân hóa phác đồ</p>
+    <p>Hai người có khuôn mặt trông giống nhau có thể cần hai hướng xử trí hoàn toàn khác nhau. Vì vậy, kế hoạch điều trị cá nhân hóa dựa trên đánh giá lâm sàng luôn quan trọng hơn việc áp dụng một phương pháp chung cho tất cả.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="callout">
+  <strong>Tóm tắt nhanh 5 ý chính quan trọng nhất</strong>
+  <p>1. Mỡ má là sự tích tụ mô mỡ vùng mặt nhưng không phải mọi trường hợp má to đều do mỡ.</p>
+  <p>2. Di truyền, hormone, giữ nước, tuổi tác và lối sống là những nguyên nhân phổ biến khiến mỡ má khó giảm.</p>
+  <p>3. Nhiều người giảm cân nhưng má vẫn đầy do đặc điểm phân bố mỡ và cấu trúc xương mặt.</p>
+  <p>4. Giảm tỷ lệ mỡ cơ thể, dinh dưỡng hợp lý, vận động và ngủ đủ giấc có thể hỗ trợ cải thiện mỡ má ở một số trường hợp.</p>
+  <p>5. Các phương pháp thẩm mỹ cần được chỉ định dựa trên đánh giá trực tiếp của bác sĩ nhằm cân bằng hiệu quả và an toàn.</p>
+</div>
+
+<div class="divider"></div>
+
+<section class="section" id="faq">
+  <div class="sec-hd">
+    <div class="sec-num">?</div>
+    <h2>FAQ – Câu hỏi thường gặp</h2>
+  </div>
+  
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">1. Mỡ má có tự giảm khi giảm cân không? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Có thể, nhưng mức độ giảm phụ thuộc cơ địa, tỷ lệ mỡ cơ thể và cách phân bố mỡ của từng người.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">2. Người gầy có thể bị mỡ má không? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Có. Di truyền và cấu trúc khuôn mặt có thể khiến người gầy vẫn có má đầy.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">3. Tập cơ mặt có làm má nhỏ đi không? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Các bài tập cơ mặt có thể cải thiện trương lực cơ nhưng chưa có bằng chứng mạnh cho thấy giúp giảm mỡ má đáng kể.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">4. Làm sao phân biệt mỡ má với cơ cắn? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Mỡ má mềm và có thể véo được lớp mô dưới da, trong khi cơ cắn sẽ nổi rõ khi nghiến răng.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">5. Hút mỡ má có phù hợp với mọi người không? <span class="faq-chevron">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Không. Chỉ định phụ thuộc cấu trúc khuôn mặt, lượng mỡ thực tế, chất lượng da và đánh giá chuyên môn của bác sĩ.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer style="margin-top:24px; padding:20px; background:var(--light); border-radius:var(--card-radius); text-align:center;">
+  <p style="font-size:15px; color:var(--muted); margin:0; font-weight:600;"><em>Lưu ý y khoa: Thông tin trong bài chỉ mang tính tham khảo, không thay thế cho việc thăm khám, chẩn đoán hoặc tư vấn trực tiếp từ bác sĩ chuyên khoa.</em></p>
+</footer>
+
+</div>
+</body>
+</html>
