@@ -60,7 +60,7 @@ img{width:100%;height:100%;object-fit:cover;display:block}
 .hero-inner{
   width:100%;max-width:1360px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
   background:linear-gradient(135deg,rgba(255,255,255,.62),rgba(255,255,255,.3));
-  backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,.82);border-radius:52px;padding:64px 56px;
+  backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,.82);border-radius:52px;padding:30px 56px 0;
   box-shadow:0 48px 120px rgba(45,74,67,.05),inset 0 2px 0 #fff
 }
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:linear-gradient(135deg,rgba(255,214,224,.5),rgba(195,240,224,.4));border:1px solid rgba(255,255,255,.8);border-radius:100px;margin-bottom:28px}
@@ -71,19 +71,33 @@ img{width:100%;height:100%;object-fit:cover;display:block}
 .hero-title em{font-style:italic;background:linear-gradient(135deg,#e8a0a8,#b5a8e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-desc{font-size:14.5px;color:var(--sage-mid);line-height:1.85;max-width:460px}
 
-.hero-portrait{
-  position:relative;width:100%;height:520px;border-radius:36px;overflow:hidden;
-  border:4px solid rgba(255,255,255,.9);
-  box-shadow:0 32px 80px rgba(45,74,67,.12),0 0 0 1px rgba(255,255,255,.5);
-  transition:transform .5s cubic-bezier(.16,1,.3,1)
+/* 2. Portrait neo đáy */
+.hero-portrait {
+  align-self: end;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: hidden;
 }
-.hero-portrait:hover{transform:scale(1.01)}
-.hero-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center}
-.hero-portrait-tag{
-  position:absolute;bottom:20px;left:20px;
-  background:rgba(255,255,255,.88);backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.9);border-radius:100px;
-  padding:8px 18px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sage)
+
+/* 3. Ảnh sát đáy, không gap */
+.hero-portrait img {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: bottom;
+  vertical-align: bottom;
+}
+
+/* Ẩn hoặc xóa bỏ phần tag nếu không cần nữa */
+.hero-portrait-tag {
+    display: none;
 }
 
 /* ═══ GALLERY ACCORDION ═══ */
@@ -871,8 +885,7 @@ img{width:100%;height:100%;object-fit:cover;display:block}
       <p class="hero-desc">Không có khuôn mẫu. Không có tiêu chuẩn nào áp đặt. Chỉ là những chia sẻ chân thực về skincare, thời trang và phong cách sống mà tôi đang học cách yêu thương bản thân mỗi ngày.</p>
     </div>
     <div class="hero-portrait">
-      <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/06/ceo-benh-vien-tham-my-nam-an.jpg" alt="Portrait">
-      <span class="hero-portrait-tag">Lumia · Beauty Journal</span>
+      <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/06/Gia-the-va-Phan-bon-tai-HCM-gia-re-gia-si-1.png" alt="Portrait">
     </div>
   </div>
 </section>
@@ -1163,7 +1176,7 @@ img{width:100%;height:100%;object-fit:cover;display:block}
               </div>
             </div>
             <div class="wc-card wc-hero">
-              <img src="https://35express.org/wp-content/uploads/2024/04/Nguyen-Thi-Nhu-Lan-7.png.webp" alt="Bình yên buổi sáng">
+              <img src="https://i.pinimg.com/736x/0f/7a/f0/0f7af09dc67ea3ada55475062e6a2878.jpg" alt="Bình yên buổi sáng">
               <div class="wc-label">
               </div>
             </div>
@@ -1210,8 +1223,8 @@ img{width:100%;height:100%;object-fit:cover;display:block}
   <!-- RIGHT: Film Strip -->  <div class="film-zone">    <div class="film-orb"></div>
     <div class="film-strip-outer">      <div class="film-strip">
         <!-- top leader -->        <div class="film-leader">          <span class="film-leader-txt">Như Lan · Self Journal</span>          <span class="film-leader-txt">△ ◁ ◁</span>        </div>
-        <!-- Frame 01 -->        <div class="film-frame-row" style="height:118px">          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>          <div class="film-img-wrap">            <img src="https://afamilycdn.com/zoom/700_438/150157425591193600/2024/5/4/avatar1714786554811-1714786555362336786765-0-135-754-1341-crop-17147865729351427117707.jpg" alt="Portrait 01">            <span class="frame-num">01</span>          </div>          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>        </div>
-        <!-- Frame 02 -->        <div class="film-frame-row" style="height:118px">          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>          <div class="film-img-wrap">            <img src="https://35express.org/wp-content/uploads/2024/04/Nguyen-Thi-Nhu-Lan-4.png.webp" alt="Portrait 02">            <span class="frame-num">02</span>          </div>          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>        </div>
+        <!-- Frame 01 -->        <div class="film-frame-row" style="height:118px">          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>          <div class="film-img-wrap">            <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/06/ceo-benh-vien-tham-my-nam-an.jpg" alt="Portrait 01">            <span class="frame-num">01</span>          </div>          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>        </div>
+        <!-- Frame 02 -->        <div class="film-frame-row" style="height:118px">          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>          <div class="film-img-wrap">            <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/06/ceo-benh-vien-tham-my-nam-an.jpg" alt="Portrait 02">            <span class="frame-num">02</span>          </div>          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>        </div>
         <!-- Frame 03 -->        <div class="film-frame-row" style="height:118px">          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>          <div class="film-img-wrap">            <img src="https://35express.org/wp-content/uploads/2024/04/Nguyen-Thi-Nhu-Lan-3.png" alt="Portrait 03">            <span class="frame-num">03</span>          </div>          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>        </div>
         <!-- Frame 04 -->        <div class="film-frame-row" style="height:118px">          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>          <div class="film-img-wrap">            <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/06/ceo-benh-vien-tham-my-nam-an.jpg" alt="Portrait 04" style="object-position:center center">            <span class="frame-num">04</span>          </div>          <div class="sprockets">            <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>          </div>        </div>
         <!-- bottom leader -->        <div class="film-leader" style="justify-content:center">          <span class="film-leader-txt">⬡ ⬡ ⬡ ⬡ DX 400-27° ⬡ ⬡ ⬡ ⬡</span>        </div>
