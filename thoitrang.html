@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -748,105 +749,229 @@ body{
 
     </div>
 
-    <div class="grid">
 
-        <!-- THỨ 2 -->
-
-        <article class="card">
-            <img src="https://i.pinimg.com/1200x/ce/64/63/ce64632c4469be9ba0df05e2f0506b95.jpg">
-
-            <div class="glass">
-                <span class="day">01 • THỨ HAI</span>
-                <h3>Future Luxury</h3>
-            </div>
-        </article>
-
-        <!-- THỨ 3 -->
-
-        <article class="card">
-            <img src="https://i.pinimg.com/736x/ba/ad/3f/baad3fd78804822f4e9acfeaa6d35b88.jpg">
-
-            <div class="glass">
-                <span class="day">02 • THỨ BA</span>
-                <h3>Runway Vision</h3>
-            </div>
-        </article>
-
-        <!-- THỨ 4 -->
-
-        <article class="card">
-            <img src="https://i.pinimg.com/1200x/f8/9e/ee/f89eee5ba941198b426fa2759b7491ee.jpg">
-
-            <div class="glass">
-                <span class="day">03 • THỨ TƯ</span>
-                              <h3>Editorial Mood</h3>
-            </div>
-        </article>
-
-        <!-- THỨ 5 -->
-
-        <article class="card">
-            <img src="https://i.pinimg.com/736x/24/2a/da/242adacaaecb1f89651fd650cee1f986.jpg">
-
-            <div class="glass">
-                <span class="day">04 • THỨ NĂM</span>
-                <h3>Editorial Mood</h3>
-            </div>
-        </article>
-
-        <!-- THỨ 6 -->
-
-        <article class="card">
-            <img src="https://i.pinimg.com/736x/d8/a0/57/d8a0574b151575e325cdd2ce5016de37.jpg">
-
-            <div class="glass">
-                <span class="day">05 • THỨ SÁU</span>
-                <h3>Luxury Craft</h3>
-            </div>
-        </article>
-
-        <!-- THỨ 7 -->
-
-        <article class="card">
-            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop">
-
-            <div class="glass">
-                <span class="day">06 • THỨ BẢY</span>
-                <h3>Street Couture</h3>
-            </div>
-        </article>
-
-        <!-- CHỦ NHẬT -->
-
-        <article class="card sunday">
-            <img src="https://i.pinimg.com/736x/0e/01/4d/0e014d8f808e90cd3e51998c6fffa826.jpg">
-
-            <div class="glass">
-                <span class="day">07 • CHỦ NHẬT • FEATURED</span>
-                <h3>Cover Story 2026</h3>
-
-            </div>
-        </article>
-
-    </div>
-
-</section>
-
-</body>
 </html>
   
   
   
   
-  
-  
-  
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--amber:#F2B341;--magenta:#EC4899;--violet:#8B5CF6;--cream:#F5F1EA;--r-lg:20px;--r-pill:999px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{font-family:'Sora',sans-serif;background:transparent;min-height:100vh;}
+.wrap{width:min(1280px,94%);margin:0 auto;padding:44px 0 20px;}
 
+.rail{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  padding:16px 28px;border-radius:var(--r-pill);margin-bottom:32px;
+  background:linear-gradient(135deg,rgba(255,255,255,.38) 0%,rgba(255,255,255,.18) 100%);
+  border:1.5px solid rgba(255,255,255,.75);
+  box-shadow:0 8px 32px rgba(139,92,246,.18),0 2px 8px rgba(242,179,65,.12),inset 0 1px 0 rgba(255,255,255,.9);
+  backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+}
+.rail-label{
+  font-family:'Instrument Serif',serif;font-style:italic;font-size:1rem;
+  background:linear-gradient(120deg,var(--violet),var(--magenta),var(--amber));
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:400;white-space:nowrap;
+}
+.days{display:flex;gap:7px;flex-wrap:wrap;}
+.days button{
+  background:rgba(255,255,255,.45);border:1.5px solid rgba(255,255,255,.7);color:#4B3A6E;
+  padding:6px 15px;border-radius:var(--r-pill);font-family:'Sora',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.days button:hover{background:rgba(255,255,255,.7);border-color:rgba(139,92,246,.5);color:#6D28D9;box-shadow:0 4px 14px rgba(139,92,246,.22);transform:translateY(-1px);}
+.days button.active{color:#fff;background:linear-gradient(120deg,var(--amber),var(--magenta),var(--violet));border-color:transparent;box-shadow:0 4px 16px rgba(236,72,153,.38);transform:translateY(-1px);}
+.count-badge{font-size:10px;font-weight:600;letter-spacing:.14em;color:#7C3AED;padding:5px 14px;border-radius:var(--r-pill);background:rgba(139,92,246,.12);border:1.5px solid rgba(139,92,246,.3);white-space:nowrap;}
 
-<div style="padding-top: 40px;">
-  
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.grid{grid-template-columns:1fr;}}
+
+.card{position:relative;border-radius:var(--r-lg);overflow:hidden;background:#1a1525;aspect-ratio:1/1;cursor:pointer;}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.2,1);}
+.card:hover img{transform:scale(1.05);}
+
+.day-tag{
+  position:absolute;top:12px;right:12px;z-index:2;
+  padding:5px 12px;border-radius:var(--r-pill);
+  font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:#fff;transform:rotate(-3deg);
+  background:linear-gradient(120deg,rgba(242,179,65,.75),rgba(236,72,153,.7));
+  border:1px solid rgba(255,255,255,.4);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 2px 10px rgba(236,72,153,.3);
+}
+
+.load-more{
+  display:none;width:100%;margin-top:18px;padding:14px;border-radius:var(--r-pill);
+  background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.18));
+  border:1.5px solid rgba(255,255,255,.65);color:#6D28D9;
+  font-family:'Sora',sans-serif;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 4px 16px rgba(139,92,246,.15),inset 0 1px 0 rgba(255,255,255,.8);
+}
+.load-more:hover{background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.28));box-shadow:0 6px 24px rgba(139,92,246,.25);transform:translateY(-1px);}
+.load-more.visible{display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="rail">
+    <span class="rail-label">Lan Studio — Editorial Archive</span>
+    <div class="days" id="dayNav">
+      <button data-day="all" class="active">Tất cả</button>
+      <button data-day="t2">T2</button>
+      <button data-day="t3">T3</button>
+      <button data-day="t4">T4</button>
+      <button data-day="t5">T5</button>
+      <button data-day="t6">T6</button>
+      <button data-day="t7">T7</button>
+      <button data-day="cn">CN</button>
+    </div>
+    <span class="count-badge" id="countBadge">8 / 56 ảnh</span>
+  </nav>
+
+  <div class="grid" id="grid"></div>
+  <button class="load-more" id="loadMore">+ Xem thêm ảnh</button>
+
 </div>
+<script>
+const DATA={
+  t2:[
+    {img:'https://i.pinimg.com/1200x/ce/64/63/ce64632c4469be9ba0df05e2f0506b95.jpg'},
+    {img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1445205170230-053b83016050?w=900&auto=format&fit=crop'},
+  ],
+  t3:[
+    {img:'https://i.pinimg.com/736x/ba/ad/3f/baad3fd78804822f4e9acfeaa6d35b88.jpg'},
+    {img:'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1488716820095-cbe80883c496?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&auto=format&fit=crop'},
+  ],
+  t4:[
+    {img:'https://i.pinimg.com/1200x/f8/9e/ee/f89eee5ba941198b426fa2759b7491ee.jpg'},
+    {img:'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1594938298603-c8148c4b941c?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1446511437394-36cdff3ae1b3?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=900&auto=format&fit=crop'},
+  ],
+  t5:[
+    {img:'https://i.pinimg.com/736x/24/2a/da/242adacaaecb1f89651fd650cee1f986.jpg'},
+    {img:'https://images.unsplash.com/photo-1550639525-c97d455acf70?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1542545991-fba024bdf566?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1488716820095-cbe80883c496?w=900&auto=format&fit=crop'},
+  ],
+  t6:[
+    {img:'https://i.pinimg.com/736x/d8/a0/57/d8a0574b151575e325cdd2ce5016de37.jpg'},
+    {img:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1445205170230-053b83016050?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=900&auto=format&fit=crop'},
+  ],
+  t7:[
+    {img:'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=900&auto=format&fit=crop'},
+  ],
+  cn:[
+    {img:'https://i.pinimg.com/736x/0e/01/4d/0e014d8f808e90cd3e51998c6fffa826.jpg'},
+    {img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1542545991-fba024bdf566?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1550639525-c97d455acf70?w=900&auto=format&fit=crop'},
+    {img:'https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=900&auto=format&fit=crop'},
+  ]
+};
+
+const DAY_KEYS=['t2','t3','t4','t5','t6','t7','cn'];
+const ALL=DAY_KEYS.flatMap(d=>DATA[d].map(item=>({...item,day:d})));
+const DAY_LABEL={t2:'Thứ Hai',t3:'Thứ Ba',t4:'Thứ Tư',t5:'Thứ Năm',t6:'Thứ Sáu',t7:'Thứ Bảy',cn:'Chủ Nhật'};
+
+let currentDay='all',shown=0;
+const PAGE=8;
+const grid=document.getElementById('grid');
+const loadMoreBtn=document.getElementById('loadMore');
+const badge=document.getElementById('countBadge');
+
+function getPool(d){return d==='all'?ALL:DATA[d].map(item=>({...item,day:d}));}
+
+function makeCard(item){
+  const el=document.createElement('article');
+  el.className='card';
+  el.innerHTML=`<img src="${item.img}" alt="" loading="lazy">
+    <span class="day-tag">${DAY_LABEL[item.day]}</span>`;
+  return el;
+}
+
+function render(day,reset){
+  const pool=getPool(day);
+  if(reset){grid.innerHTML='';shown=0;}
+  const next=Math.min(shown+PAGE,pool.length);
+  for(let i=shown;i<next;i++) grid.appendChild(makeCard(pool[i]));
+  shown=next;
+  badge.textContent=shown+' / '+pool.length+' ảnh';
+  loadMoreBtn.className=shown<pool.length?'load-more visible':'load-more';
+  loadMoreBtn.textContent='+ Xem thêm ảnh ('+(pool.length-shown)+')';
+}
+
+function setDay(day){
+  currentDay=day;
+  document.querySelectorAll('#dayNav button').forEach(b=>b.classList.toggle('active',b.dataset.day===day));
+  render(day,true);
+}
+
+document.getElementById('dayNav').addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-day]');
+  if(btn) setDay(btn.dataset.day);
+});
+loadMoreBtn.addEventListener('click',()=>render(currentDay,false));
+setDay('all');
+</script>
+</body>
+</html>
+  
+  
+  
+
+
 
 
 
@@ -866,10 +991,10 @@ body{
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 .fv-section {
-    max-width: 1480px;
+    max-width: 1580px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 44px; /* Bạn có thể chỉnh lại padding này thành 0 20px nếu muốn trên mobile không bị bóp quá hẹp */
+    padding: 0px; /* Bạn có thể chỉnh lại padding này thành 0 20px nếu muốn trên mobile không bị bóp quá hẹp */
     font-family: 'Plus Jakarta Sans', sans-serif;
 }.fv-section-label{display:flex;align-items:center;gap:14px;padding:32px 44px 0;margin-bottom:36px}
 .fv-label-text{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;white-space:nowrap;background:linear-gradient(90deg,#f472b6,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
