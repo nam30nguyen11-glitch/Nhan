@@ -1,0 +1,1677 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumia — Lifestyle & Beauty Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#2d4a43;
+  --sage-mid:#4a7068;
+  --sage-lt:#94b5ae;
+  --ink:#0d1f1a;
+  --muted:#4a6058;
+  --bg:#f0f5f2;
+  --border-glass:rgba(255,255,255,0.65);
+  --rose-tint:#fce8e8;
+  --lav-tint:#ece8fc;
+  --mint-tint:#e3f5ef;
+  --peach-tint:#fef0e3;
+  --sky-tint:#e3eeff;
+  --blush-tint:#fde8f4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--sage);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ═══ MESH BG ═══ */
+.mesh-bg{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.5;animation:drift 22s ease-in-out infinite alternate}
+.o1{width:650px;height:650px;top:-120px;left:-80px;background:radial-gradient(circle,#ffd6e0,#ffb3c6);animation-duration:18s}
+.o2{width:550px;height:550px;top:45%;right:-100px;background:radial-gradient(circle,#c3f0e0,#9ee5cb);animation-duration:24s;animation-delay:-7s}
+.o3{width:450px;height:450px;top:25%;left:35%;background:radial-gradient(circle,#ddd6fc,#c4b8f8);opacity:.35;animation-duration:28s;animation-delay:-12s}
+.o4{width:500px;height:500px;bottom:5%;left:-60px;background:radial-gradient(circle,#ffe8cc,#ffd0a0);animation-duration:20s;animation-delay:-5s}
+.o5{width:380px;height:380px;bottom:25%;right:5%;background:radial-gradient(circle,#cce8ff,#a8d4f8);opacity:.4;animation-duration:26s;animation-delay:-15s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(35px,25px) scale(1.07)}100%{transform:translate(-15px,55px) scale(.95)}}
+
+/* ═══ HEADER ═══ */
+.header{
+  position:sticky;top:16px;z-index:100;margin:0 32px;padding:0 32px;height:70px;
+  background:rgba(255,255,255,.5);backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.78);border-radius:100px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 8px 32px rgba(45,74,67,.06),inset 0 1px 0 rgba(255,255,255,.9)
+}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ffd6e0,#c3f0e0);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--sage)}
+.logo-text{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;letter-spacing:1px}
+.logo-sub{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--sage-lt);text-transform:uppercase;display:block;margin-top:-2px}
+.nav a{font-size:12.5px;font-weight:600;color:var(--sage-mid);text-decoration:none;margin-left:28px;transition:.3s}
+.nav a:hover{color:var(--sage)}
+.nav-cta{background:var(--sage);color:#fff;padding:11px 22px;border-radius:100px;font-size:12px;font-weight:700;text-decoration:none;transition:.3s;box-shadow:0 6px 18px rgba(45,74,67,.2)}
+.nav-cta:hover{transform:translateY(-2px)}
+
+
+
+
+
+@keyframes flagWave {
+  0%,100% { transform: rotate(-5deg) scale(1); }
+  50%      { transform: rotate(5deg) scale(1.08); }
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1100px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-portrait{max-width:560px;height:420px;margin:0 auto}
+  .chic-row,.chic-row.reverse{grid-template-columns:1fr!important;gap:48px!important}
+  .chic-row.reverse .image-art-zone,.chic-row.reverse .text-art-zone{order:unset}
+  .image-art-zone{height:420px!important}
+  .wc-top{height:260px}
+  .wc-bottom{height:100px}
+  .wc-hero .wc-hero-title{font-size:17px}
+  .journey-steps-col{width:190px}
+}
+@media(max-width:768px){
+  .header{margin:10px 16px;padding:0 18px}.nav{display:none}
+  .hero{padding:32px 16px}
+  .hero-inner{padding:40px 28px}
+  .image-art-zone{height:340px!important}
+  .art-img-master{width:65%;height:72%}
+  .art-img-mood{width:50%;height:48%}
+  .tt-card{flex:0 0 calc(50% - 5px)}
+  .tt-phones-row{gap:10px}
+  .tt-phone{border-radius:20px}
+  .wc-top{height:220px}
+  .wc-bottom{height:80px}
+  .wc-small .wc-word{font-size:12px}
+  .wc-thumb-label span{font-size:6px;letter-spacing:1px}
+  .journey-steps-col{width:165px;right:10px}
+  .j-card{padding:6px 8px}
+  .j-info span{font-size:8px}
+}
+@media(max-width:560px){
+  .image-art-zone{height:280px!important}
+  .text-art-zone{padding:36px 28px!important}
+  .prob-container{gap:72px}
+}
+</style>
+</head>
+<body>
+
+<!-- Reusable heart clipPath (objectBoundingBox so it scales with element size) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="heartClipPath" clipPathUnits="objectBoundingBox">
+      <path d="M0.5,0.97
+               C0.5,0.97 0.04,0.62 0.04,0.34
+               C0.04,0.15 0.19,0.03 0.355,0.03
+               C0.45,0.03 0.5,0.11 0.5,0.20
+               C0.5,0.11 0.55,0.03 0.645,0.03
+               C0.81,0.03 0.96,0.15 0.96,0.34
+               C0.96,0.62 0.5,0.97 0.5,0.97 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<div class="mesh-bg">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+  <div class="orb o5"></div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo-wrap">
+    <div class="logo-icon">L</div>
+    <div>
+      <span class="logo-text">Nguyễn Thị Như Lan</span>
+
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="#">Skincare</a>
+    <a href="#">Fashion</a>
+    <a href="#">Mỹ phẩm</a>
+    <a href="#">Sức khỏe</a>
+    <a href="#">Makeup</a>    
+    <a href="#">Hành trình</a>    
+    
+  </nav>
+  <a href="#" class="nav-cta">Theo dõi  Tiktok Lan</a>
+</header>
+
+
+
+
+
+
+  
+  
+  <div style="padding-top: 20px;">
+  
+</div>
+  
+  
+  
+  
+  
+  
+
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#f472b6;--pink-light:#fce7f3;--pink-soft:#fbcfe8;
+  --purple:#a78bfa;--purple-light:#ede9fe;
+  --mint:#6ee7b7;--mint-light:#d1fae5;
+  --peach:#fdba74;--peach-light:#ffedd5;
+  --sky:#7dd3fc;--sky-light:#e0f2fe;
+  --rose:#fb7185;
+  --text:#1a1a2e;--text-muted:#6b7280;--bg:#fdfcff;
+  --serif:'Playfair Display',serif;--sans:'Inter',sans-serif;
+  --glass:rgba(255,255,255,0.65);
+  --glass-border:rgba(255,255,255,0.88);
+  --glass-shadow:0 8px 32px rgba(167,139,250,0.13),0 2px 8px rgba(244,114,182,0.08);
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;line-height:1.7;overflow-x:hidden;padding:0 0 40px}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ── SECTION LABEL ── */
+.section-label{position:relative;z-index:1;max-width:100%;margin:18px 0 24px;padding:0 44px;display:flex;align-items:center;gap:14px}
+.section-label-text{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;white-space:nowrap;background:linear-gradient(90deg,var(--rose),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-label-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(244,114,182,.25),transparent)}
+
+/* ══ SECTION: FASHION THEO NGÀY ══ */
+.fw-section{position:relative;z-index:1;width:100%;overflow:hidden;margin-bottom:64px}
+.fw-bg{position:relative;background:linear-gradient(135deg,rgba(244,114,182,.06) 0%,rgba(167,139,250,.07) 50%,rgba(110,231,183,.05) 100%);border-top:1px solid rgba(244,114,182,.15);border-bottom:1px solid rgba(167,139,250,.12);padding:40px 0 44px}
+.fw-inner{max-width:1200px;margin:0 auto;padding:0 44px}
+.fw-header{text-align:center;margin-bottom:32px}
+.fw-eyebrow{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:20px;padding:4px 14px;margin-bottom:12px}
+.fw-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.02em;background:linear-gradient(135deg,var(--rose) 0%,var(--purple) 60%,var(--sky) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fw-subtitle{font-size:13px;color:var(--text-muted);margin-top:8px}
+
+/* Day grid */
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.day-card{
+  border-radius:16px;overflow:hidden;
+  background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1.5px solid var(--glass-border);
+  box-shadow:var(--glass-shadow);
+  transition:transform .28s,box-shadow .28s;cursor:pointer;
+  position:relative;
+}
+.day-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 20px 40px rgba(167,139,250,.2)}
+.day-card-img{width:100%;height:160px;object-fit:cover;display:block;transition:transform .4s}
+.day-card:hover .day-card-img{transform:scale(1.06)}
+.day-card-badge{
+  position:absolute;top:10px;left:10px;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  border-radius:10px;padding:3px 8px;color:#fff;backdrop-filter:blur(6px);
+}
+.day-card-body{padding:12px 11px 14px}
+.day-label{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:5px}
+.day-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;line-height:1.2;color:var(--text);margin-bottom:4px}
+.day-theme{font-size:10.5px;color:var(--text-muted);line-height:1.5}
+.day-mood{display:inline-block;margin-top:7px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-radius:8px;padding:2px 8px}
+
+/* Day color themes */
+.d0 .day-card-badge{background:rgba(167,139,250,.85)} .d0 .day-label{color:#7c3aed} .d0 .day-mood{background:var(--purple-light);color:#6d28d9}
+.d1 .day-card-badge{background:rgba(251,113,133,.85)} .d1 .day-label{color:#e11d48} .d1 .day-mood{background:#ffe4e6;color:#be123c}
+.d2 .day-card-badge{background:rgba(110,231,183,.85)} .d2 .day-label{color:#047857} .d2 .day-mood{background:var(--mint-light);color:#065f46}
+.d3 .day-card-badge{background:rgba(253,186,116,.85)} .d3 .day-label{color:#b45309} .d3 .day-mood{background:var(--peach-light);color:#c2410c}
+.d4 .day-card-badge{background:rgba(125,211,252,.85)} .d4 .day-label{color:#0369a1} .d4 .day-mood{background:var(--sky-light);color:#0369a1}
+.d5 .day-card-badge{background:rgba(244,114,182,.85)} .d5 .day-label{color:#be185d} .d5 .day-mood{background:var(--pink-light);color:#be185d}
+.d6 .day-card-badge{background:rgba(167,139,250,.75)} .d6 .day-label{color:#5b21b6} .d6 .day-mood{background:#f3e8ff;color:#7e22ce}
+.d7 .day-label{color:#F57F17} .d7 .day-card-badge{background:rgba(251,192,45,.8)} .d7 .day-mood{background:#FFF9C4;color:#F57F17}
+
+/* ══ SECTION: FASHION THEO MÙA ══ */
+.season-section{position:relative;z-index:1;width:100%;margin-bottom:64px}
+.season-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.season-panel{position:relative;overflow:hidden;min-height:480px;cursor:pointer;transition:flex .4s}
+.season-panel:hover{transform:none}
+.season-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .4s}
+.season-panel:hover .season-img{transform:scale(1.06);filter:brightness(1.05)}
+.season-overlay{position:absolute;inset:0;transition:background .3s}
+.season-content{position:absolute;bottom:0;left:0;right:0;padding:28px 22px;transition:transform .3s}
+.season-panel:hover .season-content{transform:translateY(-6px)}
+.season-num{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;line-height:.9;color:rgba(255,255,255,.18);margin-bottom:10px;transition:color .3s}
+.season-panel:hover .season-num{color:rgba(255,255,255,.28)}
+.season-tag{display:inline-block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;border-radius:10px;padding:3px 9px;margin-bottom:8px;color:#fff;backdrop-filter:blur(6px)}
+.season-name{font-family:'Playfair Display',serif;font-size:clamp(20px,2.2vw,28px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:6px;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.season-vibe{font-size:11px;color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:12px}
+.season-tags{display:flex;flex-wrap:wrap;gap:5px}
+.season-pill{font-size:9.5px;letter-spacing:.08em;color:rgba(255,255,255,.9);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 9px;backdrop-filter:blur(4px)}
+.season-divider{position:absolute;top:0;bottom:0;right:0;width:1px;background:rgba(255,255,255,.15)}
+
+/* vertical label on left */
+.season-vert{position:absolute;top:22px;left:18px;writing-mode:vertical-rl;text-orientation:mixed;font-size:9px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.5);transform:rotate(180deg)}
+
+/* spring */
+.s-spring .season-overlay{background:linear-gradient(180deg,rgba(244,114,182,0) 20%,rgba(190,24,93,.72) 100%)}
+.s-spring .season-tag{background:rgba(244,114,182,.7)}
+/* summer */
+.s-summer .season-overlay{background:linear-gradient(180deg,rgba(253,186,116,0) 20%,rgba(154,52,18,.78) 100%)}
+.s-summer .season-tag{background:rgba(253,186,116,.7);color:rgba(0,0,0,.7)}
+/* autumn */
+.s-autumn .season-overlay{background:linear-gradient(180deg,rgba(110,231,183,0) 20%,rgba(6,78,59,.78) 100%)}
+.s-autumn .season-tag{background:rgba(110,231,183,.6);color:rgba(0,0,0,.65)}
+/* winter */
+.s-winter .season-overlay{background:linear-gradient(180deg,rgba(125,211,252,0) 20%,rgba(3,105,161,.78) 100%)}
+.s-winter .season-tag{background:rgba(125,211,252,.65);color:rgba(0,0,0,.7)}
+
+@media(max-width:900px){
+  .day-grid{grid-template-columns:repeat(4,1fr)}
+  .day-card:nth-child(n+5){display:none}
+  .season-grid{grid-template-columns:repeat(2,1fr)}
+  .season-panel{min-height:340px}
+  .section-label,.fw-inner{padding-left:18px;padding-right:18px}
+}
+@media(max-width:600px){
+  .day-grid{grid-template-columns:repeat(2,1fr)}
+  .day-card:nth-child(n+3){display:none}
+  .season-grid{grid-template-columns:1fr 1fr}
+  .season-panel{min-height:260px}
+}
+</style>
+
+
+<!-- SECTION LABEL -->
+<div class="section-label">
+  <span class="section-label-text">✦ Fashion theo mùa · Seasonal Style</span>
+  <div class="section-label-line"></div>
+</div>
+
+<!-- FASHION THEO MÙA FULL WIDTH -->
+<div class="season-section">
+  <div class="season-grid">
+
+    <!-- XUÂN -->
+    <div class="season-panel s-spring">
+      <img class="season-img" src="https://i.pinimg.com/736x/c8/56/02/c8560277574a4f5d79f201c82ae3fad4.jpg" alt="Xuân">
+      <div class="season-overlay"></div>
+      <div class="season-divider"></div>
+      <div class="season-content">
+        <div class="season-num">01</div>
+        <div class="season-tag">Mùa Xuân · Spring</div>
+        <div class="season-name">Nhẹ nhàng<br><em style="font-weight:400"> Nở rộ</em></div>
+        <div class="season-pill">Tông pastel, họa tiết hoa nhỏ, vải voan nhẹ thoáng. Cảm giác tươi mới và bắt đầu.</div>
+        <div class="season-tags">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- HẠ -->
+    <div class="season-panel s-summer">
+      <img class="season-img" src="https://i.pinimg.com/736x/3f/79/25/3f7925f8eac4057169674cbfa154b987.jpg" alt="Hạ">
+      <div class="season-overlay"></div>
+      <div class="season-divider"></div>
+      <div class="season-content">
+        <div class="season-num">02</div>
+        <div class="season-tag">Mùa Hạ · Summer</div>
+        <div class="season-name">Rực rỡ<br><em style="font-weight:400"> Bứt phá</em></div>
+        <div class="season-pill">Màu sắc táo bạo, chất liệu linen thoáng, phụ kiện thân thiện với biển.</div>
+        <div class="season-tags">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- THU -->
+    <div class="season-panel s-autumn">
+      <img class="season-img" src="https://i.pinimg.com/736x/f9/01/99/f901993df9311b68b4c28eadf782a7e9.jpg" alt="Thu">
+      <div class="season-overlay"></div>
+      <div class="season-divider"></div>
+      <div class="season-content">
+        <div class="season-num">03</div>
+        <div class="season-tag">Mùa Thu · Autumn</div>
+        <div class="season-name">Ấm áp<br><em style="font-weight:400"> Trầm mặc</em></div>
+        <div class="season-pill">Camel, nâu đất, burgundy. Layer nhẹ, áo khoác trench, boots cổ ngắn.</div>
+        <div class="season-tags">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ĐÔNG -->
+    <div class="season-panel s-winter">
+      <img class="season-img" src="https://i.pinimg.com/736x/ae/13/3b/ae133bd13bd9da26f3e5cd4c18c1d2f9.jpg" alt="Đông">
+      <div class="season-overlay"></div>
+      <div class="season-content">
+        <div class="season-num">04</div>
+        <div class="season-tag">Mùa Đông · Winter</div>
+        <div class="season-name">Tinh tế<br><em style="font-weight:400"> Sang trọng</em></div>
+        <div class="season-pill">Mono tones, len cashmere, phụ kiện tối màu. Tối giản mà vẫn có chiều sâu.</div>
+        <div class="season-tags">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fashion Week Editorial 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Syne',sans-serif;
+    background:transparent;
+    overflow-x:hidden;
+}
+
+/* ==========================
+   SECTION
+========================== */
+
+.fashion-week{
+    width:min(1280px,92%);
+    margin:auto;
+    padding:;
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.section-header{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:12px 26px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    letter-spacing:4px;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+.title{
+
+    margin-top:20px;
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:clamp(4rem,9vw,8rem);
+
+    font-weight:700;
+
+    line-height:.9;
+
+    background:
+    linear-gradient(
+        90deg,
+        #ff006e,
+        #ff8500,
+        #ffe600,
+        #00e676,
+        #00d4ff,
+        #4c6fff,
+        #d400ff
+    );
+
+    background-size:400% auto;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:rainbow 8s linear infinite;
+
+    filter:
+    drop-shadow(0 0 10px rgba(255,0,110,.15))
+    drop-shadow(0 0 20px rgba(0,212,255,.12));
+}
+
+@keyframes rainbow{
+    from{
+        background-position:0%;
+    }
+    to{
+        background-position:400%;
+    }
+}
+
+.desc{
+    max-width:720px;
+    margin:18px auto 0;
+    color:#777;
+    line-height:1.8;
+}
+
+/* ==========================
+   GRID
+========================== */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    grid-auto-rows:290px;
+
+    gap:24px;
+}
+
+/* ==========================
+   CARD
+========================== */
+
+.card{
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:34px;
+
+    background:#111;
+
+    cursor:pointer;
+
+    transition:.5s ease;
+}
+
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+
+    transition:1s ease;
+}
+
+.card::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(
+        to top,
+        rgba(0,0,0,.85),
+        rgba(0,0,0,.25),
+        transparent
+    );
+
+    z-index:1;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+.card:hover img{
+    transform:scale(1.08);
+}
+
+/* ==========================
+   SUNDAY FEATURE
+========================== */
+
+.sunday{
+    grid-column:3 / 5;
+    grid-row:2;
+
+    min-height:100%;
+}
+
+/* ==========================
+   GLASS PANEL
+========================== */
+
+.glass{
+    position:absolute;
+
+    left:10px;
+    right:10px;
+    bottom:10px;
+
+    z-index:2;
+
+    padding: 5px 20px;
+
+    border-radius:24px;
+
+    background:
+    rgba(255,255,255,.12);
+
+    backdrop-filter:
+    blur(30px)
+    saturate(180%);
+
+    border:
+    1px solid rgba(255,255,255,.2);
+
+    overflow:hidden;
+}
+
+.glass::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-1px;
+
+    border-radius:inherit;
+
+    padding:1px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff006e,
+        #ff8500,
+        #ffe600,
+        #00e676,
+        #00d4ff,
+        #4c6fff,
+        #d400ff
+    );
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite:xor;
+}
+
+.day{
+    display:block;
+
+    color:white;
+
+    font-size:11px;
+
+    letter-spacing:3px;
+
+    margin-bottom:10px;
+}
+
+.glass h3{
+    color:white;
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:1.2rem;
+
+    line-height:1.1;
+
+    margin-bottom:8px;
+}
+
+.glass p{
+    color:rgba(255,255,255,.9);
+
+    font-size:13px;
+
+    line-height:1.7;
+}
+
+/* ==========================
+   RUNWAY LIGHT
+========================== */
+
+.card::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-100%;
+    left:-80%;
+
+    width:50%;
+    height:300%;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.22),
+        transparent
+    );
+
+    transform:rotate(25deg);
+
+    transition:1.4s;
+
+    z-index:2;
+}
+
+.card:hover::after{
+    left:150%;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:1200px){
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .sunday{
+        grid-column:auto;
+        grid-row:auto;
+        min-height:350px;
+    }
+}
+
+@media(max-width:768px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        min-height:350px;
+    }
+
+    .sunday{
+        min-height:450px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<section class="fashion-week">
+
+    <div class="section-header">
+
+        <div class="badge">
+            FASHION WEEK 2026
+        </div>
+
+        <h1 class="title">
+            Work Stories
+        </h1>
+
+        <p class="desc">
+         Với Lan, vẻ đẹp rạng rỡ nhất luôn bắt nguồn từ một trạng thái thả lỏng và nuông chiều chính mình.
+        </p>
+
+    </div>
+
+    <div class="grid">
+
+        <!-- THỨ 2 -->
+
+        <article class="card">
+            <img src="https://i.pinimg.com/1200x/ce/64/63/ce64632c4469be9ba0df05e2f0506b95.jpg">
+
+            <div class="glass">
+                <span class="day">01 • THỨ HAI</span>
+                <h3>Future Luxury</h3>
+            </div>
+        </article>
+
+        <!-- THỨ 3 -->
+
+        <article class="card">
+            <img src="https://i.pinimg.com/736x/ba/ad/3f/baad3fd78804822f4e9acfeaa6d35b88.jpg">
+
+            <div class="glass">
+                <span class="day">02 • THỨ BA</span>
+                <h3>Runway Vision</h3>
+            </div>
+        </article>
+
+        <!-- THỨ 4 -->
+
+        <article class="card">
+            <img src="https://i.pinimg.com/1200x/f8/9e/ee/f89eee5ba941198b426fa2759b7491ee.jpg">
+
+            <div class="glass">
+                <span class="day">03 • THỨ TƯ</span>
+                              <h3>Editorial Mood</h3>
+            </div>
+        </article>
+
+        <!-- THỨ 5 -->
+
+        <article class="card">
+            <img src="https://i.pinimg.com/736x/24/2a/da/242adacaaecb1f89651fd650cee1f986.jpg">
+
+            <div class="glass">
+                <span class="day">04 • THỨ NĂM</span>
+                <h3>Editorial Mood</h3>
+            </div>
+        </article>
+
+        <!-- THỨ 6 -->
+
+        <article class="card">
+            <img src="https://i.pinimg.com/736x/d8/a0/57/d8a0574b151575e325cdd2ce5016de37.jpg">
+
+            <div class="glass">
+                <span class="day">05 • THỨ SÁU</span>
+                <h3>Luxury Craft</h3>
+            </div>
+        </article>
+
+        <!-- THỨ 7 -->
+
+        <article class="card">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop">
+
+            <div class="glass">
+                <span class="day">06 • THỨ BẢY</span>
+                <h3>Street Couture</h3>
+            </div>
+        </article>
+
+        <!-- CHỦ NHẬT -->
+
+        <article class="card sunday">
+            <img src="https://i.pinimg.com/736x/0e/01/4d/0e014d8f808e90cd3e51998c6fffa826.jpg">
+
+            <div class="glass">
+                <span class="day">07 • CHỦ NHẬT • FEATURED</span>
+                <h3>Cover Story 2026</h3>
+
+            </div>
+        </article>
+
+    </div>
+
+</section>
+
+</body>
+</html>
+  
+  
+  
+  
+  
+  
+  
+
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+.fv-section {
+    max-width: 1480px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 44px; /* Bạn có thể chỉnh lại padding này thành 0 20px nếu muốn trên mobile không bị bóp quá hẹp */
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}.fv-section-label{display:flex;align-items:center;gap:14px;padding:32px 44px 0;margin-bottom:36px}
+.fv-label-text{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;white-space:nowrap;background:linear-gradient(90deg,#f472b6,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fv-label-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(244,114,182,.25),transparent)}
+
+.fv-tabs{display:flex;gap:8px;padding:0 44px;margin-bottom:28px;overflow-x:auto;scrollbar-width:none}
+.fv-tabs::-webkit-scrollbar{display:none}
+.fv-tab{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);border:1.5px solid rgba(255,255,255,.7);background:rgba(255,255,255,.45);backdrop-filter:blur(14px);color:#4a7068;white-space:nowrap;box-shadow:0 4px 16px rgba(45,74,67,.06)}
+.fv-tab:hover{transform:translateY(-2px)}
+.fv-tab.active{background:linear-gradient(135deg,var(--tc1,#f472b6),var(--tc2,#a78bfa));border-color:transparent;color:#fff;box-shadow:0 8px 24px rgba(244,114,182,.3);transform:translateY(-2px)}
+.fv-tab-count{font-size:9px;font-weight:700;background:rgba(255,255,255,.25);border-radius:10px;padding:1px 6px}
+.fv-tab.active .fv-tab-count{background:rgba(255,255,255,.3)}
+
+.fv-slider-wrap{padding:0 44px}
+.fv-slider-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+.fv-cat-title{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,30px);font-weight:700;line-height:1.1;color:#1a1a2e}
+.fv-cat-title em{font-style:italic;font-weight:400}
+.fv-cat-desc{font-size:12px;color:#6b7280;margin-top:4px}
+.fv-nav-btns{display:flex;gap:8px}
+.fv-nav-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(255,255,255,.8);background:rgba(255,255,255,.55);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.25s;color:#4a7068;font-size:18px;user-select:none;box-shadow:0 4px 14px rgba(45,74,67,.08)}
+.fv-nav-btn:hover{background:rgba(255,255,255,.9);transform:scale(1.07)}
+.fv-nav-btn.disabled{opacity:.3;pointer-events:none}
+
+.fv-track-outer{overflow:hidden}
+.fv-track{display:flex;gap:14px;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+
+.fv-card{
+  flex:0 0 calc(25% - 11px);
+  min-width:0;border-radius:18px;overflow:hidden;
+  background:rgba(255,255,255,.5);
+  border:1.5px solid rgba(255,255,255,.88);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 8px 32px rgba(45,74,67,.08),inset 0 1px 0 rgba(255,255,255,.9);
+  cursor:pointer;transition:.3s cubic-bezier(.34,1.56,.64,1);
+}
+.fv-card:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 20px 44px rgba(45,74,67,.14)}
+
+.fv-thumb{
+  position:relative;width:100%;
+  padding-bottom:177.78%;
+  overflow:hidden;background:#1a1a1a;
+}
+.fv-thumb-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transition:transform .4s;
+}
+.fv-card:hover .fv-thumb-img{transform:scale(1.05)}
+
+.fv-thumb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.1) 40%,transparent 70%);
+  z-index:1;
+}
+
+.fv-play-btn{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.2);
+  border:2px solid rgba(255,255,255,.7);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  transition:.25s;z-index:2;
+}
+.fv-card:hover .fv-play-btn{background:rgba(255,255,255,.35);transform:translate(-50%,-50%) scale(1.12)}
+.fv-play-icon{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:16px solid #fff;margin-left:3px}
+
+.fv-badge{
+  position:absolute;top:10px;left:10px;z-index:3;
+  font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;padding:3px 8px;border-radius:8px;backdrop-filter:blur(6px);
+}
+.fv-dur{
+  position:absolute;bottom:10px;right:10px;z-index:3;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
+  color:#fff;font-size:10px;font-weight:600;
+  padding:2px 7px;border-radius:6px;
+}
+.fv-short-tag{
+  position:absolute;bottom:10px;left:10px;z-index:3;
+  background:rgba(255,50,50,.85);backdrop-filter:blur(4px);
+  color:#fff;font-size:8px;font-weight:700;letter-spacing:.08em;
+  padding:2px 7px;border-radius:6px;display:flex;align-items:center;gap:4px;
+}
+.fv-short-dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink2 1.2s ease-in-out infinite}
+@keyframes blink2{0%,100%{opacity:1}50%{opacity:.3}}
+
+.fv-card-body{padding:12px 13px 14px}
+.fv-card-title{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:700;color:#1a1a2e;line-height:1.35;margin-bottom:6px}
+.fv-card-meta{display:flex;align-items:center;gap:8px;font-size:10px;color:#6b7280;margin-bottom:8px}
+.fv-card-tags{display:flex;flex-wrap:wrap;gap:4px}
+.fv-tag{font-size:9px;font-weight:600;border-radius:7px;padding:2px 7px}
+
+.fv-dots{display:flex;gap:6px;justify-content:center;margin-top:18px}
+.fv-dot{width:6px;height:6px;border-radius:50%;background:rgba(45,74,67,.18);transition:.25s;cursor:pointer}
+.fv-dot.active{background:#f472b6;transform:scale(1.4)}
+
+.fv-progress{width:100%;height:2.5px;background:rgba(45,74,67,.1);border-radius:2px;margin-top:12px;overflow:hidden}
+.fv-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#f472b6,#a78bfa);transition:width .4s ease}
+</style>
+
+<div class="fv-section">
+  <div class="fv-section-label">
+    <span class="fv-label-text">✦ Fashion theo phong cách · Style Shorts</span>
+    <div class="fv-label-line"></div>
+  </div>
+
+  <div class="fv-tabs" id="fvTabs">
+    <div class="fv-tab active" data-cat="0" style="--tc1:#f472b6;--tc2:#a78bfa">Đi làm T2–T6 </div>
+    <div class="fv-tab" data-cat="1" style="--tc1:#fdba74;--tc2:#fb923c">Fashion Coffee </span></div>
+    <div class="fv-tab" data-cat="2" style="--tc1:#6ee7b7;--tc2:#34d399">Đi du lịch </span></div>
+  </div>
+
+  <div class="fv-slider-wrap">
+    <div class="fv-slider-header">
+      <div>
+        <div class="fv-cat-title" id="fvTitle">Office Style <em>mỗi ngày</em></div>
+        <div class="fv-cat-desc" id="fvDesc">Trang phục công sở thanh lịch từ thứ 2 đến thứ 6</div>
+      </div>
+      <div class="fv-nav-btns">
+        <div class="fv-nav-btn disabled" id="fvPrev">&#8592;</div>
+        <div class="fv-nav-btn" id="fvNext">&#8594;</div>
+      </div>
+    </div>
+    <div class="fv-track-outer">
+      <div class="fv-track" id="fvTrack"></div>
+    </div>
+    <div class="fv-progress"><div class="fv-progress-fill" id="fvProg"></div></div>
+    <div class="fv-dots" id="fvDots"></div>
+  </div>
+</div>
+
+<script>
+const CATS=[
+  {title:'Office Style <em>mỗi ngày</em>',desc:'Trang phục công sở thanh lịch từ thứ 2 đến thứ 6',badge:'Đi làm',bg:'linear-gradient(135deg,#f472b6,#a78bfa)',tags:[{t:'Blazer',c:'#f3e8ff',tc:'#7e22ce'},{t:'Office',c:'#ede9fe',tc:'#5b21b6'}],
+    vids:[
+      {t:'Set blazer đen – Thứ 2 khởi đầu mạnh',dur:'0:58',v:'12.4K',id:'dQw4w9WgXcQ',tags:['Thứ 2','Blazer']},
+      {t:'Midi skirt công sở – Thanh lịch Thứ 3',dur:'0:45',v:'9.8K',id:'dQw4w9WgXcQ',tags:['Thứ 3','Skirt']},
+      {t:'Áo sơ mi trắng – Định nghĩa lại cơ bản',dur:'1:00',v:'18.2K',id:'dQw4w9WgXcQ',tags:['Thứ 4','Classic']},
+      {t:'Trench coat ngày mưa – Thứ 5 sang trọng',dur:'0:52',v:'14.6K',id:'dQw4w9WgXcQ',tags:['Thứ 5','Chic']},
+      {t:'OOTD Thứ 6 – Casual nhưng vẫn xịn',dur:'0:48',v:'22.1K',id:'dQw4w9WgXcQ',tags:['Thứ 6','Casual']},
+      {t:'Capsule wardrobe công sở – 5 ngày 5 set',dur:'0:59',v:'31.5K',id:'dQw4w9WgXcQ',tags:['Capsule','Tips']},
+    ]},
+  {title:'Coffee Date <em>vibes</em>',desc:'Trang phục nhẹ nhàng, trendy cho những buổi cà phê',badge:'Coffee',bg:'linear-gradient(135deg,#fdba74,#fb923c)',tags:[{t:'Casual',c:'#ffedd5',tc:'#c2410c'},{t:'Aesthetic',c:'#fef3c7',tc:'#b45309'}],
+    vids:[
+      {t:'Linen set coffee sáng – Nhẹ như gió',dur:'0:55',v:'16.3K',id:'dQw4w9WgXcQ',tags:['Linen','Soft']},
+      {t:'Mini dress floral – Coffee chiều cuối tuần',dur:'0:47',v:'11.9K',id:'dQw4w9WgXcQ',tags:['Floral','Fresh']},
+      {t:'Tote bag + coord set – Perfect café look',dur:'1:00',v:'19.7K',id:'dQw4w9WgXcQ',tags:['Coord','Tote']},
+      {t:'Vintage aesthetic – Cà phê rang xay phố cổ',dur:'0:58',v:'24.2K',id:'dQw4w9WgXcQ',tags:['Vintage','Cozy']},
+      {t:'Date outfit – Đi cà phê với crush',dur:'0:52',v:'33.8K',id:'dQw4w9WgXcQ',tags:['Date','Pink']},
+    ]},
+  {title:'Travel Fashion <em>& Vibes</em>',desc:'Set đồ du lịch vừa đẹp vừa thoải mái · từ biển đến phố núi',badge:'Du lịch',bg:'linear-gradient(135deg,#6ee7b7,#34d399)',tags:[{t:'Beach',c:'#d1fae5',tc:'#065f46'},{t:'Trip',c:'#e0f2fe',tc:'#0369a1'}],
+    vids:[
+      {t:'Đà Lạt outfit – Sương mù và áo len',dur:'0:59',v:'28.4K',id:'dQw4w9WgXcQ',tags:['Đà Lạt','Cool']},
+      {t:'Beach resort style – Phuket đẹp từng frame',dur:'0:50',v:'21.6K',id:'dQw4w9WgXcQ',tags:['Beach','Resort']},
+      {t:'City trip Seoul – Streetwear K-style',dur:'0:57',v:'35.2K',id:'dQw4w9WgXcQ',tags:['Seoul','Street']},
+      {t:'Hội An – Áo dài hiện đại cho du khách',dur:'0:53',v:'19.3K',id:'dQw4w9WgXcQ',tags:['Hội An','Heritage']},
+      {t:'Packing guide – 1 vali 10 set đồ',dur:'0:60',v:'42.7K',id:'dQw4w9WgXcQ',tags:['Packing','Tips']},
+    ]},
+  {title:'Style cho <em>bé yêu</em>',desc:'Outfit dễ thương, thoải mái cho con · mommy & me',badge:'Cho con',bg:'linear-gradient(135deg,#7dd3fc,#38bdf8)',tags:[{t:'Baby',c:'#e0f2fe',tc:'#0369a1'},{t:'Mommy',c:'#dbeafe',tc:'#1d4ed8'}],
+    vids:[
+      {t:'Mommy & me – Tông xanh pastel dễ thương',dur:'0:48',v:'27.1K',id:'dQw4w9WgXcQ',tags:['Matching','Pastel']},
+      {t:'Set đồ đi chơi cho bé gái 2–4 tuổi',dur:'0:55',v:'15.6K',id:'dQw4w9WgXcQ',tags:['Bé gái','Cute']},
+      {t:'Đồ đi học mầm non – Dễ mặc, thoải mái',dur:'0:52',v:'18.9K',id:'dQw4w9WgXcQ',tags:['Mầm non','School']},
+      {t:'Baby fashion haul – Lấy đồ ở đâu đẹp & rẻ',dur:'0:59',v:'38.4K',id:'dQw4w9WgXcQ',tags:['Haul','Budget']},
+    ]},
+  {title:'His Style <em>& grooming</em>',desc:'Trang phục & phong cách cho ông xã · casual đến smart casual',badge:'Chồng',bg:'linear-gradient(135deg,#86efac,#4ade80)',tags:[{t:'Men',c:'#dcfce7',tc:'#166534'},{t:'Smart',c:'#d1fae5',tc:'#065f46'}],
+    vids:[
+      {t:'Smart casual cho chồng – Set đồ đi làm',dur:'0:57',v:'13.2K',id:'dQw4w9WgXcQ',tags:['Smart','Office']},
+      {t:'Weekend look – Chồng mặc gì đi cafe',dur:'0:50',v:'10.7K',id:'dQw4w9WgXcQ',tags:['Weekend','Chill']},
+      {t:'Couple outfit – Mặc đôi mà không kệch',dur:'0:58',v:'29.8K',id:'dQw4w9WgXcQ',tags:['Couple','Match']},
+      {t:'Grooming routine cho chồng – Từ A đến Z',dur:'1:00',v:'22.4K',id:'dQw4w9WgXcQ',tags:['Grooming','Care']},
+    ]},
+];
+
+const VIS=4;
+let ci=0,si=0;
+const track=document.getElementById('fvTrack');
+const dotsEl=document.getElementById('fvDots');
+const titleEl=document.getElementById('fvTitle');
+const descEl=document.getElementById('fvDesc');
+const prevBtn=document.getElementById('fvPrev');
+const nextBtn=document.getElementById('fvNext');
+const progEl=document.getElementById('fvProg');
+
+function thumb(id){return`https://i.pinimg.com/736x/ae/13/3b/ae133bd13bd9da26f3e5cd4c18c1d2f9.jpg`}
+
+function card(v,c){
+  const tg=c.tags;
+  return`<div class="fv-card" onclick="window.open('https://youtube.com/watch?v=${v.id}','_blank')">
+    <div class="fv-thumb">
+      <img class="fv-thumb-img" src="${thumb(v.id)}" alt="${v.t}" loading="lazy" onerror="this.style.opacity=0">
+      <div class="fv-thumb-overlay"></div>
+      <div class="fv-play-btn"><div class="fv-play-icon"></div></div>
+      <div class="fv-badge" style="background:${c.bg}">${c.badge}</div>
+      <div class="fv-short-tag"><span class="fv-short-dot"></span>SHORTS</div>
+      <div class="fv-dur">${v.dur}</div>
+    </div>
+    <div class="fv-card-body">
+      <div class="fv-card-title">${v.t}</div>
+      <div class="fv-card-meta"><span>▶ ${v.v}</span></div>
+      <div class="fv-card-tags">${v.tags.map((t,i)=>{const tg2=tg[i%tg.length];return`<span class="fv-tag" style="background:${tg2.c};color:${tg2.tc}">${t}</span>`}).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderCat(idx){
+  ci=idx;si=0;
+  const c=CATS[idx];
+  titleEl.innerHTML=c.title;
+  descEl.textContent=c.desc;
+  track.innerHTML=c.vids.map(v=>card(v,c)).join('');
+  dotsEl.innerHTML='';
+  const total=Math.max(0,c.vids.length-VIS+1);
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='fv-dot'+(i===0?' active':'');
+    d.onclick=()=>goTo(i);
+    dotsEl.appendChild(d);
+  }
+  document.querySelectorAll('.fv-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  update();
+}
+
+function update(){
+  const c=CATS[ci];
+  const cw=track.parentElement.offsetWidth/VIS;
+  const gap=14;
+  track.style.transform=`translateX(-${si*(cw+gap-gap/VIS)}px)`;
+  const total=Math.max(1,c.vids.length-VIS);
+  const pct=total>0?Math.round((si/total)*100):0;
+  progEl.style.width=pct+'%';
+  document.querySelectorAll('.fv-dot').forEach((d,i)=>d.classList.toggle('active',i===si));
+  prevBtn.classList.toggle('disabled',si===0);
+  nextBtn.classList.toggle('disabled',si>=total);
+}
+
+function goTo(i){
+  const max=Math.max(0,CATS[ci].vids.length-VIS);
+  si=Math.max(0,Math.min(i,max));
+  update();
+}
+
+prevBtn.onclick=()=>goTo(si-1);
+nextBtn.onclick=()=>goTo(si+1);
+document.querySelectorAll('.fv-tab').forEach((t,i)=>t.onclick=()=>renderCat(i));
+
+let sx=0;
+track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)goTo(si+(dx<0?1:-1))});
+
+renderCat(0);
+</script>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fashion Journal — Nguyễn Thị Như Lan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+.fs-section{
+  font-family:'DM Sans',sans-serif;
+  padding:64px 40px 72px;
+  position:relative;
+  overflow:hidden;
+  max-width:1380px;
+  margin:0 auto;
+}
+
+.fs-header{text-align:center;margin-bottom:16px;}
+
+.fs-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(160,100,220,0.25);
+  border-radius:50px;padding:6px 20px;margin-bottom:18px;
+}
+.fs-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#b06ae0;}
+.fs-eyebrow-text{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#7a4fa0;font-weight:500;}
+
+.fs-title{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(36px,5vw,54px);font-weight:300;
+  color:#1a0a2e;letter-spacing:-0.01em;line-height:1.1;margin-bottom:6px;
+}
+.fs-title em{font-style:italic;color:#9b4dca;}
+
+.fs-tagline{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:15px;color:#9b7ab8;font-weight:300;margin-bottom:40px;
+}
+
+.fs-divider{
+  display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:44px;
+}
+.fs-divider-line{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(160,100,220,0.35));}
+.fs-divider-line.r{background:linear-gradient(270deg,transparent,rgba(100,200,170,0.35));}
+.fs-divider-dot{width:5px;height:5px;border-radius:50%;background:rgba(160,100,220,0.4);}
+
+/* GRID */
+.fs-feature-row{
+  display:grid;
+  grid-template-columns:1.55fr 1fr 1fr;
+  gap:18px;margin-bottom:18px;
+}
+
+/* CARDS */
+.fs-card{
+  position:relative;border-radius:20px;overflow:hidden;
+  background:rgba(255,255,255,0.55);
+  border:1px solid rgba(200,160,240,0.2);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 4px 32px rgba(140,80,200,0.06),0 1px 0 rgba(255,255,255,0.8) inset;
+  transition:transform 0.28s ease,box-shadow 0.28s ease,border-color 0.28s ease;
+  cursor:pointer;
+}
+.fs-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(140,80,200,0.14),0 1px 0 rgba(255,255,255,0.8) inset;
+  border-color:rgba(160,100,220,0.4);
+}
+
+.fs-card-img{width:100%;display:block;object-fit:cover;}
+.fs-card.hero .fs-card-img{height:260px;}
+.fs-card.tall .fs-card-img{height:195px;}
+.fs-card.mid .fs-card-img{height:148px;}
+
+.glass-shine{
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);
+  z-index:2;
+}
+
+.fs-card-body{padding:18px 20px 20px;}
+.fs-card.hero .fs-card-body{padding:20px 24px 24px;}
+
+.fs-card-tag{
+  display:inline-block;font-size:9.5px;letter-spacing:0.18em;
+  text-transform:uppercase;font-weight:500;
+  padding:4px 12px;border-radius:50px;margin-bottom:10px;
+}
+.tag-fashion{background:rgba(160,80,230,0.1);color:#7a35b8;border:1px solid rgba(160,80,230,0.2);}
+.tag-style{background:rgba(0,180,140,0.1);color:#0a7a60;border:1px solid rgba(0,180,140,0.2);}
+.tag-trend{background:rgba(220,150,20,0.1);color:#8a5a00;border:1px solid rgba(220,150,20,0.2);}
+.tag-capsule{background:rgba(220,80,130,0.1);color:#9a2055;border:1px solid rgba(220,80,130,0.2);}
+
+.fs-card-title{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  color:#1a0a2e;line-height:1.3;margin-bottom:8px;
+}
+.fs-card.hero .fs-card-title{font-size:22px;}
+.fs-card.tall .fs-card-title{font-size:17px;}
+.fs-card.mid .fs-card-title{font-size:15px;}
+
+.fs-excerpt{
+  font-size:13px;color:#5a4a70;line-height:1.7;
+  font-weight:300;margin-bottom:14px;
+}
+
+.fs-card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;
+}
+.fs-card-date{font-size:11px;color:#9a8aaa;letter-spacing:0.06em;}
+
+.fs-read-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;
+  color:#7a35b8;border:none;background:none;cursor:pointer;padding:0;
+  font-family:'DM Sans',sans-serif;
+}
+.fs-read-btn .rline{
+  display:inline-block;width:22px;height:1.5px;
+  background:#9b4dca;transition:width 0.28s ease;
+}
+.fs-card:hover .fs-read-btn .rline{width:34px;}
+
+/* RIGHT 2-CARD COLUMNS */
+.fs-col{display:flex;flex-direction:column;gap:18px;}
+
+/* BOTTOM ROW */
+.fs-bottom-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.fs-mini-card{
+  border-radius:16px;overflow:hidden;
+  background:rgba(255,255,255,0.5);
+  border:1px solid rgba(200,160,240,0.18);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 2px 20px rgba(140,80,200,0.05),0 1px 0 rgba(255,255,255,0.7) inset;
+  transition:transform 0.25s ease,box-shadow 0.25s ease;cursor:pointer;
+}
+.fs-mini-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(140,80,200,0.12),0 1px 0 rgba(255,255,255,0.7) inset;
+}
+.fs-mini-card img{width:100%;height:100px;object-fit:cover;display:block;}
+.fs-mini-body{padding:12px 14px 14px;}
+.fs-mini-title{
+  font-family:'Cormorant Garamond',serif;font-size:13.5px;font-weight:400;
+  color:#1a0a2e;line-height:1.3;margin-bottom:5px;
+}
+.fs-mini-date{font-size:10.5px;color:#9a8aaa;letter-spacing:0.05em;}
+
+/* FOOTER BAR */
+.fs-footer-bar{
+  margin-top:36px;display:flex;align-items:center;justify-content:space-between;
+  padding-top:24px;border-top:1px solid rgba(160,100,220,0.12);
+}
+.fs-footer-label{font-size:11px;color:#9a8aaa;letter-spacing:0.12em;text-transform:uppercase;}
+.fs-footer-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(160,100,220,0.3);border-radius:50px;
+  padding:10px 24px;font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;font-weight:500;color:#7a35b8;
+  cursor:pointer;background:rgba(160,80,230,0.05);
+  font-family:'DM Sans',sans-serif;
+  transition:background 0.25s,border-color 0.25s;
+}
+.fs-footer-cta:hover{background:rgba(160,80,230,0.1);border-color:rgba(160,100,220,0.5);}
+
+/* RUNWAY LINE */
+.fs-runway{
+  height:2px;margin-top:40px;
+  background:linear-gradient(90deg,transparent 0%,rgba(160,100,220,0.35) 25%,rgba(255,255,255,0.6) 50%,rgba(100,200,170,0.35) 75%,transparent 100%);
+  border-radius:2px;
+}
+</style>
+</head>
+<body>
+
+<section class="fs-section">
+
+  <div class="fs-header">
+    <div style="display:flex;justify-content:center;">
+      <div class="fs-eyebrow">
+        <div class="fs-eyebrow-dot"></div>
+        <span class="fs-eyebrow-text">07 — Thời Trang &amp; Phong Cách</span>
+        <div class="fs-eyebrow-dot" style="background:#4db896;"></div>
+      </div>
+    </div>
+    <h2 class="fs-title">Fashion <em>Journal</em></h2>
+    <p class="fs-tagline">Mặc đúng chính mình, không theo ai</p>
+  </div>
+
+  <div class="fs-divider">
+    <div class="fs-divider-line"></div>
+    <div class="fs-divider-dot"></div>
+    <div class="fs-divider-line r"></div>
+  </div>
+
+  <!-- FEATURE ROW -->
+  <div class="fs-feature-row">
+
+    <!-- HERO CARD -->
+    <div class="fs-card hero">
+      <div class="glass-shine"></div>
+      <img class="fs-card-img" src="https://picsum.photos/seed/fashion1/600/260" alt="Fashion Story">
+      <div class="fs-card-body">
+        <span class="fs-card-tag tag-fashion">Fashion Story</span>
+        <h3 class="fs-card-title">Mặc Đẹp Không Phải Là Mặc Đắt — Là Mặc Đúng Chính Mình</h3>
+        <p class="fs-excerpt">Tôi từng nghĩ thời trang là thứ dành cho người "có gu". Cho đến khi tôi dọn tủ đồ và giữ lại 12 món cơ bản — và nhận ra mình đẹp hơn mỗi ngày...</p>
+        <div class="fs-card-meta">
+          <span class="fs-card-date">Tháng 6 · 2026</span>
+          <button class="fs-read-btn"><span class="rline"></span>Đọc ngay</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2 -->
+    <div class="fs-col">
+      <div class="fs-card tall">
+        <div class="glass-shine"></div>
+        <img class="fs-card-img" src="https://picsum.photos/seed/fashion2/400/195" alt="Soft Dressing">
+        <div class="fs-card-body">
+          <span class="fs-card-tag tag-style">Soft Dressing</span>
+          <h3 class="fs-card-title">Bộ Cơ Bản Cho Mọi Ngày Trong Tuần</h3>
+          <div class="fs-card-meta">
+            <span class="fs-card-date">Tháng 5 · 2026</span>
+            <button class="fs-read-btn"><span class="rline"></span>Đọc</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fs-card mid">
+        <div class="glass-shine"></div>
+        <img class="fs-card-img" src="https://picsum.photos/seed/fashion3/400/148" alt="Capsule Wardrobe">
+        <div class="fs-card-body">
+          <span class="fs-card-tag tag-capsule">Capsule Wardrobe</span>
+          <h3 class="fs-card-title">12 Món Đồ, Cả Năm Mặc Đẹp</h3>
+          <div class="fs-card-meta">
+            <span class="fs-card-date">Tháng 4 · 2026</span>
+            <button class="fs-read-btn"><span class="rline"></span>Đọc</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3 -->
+    <div class="fs-col">
+      <div class="fs-card tall">
+        <div class="glass-shine"></div>
+        <img class="fs-card-img" src="https://picsum.photos/seed/fashion4/400/195" alt="Xu Hướng">
+        <div class="fs-card-body">
+          <span class="fs-card-tag tag-trend">Xu Hướng</span>
+          <h3 class="fs-card-title">Màu Trung Tính Thống Trị 2026</h3>
+          <div class="fs-card-meta">
+            <span class="fs-card-date">Tháng 3 · 2026</span>
+            <button class="fs-read-btn"><span class="rline"></span>Đọc</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fs-card mid">
+        <div class="glass-shine"></div>
+        <img class="fs-card-img" src="https://picsum.photos/seed/fashion5/400/148" alt="Slow Fashion">
+        <div class="fs-card-body">
+          <span class="fs-card-tag tag-fashion">Slow Fashion</span>
+          <h3 class="fs-card-title">Mua Ít Hơn, Yêu Thích Hơn</h3>
+          <div class="fs-card-meta">
+            <span class="fs-card-date">Tháng 2 · 2026</span>
+            <button class="fs-read-btn"><span class="rline"></span>Đọc</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="fs-bottom-row">
+    <div class="fs-mini-card">
+      <img src="https://picsum.photos/seed/fashion6/300/100" alt="Layering">
+      <div class="fs-mini-body">
+        <div class="fs-mini-title">Layering Mùa Lạnh</div>
+        <div class="fs-mini-date">Tháng 1 · 2026</div>
+      </div>
+    </div>
+
+    <div class="fs-mini-card">
+      <img src="https://picsum.photos/seed/fashion7/300/100" alt="Phụ Kiện">
+      <div class="fs-mini-body">
+        <div class="fs-mini-title">Phụ Kiện Tôn Dáng</div>
+        <div class="fs-mini-date">Tháng 12 · 2025</div>
+      </div>
+    </div>
+
+    <div class="fs-mini-card">
+      <img src="https://picsum.photos/seed/fashion8/300/100" alt="Giày Dép">
+      <div class="fs-mini-body">
+        <div class="fs-mini-title">Giày Dép Hoàn Hảo</div>
+        <div class="fs-mini-date">Tháng 11 · 2025</div>
+      </div>
+    </div>
+
+    <div class="fs-mini-card">
+      <img src="https://picsum.photos/seed/fashion9/300/100" alt="Tông Màu">
+      <div class="fs-mini-body">
+        <div class="fs-mini-title">Tone Màu Tủ Đồ Của Tôi</div>
+        <div class="fs-mini-date">Tháng 10 · 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+
+
+    
+  </div>
+
+  <div class="fs-runway"></div>
+
+</section>
+
+</body>
+</html>
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--sage:#2d4a43;--sage-mid:#4a7068;--sage-lt:#94b5ae}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--sage);background:transparent;-webkit-font-smoothing:antialiased}
+
+.social-section{padding:60px 40px}
+.ss-inner{max-width:1300px;margin:0 auto}
+
+.ss-head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:44px;gap:10px}
+.ss-sub{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--sage-lt);text-transform:uppercase}
+.ss-name{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--sage)}
+.ss-divider{width:36px;height:1.5px;background:linear-gradient(90deg,transparent,var(--sage-lt),transparent);margin:2px auto}
+.ss-bio{font-size:13.5px;color:var(--sage-mid);line-height:1.9;max-width:480px;margin-top:2px}
+
+.ss-card{
+  background:rgba(255,255,255,0.45);
+  border:1px solid rgba(255,255,255,0.85);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-radius:28px;
+  box-shadow:0 8px 40px rgba(45,74,67,.07);
+  padding:52px 48px 44px;
+}
+
+.ss-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+.sc{
+  border-radius:20px;overflow:hidden;
+  background:rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.9);
+  box-shadow:0 4px 20px rgba(45,74,67,.08);
+  text-decoration:none;color:inherit;
+  transition:.3s cubic-bezier(.34,1.56,.64,1);
+  display:flex;flex-direction:column;
+}
+.sc:hover{transform:translateY(-7px);box-shadow:0 20px 44px rgba(45,74,67,.15)}
+
+.sc-thumb{height:148px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-thumb-fb{background:linear-gradient(145deg,#1877f2,#42b3f4)}
+.sc-thumb-tt{background:linear-gradient(145deg,#010101 0%,#222 60%,#25f4ee 140%)}
+.sc-thumb-ig{background:linear-gradient(145deg,#f58529,#dd2a7b 50%,#8134af)}
+.sc-thumb-li{background:linear-gradient(145deg,#0a66c2,#00a0dc)}
+
+.sc-thumb::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");opacity:.4;pointer-events:none}
+
+.sc-play{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;z-index:1;transition:.25s}
+.sc:hover .sc-play{background:rgba(255,255,255,.32);transform:scale(1.1)}
+.sc-play svg{width:18px;height:18px;fill:#fff;margin-left:3px}
+
+.sc-badge{position:absolute;top:12px;left:13px;display:flex;align-items:center;gap:5px;z-index:1}
+.sc-badge svg{width:17px;height:17px;fill:#fff;flex-shrink:0}
+.sc-badge span{font-size:10px;font-weight:700;color:#fff;letter-spacing:.5px;text-shadow:0 1px 4px rgba(0,0,0,.25)}
+
+.sc-info{padding:13px 14px 14px;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.5);border-top:1px solid rgba(255,255,255,0.7)}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--sage-lt),var(--sage));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#fff;letter-spacing:.5px}
+.sc-meta{min-width:0}
+.sc-name{font-size:11.5px;font-weight:600;color:var(--sage);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.sc-handle{font-size:10px;color:var(--sage-lt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+@media(max-width:900px){
+  .social-section{padding:40px 20px}
+  .ss-card{padding:36px 24px 32px}
+  .ss-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .sc-thumb{height:128px}
+}
+@media(max-width:440px){
+  .ss-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<section class="social-section">
+  <div class="ss-inner">
+    <div class="ss-card">
+
+    <div class="ss-head">
+      <span class="ss-sub">Follow me</span>
+      <span class="ss-name">Nguyễn Thị Như Lan</span>
+      <div class="ss-divider"></div>
+      <p class="ss-bio">Chia sẻ kiến thức, hành trình chăm sóc da và những khoảnh khắc đời thường.</p>
+    </div>
+
+    <div class="ss-grid">
+
+      <!-- Facebook -->
+      <a class="sc" href="https://www.facebook.com/nhulan.benhvienthammynaman" target="_blank" rel="noopener">
+        <div class="sc-thumb sc-thumb-fb">
+          <div class="sc-badge">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+            <span>Facebook</span>
+          </div>
+          <div class="sc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="sc-info">
+          <div class="sc-avatar">NL</div>
+          <div class="sc-meta">
+            <div class="sc-name">Như Lan · Thẩm Mỹ</div>
+            <div class="sc-handle">nhulan.benhvienthammynaman</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- TikTok -->
+      <a class="sc" href="https://www.tiktok.com/@nhulan.daily" target="_blank" rel="noopener">
+        <div class="sc-thumb sc-thumb-tt">
+          <div class="sc-badge">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.02-.08z"/></svg>
+            <span>TikTok</span>
+          </div>
+          <div class="sc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="sc-info">
+          <div class="sc-avatar">NL</div>
+          <div class="sc-meta">
+            <div class="sc-name">@nhulan.daily</div>
+            <div class="sc-handle">tiktok.com/@nhulan.daily</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Instagram -->
+      <a class="sc" href="https://www.instagram.com/" target="_blank" rel="noopener">
+        <div class="sc-thumb sc-thumb-ig">
+          <div class="sc-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            <span>Instagram</span>
+          </div>
+          <div class="sc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="sc-info">
+          <div class="sc-avatar">NL</div>
+          <div class="sc-meta">
+            <div class="sc-name">@nhulan</div>
+            <div class="sc-handle">instagram.com/nhulan</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- LinkedIn -->
+      <a class="sc" href="https://www.linkedin.com/" target="_blank" rel="noopener">
+        <div class="sc-thumb sc-thumb-li">
+          <div class="sc-badge">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            <span>LinkedIn</span>
+          </div>
+          <div class="sc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="sc-info">
+          <div class="sc-avatar">NL</div>
+          <div class="sc-meta">
+            <div class="sc-name">Nguyễn Thị Như Lan</div>
+            <div class="sc-handle">linkedin.com/in/nhulan</div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
+
+
+
