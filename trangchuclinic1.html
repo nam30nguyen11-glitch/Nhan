@@ -3540,6 +3540,70 @@ if (journeyWrap) journeyObserver.observe(journeyWrap);
 
 
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:transparent;}
+
+/* ============ DIVIDER ẢO — chỉ 1 đường kẻ kính, không background ============ */
+.glx-line-wrap{
+  width:100%;
+  padding:40px 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.glx-line{
+  position:relative;
+  width:88%;
+  max-width:1100px;
+  height:3px;
+  border-radius:99px;
+  background:linear-gradient(90deg,
+    rgba(143,123,201,0) 0%,
+    rgba(143,123,201,0.5) 18%,
+    rgba(217,202,240,0.9) 38%,
+    rgba(255,255,255,1) 50%,
+    rgba(232,194,209,0.9) 62%,
+    rgba(201,123,160,0.5) 82%,
+    rgba(201,123,160,0) 100%);
+  filter:blur(0.6px);
+  box-shadow:0 0 16px 2px rgba(180,150,220,0.35);
+}
+/* điểm sáng nhỏ chạy dọc theo đường, lặp vô hạn */
+.glx-line::after{
+  content:'';
+  position:absolute;
+  top:50%;
+  left:0;
+  width:60px;
+  height:14px;
+  border-radius:99px;
+  background:radial-gradient(ellipse, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 75%);
+  transform:translateY(-50%);
+  filter:blur(2px);
+  animation:glxLineTravel 4.5s ease-in-out infinite;
+}
+@keyframes glxLineTravel{
+  0%{ left:-5%; opacity:0; }
+  10%{ opacity:1; }
+  50%{ left:50%; opacity:1; }
+  90%{ opacity:1; }
+  100%{ left:105%; opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<div class="glx-line-wrap">
+  <div class="glx-line"></div>
+</div>
+
+</body>
+</html>  
 
 
 
@@ -3554,8 +3618,398 @@ if (journeyWrap) journeyObserver.observe(journeyWrap);
 
 
 
+<section class="glass-slider-section">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&display=swap');
+    
+    .glass-slider-section {
+      all: initial; /* Cách ly hoàn toàn khỏi CSS bên ngoài */
+      font-family: 'DM Sans', sans-serif;
+      background: transparent; /* Xóa bỏ màu nền, hiển thị trong suốt theo website gốc */
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+    }
 
+    .glass-slider-section * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    .glass-slider-section .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* === THIẾT KẾ TIÊU ĐỀ KẾT HỢP GLASSMORPHISM === */
+    .glass-slider-section .sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      gap: 20px;
+    }
+
+    .glass-slider-section .title-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glass-slider-section .sec-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8f7bc9; /* Đồng bộ tông màu tím pha lê nhẹ */
+      margin-bottom: 6px;
+    }
+
+    .glass-slider-section .sec-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.15;
+      position: relative;
+      background: linear-gradient(165deg, #7a6fae 0%, #6f63ab 50%, #564f86 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Bong bóng thủy tinh trôi nổi quanh tiêu đề */
+    .glass-slider-section .dt2-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.15) 38%, rgba(255, 255, 255, 0) 70%);
+      border: 1px solid rgba(111, 99, 171, 0.25);
+      pointer-events: none;
+      z-index: -1;
+      animation: dt2Float 6s ease-in-out infinite;
+    }
+    .glass-slider-section .b1 { width: 32px; height: 32px; left: -40px; top: -5px; animation-delay: 0s; }
+    .glass-slider-section .b2 { width: 18px; height: 18px; right: -25px; top: 15px; animation-delay: 1.1s; }
+
+    @keyframes dt2Float {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+      50% { transform: translateY(-8px) scale(1.06); opacity: 0.7; }
+    }
+
+    /* Nút Xem Tất Cả */
+    .glass-slider-section .btn-all {
+      background: rgba(255,255,255,.3);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(111, 99, 171, 0.25);
+      border-radius: 100px;
+      padding: 10px 22px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #564f86;
+      cursor: pointer;
+      transition: .3s cubic-bezier(0.25, 1, 0.5, 1);
+      white-space: nowrap;
+    }
+    .glass-slider-section .btn-all:hover {
+      background: rgba(111, 99, 171, 0.1);
+      border-color: rgba(111, 99, 171, 0.45);
+      transform: translateY(-2px);
+    }
+
+    /* === HỆ THỐNG SLIDER === */
+    .glass-slider-section .slider-outer { overflow: hidden; padding: 10px 0; }
+    .glass-slider-section .slider-track { display: flex; gap: 20px; }
+    .glass-slider-section .slide { flex: 0 0 calc(25% - 15px); min-width: 0; }
+
+    /* === CARD ULTRA GLASSMORPHISM TRONG VEO === */
+    .glass-slider-section .card {
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      
+      /* Đường viền phản chiếu ánh sáng thủy tinh mỏng */
+      border: 1px solid rgba(111, 99, 171, 0.15);
+      border-top-color: rgba(255, 255, 255, 0.65);
+      border-left-color: rgba(255, 255, 255, 0.45);
+      
+      transition: transform .35s cubic-bezier(0.25, 1, 0.5, 1), border-color .35s, box-shadow .35s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Ánh sáng lướt qua khi hover */
+    .glass-slider-section .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-25deg);
+      z-index: 3;
+    }
+
+    @keyframes cardShimmer {
+      100% { left: 130%; }
+    }
+
+    .glass-slider-section .card:hover::before {
+      animation: cardShimmer 0.8s ease-out;
+    }
+
+    .glass-slider-section .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(111, 99, 171, 0.4);
+      box-shadow: 0 12px 24px rgba(111, 99, 171, 0.06);
+    }
+
+    .glass-slider-section .card-img-placeholder {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      border-radius: 18px 18px 0 0;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    
+    .glass-slider-section .card:hover .card-img-placeholder {
+      transform: scale(1.02);
+    }
+
+    .glass-slider-section .card-body { padding: 18px 18px 22px; display: flex; flex-direction: column; flex-grow: 1; }
+    
+    /* Tag dán danh mục */
+    .glass-slider-section .card-tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    /* Tiêu đề bài viết - Chuyển sang font nghệ thuật sang trọng */
+    .glass-slider-section .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 20px;
+      color: #332f47;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .glass-slider-section .card-meta {
+      font-size: 11.5px;
+      color: #6f63ab;
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+      opacity: 0.75;
+    }
+
+    /* === THANH ĐIỀU HƯỚNG MŨI TÊN === */
+    .glass-slider-section .slider-nav { display: flex; align-items: center; gap: 12px; margin-top: 28px; justify-content: center; }
+    
+    .glass-slider-section .arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: rgba(255,255,255,.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(111, 99, 171, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #564f86;
+      transition: all .3s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+    }
+    .glass-slider-section .arrow:hover {
+      background: rgba(255,255,255,.8);
+      border-color: rgba(111, 99, 171, 0.4);
+      transform: scale(1.06);
+    }
+    .glass-slider-section .arrow.disabled { opacity: .2; pointer-events: none; }
+    
+    .glass-slider-section .dots { display: flex; gap: 8px; align-items: center; }
+    .glass-slider-section .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(111, 99, 171, 0.3); transition: .3s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer; }
+    .glass-slider-section .dot.active { width: 20px; border-radius: 100px; background: #6f63ab; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .glass-slider-section .slide { flex: 0 0 calc(33.333% - 14px); }
+    }
+    @media (max-width: 768px) {
+      .glass-slider-section .slide { flex: 0 0 calc(50% - 10px); }
+      .glass-slider-section .sec-head { flex-direction: column; align-items: flex-start; }
+      .glass-slider-section .btn-all { align-self: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .glass-slider-section .slide { flex: 0 0 100%; }
+    }
+  </style>
+
+  <div class="container">
+    <div class="sec-head">
+      <div class="title-wrapper">
+        <span class="dt2-bubble b1"></span>
+        <span class="dt2-bubble b2"></span>
+        <div class="sec-label">Kiến thức da liễu</div>
+        <h2 class="sec-title">Bài viết <em>chuyên sâu</em></h2>
+      </div>
+      <button class="btn-all">Xem tất cả →</button>
+    </div>
+
+    <div class="slider-outer" id="sliderOuter">
+      <div class="slider-track" id="track">
+        
+        <div class="slide"><div class="card">
+          <div class="card-img-placeholder" style="background:linear-gradient(135deg, rgba(252,232,232,0.5), rgba(255,214,224,0.5))">🧴</div>
+          <div class="card-body">
+            <span class="card-tag" style="background:rgba(252,232,232,0.5);color:#b5536e">Trị mụn</span>
+            <h3 class="card-title">Tại sao mụn viêm cứ tái đi tái lại dù đã điều trị?</h3>
+            <div class="card-meta"><span>12 tháng 6, 2026</span><span>· 5 phút đọc</span></div>
+          </div>
+        </div></div>
+
+        <div class="slide"><div class="card">
+          <div class="card-img-placeholder" style="background:linear-gradient(135deg, rgba(227,245,239,0.5), rgba(195,240,224,0.5))">✨</div>
+          <div class="card-body">
+            <span class="card-tag" style="background:rgba(227,245,239,0.5);color:#2d7a5e">Chăm sóc da</span>
+            <h3 class="card-title">Quy trình dưỡng da buổi sáng đúng thứ tự cho da hỗn hợp</h3>
+            <div class="card-meta"><span>8 tháng 6, 2026</span><span>· 7 phút đọc</span></div>
+          </div>
+        </div></div>
+
+        <div class="slide"><div class="card">
+          <div class="card-img-placeholder" style="background:linear-gradient(135deg, rgba(236,232,252,0.5), rgba(221,214,252,0.5))">💜</div>
+          <div class="card-body">
+            <span class="card-tag" style="background:rgba(236,232,252,0.5);color:#6b52c8">Trị sẹo rỗ</span>
+            <h3 class="card-title">Fractional Laser và Microneedling — cái nào phù hợp với bạn?</h3>
+            <div class="card-meta"><span>3 tháng 6, 2026</span><span>· 6 phút đọc</span></div>
+          </div>
+        </div></div>
+
+        <div class="slide"><div class="card">
+          <div class="card-img-placeholder" style="background:linear-gradient(135deg, rgba(254,240,227,0.5), rgba(255,232,204,0.5))">☀️</div>
+          <div class="card-body">
+            <span class="card-tag" style="background:rgba(254,240,227,0.5);color:#c47020">Làm trắng</span>
+            <h3 class="card-title">Truyền trắng Glutathione có thực sự hiệu quả lâu dài không?</h3>
+            <div class="card-meta"><span>28 tháng 5, 2026</span><span>· 8 phút đọc</span></div>
+          </div>
+        </div></div>
+
+        <div class="slide"><div class="card">
+          <div class="card-img-placeholder" style="background:linear-gradient(135deg, rgba(253,232,244,0.5), rgba(255,179,217,0.5))">🌸</div>
+          <div class="card-body">
+            <span class="card-tag" style="background:rgba(253,232,244,0.5);color:#b5537a">Botox</span>
+            <h3 class="card-title">Tiêm Botox lần đầu — những điều cần biết trước khi quyết định</h3>
+            <div class="card-meta"><span>20 tháng 5, 2026</span><span>· 5 phút đọc</span></div>
+          </div>
+        </div></div>
+
+        <div class="slide"><div class="card">
+          <div class="card-img-placeholder" style="background:linear-gradient(135deg, rgba(227,238,255,0.5), rgba(204,224,255,0.5))">💧</div>
+          <div class="card-body">
+            <span class="card-tag" style="background:rgba(227,238,255,0.5);color:#2d5cb5">Trị thâm</span>
+            <h3 class="card-title">Phân biệt thâm nám, tàn nhang và đốm sắc tố để trị đúng cách</h3>
+            <div class="card-meta"><span>15 tháng 5, 2026</span><span>· 6 phút đọc</span></div>
+          </div>
+        </div></div>
+
+      </div>
+    </div>
+
+    <div class="slider-nav">
+      <div class="arrow disabled" id="prev">‹</div>
+      <div class="dots" id="dots"></div>
+      <div class="arrow" id="next">›</div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const track = document.getElementById('track');
+    const slides = track.querySelectorAll('.slide');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    const dotsWrap = document.getElementById('dots');
+    const total = slides.length;
+    let cur = 0;
+
+    function getVisibleSlides() {
+      if (window.innerWidth <= 480) return 1;
+      if (window.innerWidth <= 768) return 2;
+      if (window.innerWidth <= 1024) return 3;
+      return 4;
+    }
+
+    function updateDots() {
+      dotsWrap.innerHTML = '';
+      const visible = getVisibleSlides();
+      const pages = total - visible + 1;
+      
+      if(pages <= 0) return;
+
+      for(let i=0; i<pages; i++){
+        const d = document.createElement('div');
+        d.className='dot'+(i===cur?' active':'');
+        d.addEventListener('click',()=>go(i));
+        dotsWrap.appendChild(d);
+      }
+    }
+
+    function go(n){
+      const visible = getVisibleSlides();
+      const pages = total - visible + 1;
+      
+      cur = Math.max(0, Math.min(n, pages - 1));
+      const slideW = slides[0].offsetWidth + 20;
+      
+      track.style.transform=`translateX(-${cur*slideW}px)`;
+      track.style.transition='transform .5s cubic-bezier(0.25, 1, 0.5, 1)';
+      
+      const dots = dotsWrap.querySelectorAll('.dot');
+      dots.forEach((d,i)=>d.classList.toggle('active', i===cur));
+      
+      prev.classList.toggle('disabled', cur === 0);
+      next.classList.toggle('disabled', cur >= pages - 1 || pages <= 1);
+    }
+
+    prev.addEventListener('click',()=>go(cur-1));
+    next.addEventListener('click',()=>go(cur+1));
+
+    updateDots();
+    window.addEventListener('resize', () => {
+      cur = 0;
+      updateDots();
+      go(0);
+    });
+  })();
+  </script>
+</section>
 
 
 
