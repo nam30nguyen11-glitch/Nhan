@@ -4201,3 +4201,209 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--sage);background:tra
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="glass-popup-wrapper">
+  <style>
+    .glass-popup-wrapper {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 999999;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .glass-popup-wrapper * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* === THIẾT KẾ NÚT CHÍNH CHỨA LOGO THƯƠNG HIỆU === */
+    .glass-popup-main {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 10px 28px rgba(111, 99, 171, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 10;
+    }
+
+    .glass-popup-main img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    /* Bong bóng thủy tinh lơ lửng bám theo logo thương hiệu */
+    .glass-popup-wrapper .dt2-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0) 70%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+      z-index: 11;
+      animation: popupFloat 4s ease-in-out infinite;
+    }
+    .glass-popup-wrapper .b1 { width: 14px; height: 14px; right: -2px; top: -2px; }
+
+    @keyframes popupFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.1); }
+    }
+
+    /* === DANH SÁCH CÁC SOCIAL LIÊN HỆ === */
+    .glass-popup-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .glass-popup-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 20px rgba(111, 99, 171, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Định dạng cho ảnh logo Facebook bên trong nút */
+    .glass-popup-item img.fb-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    /* SVG icon Hotline */
+    .glass-popup-item svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .glass-popup-item.hotline { 
+      color: #e35d5d; 
+      background: rgba(255, 235, 235, 0.4);
+    }
+
+    /* Hiệu ứng gợn sóng cho Hotline */
+    .glass-popup-item.hotline::after {
+      content: '';
+      position: absolute;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 1px solid rgba(227, 93, 93, 0.35);
+      top: 0; left: 0;
+      z-index: -1;
+      animation: glassPulse 2.5s infinite ease-in-out;
+    }
+
+    @keyframes glassPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+
+    /* Tooltip text khi rê chuột vào */
+    .glass-popup-item .glass-tooltip {
+      position: absolute;
+      right: 62px;
+      top: 50%;
+      transform: translateY(-50%) translateX(10px);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 4px 12px rgba(111, 99, 171, 0.05);
+    }
+
+    /* === TRẠNG THÁI HOVER NÚT === */
+    .glass-popup-main:hover {
+      transform: scale(1.05) rotate(5deg);
+      border-color: rgba(111, 99, 171, 0.4);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-popup-item:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.75);
+      border-color: rgba(111, 99, 171, 0.3);
+      box-shadow: 0 10px 24px rgba(111, 99, 171, 0.15);
+    }
+
+    .glass-popup-item:hover img.fb-icon,
+    .glass-popup-item:hover svg { transform: scale(1.1); }
+    .glass-popup-item:hover .glass-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    /* Responsive cho di động */
+    @media (max-width: 768px) {
+      .glass-popup-wrapper { bottom: 16px; right: 16px; gap: 10px; }
+      .glass-popup-main { width: 50px; height: 50px; }
+      .glass-popup-main img { width: 32px; height: 32px; }
+      .glass-popup-item { width: 44px; height: 44px; }
+      .glass-popup-item img.fb-icon { width: 20px; height: 20px; }
+      .glass-popup-item svg { width: 18px; height: 18px; }
+      .glass-popup-item .glass-tooltip { display: none; }
+    }
+  </style>
+
+  <div class="glass-popup-menu">
+    <a href="https://facebook.com/yourpage" target="_blank" class="glass-popup-item" rel="noopener noreferrer">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/250px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook" class="fb-icon">
+      <span class="glass-tooltip">Nhắn tin Fanpage</span>
+    </a>
+
+    <a href="tel:0900000000" class="glass-popup-item hotline">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      <span class="glass-tooltip">Hotline 24/7</span>
+    </a>
+  </div>
+
+  <div class="glass-popup-main">
+    <span class="dt2-bubble b1"></span>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLE1BP8WcQ7-1jkPFKCuxMcdzxs6kOX4VmkC3UOV1BBg&s=10" alt="Logo">
+  </div>
+</div>
