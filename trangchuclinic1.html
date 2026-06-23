@@ -41,22 +41,7 @@ img{width:100%;height:100%;object-fit:cover;display:block}
 .o5{width:380px;height:380px;bottom:25%;right:5%;background:radial-gradient(circle,#cce8ff,#a8d4f8);opacity:.4;animation-duration:26s;animation-delay:-15s}
 @keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(35px,25px) scale(1.07)}100%{transform:translate(-15px,55px) scale(.95)}}
 
-/* ═══ HEADER ═══ */
-.header{
-  position:sticky;top:16px;z-index:100;margin:0 32px;padding:0 32px;height:70px;
-  background:rgba(255,255,255,.5);backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.78);border-radius:100px;
-  display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 8px 32px rgba(45,74,67,.06),inset 0 1px 0 rgba(255,255,255,.9)
-}
-.logo-wrap{display:flex;align-items:center;gap:10px}
-.logo-icon{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ffd6e0,#c3f0e0);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--sage)}
-.logo-text{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;letter-spacing:1px}
-.logo-sub{font-size:9px;font-weight:700;letter-spacing:3px;color:var(--sage-lt);text-transform:uppercase;display:block;margin-top:-2px}
-.nav a{font-size:12.5px;font-weight:600;color:var(--sage-mid);text-decoration:none;margin-left:28px;transition:.3s}
-.nav a:hover{color:var(--sage)}
-.nav-cta{background:var(--sage);color:#fff;padding:11px 22px;border-radius:100px;font-size:12px;font-weight:700;text-decoration:none;transition:.3s;box-shadow:0 6px 18px rgba(45,74,67,.2)}
-.nav-cta:hover{transform:translateY(-2px)}
+
 
 /* ═══ HERO ═══ */
 .hero{min-height:8vh;display:flex;align-items:center;justify-content:center;padding:52px 40px 0}
@@ -907,32 +892,240 @@ img{width:100%;height:100%;object-fit:cover;display:block}
   <div class="orb o5"></div>
 </div>
 
-<!-- HEADER -->
-<header class="header">
+
+  
+  
+  
+  
+ 
+  
+  
+  
+  
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nguyễn Thị Như Lan</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+a{text-decoration:none;color:inherit}
+:root{--sage:#2d4a43;--sage-mid:#4a7068;--sage-lt:#94b5ae}
+
+.hdr{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  position:sticky;top:16px;z-index:200;
+  margin:0 32px;padding:0 28px;height:64px;
+  background:rgba(255,255,255,.55);backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.78);border-radius:100px;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  box-shadow:0 8px 32px rgba(45,74,67,.07),inset 0 1px 0 rgba(255,255,255,.9);
+  overflow:visible;
+}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#ffd6e0,#c3f0e0);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:#2d4a43;flex-shrink:0}
+.logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#2d4a43;white-space:nowrap}
+
+.nav{display:flex;align-items:center;gap:2px;justify-content:center}
+.nav-item{position:relative}
+.nav-item>a{font-size:12px;font-weight:600;color:var(--sage-mid);padding:8px 13px;border-radius:100px;display:flex;align-items:center;gap:4px;transition:.2s;cursor:pointer;white-space:nowrap}
+.nav-item>a:hover,.nav-item.open>a{background:rgba(45,74,67,.07);color:var(--sage)}
+.nav-item>a .chev{font-size:10px;transition:transform .25s}
+.nav-item.open>a .chev{transform:rotate(180deg)}
+
+.hdr-right{display:flex;justify-content:flex-end}
+.nav-cta{background:var(--sage);color:#fff !important;padding:9px 18px;border-radius:100px;font-size:11.5px;font-weight:700;transition:.25s;box-shadow:0 6px 16px rgba(45,74,67,.22);white-space:nowrap}
+.nav-cta:hover{transform:translateY(-2px)}
+
+.mega{
+  position:fixed;width:460px;
+  background:rgba(255,255,255,.78);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border:1px solid rgba(255,255,255,.88);border-radius:20px;
+  box-shadow:0 24px 64px rgba(45,74,67,.14),inset 0 1px 0 rgba(255,255,255,.95);
+  padding:16px;opacity:0;pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+  transform:translateY(6px);z-index:9999;
+}
+.nav-item.open .mega{opacity:1;pointer-events:all;transform:translateY(0)}
+
+.mega-header{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage-lt);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(45,74,67,.08)}
+.mega-grid{display:grid;gap:5px}
+.col2{grid-template-columns:repeat(2,1fr)}
+.col3{grid-template-columns:repeat(3,1fr)}
+
+.mega-card{border-radius:10px;padding:10px 14px;cursor:pointer;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.75);backdrop-filter:blur(8px);transition:background .15s,transform .15s,box-shadow .15s}
+.mega-card:hover{background:rgba(255,255,255,.8);transform:translateY(-1px);box-shadow:0 4px 16px rgba(45,74,67,.08)}
+.mega-card-title{font-size:12.5px;font-weight:600;color:var(--sage)}
+
+.mega-footer{margin-top:10px;padding-top:10px;border-top:1px solid rgba(45,74,67,.08);display:flex;justify-content:flex-end}
+.mega-footer-link{font-size:11px;font-weight:700;color:var(--sage)}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
   <div class="logo-wrap">
     <div class="logo-icon">L</div>
-    <div>
-      <span class="logo-text">Nguyễn Thị Như Lan</span>
-
-    </div>
+    <span class="logo-text">Nguyễn Thị Như Lan</span>
   </div>
+
   <nav class="nav">
-    <a href="">Trị mụn</a>
-    <a href="#">Trị sẹo rỗ</a>
-    <a href="#">Trị thâm</a>
-    <a href="#">Chăm sóc da</a>
-    <a href="#">Bottox</a>    
-    <a href="#">Làm trắng</a>    
-    
+    <div class="nav-item">
+      <a href="#">Trị mụn <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Trị mụn</div>
+        <div class="mega-grid col2">
+          <div class="mega-card"><div class="mega-card-title">Mụn viêm &amp; bọc</div></div>
+          <div class="mega-card"><div class="mega-card-title">Mụn đầu đen</div></div>
+          <div class="mega-card"><div class="mega-card-title">Laser trị mụn</div></div>
+          <div class="mega-card"><div class="mega-card-title">Peel da hóa học</div></div>
+        </div>
+        <div class="mega-footer"><a href="#" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="#">Trị sẹo rỗ <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Trị sẹo rỗ</div>
+        <div class="mega-grid col3">
+          <div class="mega-card"><div class="mega-card-title">Fractional Laser</div></div>
+          <div class="mega-card"><div class="mega-card-title">Microneedling RF</div></div>
+          <div class="mega-card"><div class="mega-card-title">Subcision</div></div>
+          <div class="mega-card"><div class="mega-card-title">PRP &amp; Filler</div></div>
+          <div class="mega-card"><div class="mega-card-title">CO2 Laser</div></div>
+          <div class="mega-card"><div class="mega-card-title">Diamond Peel</div></div>
+        </div>
+        <div class="mega-footer"><a href="#" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="#">Trị thâm <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Trị thâm</div>
+        <div class="mega-grid col2">
+          <div class="mega-card"><div class="mega-card-title">Thâm nám sâu</div></div>
+          <div class="mega-card"><div class="mega-card-title">Thâm mụn</div></div>
+          <div class="mega-card"><div class="mega-card-title">Tàn nhang &amp; đốm</div></div>
+          <div class="mega-card"><div class="mega-card-title">Vitamin C Drip</div></div>
+        </div>
+        <div class="mega-footer"><a href="#" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="#">Chăm sóc da <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Chăm sóc da</div>
+        <div class="mega-grid col2">
+          <div class="mega-card"><div class="mega-card-title">Facial cơ bản</div></div>
+          <div class="mega-card"><div class="mega-card-title">Facial cao cấp</div></div>
+          <div class="mega-card"><div class="mega-card-title">HydraFacial</div></div>
+          <div class="mega-card"><div class="mega-card-title">Nano Infusion</div></div>
+        </div>
+        <div class="mega-footer"><a href="#" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="#">Bottox <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Bottox &amp; Filler</div>
+        <div class="mega-grid col2">
+          <div class="mega-card"><div class="mega-card-title">Botox xóa nhăn</div></div>
+          <div class="mega-card"><div class="mega-card-title">Filler môi</div></div>
+          <div class="mega-card"><div class="mega-card-title">Nâng mũi filler</div></div>
+          <div class="mega-card"><div class="mega-card-title">Skinbooster</div></div>
+        </div>
+        <div class="mega-footer"><a href="#" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="#">Làm trắng <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Làm trắng</div>
+        <div class="mega-grid col2">
+          <div class="mega-card"><div class="mega-card-title">Truyền trắng</div></div>
+          <div class="mega-card"><div class="mega-card-title">Laser toning</div></div>
+          <div class="mega-card"><div class="mega-card-title">Peel trắng da</div></div>
+          <div class="mega-card"><div class="mega-card-title">Mặt nạ sinh học</div></div>
+        </div>
+        <div class="mega-footer"><a href="#" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
   </nav>
-  <a href="#" class="nav-cta">Theo dõi  Tiktok Lan</a>
+
+  <div class="hdr-right">
+    <a href="#" class="nav-cta">Theo dõi TikTok Lan</a>
+  </div>
 </header>
 
+<script>
+(function(){
+  const items = document.querySelectorAll('.nav-item');
+  const MEGA_W = 460;
+  let closeTimer;
+  function positionMega(item){
+    const mega = item.querySelector('.mega');
+    if(!mega) return;
+    const rect = item.getBoundingClientRect();
+    const hdrRect = document.getElementById('hdr').getBoundingClientRect();
+    let top = hdrRect.bottom + 10;
+    let left = rect.left + rect.width/2 - MEGA_W/2;
+    const vw = window.innerWidth;
+    if(left < 12) left = 12;
+    if(left + MEGA_W > vw - 12) left = vw - MEGA_W - 12;
+    mega.style.top = top + 'px';
+    mega.style.left = left + 'px';
+  }
+  function openItem(item){
+    clearTimeout(closeTimer);
+    items.forEach(i => i.classList.remove('open'));
+    positionMega(item);
+    item.classList.add('open');
+  }
+  function scheduleClose(item){
+    closeTimer = setTimeout(() => item.classList.remove('open'), 100);
+  }
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => openItem(item));
+    item.addEventListener('mouseleave', () => scheduleClose(item));
+    const mega = item.querySelector('.mega');
+    if(mega){
+      mega.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+      mega.addEventListener('mouseleave', () => scheduleClose(item));
+    }
+  });
+})();
+</script>
+</body>
+</html>    
   
   
   
   
   
+  
+
+
+    
+  
+  
+  
+  
+  
+  
+
+
+    
+  
+   
 
 
     
