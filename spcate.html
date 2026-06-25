@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumia — Lifestyle & Beauty Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#2d4a43;
+  --sage-mid:#4a7068;
+  --sage-lt:#94b5ae;
+  --ink:#0d1f1a;
+  --muted:#4a6058;
+  --bg:#f0f5f2;
+  --border-glass:rgba(255,255,255,0.65);
+  --rose-tint:#fce8e8;
+  --lav-tint:#ece8fc;
+  --mint-tint:#e3f5ef;
+  --peach-tint:#fef0e3;
+  --sky-tint:#e3eeff;
+  --blush-tint:#fde8f4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--sage);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ═══ MESH BG ═══ */
+.mesh-bg{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.5;animation:drift 22s ease-in-out infinite alternate}
+.o1{width:650px;height:650px;top:-120px;left:-80px;background:radial-gradient(circle,#ffd6e0,#ffb3c6);animation-duration:18s}
+.o2{width:550px;height:550px;top:45%;right:-100px;background:radial-gradient(circle,#c3f0e0,#9ee5cb);animation-duration:24s;animation-delay:-7s}
+.o3{width:450px;height:450px;top:25%;left:35%;background:radial-gradient(circle,#ddd6fc,#c4b8f8);opacity:.35;animation-duration:28s;animation-delay:-12s}
+.o4{width:500px;height:500px;bottom:5%;left:-60px;background:radial-gradient(circle,#ffe8cc,#ffd0a0);animation-duration:20s;animation-delay:-5s}
+.o5{width:380px;height:380px;bottom:25%;right:5%;background:radial-gradient(circle,#cce8ff,#a8d4f8);opacity:.4;animation-duration:26s;animation-delay:-15s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(35px,25px) scale(1.07)}100%{transform:translate(-15px,55px) scale(.95)}}
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nguyễn Thị Như Lan</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+a{text-decoration:none;color:inherit}
+:root{--sage:#2d4a43;--sage-mid:#4a7068;--sage-lt:#94b5ae}
+
+.hdr{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  position:sticky;top:16px;z-index:200;
+  margin:0 32px;padding:0 28px;height:64px;
+  background:rgba(255,255,255,.55);backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.78);border-radius:100px;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  box-shadow:0 8px 32px rgba(45,74,67,.07),inset 0 1px 0 rgba(255,255,255,.9);
+  overflow:visible;
+}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#ffd6e0,#c3f0e0);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:#2d4a43;flex-shrink:0}
+.logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#2d4a43;white-space:nowrap}
+
+.nav{display:flex;align-items:center;gap:2px;justify-content:center}
+.nav-item{position:relative}
+.nav-item>a{font-size:12px;font-weight:600;color:var(--sage-mid);padding:8px 13px;border-radius:100px;display:flex;align-items:center;gap:4px;transition:.2s;cursor:pointer;white-space:nowrap}
+.nav-item>a:hover,.nav-item.open>a{background:rgba(45,74,67,.07);color:var(--sage)}
+.nav-item>a .chev{font-size:10px;transition:transform .25s}
+.nav-item.open>a .chev{transform:rotate(180deg)}
+
+.hdr-right{display:flex;justify-content:flex-end}
+.nav-cta{background:var(--sage);color:#fff !important;padding:9px 18px;border-radius:100px;font-size:11.5px;font-weight:700;transition:.25s;box-shadow:0 6px 16px rgba(45,74,67,.22);white-space:nowrap}
+.nav-cta:hover{transform:translateY(-2px)}
+
+.mega{
+  position:fixed;width:460px;
+  background:rgba(255,255,255,.78);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  border:1px solid rgba(255,255,255,.88);border-radius:20px;
+  box-shadow:0 24px 64px rgba(45,74,67,.14),inset 0 1px 0 rgba(255,255,255,.95);
+  padding:16px;opacity:0;pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+  transform:translateY(6px);z-index:9999;
+}
+.nav-item.open .mega{opacity:1;pointer-events:all;transform:translateY(0)}
+
+.mega-header{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage-lt);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(45,74,67,.08)}
+.mega-grid{display:grid;gap:5px}
+.col2{grid-template-columns:repeat(2,1fr)}
+.col3{grid-template-columns:repeat(3,1fr)}
+
+.mega-card{border-radius:10px;padding:10px 14px;cursor:pointer;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.75);backdrop-filter:blur(8px);transition:background .15s,transform .15s,box-shadow .15s}
+.mega-card:hover{background:rgba(255,255,255,.8);transform:translateY(-1px);box-shadow:0 4px 16px rgba(45,74,67,.08)}
+.mega-card-title{font-size:12.5px;font-weight:600;color:var(--sage)}
+
+.mega-footer{margin-top:10px;padding-top:10px;border-top:1px solid rgba(45,74,67,.08);display:flex;justify-content:flex-end}
+.mega-footer-link{font-size:11px;font-weight:700;color:var(--sage)}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
+  <div class="logo-wrap">
+    <div class="logo-icon">L</div>
+    <span class="logo-text">Nguyễn Thị Như Lan</span>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-item">
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/hommoi.html
+">Trang chủ <span class="chev"></span></a>
+      </div>
+    </div>    
+
+    <div class="nav-item">
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi2.html
+">Dịch vụ <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Trị mụn</div>
+        <div class="mega-grid col2">        
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html
+">Mụn viêm &amp; bọc</a></div></div>
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html
+">Mụn đầu đen</a></div></div>
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html
+">Laser trị mụn</a></div></div>
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html
+">Peel da hóa học</a></div></div>
+        </div>
+        <div class="mega-footer"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi2.html
+" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+
+
+
+    <div class="nav-item">
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html
+">Sản phẩm <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Trị mụn</div>
+        <div class="mega-grid col2">        
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html
+">Trị mụn</a></div></div>
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html
+">Làm trắng da</a></div></div>
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html
+">Dưỡng da</a></div></div>
+          <div class="mega-card"><div class="mega-card-title"><a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html
+">Trị thâm mụn</a></div></div>
+        </div>
+        <div class="mega-footer"><a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html
+" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>
+  
+  
+  
+  
+    <div class="nav-item">
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/content1.html"
+>Tin tức & Kiến thức <span class="chev">▾</span></a>
+      <div class="mega">
+        <div class="mega-header">Kiến thức da</div>
+        <div class="mega-grid col2">
+          <div class="mega-card"><div class="mega-card-title">Kiến thức da 2</div></div>
+          <div class="mega-card"><div class="mega-card-title">Kiến thức da 3</div></div>
+          <div class="mega-card"><div class="mega-card-title">Kiến thức da 4</div></div>
+          <div class="mega-card"><div class="mega-card-title">Kiến thức da 5</div></div>
+        </div>
+        <div class="mega-footer"><a href="https://nam30nguyen11-glitch.github.io/Nhan/content1.html
+" class="mega-footer-link">Xem tất cả →</a></div>
+      </div>
+    </div>  
+  
+    <div class="nav-item">
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/vetoi.html"
+>Vể tôi <span class="chev"></span></a>  
+  
+  </nav>
+  
+  
+  
+  </nav>
+
+  <div class="hdr-right">
+    <a href="#" class="nav-cta">Đặt lịch tư vấn</a>
+  </div>
+</header>
+
+<script>
+(function(){
+  const items = document.querySelectorAll('.nav-item');
+  const MEGA_W = 460;
+  let closeTimer;
+  function positionMega(item){
+    const mega = item.querySelector('.mega');
+    if(!mega) return;
+    const rect = item.getBoundingClientRect();
+    const hdrRect = document.getElementById('hdr').getBoundingClientRect();
+    let top = hdrRect.bottom + 10;
+    let left = rect.left + rect.width/2 - MEGA_W/2;
+    const vw = window.innerWidth;
+    if(left < 12) left = 12;
+    if(left + MEGA_W > vw - 12) left = vw - MEGA_W - 12;
+    mega.style.top = top + 'px';
+    mega.style.left = left + 'px';
+  }
+  function openItem(item){
+    clearTimeout(closeTimer);
+    items.forEach(i => i.classList.remove('open'));
+    positionMega(item);
+    item.classList.add('open');
+  }
+  function scheduleClose(item){
+    closeTimer = setTimeout(() => item.classList.remove('open'), 100);
+  }
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => openItem(item));
+    item.addEventListener('mouseleave', () => scheduleClose(item));
+    const mega = item.querySelector('.mega');
+    if(mega){
+      mega.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+      mega.addEventListener('mouseleave', () => scheduleClose(item));
+    }
+  });
+})();
+</script>
+</body>
+</html>   
+
+
+
+
+
+
+<!-- Reusable heart clipPath (objectBoundingBox so it scales with element size) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="heartClipPath" clipPathUnits="objectBoundingBox">
+      <path d="M0.5,0.97
+               C0.5,0.97 0.04,0.62 0.04,0.34
+               C0.04,0.15 0.19,0.03 0.355,0.03
+               C0.45,0.03 0.5,0.11 0.5,0.20
+               C0.5,0.11 0.55,0.03 0.645,0.03
+               C0.81,0.03 0.96,0.15 0.96,0.34
+               C0.96,0.62 0.5,0.97 0.5,0.97 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<div class="mesh-bg">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+  <div class="orb o5"></div>
+</div>
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&display=swap');
+
+  #bc-wrap {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .bc-list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+  }
+
+  .bc-link {
+    color: ;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .bc-link:hover { color: #c8607e; }
+
+  .bc-sep {
+    color: #c8a8d0;
+    font-size: 12px;
+  }
+
+  .bc-current {
+    color: #2d2033;
+    font-weight: 500;
+  }
+</style>
+
+<div id="bc-wrap">
+  <ol class="bc-list" aria-label="Breadcrumb">
+    <li class="bc-item">
+      <i class="ti ti-home" style="font-size:14px;color:#9a7aaa;" aria-hidden="true"></i>
+      <a href="#" class="bc-link">Home</a>
+    </li>
+    <li class="bc-item">
+      <span class="bc-sep">›</span>
+      <span class="bc-current">Dưỡng da</span>
+    </li>
+  </ol>
+</div>
+
+
+
+
+
+
+<div style="padding-top: 40px;"></div>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<style>
+/* Nhúng font chữ trực tiếp */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;600&display=swap');
+
+/* 1. Cách ly tuyệt đối: Reset toàn bộ thuộc tính kế thừa từ bên ngoài */
+.dt2-isolation, .dt2-isolation * {
+  all: initial; /* Xóa bỏ 100% CSS global áp dụng lên vùng này */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-shadow: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+/* 2. Thiết lập lại môi trường hiển thị chuẩn cho container */
+.dt2-isolation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+}
+
+.dt2-stage {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+}
+
+/* 3. Khôi phục và định hình text */
+.dt2-title {
+  display: block;
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(165deg, #f1e6fb 0%, #d9c2f0 18%, #b89be0 38%, #8f7bc9 58%, #6f63ab 78%, #564f86 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  z-index: 2;
+}
+
+/* Viền glass mỏng quanh nét chữ */
+.dt2-title::after {
+  content: 'DƯỠNG DA';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+  text-align: center;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.6px rgba(86, 79, 134, 0.4);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Bóng mờ tạo độ sâu phía sau chữ */
+.dt2-title::before {
+  content: 'DƯỠNG DA';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #7a6fae;
+  transform: translate(0, 3px);
+  z-index: 1;
+  filter: blur(8px);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* Hiệu ứng bong bóng thủy tinh */
+.dt2-bubble {
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.15) 38%, rgba(255, 255, 255, 0) 70%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  z-index: 0;
+  animation: dt2Float 6s ease-in-out infinite;
+}
+
+.dt2-bubble.b1 { width: 46px; height: 46px; left: 2%; top: 8%; animation-delay: 0s; }
+.dt2-bubble.b2 { width: 26px; height: 26px; right: 6%; top: 18%; animation-delay: 1.1s; }
+.dt2-bubble.b3 { width: 18px; height: 18px; left: 14%; bottom: 6%; animation-delay: 2.3s; }
+.dt2-bubble.b4 { width: 32px; height: 32px; right: 1%; bottom: 2%; animation-delay: 0.6s; }
+
+@keyframes dt2Float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.55; }
+  50% { transform: translateY(-10px) scale(1.06); opacity: 0.85; }
+}
+
+/* Sóng ánh sáng lan tỏa phía dưới */
+.dt2-glow {
+  display: block;
+  width: 50%;
+  height: 10px;
+  margin: 14px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(143, 123, 201, 0.45) 0%, rgba(143, 123, 201, 0) 75%);
+  filter: blur(3px);
+  animation: dt2Pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes dt2Pulse {
+  0%, 100% { opacity: 0.5; transform: scaleX(0.85); }
+  50% { opacity: 1; transform: scaleX(1.05); }
+}
+</style>
+</head>
+<body>
+
+<div class="dt2-isolation">
+  <div class="dt2-stage">
+    <span class="dt2-bubble b1"></span>
+    <span class="dt2-bubble b2"></span>
+    <span class="dt2-bubble b3"></span>
+    <span class="dt2-bubble b4"></span>
+    <h2 class="dt2-title">DƯỠNG DA</h2>
+    <div class="dt2-glow"></div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumia — Lifestyle & Beauty Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#2d4a43;
+  --sage-mid:#4a7068;
+  --sage-lt:#94b5ae;
+  --ink:#0d1f1a;
+  --muted:#4a6058;
+  --bg:#f0f5f2;
+  --border-glass:rgba(255,255,255,0.65);
+  --rose-tint:#fce8e8;
+  --lav-tint:#ece8fc;
+  --mint-tint:#e3f5ef;
+  --peach-tint:#fef0e3;
+  --sky-tint:#e3eeff;
+  --blush-tint:#fde8f4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--sage);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ═══ MESH BG ═══ */
+.mesh-bg{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.5;animation:drift 22s ease-in-out infinite alternate}
+.o1{width:650px;height:650px;top:-120px;left:-80px;background:radial-gradient(circle,#ffd6e0,#ffb3c6);animation-duration:18s}
+.o2{width:550px;height:550px;top:45%;right:-100px;background:radial-gradient(circle,#c3f0e0,#9ee5cb);animation-duration:24s;animation-delay:-7s}
+.o3{width:450px;height:450px;top:25%;left:35%;background:radial-gradient(circle,#ddd6fc,#c4b8f8);opacity:.35;animation-duration:28s;animation-delay:-12s}
+.o4{width:500px;height:500px;bottom:5%;left:-60px;background:radial-gradient(circle,#ffe8cc,#ffd0a0);animation-duration:20s;animation-delay:-5s}
+.o5{width:380px;height:380px;bottom:25%;right:5%;background:radial-gradient(circle,#cce8ff,#a8d4f8);opacity:.4;animation-duration:26s;animation-delay:-15s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(35px,25px) scale(1.07)}100%{transform:translate(-15px,55px) scale(.95)}}
+
+
+
+/* ═══ PROBLEMS / LIFESTYLE ROWS ═══ */
+.problems-section{padding:0px;position:relative;overflow:hidden}
+.ambient-orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;animation:orbFloat 14s ease-in-out infinite}
+.prob-orb-1{width:600px;height:600px;top:-100px;left:-200px;background:radial-gradient(circle,rgba(249,168,176,0.18),transparent 70%)}
+.prob-orb-2{width:700px;height:700px;bottom:-150px;right:-200px;background:radial-gradient(circle,rgba(184,168,252,0.18),transparent 70%);animation-delay:-7s}
+.prob-orb-3{width:500px;height:500px;top:40%;left:40%;background:radial-gradient(circle,rgba(150,230,205,0.12),transparent 70%);animation-delay:-3.5s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,30px) scale(0.97)}}
+
+.prob-section-head{text-align:center;padding:0 40px;margin-bottom:80px;position:relative;z-index:2}
+.prob-eyebrow{display:inline-block;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:18px;padding:6px 18px;background:linear-gradient(135deg,var(--mint-tint),var(--sky-tint));border-radius:50px}
+.prob-section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.2vw,46px);font-weight:600;line-height:1.22;margin-bottom:14px;color:var(--ink)}
+.prob-section-title em{font-style:italic;font-weight:400}
+.prob-section-desc{font-size:13.5px;color:var(--muted);line-height:1.85;max-width:520px;margin:0 auto;font-weight:300}
+
+.prob-container{max-width:1360px;margin:0 auto;padding:0 32px;display:flex;flex-direction:column;gap:120px;position:relative;z-index:2}
+
+/* Chic row */
+.chic-row{display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:center;position:relative}
+.chic-row.reverse{grid-template-columns:0.9fr 1.1fr}
+.chic-row.reverse .image-art-zone{order:2}
+.chic-row.reverse .text-art-zone{order:1}
+
+/* tiktok row: let height be natural, align tops */
+.chic-row.reverse.cr-peach { align-items:start }
+
+.image-art-zone{position:relative;width:100%;height:520px}
+.art-glass-plate{
+  position:absolute;width:82%;height:82%;top:50%;left:50%;transform:translate(-50%,-50%);
+  border-radius:36px;background:rgba(255,255,255,0.28);backdrop-filter:blur(22px) saturate(130%);
+  border:1px solid rgba(255,255,255,0.55);border-top:1px solid rgba(255,255,255,0.8);
+  box-shadow:0 20px 60px rgba(13,31,26,0.04),inset 0 2px 4px rgba(255,255,255,0.5);
+  z-index:1;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1)
+}
+.chic-row:hover .art-glass-plate{transform:translate(-50%,-50%) scale(1.02)}
+.art-img-master{
+  position:absolute;width:62%;height:78%;top:6%;left:4%;z-index:3;
+  border-radius:24px;overflow:hidden;
+  border:4px solid rgba(255,255,255,0.9);box-shadow:0 24px 52px rgba(13,31,26,0.1);
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1),box-shadow 0.7s
+}
+.chic-row:hover .art-img-master{transform:translateY(-10px) rotate(-1deg);box-shadow:0 36px 70px rgba(13,31,26,0.14)}
+.art-img-mood{
+  position:absolute;width:46%;height:52%;bottom:-4%;right:1%;z-index:5;
+  border-radius:20px;overflow:hidden;
+  border:4px solid rgba(255,255,255,0.95);box-shadow:0 28px 56px rgba(13,31,26,0.12);
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s,box-shadow 0.7s
+}
+.chic-row:hover .art-img-mood{transform:translateY(-18px) scale(1.03) rotate(2deg);box-shadow:0 40px 72px rgba(13,31,26,0.18)}
+.art-img-master img,.art-img-mood img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(0.25,1,0.5,1)}
+.chic-row:hover .art-img-master img,.chic-row:hover .art-img-mood img{transform:scale(1.07)}
+.art-decor-tag{position:absolute;top:18%;right:-8px;z-index:4;font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;opacity:0.6}
+.art-row-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0;animation:cardOrbPulse 9s ease-in-out infinite}
+@keyframes cardOrbPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+
+.text-art-zone{
+  background:linear-gradient(145deg,rgba(255,255,255,0.55),rgba(255,255,255,0.18));
+  backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.65);border-top:1px solid rgba(255,255,255,0.85);border-left:1px solid rgba(255,255,255,0.8);
+  border-radius:32px;padding:56px 50px;
+  box-shadow:0 24px 60px rgba(13,31,26,0.04),inset 0 1px 2px rgba(255,255,255,0.9);
+  transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
+  position:relative;overflow:hidden
+}
+.text-art-zone::before{content:'';position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(255,255,255,0.7);pointer-events:none;z-index:0}
+.text-art-zone>*{position:relative;z-index:1}
+.chic-row:hover .text-art-zone{background:linear-gradient(145deg,rgba(255,255,255,0.72),rgba(255,255,255,0.28));border-color:rgba(255,255,255,0.9);box-shadow:0 36px 80px rgba(13,31,26,0.07),inset 0 1px 3px rgba(255,255,255,1)}
+
+.chic-btn{display:inline-flex;align-items:center;gap:14px;font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink);margin-top:4px;transition:gap 0.35s}
+.chic-btn .btn-line{width:38px;height:1.5px;background:var(--ink);border-radius:2px;transition:width 0.4s cubic-bezier(0.25,1,0.5,1);flex-shrink:0}
+.chic-btn:hover{gap:20px}
+.chic-btn:hover .btn-line{width:64px}
+
+/* Color themes */
+.cr-rose .art-row-orb{width:480px;height:480px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(252,168,168,0.45),transparent 65%)}
+.cr-rose .art-glass-plate{background:rgba(252,232,232,0.32)}
+.cr-rose .p-index{color:#c06060}
+.cr-rose .p-quote{border-left-color:#f9a8a8;background:rgba(252,232,232,0.45)}
+.cr-rose .p-tag-pill{background:rgba(252,168,168,0.25);color:#b04040}
+.cr-rose .text-art-zone{background:linear-gradient(145deg,rgba(252,232,232,0.5),rgba(255,248,246,0.18))}
+.cr-rose .chic-btn{color:#b04040}
+.cr-rose .chic-btn .btn-line{background:#b04040}
+
+.cr-lav .art-row-orb{width:480px;height:480px;bottom:-80px;left:-60px;background:radial-gradient(circle,rgba(184,168,252,0.45),transparent 65%)}
+.cr-lav .art-glass-plate{background:rgba(236,232,252,0.32)}
+.cr-lav .p-index{color:#6b5abf}
+.cr-lav .p-quote{border-left-color:#b8a8fc;background:rgba(236,232,252,0.45)}
+.cr-lav .p-tag-pill{background:rgba(184,168,252,0.25);color:#5040a0}
+.cr-lav .text-art-zone{background:linear-gradient(145deg,rgba(236,232,252,0.5),rgba(248,246,255,0.18))}
+.cr-lav .chic-btn{color:#5040a0}
+.cr-lav .chic-btn .btn-line{background:#5040a0}
+
+.cr-mint .art-row-orb{width:520px;height:520px;top:-60px;left:-80px;background:radial-gradient(circle,rgba(130,210,185,0.4),transparent 65%)}
+.cr-mint .art-glass-plate{background:rgba(227,245,239,0.32)}
+.cr-mint .p-index{color:#2d7a60}
+.cr-mint .p-quote{border-left-color:#82d2b9;background:rgba(227,245,239,0.45)}
+.cr-mint .p-tag-pill{background:rgba(130,210,185,0.25);color:#1a6048}
+.cr-mint .text-art-zone{background:linear-gradient(145deg,rgba(227,245,239,0.5),rgba(244,252,248,0.18))}
+.cr-mint .chic-btn{color:#1a6048}
+.cr-mint .chic-btn .btn-line{background:#1a6048}
+
+.cr-peach .art-row-orb{width:480px;height:480px;top:-60px;right:-60px;background:radial-gradient(circle,rgba(252,190,120,0.4),transparent 65%)}
+.cr-peach .art-glass-plate{background:rgba(254,240,227,0.32)}
+.cr-peach .p-index{color:#b07030}
+.cr-peach .p-quote{border-left-color:#fcbe78;background:rgba(254,240,227,0.45)}
+.cr-peach .p-tag-pill{background:rgba(252,190,120,0.25);color:#9a5020}
+.cr-peach .text-art-zone{background:linear-gradient(145deg,rgba(254,240,227,0.5),rgba(255,248,240,0.18))}
+.cr-peach .chic-btn{color:#9a5020}
+.cr-peach .chic-btn .btn-line{background:#9a5020}
+
+.cr-sky .art-row-orb{width:500px;height:500px;bottom:-60px;right:-60px;background:radial-gradient(circle,rgba(130,175,252,0.4),transparent 65%)}
+.cr-sky .art-glass-plate{background:rgba(227,238,255,0.32)}
+.cr-sky .p-index{color:#2d5fa0}
+.cr-sky .p-quote{border-left-color:#82b0fc;background:rgba(227,238,255,0.45)}
+.cr-sky .p-tag-pill{background:rgba(130,175,252,0.25);color:#1a3d80}
+.cr-sky .text-art-zone{background:linear-gradient(145deg,rgba(227,238,255,0.5),rgba(240,246,255,0.18))}
+.cr-sky .chic-btn{color:#1a3d80}
+.cr-sky .chic-btn .btn-line{background:#1a3d80}
+
+.cr-blush .art-row-orb{width:500px;height:500px;top:-80px;left:-40px;background:radial-gradient(circle,rgba(252,140,210,0.38),transparent 65%)}
+.cr-blush .art-glass-plate{background:rgba(253,232,244,0.32)}
+.cr-blush .p-index{color:#a03078}
+.cr-blush .p-quote{border-left-color:#fc8cd2;background:rgba(253,232,244,0.45)}
+.cr-blush .p-tag-pill{background:rgba(252,140,210,0.25);color:#802058}
+.cr-blush .text-art-zone{background:linear-gradient(145deg,rgba(253,232,244,0.5),rgba(255,244,250,0.18))}
+.cr-blush .chic-btn{color:#802058}
+.cr-blush .chic-btn .btn-line{background:#802058}
+
+/* Typography */
+.p-index{font-size:9.5px;color:var(--muted);font-weight:700;letter-spacing:3px;display:block;margin-bottom:16px;text-transform:uppercase}
+.p-tag-pill{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;display:inline-block;margin-bottom:18px}
+.p-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.4vw,33px);font-weight:600;line-height:1.32;color:var(--ink);margin-bottom:18px}
+.p-desc{font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:24px;font-weight:300;text-align:justify}
+.p-quote{border-left-width:3px;border-left-style:solid;border-radius:0 14px 14px 0;padding:16px 22px;margin-bottom:28px;font-style:italic;font-size:13px;color:var(--ink);line-height:1.78;font-weight:400}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* ═══ COSMETIC SHELF ═══ */
+.cosmetic-shelf-zone { overflow:hidden; border-radius:32px; padding:0!important }
+.cosmetic-shelf-wrap {
+  position:relative; width:100%; height:100%;
+  background:linear-gradient(145deg,rgba(227,245,239,0.55),rgba(244,252,248,0.25));
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.65);
+  border-radius:32px;
+  overflow:hidden;
+  display:flex; flex-direction:column; justify-content:center;
+  gap:12px; padding:20px 20px 14px;
+  box-shadow:0 20px 60px rgba(45,122,96,0.07),inset 0 2px 4px rgba(255,255,255,0.6)
+}
+.cs-glow {
+  position:absolute; width:300px; height:300px;
+  top:-60px; right:-60px; border-radius:50%;
+  background:radial-gradient(circle,rgba(130,210,185,0.3),transparent 70%);
+  filter:blur(50px); pointer-events:none
+}
+.cs-header {
+  display:flex; align-items:center; gap:10px; margin-bottom:4px
+}
+.cs-header-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:linear-gradient(135deg,#82d2b9,#2d7a60); flex-shrink:0
+}
+.cs-header-txt {
+  font-size:9px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; color:#2d7a60; opacity:0.7
+}
+.cs-shelf-row { position:relative; padding-bottom:10px }
+.cs-shelf-line {
+  position:absolute; bottom:0; left:-24px; right:-24px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(130,210,185,0.35) 20%,rgba(130,210,185,0.6) 50%,rgba(130,210,185,0.35) 80%,transparent);
+  border-radius:2px;
+  box-shadow:0 1px 6px rgba(82,185,148,0.15)
+}
+.cs-items {
+  display:flex; gap:10px; align-items:flex-end; justify-content:center
+}
+.cs-item {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  cursor:default;
+  transition:transform 0.38s cubic-bezier(0.16,1,0.3,1)
+}
+.cs-item:hover { transform:translateY(-12px) }
+.cs-item:hover .cs-img-wrap { box-shadow:0 16px 36px rgba(45,122,96,0.18); }
+.cs-img-wrap {
+  border-radius:16px; overflow:hidden;
+  border:2.5px solid rgba(255,255,255,0.88);
+  box-shadow:0 6px 18px rgba(45,122,96,0.1),inset 0 1px 2px rgba(255,255,255,0.9);
+  flex-shrink:0; width:95px;
+  transition:box-shadow 0.38s cubic-bezier(0.16,1,0.3,1)
+}
+.cs-img-tall   { height:148px }
+.cs-img-medium { height:120px }
+.cs-img-short  { height:96px }
+.cs-img-wrap img {
+  width:100%; height:100%; object-fit:cover; object-position:center top;
+  display:block; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)
+}
+.cs-item:hover .cs-img-wrap img { transform:scale(1.07) }
+.cs-item-info {
+  display:flex; flex-direction:column; align-items:center; gap:2px
+}
+.cs-item-name {
+  font-size:8.5px; font-weight:600; color:var(--ink);
+  text-align:center; letter-spacing:0.2px; white-space:nowrap
+}
+.cs-rating { font-size:8px; color:#82d2b9; letter-spacing:1px }
+.cs-verdict {
+  font-size:7px; font-weight:700; letter-spacing:1.2px;
+  text-transform:uppercase; padding:2px 8px; border-radius:20px
+}
+.cs-verdict-love { background:rgba(130,210,185,0.25); color:#1a6048 }
+.cs-verdict-skip { background:rgba(220,180,180,0.25); color:#9a4040 }
+.cs-verdict-try  { background:rgba(252,214,140,0.3);  color:#8a6020 }
+.cs-footer {
+  text-align:right; font-size:8px; font-weight:700;
+  letter-spacing:2.5px; text-transform:uppercase;
+  color:#2d7a60; opacity:0.45; margin-top:4px
+}
+
+/* ═══ FASHION CAROUSEL ═══ */
+.fashion-carousel-zone{overflow:hidden;border-radius:32px;padding:0!important}
+.fashion-carousel-wrap{
+  position:relative;width:100%;height:100%;
+  background:linear-gradient(145deg,rgba(236,232,252,0.38),rgba(248,246,255,0.2));
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.6);
+  border-radius:32px;
+  overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px 0;
+  box-shadow:0 20px 60px rgba(107,90,191,0.08),inset 0 2px 4px rgba(255,255,255,0.5)
+}
+.fashion-carousel-wrap::before,.fashion-carousel-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:10;pointer-events:none
+}
+.fashion-carousel-wrap::before{left:0;background:linear-gradient(90deg,rgba(248,246,255,0.85),transparent)}
+.fashion-carousel-wrap::after{right:0;background:linear-gradient(-90deg,rgba(248,246,255,0.85),transparent)}
+.fashion-track{overflow:hidden;width:100%}
+.fashion-track-inner{
+  display:flex;gap:10px;
+  animation:scrollLeft 28s linear infinite;
+  width:max-content
+}
+.fashion-track-reverse{
+  animation:scrollRight 32s linear infinite
+}
+@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes scrollRight{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.fashion-track-inner:hover,.fashion-track-reverse:hover{animation-play-state:paused}
+.f-card{
+  width:160px;height:210px;flex-shrink:0;
+  border-radius:16px;overflow:hidden;
+  border:3px solid rgba(255,255,255,0.85);
+  box-shadow:0 8px 24px rgba(107,90,191,0.1);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s
+}
+.f-card:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 16px 36px rgba(107,90,191,0.18)}
+.f-card img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.fashion-carousel-label{
+  position:absolute;bottom:14px;right:20px;z-index:11;
+  font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:#6b5abf;opacity:0.6
+}
+
+/* ═══ TIKTOK DUAL CLIP ═══ */
+.tiktok-dual-zone {
+  overflow:visible !important;
+  border-radius:0 !important;
+  padding:0 !important;
+  height:auto !important;
+  position:relative
+}
+.tiktok-dual-wrap {
+  position:relative;width:100%;
+  display:flex;flex-direction:column;align-items:center;gap:20px
+}
+.tt-dual-label {
+  font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:#b07030;opacity:0.55;align-self:flex-end;padding-right:4px
+}
+.tt-phones-row {
+  display:flex;gap:16px;align-items:flex-start;width:100%;justify-content:center
+}
+.tt-phone {
+  position:relative;flex:1;max-width:calc(50% - 8px);aspect-ratio:10/17;
+  border-radius:28px;overflow:hidden;
+  border:4px solid rgba(255,255,255,0.92);
+  box-shadow:0 0 0 1px rgba(252,190,120,0.3),0 24px 60px rgba(176,112,48,0.18),0 6px 18px rgba(0,0,0,0.1),inset 0 2px 3px rgba(255,255,255,0.8);
+  background:#0d0d0d;transition:box-shadow 0.4s,transform 0.4s cubic-bezier(0.16,1,0.3,1)
+}
+.tt-phone:hover {
+  box-shadow:0 0 0 1px rgba(252,190,120,0.45),0 32px 72px rgba(176,112,48,0.24),0 10px 24px rgba(0,0,0,0.14),inset 0 2px 3px rgba(255,255,255,0.9);
+  transform:translateY(-4px) scale(1.01)
+}
+.tt-clip-badge {
+  position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:12;
+  background:rgba(0,0,0,0.42);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.18);border-radius:20px;
+  padding:4px 12px;font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.85);
+  text-transform:uppercase;white-space:nowrap;pointer-events:none
+}
+.tt-frame {
+  position:absolute;inset:0;width:100%;height:100%;
+  border:none;display:block;opacity:0;transition:opacity 0.35s ease
+}
+.tt-frame.loaded { opacity:1 }
+.tt-skeleton {
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#1a0a00 0%,#2a1500 50%,#1a0a00 100%);
+  background-size:200% 200%;
+  animation:shimmer 1.8s ease infinite;
+  display:flex;align-items:center;justify-content:center
+}
+.tt-skeleton-logo {
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,#ff0050,#00f2ea);opacity:0.45
+}
+@keyframes shimmer {
+  0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+}
+.tt-dual-dots {display:flex;gap:28px;align-items:center;justify-content:center}
+.tt-dual-dot-group {display:flex;align-items:center;gap:6px}
+.tt-dual-dot-group-label {font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#b07030;opacity:0.5}
+.tt-dot {width:6px;height:6px;border-radius:50%;background:rgba(176,112,48,0.22);transition:all 0.3s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+.tt-dot.active {width:18px;border-radius:4px;background:linear-gradient(90deg,#fcbe78,#b07030)}
+.tt-dual-nav {display:flex;gap:10px;align-items:center}
+.tt-btn {
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.82);backdrop-filter:blur(12px);
+  border:1.5px solid rgba(252,190,120,0.6);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background 0.25s,transform 0.25s,box-shadow 0.25s;
+  box-shadow:0 4px 14px rgba(176,112,48,0.14)
+}
+.tt-btn:hover {background:rgba(252,190,120,0.3);transform:scale(1.1);box-shadow:0 8px 22px rgba(176,112,48,0.22)}
+.tt-btn:disabled {opacity:0.28;cursor:default;pointer-events:none}
+.tt-btn svg {width:14px;height:14px;fill:none;stroke:#b07030;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.tt-dual-controls {display:flex;align-items:center;gap:20px;width:100%;justify-content:center}
+
+/* ═══ WELLNESS COLLAGE ═══ */
+.wellness-collage-zone {overflow:visible!important;border-radius:0!important;padding:0!important;height:auto!important;position:relative}
+.wellness-collage-wrap {width:100%;display:flex;flex-direction:column;gap:10px}
+.wc-top {display:grid;grid-template-columns:1fr 2.2fr;gap:10px;height:340px;align-items:stretch}
+.wc-left-col {display:grid;grid-template-rows:1fr 1fr 1fr;gap:10px;height:100%}
+.wc-card {
+  position:relative;border-radius:16px;overflow:hidden;
+  border:3px solid rgba(255,255,255,0.88);box-shadow:0 8px 24px rgba(45,63,128,0.1);
+  cursor:default;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;min-height:0
+}
+.wc-card:hover {transform:scale(1.025) translateY(-3px);box-shadow:0 18px 40px rgba(45,63,128,0.18)}
+.wc-card img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.25,1,0.5,1)}
+.wc-card:hover img {transform:scale(1.08)}
+.wc-card::after {content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,40,0.75) 0%,rgba(10,22,40,0.1) 55%,transparent 100%);pointer-events:none;z-index:1}
+.wc-label {position:absolute;z-index:2;pointer-events:none}
+.wc-small .wc-label {bottom:10px;left:12px;right:8px}
+.wc-small .wc-tag {display:block;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:3px}
+.wc-small .wc-word {display:block;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;font-style:italic;color:#fff;line-height:1.2;text-shadow:0 2px 10px rgba(0,0,0,0.5)}
+
+/* ── HERO CARD: HEART SHAPE ── */
+.wc-hero {
+  height:100%;
+  border-radius:0;
+  clip-path:url(#heartClipPath);
+  -webkit-clip-path:url(#heartClipPath);
+}
+.wc-hero::after { clip-path:url(#heartClipPath); -webkit-clip-path:url(#heartClipPath); }
+
+.wc-hero .wc-label {bottom:22px;left:22px;right:16px}
+.wc-hero .wc-eyebrow {display:inline-flex;align-items:center;gap:7px;margin-bottom:9px}
+.wc-hero .wc-eyebrow-dot {width:5px;height:5px;border-radius:50%;background:rgba(162,210,255,0.9);flex-shrink:0}
+.wc-hero .wc-eyebrow-txt {font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(162,210,255,0.85)}
+.wc-hero .wc-hero-title {font-family:'Cormorant Garamond',serif;font-size:clamp(19px,1.8vw,25px);font-weight:600;font-style:italic;color:#fff;line-height:1.22;text-shadow:0 3px 18px rgba(0,0,0,0.5);margin-bottom:8px}
+.wc-hero .wc-hero-sub {font-size:10px;font-weight:400;color:rgba(255,255,255,0.6);line-height:1.65;letter-spacing:0.2px}
+.wc-hero::before {content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(45,95,160,0.15) 0%,transparent 55%);pointer-events:none;border-radius:inherit;clip-path:url(#heartClipPath);-webkit-clip-path:url(#heartClipPath)}
+
+.wc-bottom {display:grid;grid-template-columns:repeat(5,1fr);gap:10px;height:130px}
+.wc-thumb {position:relative;border-radius:13px;overflow:hidden;border:2.5px solid rgba(255,255,255,0.82);box-shadow:0 5px 14px rgba(45,63,128,0.09);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;min-height:0}
+.wc-thumb:hover {transform:translateY(-5px) scale(1.04);box-shadow:0 14px 30px rgba(45,63,128,0.18)}
+.wc-thumb img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.25,1,0.5,1)}
+.wc-thumb:hover img {transform:scale(1.1)}
+.wc-thumb::after {content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,22,40,0.72) 0%,transparent 65%);pointer-events:none}
+.wc-thumb-label {position:absolute;bottom:8px;left:0;right:0;z-index:2;text-align:center;pointer-events:none}
+.wc-thumb-label span {font-size:7px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.9);text-shadow:0 1px 6px rgba(0,0,0,0.6)}
+
+  
+  
+  
+  
+
+  
+  
+  
+ 
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fahkwang:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.cgs-root,.cgs-root *{box-sizing:border-box;margin:0;padding:0}
+.cgs-root{font-family:'DM Sans',sans-serif;padding:32px 24px;position:relative;overflow:hidden}
+.cgs-inner{max-width:1280px;margin:0 auto;position:relative}
+
+/* ===== Layout 2 cột ===== */
+.cgs-layout{display:flex;gap:24px;align-items:flex-start}
+.cgs-sidebar{width:240px;flex-shrink:0;position:sticky;top:0}
+.cgs-main{flex:1;min-width:0}
+
+/* ===== Filter sidebar ===== */
+.cgs-filter-panel{border-radius:22px;background:rgba(255,255,255,0.5);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.6);padding:13px 18px 18px}
+.cgs-filter-title{font-size:16px;font-weight:700;color:#2c1a12;margin-bottom:14px;font-family:'Fahkwang',sans-serif;display:flex;align-items:center;gap:8px}
+.cgs-filter-title i{font-size:18px;color:#ee4d2d}
+
+.cgs-filter-list{display:flex;flex-direction:column;gap:6px}
+.cgs-chip{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:12px;background:transparent;border:1px solid transparent;font-size:13.5px;font-weight:500;color:#4a352c;cursor:pointer;transition:.2s;white-space:nowrap}
+.cgs-chip:hover{background:rgba(255,255,255,0.6)}
+.cgs-chip i:first-child{font-size:16px;color:#8a6a5c;flex-shrink:0}
+.cgs-chip.cgs-chip-main{background:rgba(238,77,45,0.1);border-color:rgba(238,77,45,0.35);color:#ee4d2d}
+.cgs-chip.cgs-chip-main i{color:#ee4d2d}
+.cgs-chip .ti-chevron-down{font-size:13px;opacity:.5;margin-left:auto}
+.cgs-filter-divider{height:1px;background:rgba(0,0,0,0.07);margin:10px 2px}
+
+/* ===== Search ===== */
+.cgs-search-wrap{position:relative;display:flex;align-items:center;margin-bottom:18px}
+.cgs-search-icon{position:absolute;left:18px;font-size:18px;color:#a07060;pointer-events:none}
+.cgs-search-input{width:100%;padding:13px 44px;border-radius:100px;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.65);font-size:14px;font-family:'DM Sans',sans-serif;color:#2c1a12;outline:none;transition:.2s}
+.cgs-search-input::placeholder{color:#a8887c}
+.cgs-search-input:focus{background:rgba(255,255,255,0.7);border-color:rgba(238,77,45,0.4)}
+.cgs-search-clear{position:absolute;right:16px;font-size:16px;color:#a07060;cursor:pointer;opacity:0;pointer-events:none;transition:.2s}
+.cgs-search-clear.cgs-show-clear{opacity:1;pointer-events:auto}
+.cgs-search-clear:hover{color:#ee4d2d}
+.cgs-search-empty{display:flex;align-items:center;gap:8px;justify-content:center;padding:30px 0;color:#a07060;font-size:14px}
+.cgs-search-empty i{font-size:20px}
+
+/* ===== Sort row ===== */
+.cgs-sort-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px}
+.cgs-sort-title{font-size:18px;font-weight:700;color:#2c1a12;font-family:'Fahkwang',sans-serif}
+.cgs-sort-opts{display:flex;flex-wrap:wrap;gap:10px}
+.cgs-sort-chip{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:100px;background:rgba(255,255,255,0.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,0.65);font-size:13.5px;font-weight:500;color:#4a352c;cursor:pointer;transition:.2s;white-space:nowrap}
+.cgs-sort-chip:hover{background:rgba(255,255,255,0.7)}
+.cgs-sort-chip.active{border-color:#ee4d2d;background:rgba(238,77,45,0.1);color:#ee4d2d}
+.cgs-sort-chip i{font-size:15px}
+
+/* ===== Grid ===== */
+.cgs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+.cgs-card{border-radius:22px;overflow:hidden;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.6);display:flex;flex-direction:column;transition:transform .2s,opacity .35s,max-height .4s;opacity:0;transform:translateY(10px)}
+.cgs-card.cgs-show{opacity:1;transform:translateY(0)}
+.cgs-card:hover{transform:translateY(-3px)}
+
+.cgs-img-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;position:relative}
+.cgs-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.cgs-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#f53d2d,#f63);color:#fff;font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:.2px}
+
+.cgs-body{padding:13px 13px 15px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cgs-title{font-size:13.5px;font-weight:600;color:#2c1a12;line-height:1.4;min-height:38px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cgs-price-row{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-top:auto}
+.cgs-price-now{font-size:16.5px;font-weight:800;color:#ee4d2d;font-family:'Fahkwang',sans-serif}
+.cgs-price-old{font-size:11.5px;color:rgba(0,0,0,0.32);text-decoration:line-through}
+.cgs-discount{font-size:11px;font-weight:700;color:#ee4d2d;background:rgba(238,77,45,0.1);padding:1px 6px;border-radius:6px}
+
+/* ===== Load more ===== */
+.cgs-more-wrap{display:flex;justify-content:center;margin-top:30px}
+.cgs-btn-more{display:flex;align-items:center;gap:8px;padding:13px 34px;border-radius:100px;font-weight:700;font-size:13.5px;font-family:'Fahkwang',sans-serif;cursor:pointer;border:1px solid rgba(238,77,45,0.4);background:rgba(255,255,255,0.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);color:#ee4d2d;transition:.25s}
+.cgs-btn-more:hover{background:rgba(238,77,45,0.08);transform:translateY(-1px)}
+.cgs-btn-more i{font-size:16px;transition:transform .3s}
+.cgs-btn-more.cgs-loaded i{transform:rotate(180deg)}
+
+.cgs-hidden{display:none}
+
+@media(max-width:1280px){
+  .cgs-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:1080px){
+  .cgs-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+  .cgs-layout{flex-direction:column}
+  .cgs-sidebar{width:100%;position:static}
+  .cgs-filter-list{flex-direction:row;flex-wrap:wrap}
+  .cgs-chip{flex:0 0 auto}
+  .cgs-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:640px){
+  .cgs-grid{grid-template-columns:repeat(2,1fr)}
+  .cgs-sort-bar{flex-direction:column;align-items:flex-start}
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+
+<div class="cgs-root">
+  <div class="cgs-inner">
+    <div class="cgs-layout">
+
+      <!-- Sidebar filter -->
+      <aside class="cgs-sidebar">
+        <div class="cgs-filter-panel">
+          <div class="cgs-filter-title"><i class="ti ti-adjustments-horizontal"></i> Chọn theo tiêu chí</div>
+          <div class="cgs-filter-list">
+            <div class="cgs-chip cgs-chip-main"><i class="ti ti-filter"></i> Bộ lọc</div>
+            <div class="cgs-chip"><i class="ti ti-package"></i> Sẵn hàng</div>
+            <div class="cgs-chip"><i class="ti ti-sparkles"></i> Hàng mới về</div>
+            <div class="cgs-filter-divider"></div>
+            <div class="cgs-chip"><i class="ti ti-tag"></i> Xem theo giá <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-droplet"></i> Loại da <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-flask"></i> Công dụng <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-category"></i> Loại sản phẩm <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-leaf"></i> Thành phần chính <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-building-store"></i> Thương hiệu <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-stars"></i> Tính năng đặc biệt <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-bottle"></i> Dung tích <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-sun"></i> Ban ngày / Ban đêm <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-shield-check"></i> Xuất xứ <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-certificate"></i> Chứng nhận <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-gender-female"></i> Dành cho <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-percentage"></i> Mức ưu đãi <i class="ti ti-chevron-down"></i></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="cgs-main">
+
+        <!-- Search -->
+        <div class="cgs-search-wrap">
+          <i class="ti ti-search cgs-search-icon"></i>
+          <input type="text" class="cgs-search-input" id="cgsSearchInput" placeholder="Tìm kiếm sản phẩm mỹ phẩm...">
+          <i class="ti ti-x cgs-search-clear" id="cgsSearchClear"></i>
+        </div>
+        <div class="cgs-search-empty cgs-hidden" id="cgsSearchEmpty"><i class="ti ti-mood-empty"></i> Không tìm thấy sản phẩm phù hợp</div>
+
+        <!-- Sort -->
+        <div class="cgs-sort-bar">
+          <div class="cgs-sort-title">Sắp xếp theo</div>
+          <div class="cgs-sort-opts">
+            <div class="cgs-sort-chip active" data-sort="popular"><i class="ti ti-star"></i> Phổ biến</div>
+            <div class="cgs-sort-chip" data-sort="promo"><i class="ti ti-discount-2"></i> Khuyến mãi HOT</div>
+            <div class="cgs-sort-chip" data-sort="asc"><i class="ti ti-sort-ascending-2"></i> Giá Thấp - Cao</div>
+            <div class="cgs-sort-chip" data-sort="desc"><i class="ti ti-sort-descending-2"></i> Giá Cao - Thấp</div>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="cgs-grid" id="cgsGrid">
+
+      <div class="cgs-card" data-price="890000" data-discount="26" data-popular="98">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-26%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Kem dưỡng trắng da chuyên sâu"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng trắng da chuyên sâu cao cấp</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">890.000đ</span><span class="cgs-price-old">1.200.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="650000" data-discount="32" data-popular="95">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-32%</span><img src="https://i.pinimg.com/1200x/89/b7/6e/89b76e67a617b19cbc209a03983ebb3a.jpg" alt="Serum tái tạo da"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum tái tạo da phục hồi ban đêm</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">650.000đ</span><span class="cgs-price-old">950.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="320000" data-discount="33" data-popular="91">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-33%</span><img src="https://i.pinimg.com/1200x/c6/a1/9a/c6a19aa36dd8ffc1bdcb8cf7b472aad5.jpg" alt="Mặt nạ dưỡng ẩm"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Mặt nạ dưỡng ẩm cấp nước tức thì</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">320.000đ</span><span class="cgs-price-old">480.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="1450000" data-discount="31" data-popular="99">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-31%</span><img src="https://i.pinimg.com/736x/a4/c0/32/a4c0322115b1ddd4c5baf8a26fccbbee.jpg" alt="Tinh chất chống lão hóa"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Tinh chất chống lão hóa tế bào gốc</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">1.450.000đ</span><span class="cgs-price-old">2.100.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="280000" data-discount="28" data-popular="88">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-28%</span><img src="https://i.pinimg.com/1200x/cd/9f/a6/cd9fa6ccaa6730c30f4c105d469314b9.jpg" alt="Sữa rửa mặt"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Sữa rửa mặt làm sạch sâu dịu nhẹ</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">280.000đ</span><span class="cgs-price-old">390.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="410000" data-discount="30" data-popular="93">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-30%</span><img src="https://i.pinimg.com/736x/04/1a/d1/041ad1b1d3deac0895167403bb07b250.jpg" alt="Kem chống nắng"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem chống nắng nâng tone bảo vệ da</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">410.000đ</span><span class="cgs-price-old">590.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="350000" data-discount="33" data-popular="86">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-33%</span><img src="https://i.pinimg.com/736x/14/bb/98/14bb98840235e9d964025dbddb42dbaa.jpg" alt="Toner cân bằng"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Toner cân bằng se khít lỗ chân lông</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">350.000đ</span><span class="cgs-price-old">520.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="1890000" data-discount="29" data-popular="97">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-29%</span><img src="https://i.pinimg.com/1200x/7a/e4/13/7ae41382a9c43b940557ed0f85b41654.jpg" alt="Bộ chăm sóc da"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Bộ chăm sóc da toàn diện 5 bước</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">1.890.000đ</span><span class="cgs-price-old">2.650.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="520000" data-discount="24" data-popular="90">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-24%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Kem dưỡng ban đêm"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng ban đêm phục hồi tế bào da</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">520.000đ</span><span class="cgs-price-old">685.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="780000" data-discount="35" data-popular="94">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-35%</span><img src="https://i.pinimg.com/1200x/89/b7/6e/89b76e67a617b19cbc209a03983ebb3a.jpg" alt="Serum vitamin C"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum vitamin C sáng da đều màu</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">780.000đ</span><span class="cgs-price-old">1.200.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="450000" data-discount="25" data-popular="89">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-25%</span><img src="https://i.pinimg.com/1200x/c6/a1/9a/c6a19aa36dd8ffc1bdcb8cf7b472aad5.jpg" alt="Gel rửa mặt"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Gel rửa mặt tạo bọt mịn cho da nhạy cảm</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">450.000đ</span><span class="cgs-price-old">600.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="920000" data-discount="27" data-popular="92">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-27%</span><img src="https://i.pinimg.com/736x/a4/c0/32/a4c0322115b1ddd4c5baf8a26fccbbee.jpg" alt="Kem mắt"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng vùng mắt giảm thâm bọng mắt</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">920.000đ</span><span class="cgs-price-old">1.260.000đ</span></div>
+        </div>
+      </div>
+
+      <!-- 12 sản phẩm ẩn, hiện khi bấm Xem thêm -->
+      <div class="cgs-card cgs-hidden" data-price="265000" data-discount="22" data-popular="85">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-22%</span><img src="https://i.pinimg.com/1200x/cd/9f/a6/cd9fa6ccaa6730c30f4c105d469314b9.jpg" alt="Xịt khoáng"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Xịt khoáng cấp ẩm tức thì cho da khô</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">265.000đ</span><span class="cgs-price-old">340.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="1150000" data-discount="34" data-popular="96">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-34%</span><img src="https://i.pinimg.com/736x/04/1a/d1/041ad1b1d3deac0895167403bb07b250.jpg" alt="Tinh chất Retinol"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Tinh chất Retinol giảm nếp nhăn chuyên sâu</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">1.150.000đ</span><span class="cgs-price-old">1.750.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="390000" data-discount="20" data-popular="83">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-20%</span><img src="https://i.pinimg.com/736x/14/bb/98/14bb98840235e9d964025dbddb42dbaa.jpg" alt="Mặt nạ ngủ"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Mặt nạ ngủ phục hồi da qua đêm</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">390.000đ</span><span class="cgs-price-old">490.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="680000" data-discount="29" data-popular="87">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-29%</span><img src="https://i.pinimg.com/1200x/7a/e4/13/7ae41382a9c43b940557ed0f85b41654.jpg" alt="Dầu tẩy trang"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Dầu tẩy trang chiết xuất thiên nhiên dịu nhẹ</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">680.000đ</span><span class="cgs-price-old">960.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="540000" data-discount="23" data-popular="84">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-23%</span><img src="https://i.pinimg.com/1200x/89/b7/6e/89b76e67a617b19cbc209a03983ebb3a.jpg" alt="Kem trị mụn"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem giảm mụn ngăn ngừa thâm sẹo</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">540.000đ</span><span class="cgs-price-old">700.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="2200000" data-discount="38" data-popular="99">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-38%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Bộ dưỡng cao cấp"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Bộ sản phẩm dưỡng da cao cấp phiên bản giới hạn</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">2.200.000đ</span><span class="cgs-price-old">3.550.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="310000" data-discount="19" data-popular="81">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-19%</span><img src="https://i.pinimg.com/736x/a4/c0/32/a4c0322115b1ddd4c5baf8a26fccbbee.jpg" alt="Kem dưỡng môi"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng môi mềm mịn căng bóng tự nhiên</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">310.000đ</span><span class="cgs-price-old">385.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="860000" data-discount="31" data-popular="90">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-31%</span><img src="https://i.pinimg.com/1200x/c6/a1/9a/c6a19aa36dd8ffc1bdcb8cf7b472aad5.jpg" alt="Serum HA"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum HA cấp nước chuyên sâu 24 giờ</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">860.000đ</span><span class="cgs-price-old">1.250.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="430000" data-discount="26" data-popular="88">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-26%</span><img src="https://i.pinimg.com/736x/14/bb/98/14bb98840235e9d964025dbddb42dbaa.jpg" alt="Kem tẩy tế bào chết"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem tẩy tế bào chết dịu nhẹ cho da mặt</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">430.000đ</span><span class="cgs-price-old">580.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="970000" data-discount="33" data-popular="93">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-33%</span><img src="https://i.pinimg.com/1200x/7a/e4/13/7ae41382a9c43b940557ed0f85b41654.jpg" alt="Tinh chất collagen"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Tinh chất collagen săn chắc đàn hồi da</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">970.000đ</span><span class="cgs-price-old">1.450.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="610000" data-discount="28" data-popular="86">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-28%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Kem dưỡng phục hồi"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng phục hồi da sau nắng cháy</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">610.000đ</span><span class="cgs-price-old">850.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="740000" data-discount="30" data-popular="91">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-30%</span><img src="https://i.pinimg.com/736x/04/1a/d1/041ad1b1d3deac0895167403bb07b250.jpg" alt="Serum niacinamide"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum niacinamide giảm thâm mờ lỗ chân lông</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">740.000đ</span><span class="cgs-price-old">1.060.000đ</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Load more -->
+    <div class="cgs-more-wrap">
+      <button class="cgs-btn-more" id="cgsMoreBtn"><span id="cgsMoreText">Xem thêm sản phẩm</span><i class="ti ti-chevron-down"></i></button>
+    </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const grid=document.getElementById('cgsGrid');
+  const moreBtn=document.getElementById('cgsMoreBtn');
+  const moreText=document.getElementById('cgsMoreText');
+  const moreWrap=document.querySelector('.cgs-more-wrap');
+  const searchInput=document.getElementById('cgsSearchInput');
+  const searchClear=document.getElementById('cgsSearchClear');
+  const searchEmpty=document.getElementById('cgsSearchEmpty');
+  const INITIAL_COUNT=12;
+  let expanded=false;
+  let searching=false;
+
+  function revealVisible(){
+    grid.querySelectorAll('.cgs-card:not(.cgs-hidden)').forEach((c,i)=>{
+      setTimeout(()=>c.classList.add('cgs-show'),i*25);
+    });
+  }
+  revealVisible();
+
+  moreBtn.addEventListener('click',function(){
+    if(!expanded){
+      const hidden=grid.querySelectorAll('.cgs-card.cgs-hidden');
+      hidden.forEach((c,i)=>{
+        c.classList.remove('cgs-hidden');
+        setTimeout(()=>c.classList.add('cgs-show'),i*30);
+      });
+      moreText.textContent='Thu gọn';
+      moreBtn.classList.add('cgs-loaded');
+      expanded=true;
+    }else{
+      grid.querySelectorAll('.cgs-card').forEach((c,i)=>{
+        if(i>=INITIAL_COUNT){c.classList.remove('cgs-show');c.classList.add('cgs-hidden')}
+      });
+      moreText.textContent='Xem thêm sản phẩm';
+      moreBtn.classList.remove('cgs-loaded');
+      expanded=false;
+      grid.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  });
+
+  function sortCards(key){
+    const cards=Array.from(grid.querySelectorAll('.cgs-card'));
+    cards.sort((a,b)=>{
+      if(key==='asc')return (+a.dataset.price)-(+b.dataset.price);
+      if(key==='desc')return (+b.dataset.price)-(+a.dataset.price);
+      if(key==='promo')return (+b.dataset.discount)-(+a.dataset.discount);
+      return (+b.dataset.popular)-(+a.dataset.popular);
+    });
+    cards.forEach(c=>grid.appendChild(c));
+  }
+
+  document.querySelectorAll('.cgs-sort-chip').forEach(chip=>{
+    chip.addEventListener('click',function(){
+      document.querySelectorAll('.cgs-sort-chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      sortCards(chip.dataset.sort);
+    });
+  });
+
+  function normalize(str){
+    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  }
+
+  function runSearch(){
+    const q=normalize(searchInput.value.trim());
+    searchClear.classList.toggle('cgs-show-clear',q.length>0);
+
+    if(q.length===0){
+      searching=false;
+      grid.querySelectorAll('.cgs-card').forEach((c,i)=>{
+        c.style.display='';
+        if(i<INITIAL_COUNT||expanded){c.classList.remove('cgs-hidden');c.classList.add('cgs-show')}
+        else{c.classList.add('cgs-hidden');c.classList.remove('cgs-show')}
+      });
+      moreWrap.style.display='';
+      searchEmpty.classList.add('cgs-hidden');
+      return;
+    }
+
+    searching=true;
+    let visibleCount=0;
+    grid.querySelectorAll('.cgs-card').forEach(c=>{
+      const title=normalize(c.querySelector('.cgs-title').textContent);
+      const match=title.includes(q);
+      c.classList.remove('cgs-hidden');
+      c.style.display=match?'':'none';
+      if(match){c.classList.add('cgs-show');visibleCount++}
+    });
+    moreWrap.style.display='none';
+    searchEmpty.classList.toggle('cgs-hidden',visibleCount>0);
+  }
+
+  searchInput.addEventListener('input',runSearch);
+  searchClear.addEventListener('click',function(){
+    searchInput.value='';
+    runSearch();
+    searchInput.focus();
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+.ftr-wrap,.ftr-wrap *{box-sizing:border-box;margin:0;padding:0}
+.ftr-wrap{font-family:'Plus Jakarta Sans',sans-serif;-webkit-font-smoothing:antialiased;padding:40px 40px;background:transparent}
+.ftr-inner{max-width:1300px;margin:0 auto}
+.ftr-card{background:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:28px;box-shadow:0 8px 40px rgba(45,74,67,.07);padding:40px 48px 44px}
+
+/* Header */
+.ftr-head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:36px;gap:8px}
+.ftr-sub{font-size:9px;font-weight:700;letter-spacing:3px;color:#94b5ae;text-transform:uppercase}
+.ftr-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#2d4a43}
+.ftr-divider{width:36px;height:1.5px;background:linear-gradient(90deg,transparent,#94b5ae,transparent);margin:2px auto}
+.ftr-bio{font-size:13px;color:#4a7068;line-height:1.8;max-width:420px}
+
+/* Divider line */
+.ftr-hline{width:100%;height:1px;background:rgba(45,74,67,0.1);margin-bottom:36px}
+
+/* Grid 4 cols */
+.ftr-grid{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr 1px 1fr;gap:0;align-items:start}
+
+.ftr-vline{background:rgba(45,74,67,0.12);height:100%;min-height:120px;width:1px}
+
+.ftr-col{padding:0 32px}
+.ftr-col:first-child{padding-left:0}
+.ftr-col:last-child{padding-right:0}
+
+.ftr-col-title{font-size:19px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#94b5ae;margin-bottom:14px}
+
+/* Social icons */
+.ftr-social{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ftr-social a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.95);box-shadow:0 2px 8px rgba(45,74,67,.08);display:flex;align-items:center;justify-content:center;transition:.25s cubic-bezier(.34,1.56,.64,1);overflow:hidden;flex-shrink:0;text-decoration:none}
+.ftr-social a:hover{transform:scale(1.13);box-shadow:0 5px 16px rgba(45,74,67,.15)}
+.ftr-social a img{width:21px;height:21px;object-fit:contain;border-radius:2px}
+
+/* Links */
+.ftr-links{display:flex;flex-direction:column;gap:9px}
+.ftr-links a{font-size:12.5px;color:#4a7068;text-decoration:none;transition:color .2s;line-height:1.4}
+.ftr-links a:hover{color:#2d4a43}
+
+/* Info */
+.ftr-info{display:flex;flex-direction:column;gap:10px}
+.ftr-info-item{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:#4a7068;line-height:1.5}
+.ftr-info-item svg{width:13px;height:13px;flex-shrink:0;margin-top:2px;stroke:#94b5ae;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Trust */
+.ftr-trust{display:flex;flex-direction:column;gap:12px}
+.ftr-trust-imgs{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ftr-trust-imgs a{display:block;transition:opacity .2s}
+.ftr-trust-imgs a:hover{opacity:0.75}
+.ftr-trust-imgs img{height:32px;width:auto;object-fit:contain;display:block}
+
+/* Copy */
+.ftr-copy{text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid rgba(45,74,67,0.08);font-size:11.5px;color:#94b5ae}
+
+@media(max-width:900px){
+  .ftr-wrap{padding:32px 20px}
+  .ftr-card{padding:32px 24px 36px}
+  .ftr-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .ftr-vline{display:none}
+  .ftr-col{padding:0}
+}
+@media(max-width:500px){
+  .ftr-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="ftr-wrap">
+  <div class="ftr-inner">
+    <div class="ftr-card">
+
+      <div class="ftr-head">
+        <span class="ftr-name">Nguyễn Thị Như Lan</span>
+        <div class="ftr-divider"></div>
+      </div>
+
+      <div class="ftr-hline"></div>
+
+      <div class="ftr-grid">
+
+        <!-- Cột 1: Social -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Kết nối</div>
+          <div class="ftr-social">
+            <a href="https://www.facebook.com/nhulan.benhvienthammynaman" target="_blank" rel="noopener" title="Facebook">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/250px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook">
+            </a>
+            <a href="https://www.tiktok.com/@nhulan.daily" target="_blank" rel="noopener" title="TikTok">
+              <img src="https://img.magnific.com/vector-cao-cap/logo-tik-tok_578229-290.jpg?semt=ais_hybrid&w=740&q=80" alt="TikTok">
+            </a>
+          </div>
+        </div>
+
+        <div class="ftr-vline"></div>
+
+        <!-- Cột 2: Chính sách -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Chính sách</div>
+          <div class="ftr-links">
+            <a href="#">Chính sách mua hàng</a>
+            <a href="#">Chính sách đổi trả hàng</a>
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Điều khoản sử dụng</a>
+          </div>
+        </div>
+
+        <div class="ftr-vline"></div>
+
+        <!-- Cột 3: Liên hệ -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Liên hệ</div>
+          <div class="ftr-info">
+            <div class="ftr-info-item">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>33 Đường 3 Tháng 2, Phường 11, Quận 10, TP. HCM</span>
+            </div>
+            <div class="ftr-info-item">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Thứ 2 – Thứ 7: 8:00 – 18:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ftr-vline"></div>
+
+        <!-- Cột 4: Chứng nhận -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Chứng nhận</div>
+          <div class="ftr-trust">
+            <div class="ftr-trust-imgs">
+              <a href="#" target="_blank" rel="noopener">
+                <img src="https://zaria.vn/wp-content/uploads/2021/04/logo-dmca.png" alt="DMCA Protected">
+              </a>
+              <a href="#" target="_blank" rel="noopener">
+                <img src="https://webmedia.com.vn/images/2021/09/logo-da-thong-bao-bo-cong-thuong-mau-xanh.png" alt="Bộ Công Thương">
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="glass-popup-wrapper">
+  <style>
+    .glass-popup-wrapper {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 999999;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .glass-popup-wrapper * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* === THIẾT KẾ NÚT CHÍNH CHỨA LOGO THƯƠNG HIỆU === */
+    .glass-popup-main {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 10px 28px rgba(111, 99, 171, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 10;
+    }
+
+    .glass-popup-main img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    /* Bong bóng thủy tinh lơ lửng bám theo logo thương hiệu */
+    .glass-popup-wrapper .dt2-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0) 70%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+      z-index: 11;
+      animation: popupFloat 4s ease-in-out infinite;
+    }
+    .glass-popup-wrapper .b1 { width: 14px; height: 14px; right: -2px; top: -2px; }
+
+    @keyframes popupFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.1); }
+    }
+
+    /* === DANH SÁCH CÁC SOCIAL LIÊN HỆ === */
+    .glass-popup-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .glass-popup-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 20px rgba(111, 99, 171, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Định dạng cho ảnh logo Facebook bên trong nút */
+    .glass-popup-item img.fb-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    /* SVG icon Hotline */
+    .glass-popup-item svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .glass-popup-item.hotline { 
+      color: #e35d5d; 
+      background: rgba(255, 235, 235, 0.4);
+    }
+
+    /* Hiệu ứng gợn sóng cho Hotline */
+    .glass-popup-item.hotline::after {
+      content: '';
+      position: absolute;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 1px solid rgba(227, 93, 93, 0.35);
+      top: 0; left: 0;
+      z-index: -1;
+      animation: glassPulse 2.5s infinite ease-in-out;
+    }
+
+    @keyframes glassPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+
+    /* Tooltip text khi rê chuột vào */
+    .glass-popup-item .glass-tooltip {
+      position: absolute;
+      right: 62px;
+      top: 50%;
+      transform: translateY(-50%) translateX(10px);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 4px 12px rgba(111, 99, 171, 0.05);
+    }
+
+    /* === TRẠNG THÁI HOVER NÚT === */
+    .glass-popup-main:hover {
+      transform: scale(1.05) rotate(5deg);
+      border-color: rgba(111, 99, 171, 0.4);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-popup-item:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.75);
+      border-color: rgba(111, 99, 171, 0.3);
+      box-shadow: 0 10px 24px rgba(111, 99, 171, 0.15);
+    }
+
+    .glass-popup-item:hover img.fb-icon,
+    .glass-popup-item:hover svg { transform: scale(1.1); }
+    .glass-popup-item:hover .glass-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    /* Responsive cho di động */
+    @media (max-width: 768px) {
+      .glass-popup-wrapper { bottom: 16px; right: 16px; gap: 10px; }
+      .glass-popup-main { width: 50px; height: 50px; }
+      .glass-popup-main img { width: 32px; height: 32px; }
+      .glass-popup-item { width: 44px; height: 44px; }
+      .glass-popup-item img.fb-icon { width: 20px; height: 20px; }
+      .glass-popup-item svg { width: 18px; height: 18px; }
+      .glass-popup-item .glass-tooltip { display: none; }
+    }
+  </style>
+
+  <div class="glass-popup-menu">
+    <a href="https://facebook.com/yourpage" target="_blank" class="glass-popup-item" rel="noopener noreferrer">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/250px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook" class="fb-icon">
+      <span class="glass-tooltip">Nhắn tin Fanpage</span>
+    </a>
+
+    <a href="tel:0900000000" class="glass-popup-item hotline">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      <span class="glass-tooltip">Hotline 24/7</span>
+    </a>
+  </div>
+
+  <div class="glass-popup-main">
+    <span class="dt2-bubble b1"></span>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLE1BP8WcQ7-1jkPFKCuxMcdzxs6kOX4VmkC3UOV1BBg&s=10" alt="Logo">
+  </div>
+</div>
+
+
+
+
