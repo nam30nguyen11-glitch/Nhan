@@ -2561,13 +2561,13 @@ a{text-decoration:none;color:inherit}
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px;
+  padding: 30px;
 }
 .sp-title {
   font-family: 'Beautique Display', serif;
   font-style: normal;
   font-weight: 400;
-  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-size: clamp(1rem, 5vw, 4rem);
   line-height: 1.15;
   letter-spacing: 0.02em;
   color: #c97f63;
@@ -3224,268 +3224,690 @@ a{text-decoration:none;color:inherit}
 
 
 
+ <!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumia — Lifestyle & Beauty Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#2d4a43;
+  --sage-mid:#4a7068;
+  --sage-lt:#94b5ae;
+  --ink:#0d1f1a;
+  --muted:#4a6058;
+  --bg:#f0f5f2;
+  --border-glass:rgba(255,255,255,0.65);
+  --rose-tint:#fce8e8;
+  --lav-tint:#ece8fc;
+  --mint-tint:#e3f5ef;
+  --peach-tint:#fef0e3;
+  --sky-tint:#e3eeff;
+  --blush-tint:#fde8f4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--sage);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ═══ MESH BG ═══ */
+.mesh-bg{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.5;animation:drift 22s ease-in-out infinite alternate}
+.o1{width:650px;height:650px;top:-120px;left:-80px;background:radial-gradient(circle,#ffd6e0,#ffb3c6);animation-duration:18s}
+.o2{width:550px;height:550px;top:45%;right:-100px;background:radial-gradient(circle,#c3f0e0,#9ee5cb);animation-duration:24s;animation-delay:-7s}
+.o3{width:450px;height:450px;top:25%;left:35%;background:radial-gradient(circle,#ddd6fc,#c4b8f8);opacity:.35;animation-duration:28s;animation-delay:-12s}
+.o4{width:500px;height:500px;bottom:5%;left:-60px;background:radial-gradient(circle,#ffe8cc,#ffd0a0);animation-duration:20s;animation-delay:-5s}
+.o5{width:380px;height:380px;bottom:25%;right:5%;background:radial-gradient(circle,#cce8ff,#a8d4f8);opacity:.4;animation-duration:26s;animation-delay:-15s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(35px,25px) scale(1.07)}100%{transform:translate(-15px,55px) scale(.95)}}
+
+
+
+/* ═══ PROBLEMS / LIFESTYLE ROWS ═══ */
+.problems-section{padding:0px;position:relative;overflow:hidden}
+.ambient-orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;animation:orbFloat 14s ease-in-out infinite}
+.prob-orb-1{width:600px;height:600px;top:-100px;left:-200px;background:radial-gradient(circle,rgba(249,168,176,0.18),transparent 70%)}
+.prob-orb-2{width:700px;height:700px;bottom:-150px;right:-200px;background:radial-gradient(circle,rgba(184,168,252,0.18),transparent 70%);animation-delay:-7s}
+.prob-orb-3{width:500px;height:500px;top:40%;left:40%;background:radial-gradient(circle,rgba(150,230,205,0.12),transparent 70%);animation-delay:-3.5s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,30px) scale(0.97)}}
+
+.prob-section-head{text-align:center;padding:0 40px;margin-bottom:80px;position:relative;z-index:2}
+.prob-eyebrow{display:inline-block;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:18px;padding:6px 18px;background:linear-gradient(135deg,var(--mint-tint),var(--sky-tint));border-radius:50px}
+.prob-section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.2vw,46px);font-weight:600;line-height:1.22;margin-bottom:14px;color:var(--ink)}
+.prob-section-title em{font-style:italic;font-weight:400}
+.prob-section-desc{font-size:13.5px;color:var(--muted);line-height:1.85;max-width:520px;margin:0 auto;font-weight:300}
+
+.prob-container{max-width:1360px;margin:0 auto;padding:0 32px;display:flex;flex-direction:column;gap:120px;position:relative;z-index:2}
+
+/* Chic row */
+.chic-row{display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:center;position:relative}
+.chic-row.reverse{grid-template-columns:0.9fr 1.1fr}
+.chic-row.reverse .image-art-zone{order:2}
+.chic-row.reverse .text-art-zone{order:1}
+
+/* tiktok row: let height be natural, align tops */
+.chic-row.reverse.cr-peach { align-items:start }
+
+.image-art-zone{position:relative;width:100%;height:520px}
+.art-glass-plate{
+  position:absolute;width:82%;height:82%;top:50%;left:50%;transform:translate(-50%,-50%);
+  border-radius:36px;background:rgba(255,255,255,0.28);backdrop-filter:blur(22px) saturate(130%);
+  border:1px solid rgba(255,255,255,0.55);border-top:1px solid rgba(255,255,255,0.8);
+  box-shadow:0 20px 60px rgba(13,31,26,0.04),inset 0 2px 4px rgba(255,255,255,0.5);
+  z-index:1;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1)
+}
+.chic-row:hover .art-glass-plate{transform:translate(-50%,-50%) scale(1.02)}
+.art-img-master{
+  position:absolute;width:62%;height:78%;top:6%;left:4%;z-index:3;
+  border-radius:24px;overflow:hidden;
+  border:4px solid rgba(255,255,255,0.9);box-shadow:0 24px 52px rgba(13,31,26,0.1);
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1),box-shadow 0.7s
+}
+.chic-row:hover .art-img-master{transform:translateY(-10px) rotate(-1deg);box-shadow:0 36px 70px rgba(13,31,26,0.14)}
+.art-img-mood{
+  position:absolute;width:46%;height:52%;bottom:-4%;right:1%;z-index:5;
+  border-radius:20px;overflow:hidden;
+  border:4px solid rgba(255,255,255,0.95);box-shadow:0 28px 56px rgba(13,31,26,0.12);
+  transition:transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s,box-shadow 0.7s
+}
+.chic-row:hover .art-img-mood{transform:translateY(-18px) scale(1.03) rotate(2deg);box-shadow:0 40px 72px rgba(13,31,26,0.18)}
+.art-img-master img,.art-img-mood img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(0.25,1,0.5,1)}
+.chic-row:hover .art-img-master img,.chic-row:hover .art-img-mood img{transform:scale(1.07)}
+.art-decor-tag{position:absolute;top:18%;right:-8px;z-index:4;font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;opacity:0.6}
+.art-row-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0;animation:cardOrbPulse 9s ease-in-out infinite}
+@keyframes cardOrbPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+
+.text-art-zone{
+  background:linear-gradient(145deg,rgba(255,255,255,0.55),rgba(255,255,255,0.18));
+  backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.65);border-top:1px solid rgba(255,255,255,0.85);border-left:1px solid rgba(255,255,255,0.8);
+  border-radius:32px;padding:56px 50px;
+  box-shadow:0 24px 60px rgba(13,31,26,0.04),inset 0 1px 2px rgba(255,255,255,0.9);
+  transition:all 0.5s cubic-bezier(0.16,1,0.3,1);
+  position:relative;overflow:hidden
+}
+.text-art-zone::before{content:'';position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(255,255,255,0.7);pointer-events:none;z-index:0}
+.text-art-zone>*{position:relative;z-index:1}
+.chic-row:hover .text-art-zone{background:linear-gradient(145deg,rgba(255,255,255,0.72),rgba(255,255,255,0.28));border-color:rgba(255,255,255,0.9);box-shadow:0 36px 80px rgba(13,31,26,0.07),inset 0 1px 3px rgba(255,255,255,1)}
+
+.chic-btn{display:inline-flex;align-items:center;gap:14px;font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink);margin-top:4px;transition:gap 0.35s}
+.chic-btn .btn-line{width:38px;height:1.5px;background:var(--ink);border-radius:2px;transition:width 0.4s cubic-bezier(0.25,1,0.5,1);flex-shrink:0}
+.chic-btn:hover{gap:20px}
+.chic-btn:hover .btn-line{width:64px}
+
+/* Color themes */
+.cr-rose .art-row-orb{width:480px;height:480px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(252,168,168,0.45),transparent 65%)}
+.cr-rose .art-glass-plate{background:rgba(252,232,232,0.32)}
+.cr-rose .p-index{color:#c06060}
+.cr-rose .p-quote{border-left-color:#f9a8a8;background:rgba(252,232,232,0.45)}
+.cr-rose .p-tag-pill{background:rgba(252,168,168,0.25);color:#b04040}
+.cr-rose .text-art-zone{background:linear-gradient(145deg,rgba(252,232,232,0.5),rgba(255,248,246,0.18))}
+.cr-rose .chic-btn{color:#b04040}
+.cr-rose .chic-btn .btn-line{background:#b04040}
+
+.cr-lav .art-row-orb{width:480px;height:480px;bottom:-80px;left:-60px;background:radial-gradient(circle,rgba(184,168,252,0.45),transparent 65%)}
+.cr-lav .art-glass-plate{background:rgba(236,232,252,0.32)}
+.cr-lav .p-index{color:#6b5abf}
+.cr-lav .p-quote{border-left-color:#b8a8fc;background:rgba(236,232,252,0.45)}
+.cr-lav .p-tag-pill{background:rgba(184,168,252,0.25);color:#5040a0}
+.cr-lav .text-art-zone{background:linear-gradient(145deg,rgba(236,232,252,0.5),rgba(248,246,255,0.18))}
+.cr-lav .chic-btn{color:#5040a0}
+.cr-lav .chic-btn .btn-line{background:#5040a0}
+
+.cr-mint .art-row-orb{width:520px;height:520px;top:-60px;left:-80px;background:radial-gradient(circle,rgba(130,210,185,0.4),transparent 65%)}
+.cr-mint .art-glass-plate{background:rgba(227,245,239,0.32)}
+.cr-mint .p-index{color:#2d7a60}
+.cr-mint .p-quote{border-left-color:#82d2b9;background:rgba(227,245,239,0.45)}
+.cr-mint .p-tag-pill{background:rgba(130,210,185,0.25);color:#1a6048}
+.cr-mint .text-art-zone{background:linear-gradient(145deg,rgba(227,245,239,0.5),rgba(244,252,248,0.18))}
+.cr-mint .chic-btn{color:#1a6048}
+.cr-mint .chic-btn .btn-line{background:#1a6048}
+
+.cr-peach .art-row-orb{width:480px;height:480px;top:-60px;right:-60px;background:radial-gradient(circle,rgba(252,190,120,0.4),transparent 65%)}
+.cr-peach .art-glass-plate{background:rgba(254,240,227,0.32)}
+.cr-peach .p-index{color:#b07030}
+.cr-peach .p-quote{border-left-color:#fcbe78;background:rgba(254,240,227,0.45)}
+.cr-peach .p-tag-pill{background:rgba(252,190,120,0.25);color:#9a5020}
+.cr-peach .text-art-zone{background:linear-gradient(145deg,rgba(254,240,227,0.5),rgba(255,248,240,0.18))}
+.cr-peach .chic-btn{color:#9a5020}
+.cr-peach .chic-btn .btn-line{background:#9a5020}
+
+.cr-sky .art-row-orb{width:500px;height:500px;bottom:-60px;right:-60px;background:radial-gradient(circle,rgba(130,175,252,0.4),transparent 65%)}
+.cr-sky .art-glass-plate{background:rgba(227,238,255,0.32)}
+.cr-sky .p-index{color:#2d5fa0}
+.cr-sky .p-quote{border-left-color:#82b0fc;background:rgba(227,238,255,0.45)}
+.cr-sky .p-tag-pill{background:rgba(130,175,252,0.25);color:#1a3d80}
+.cr-sky .text-art-zone{background:linear-gradient(145deg,rgba(227,238,255,0.5),rgba(240,246,255,0.18))}
+.cr-sky .chic-btn{color:#1a3d80}
+.cr-sky .chic-btn .btn-line{background:#1a3d80}
+
+.cr-blush .art-row-orb{width:500px;height:500px;top:-80px;left:-40px;background:radial-gradient(circle,rgba(252,140,210,0.38),transparent 65%)}
+.cr-blush .art-glass-plate{background:rgba(253,232,244,0.32)}
+.cr-blush .p-index{color:#a03078}
+.cr-blush .p-quote{border-left-color:#fc8cd2;background:rgba(253,232,244,0.45)}
+.cr-blush .p-tag-pill{background:rgba(252,140,210,0.25);color:#802058}
+.cr-blush .text-art-zone{background:linear-gradient(145deg,rgba(253,232,244,0.5),rgba(255,244,250,0.18))}
+.cr-blush .chic-btn{color:#802058}
+.cr-blush .chic-btn .btn-line{background:#802058}
+
+/* Typography */
+.p-index{font-size:9.5px;color:var(--muted);font-weight:700;letter-spacing:3px;display:block;margin-bottom:16px;text-transform:uppercase}
+.p-tag-pill{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;display:inline-block;margin-bottom:18px}
+.p-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.4vw,33px);font-weight:600;line-height:1.32;color:var(--ink);margin-bottom:18px}
+.p-desc{font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:24px;font-weight:300;text-align:justify}
+.p-quote{border-left-width:3px;border-left-style:solid;border-radius:0 14px 14px 0;padding:16px 22px;margin-bottom:28px;font-style:italic;font-size:13px;color:var(--ink);line-height:1.78;font-weight:400}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* ═══ COSMETIC SHELF ═══ */
+.cosmetic-shelf-zone { overflow:hidden; border-radius:32px; padding:0!important }
+.cosmetic-shelf-wrap {
+  position:relative; width:100%; height:100%;
+  background:linear-gradient(145deg,rgba(227,245,239,0.55),rgba(244,252,248,0.25));
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.65);
+  border-radius:32px;
+  overflow:hidden;
+  display:flex; flex-direction:column; justify-content:center;
+  gap:12px; padding:20px 20px 14px;
+  box-shadow:0 20px 60px rgba(45,122,96,0.07),inset 0 2px 4px rgba(255,255,255,0.6)
+}
+.cs-glow {
+  position:absolute; width:300px; height:300px;
+  top:-60px; right:-60px; border-radius:50%;
+  background:radial-gradient(circle,rgba(130,210,185,0.3),transparent 70%);
+  filter:blur(50px); pointer-events:none
+}
+.cs-header {
+  display:flex; align-items:center; gap:10px; margin-bottom:4px
+}
+.cs-header-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:linear-gradient(135deg,#82d2b9,#2d7a60); flex-shrink:0
+}
+.cs-header-txt {
+  font-size:9px; font-weight:700; letter-spacing:3px;
+  text-transform:uppercase; color:#2d7a60; opacity:0.7
+}
+.cs-shelf-row { position:relative; padding-bottom:10px }
+.cs-shelf-line {
+  position:absolute; bottom:0; left:-24px; right:-24px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(130,210,185,0.35) 20%,rgba(130,210,185,0.6) 50%,rgba(130,210,185,0.35) 80%,transparent);
+  border-radius:2px;
+  box-shadow:0 1px 6px rgba(82,185,148,0.15)
+}
+.cs-items {
+  display:flex; gap:10px; align-items:flex-end; justify-content:center
+}
+.cs-item {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  cursor:default;
+  transition:transform 0.38s cubic-bezier(0.16,1,0.3,1)
+}
+.cs-item:hover { transform:translateY(-12px) }
+.cs-item:hover .cs-img-wrap { box-shadow:0 16px 36px rgba(45,122,96,0.18); }
+.cs-img-wrap {
+  border-radius:16px; overflow:hidden;
+  border:2.5px solid rgba(255,255,255,0.88);
+  box-shadow:0 6px 18px rgba(45,122,96,0.1),inset 0 1px 2px rgba(255,255,255,0.9);
+  flex-shrink:0; width:95px;
+  transition:box-shadow 0.38s cubic-bezier(0.16,1,0.3,1)
+}
+.cs-img-tall   { height:148px }
+.cs-img-medium { height:120px }
+.cs-img-short  { height:96px }
+.cs-img-wrap img {
+  width:100%; height:100%; object-fit:cover; object-position:center top;
+  display:block; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)
+}
+.cs-item:hover .cs-img-wrap img { transform:scale(1.07) }
+.cs-item-info {
+  display:flex; flex-direction:column; align-items:center; gap:2px
+}
+.cs-item-name {
+  font-size:8.5px; font-weight:600; color:var(--ink);
+  text-align:center; letter-spacing:0.2px; white-space:nowrap
+}
+.cs-rating { font-size:8px; color:#82d2b9; letter-spacing:1px }
+.cs-verdict {
+  font-size:7px; font-weight:700; letter-spacing:1.2px;
+  text-transform:uppercase; padding:2px 8px; border-radius:20px
+}
+.cs-verdict-love { background:rgba(130,210,185,0.25); color:#1a6048 }
+.cs-verdict-skip { background:rgba(220,180,180,0.25); color:#9a4040 }
+.cs-verdict-try  { background:rgba(252,214,140,0.3);  color:#8a6020 }
+.cs-footer {
+  text-align:right; font-size:8px; font-weight:700;
+  letter-spacing:2.5px; text-transform:uppercase;
+  color:#2d7a60; opacity:0.45; margin-top:4px
+}
+
+/* ═══ FASHION CAROUSEL ═══ */
+.fashion-carousel-zone{overflow:hidden;border-radius:32px;padding:0!important}
+.fashion-carousel-wrap{
+  position:relative;width:100%;height:100%;
+  background:linear-gradient(145deg,rgba(236,232,252,0.38),rgba(248,246,255,0.2));
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.6);
+  border-radius:32px;
+  overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px 0;
+  box-shadow:0 20px 60px rgba(107,90,191,0.08),inset 0 2px 4px rgba(255,255,255,0.5)
+}
+.fashion-carousel-wrap::before,.fashion-carousel-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:10;pointer-events:none
+}
+.fashion-carousel-wrap::before{left:0;background:linear-gradient(90deg,rgba(248,246,255,0.85),transparent)}
+.fashion-carousel-wrap::after{right:0;background:linear-gradient(-90deg,rgba(248,246,255,0.85),transparent)}
+.fashion-track{overflow:hidden;width:100%}
+.fashion-track-inner{
+  display:flex;gap:10px;
+  animation:scrollLeft 28s linear infinite;
+  width:max-content
+}
+.fashion-track-reverse{
+  animation:scrollRight 32s linear infinite
+}
+@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes scrollRight{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.fashion-track-inner:hover,.fashion-track-reverse:hover{animation-play-state:paused}
+.f-card{
+  width:160px;height:210px;flex-shrink:0;
+  border-radius:16px;overflow:hidden;
+  border:3px solid rgba(255,255,255,0.85);
+  box-shadow:0 8px 24px rgba(107,90,191,0.1);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s
+}
+.f-card:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 16px 36px rgba(107,90,191,0.18)}
+.f-card img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.fashion-carousel-label{
+  position:absolute;bottom:14px;right:20px;z-index:11;
+  font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:#6b5abf;opacity:0.6
+}
+
+/* ═══ TIKTOK DUAL CLIP ═══ */
+.tiktok-dual-zone {
+  overflow:visible !important;
+  border-radius:0 !important;
+  padding:0 !important;
+  height:auto !important;
+  position:relative
+}
+.tiktok-dual-wrap {
+  position:relative;width:100%;
+  display:flex;flex-direction:column;align-items:center;gap:20px
+}
+.tt-dual-label {
+  font-size:8.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:#b07030;opacity:0.55;align-self:flex-end;padding-right:4px
+}
+.tt-phones-row {
+  display:flex;gap:16px;align-items:flex-start;width:100%;justify-content:center
+}
+.tt-phone {
+  position:relative;flex:1;max-width:calc(50% - 8px);aspect-ratio:10/17;
+  border-radius:28px;overflow:hidden;
+  border:4px solid rgba(255,255,255,0.92);
+  box-shadow:0 0 0 1px rgba(252,190,120,0.3),0 24px 60px rgba(176,112,48,0.18),0 6px 18px rgba(0,0,0,0.1),inset 0 2px 3px rgba(255,255,255,0.8);
+  background:#0d0d0d;transition:box-shadow 0.4s,transform 0.4s cubic-bezier(0.16,1,0.3,1)
+}
+.tt-phone:hover {
+  box-shadow:0 0 0 1px rgba(252,190,120,0.45),0 32px 72px rgba(176,112,48,0.24),0 10px 24px rgba(0,0,0,0.14),inset 0 2px 3px rgba(255,255,255,0.9);
+  transform:translateY(-4px) scale(1.01)
+}
+.tt-clip-badge {
+  position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:12;
+  background:rgba(0,0,0,0.42);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.18);border-radius:20px;
+  padding:4px 12px;font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.85);
+  text-transform:uppercase;white-space:nowrap;pointer-events:none
+}
+.tt-frame {
+  position:absolute;inset:0;width:100%;height:100%;
+  border:none;display:block;opacity:0;transition:opacity 0.35s ease
+}
+.tt-frame.loaded { opacity:1 }
+.tt-skeleton {
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#1a0a00 0%,#2a1500 50%,#1a0a00 100%);
+  background-size:200% 200%;
+  animation:shimmer 1.8s ease infinite;
+  display:flex;align-items:center;justify-content:center
+}
+.tt-skeleton-logo {
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,#ff0050,#00f2ea);opacity:0.45
+}
+@keyframes shimmer {
+  0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+}
+.tt-dual-dots {display:flex;gap:28px;align-items:center;justify-content:center}
+.tt-dual-dot-group {display:flex;align-items:center;gap:6px}
+.tt-dual-dot-group-label {font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#b07030;opacity:0.5}
+.tt-dot {width:6px;height:6px;border-radius:50%;background:rgba(176,112,48,0.22);transition:all 0.3s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+.tt-dot.active {width:18px;border-radius:4px;background:linear-gradient(90deg,#fcbe78,#b07030)}
+.tt-dual-nav {display:flex;gap:10px;align-items:center}
+.tt-btn {
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.82);backdrop-filter:blur(12px);
+  border:1.5px solid rgba(252,190,120,0.6);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background 0.25s,transform 0.25s,box-shadow 0.25s;
+  box-shadow:0 4px 14px rgba(176,112,48,0.14)
+}
+.tt-btn:hover {background:rgba(252,190,120,0.3);transform:scale(1.1);box-shadow:0 8px 22px rgba(176,112,48,0.22)}
+.tt-btn:disabled {opacity:0.28;cursor:default;pointer-events:none}
+.tt-btn svg {width:14px;height:14px;fill:none;stroke:#b07030;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.tt-dual-controls {display:flex;align-items:center;gap:20px;width:100%;justify-content:center}
+
+/* ═══ WELLNESS COLLAGE ═══ */
+.wellness-collage-zone {overflow:visible!important;border-radius:0!important;padding:0!important;height:auto!important;position:relative}
+.wellness-collage-wrap {width:100%;display:flex;flex-direction:column;gap:10px}
+.wc-top {display:grid;grid-template-columns:1fr 2.2fr;gap:10px;height:340px;align-items:stretch}
+.wc-left-col {display:grid;grid-template-rows:1fr 1fr 1fr;gap:10px;height:100%}
+.wc-card {
+  position:relative;border-radius:16px;overflow:hidden;
+  border:3px solid rgba(255,255,255,0.88);box-shadow:0 8px 24px rgba(45,63,128,0.1);
+  cursor:default;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;min-height:0
+}
+.wc-card:hover {transform:scale(1.025) translateY(-3px);box-shadow:0 18px 40px rgba(45,63,128,0.18)}
+.wc-card img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.25,1,0.5,1)}
+.wc-card:hover img {transform:scale(1.08)}
+.wc-card::after {content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,40,0.75) 0%,rgba(10,22,40,0.1) 55%,transparent 100%);pointer-events:none;z-index:1}
+.wc-label {position:absolute;z-index:2;pointer-events:none}
+.wc-small .wc-label {bottom:10px;left:12px;right:8px}
+.wc-small .wc-tag {display:block;font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:3px}
+.wc-small .wc-word {display:block;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;font-style:italic;color:#fff;line-height:1.2;text-shadow:0 2px 10px rgba(0,0,0,0.5)}
+
+/* ── HERO CARD: ROUNDED ── */
+.wc-hero {
+  height:100%;
+  border-radius:16px;
+}
+.wc-hero::after {}
+
+.wc-hero .wc-label {bottom:22px;left:22px;right:16px}
+.wc-hero .wc-eyebrow {display:inline-flex;align-items:center;gap:7px;margin-bottom:9px}
+.wc-hero .wc-eyebrow-dot {width:5px;height:5px;border-radius:50%;background:rgba(162,210,255,0.9);flex-shrink:0}
+.wc-hero .wc-eyebrow-txt {font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(162,210,255,0.85)}
+.wc-hero .wc-hero-title {font-family:'Cormorant Garamond',serif;font-size:clamp(19px,1.8vw,25px);font-weight:600;font-style:italic;color:#fff;line-height:1.22;text-shadow:0 3px 18px rgba(0,0,0,0.5);margin-bottom:8px}
+.wc-hero .wc-hero-sub {font-size:10px;font-weight:400;color:rgba(255,255,255,0.6);line-height:1.65;letter-spacing:0.2px}
+.wc-hero::before {content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,rgba(45,95,160,0.15) 0%,transparent 55%);pointer-events:none;border-radius:inherit}
+
+.wc-bottom {display:grid;grid-template-columns:repeat(5,1fr);gap:10px;height:130px}
+.wc-thumb {position:relative;border-radius:13px;overflow:hidden;border:2.5px solid rgba(255,255,255,0.82);box-shadow:0 5px 14px rgba(45,63,128,0.09);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;min-height:0}
+.wc-thumb:hover {transform:translateY(-5px) scale(1.04);box-shadow:0 14px 30px rgba(45,63,128,0.18)}
+.wc-thumb img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.25,1,0.5,1)}
+.wc-thumb:hover img {transform:scale(1.1)}
+.wc-thumb::after {content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,22,40,0.72) 0%,transparent 65%);pointer-events:none}
+.wc-thumb-label {position:absolute;bottom:8px;left:0;right:0;z-index:2;text-align:center;pointer-events:none}
+.wc-thumb-label span {font-size:7px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.9);text-shadow:0 1px 6px rgba(0,0,0,0.6)}
+
+  
+  
+  
+  
+
+  
+  
+  
+ 
+  
+  
   
   
 
 
 
+
+
+
   
   
-<section class="ug-section">
-  <style>
-    .ug-section {
-      all: initial; /* Reset mọi thuộc tính kế thừa từ theme/website bên ngoài */
-      font-family: 'DM Sans', sans-serif;
-      background: transparent;
-      padding: 0px;
-      display: block;
-      position: relative;
-      overflow: hidden;
-      box-sizing: border-box;
-    }
+  
+  
+  
 
-    .ug-section * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+</style>
+</head>
+<body>
+<!-- LIFESTYLE STORY ROWS -->
+<section class="problems-section">
+  <div class="ambient-orb prob-orb-1"></div>
+  <div class="ambient-orb prob-orb-2"></div>
+  <div class="ambient-orb prob-orb-3"></div>
 
-    @keyframes ugFloat {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(1deg); }
-      100% { transform: translateY(0px) rotate(0deg); }
-    }
+  <div class="prob-section-head">
 
-    @keyframes ugShimmer {
-      100% { left: 125%; }
-    }
+    <h2 class="prob-section-title"></em></h2>
+    <p class="prob-section-desc"></p>
+  </div>
 
-    .ug-section .ug-wrap {
-      max-width: 1150px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .ug-section .ug-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-
-    @media (max-width: 900px) {
-      .ug-section .ug-grid { grid-template-columns: 1fr; gap: 40px; }
-      .ug-section .ug-content { order: 1; }
-      .ug-section .ug-glass-frame { order: 2; }
-    }
-
-    .ug-section .ug-glass-frame {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: ugFloat 6s ease-in-out infinite;
-    }
-
-    .ug-section .ug-glass-frame img {
-      width: 100%;
-      max-width: 460px;
-      display: block;
-      position: relative;
-      z-index: 2;
-    }
-
-    .ug-section .ug-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #9a5e7a;
-      border: 1px solid rgba(201, 123, 160, 0.3);
-      border-radius: 99px;
-      padding: 6px 16px;
-      margin-bottom: 20px;
-    }
-
-    .ug-section .ug-content h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 600;
-      font-size: clamp(2rem, 3.5vw, 2.6rem);
-      color: #332f47;
-      margin-bottom: 18px;
-      line-height: 1.25;
-    }
-
-    .ug-section .ug-content p {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #5b5470;
-      margin-bottom: 35px;
-    }
-
-    .ug-section .ug-features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 480px) {
-      .ug-section .ug-features { grid-template-columns: 1fr; }
-    }
-
-    .ug-section .ug-feature {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: transparent;
-      border: 1px solid rgba(143, 123, 201, 0.25);
-      border-radius: 16px;
-      padding: 16px;
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .ug-section .ug-feature:hover {
-      transform: translateY(-5px);
-    }
-
-    .ug-section .ug-feature.f1:hover { border-color: #8f7bc9; }
-    .ug-section .ug-feature.f2:hover { border-color: #d199b3; }
-    .ug-section .ug-feature.f3:hover { border-color: #7bb0c9; }
-    .ug-section .ug-feature.f4:hover { border-color: #c9ad7b; }
-
-    .ug-section .ug-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-top: 6px;
-      flex-shrink: 0;
-    }
-
-    .ug-section .ug-feature.f1 .ug-dot { background: #8f7bc9; }
-    .ug-section .ug-feature.f2 .ug-dot { background: #d199b3; }
-    .ug-section .ug-feature.f3 .ug-dot { background: #7bb0c9; }
-    .ug-section .ug-feature.f4 .ug-dot { background: #c9ad7b; }
-
-    .ug-section .ug-feature span {
-      font-size: 14px;
-      font-weight: 600;
-      color: #332f47;
-      line-height: 1.4;
-    }
-
-    .ug-section .ug-feature small {
-      display: block;
-      font-size: 12px;
-      font-weight: 400;
-      color: #7c7590;
-      margin-top: 4px;
-    }
-
-    /* === NÚT BẤM PHONG CÁCH ULTRA GLASSMORPHISM === */
-    .ug-section .ug-cta {
-      margin-top: 35px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      
-      /* Tạo độ trong suốt như kính lỏng, tự thích ứng mọi loại nền web */
-      background: rgba(111, 99, 171, 0.07);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      
-      /* Viền lập thể pha lê */
-      border: 1px solid rgba(111, 99, 171, 0.35);
-      border-top-color: rgba(255, 255, 255, 0.6);
-      border-left-color: rgba(255, 255, 255, 0.4);
-      
-      color: #514685;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 16px 38px;
-      border-radius: 99px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      text-decoration: none;
-    }
-
-    /* Hiệu ứng tia sáng quét ngang (Shimmer Reflection) */
-    .ug-section .ug-cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.6) 50%,
-        rgba(255, 255, 255, 0) 100%
-      );
-      transform: skewX(-25deg);
-      z-index: 1;
-    }
-
-    .ug-section .ug-cta:hover::before {
-      animation: ugShimmer 0.8s ease-out;
-    }
-
-    .ug-section .ug-cta:hover {
-      background: rgba(111, 99, 171, 0.15);
-      border-color: rgba(111, 99, 171, 0.6);
-      color: #3f3570;
-      transform: translateY(-2px);
-      letter-spacing: 2px;
-    }
-  </style>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <div class="ug-wrap">
-    <div class="ug-grid">
-      
-      <div class="ug-glass-frame">
-        <img src="https://theaic.vn/wp-content/uploads/2025/01/forma-system-formatk.png" alt="Forma System">
+  <div class="prob-container"> 
+  
+    <!-- ROW 1: E — EXPERIENCE — Trải nghiệm thực tế -->
+    <div class="chic-row cr-rose reveal">
+      <div class="image-art-zone">
+        <div class="art-row-orb"></div>
+        <div class="art-glass-plate"></div>
+        <div class="art-img-master">
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=700" alt="Đọc sách và ghi chú mỗi sáng">
+        </div>
+        <div class="art-img-mood">
+          <img src="https://images.unsplash.com/photo-1520206183501-b80df61043c2?q=80&w=600" alt="Nhật ký cá nhân ghi lại trải nghiệm hằng ngày">
+        </div>
+        <span class="art-decor-tag">EEAT · 01</span>
       </div>
+      <div class="text-art-zone">
+        <span class="p-tag-pill">1 Trải Nghiệm Thực Tế</span>
+        <h2 class="p-title">Mọi liệu trình tại đây đều bắt đầu từ những trải nghiệm thật và kết quả thật</h2>
+        <p class="p-desc">Chúng tôi tin rằng một liệu trình hiệu quả không bắt đầu từ xu hướng, mà bắt đầu từ sự thấu hiểu làn da thực tế của từng khách hàng. Mỗi phương pháp điều trị tại clinic đều được xây dựng dựa trên hàng nghìn ca điều trị thực tế — từ da mụn, da nhạy cảm đến phục hồi chuyên sâu sau tổn thương. Không có một công thức chung cho tất cả. Chỉ có những giải pháp được cá nhân hóa dựa trên tình trạng thật, phản ứng thật và kết quả thật.</p>
+        <div class="p-quote">"Chúng tôi không điều trị dựa trên lý thuyết. Chúng tôi điều trị dựa trên những gì làn da thật sự cần."</div>
+        <a href="#" class="chic-btn"><span class="btn-line"></span>Khám phá hành trình điều trị thực tế</a>
+      </div>
+    </div>
 
-      <div class="ug-content">
-        <span class="ug-tag">Ultra Glassic Technology</span>
-        <h3>Một thiết bị, bốn công nghệ,<br>vô hạn khả năng</h3>
-        <p>Forma System được thiết kế để tối ưu hóa hiệu quả phòng khám mà không cần đầu tư nhiều máy lẻ. Mỗi tay cầm là một giải pháp chuyên biệt, kết hợp linh hoạt theo từng phác đồ cá nhân hóa.</p>
+    <!-- ROW 2: E — EXPERTISE — Chuyên môn sâu -->
+    <div class="chic-row reverse cr-lav reveal">
+      <div class="image-art-zone fashion-carousel-zone">
+        <div class="art-row-orb"></div>
+        <div class="fashion-carousel-wrap">
+          <div class="fashion-track fashion-track-top">
+            <div class="fashion-track-inner">
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1583912267550-d6c2ac3196c0?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1583912267550-d6c2ac3196c0?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?q=80&w=400" alt=""></div>
+            </div>
+          </div>
+          <div class="fashion-track fashion-track-bottom">
+            <div class="fashion-track-inner fashion-track-reverse">
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400" alt=""></div>
+              <div class="f-card"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=400" alt=""></div>
+            </div>
+          </div>
+          <span class="fashion-carousel-label">EEAT · 02</span>
+        </div>
+      </div>
+      <div class="text-art-zone">
+        <span class="p-tag-pill">2 Chuyên Môn Điều Trị</span>
+        <h2 class="p-title">Mỗi phác đồ được xây dựng từ nền tảng chuyên môn sâu và sự thấu hiểu làn da</h2>
+        <p class="p-desc">Tại clinic, mỗi liệu trình đều được thiết kế dựa trên quy trình phân tích chuyên sâu về cấu trúc da, nguyên nhân gốc rễ và khả năng phục hồi tự nhiên của từng cá nhân. Đội ngũ chuyên gia của chúng tôi không chỉ tập trung vào việc cải thiện bề mặt, mà còn hướng đến việc tái thiết lập nền da khỏe mạnh từ bên trong — giúp kết quả duy trì bền vững và ổn định lâu dài.</p>
+        <div class="p-quote">"Điều trị hiệu quả không nằm ở việc làm nhiều hơn, mà ở việc hiểu đúng hơn."</div>
+        <a href="#" class="chic-btn"><span class="btn-line"></span>Tìm hiểu phác đồ chuyên sâu</a>
+      </div>
+    </div>
 
-        <div class="ug-features">
-          <div class="ug-feature f1">
-            <span class="ug-dot"></span>
-            <span>IPL đa bước sóng<small>Sắc tố & mạch máu nông</small></span>
+    <!-- ROW 3: A — AUTHORITATIVENESS — Thẩm quyền thương hiệu -->
+    <div class="chic-row cr-mint reveal">
+      <div class="image-art-zone cosmetic-shelf-zone">
+        <div class="art-row-orb"></div>
+        <div class="cosmetic-shelf-wrap">
+          <div class="cs-glow"></div>
+          <div class="cs-header"></div>
+          <div class="cs-shelf-row">
+            <div class="cs-shelf-line"></div>
+            <div class="cs-items">
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-tall"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=300" alt="Máy laser trẻ hóa"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-love">Laser trẻ hóa</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-medium"><img src="https://images.unsplash.com/photo-1583912267550-d6c2ac3196c0?q=80&w=300" alt="Công nghệ HIFU"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-love">Công nghệ HIFU</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-short"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=300" alt="Ánh sáng IPL"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-love">Ánh sáng IPL</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-tall"><img src="https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=300" alt="Thiết bị RF"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-love">Sóng RF nâng cơ</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-medium"><img src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?q=80&w=300" alt="Buồng điều trị"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-try">Buồng điều trị</span></div>
+              </div>
+            </div>
           </div>
-          <div class="ug-feature f2">
-            <span class="ug-dot"></span>
-            <span>RF lưỡng cực<small>Săn chắc, tái tạo collagen</small></span>
+          <div class="cs-shelf-row">
+            <div class="cs-shelf-line"></div>
+            <div class="cs-items">
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-short"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=300" alt="Máy soi da"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-love">Máy soi da</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-tall"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=300" alt="Tế bào gốc"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-try">Liệu pháp tế bào</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-medium"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300" alt="Phòng theo dõi"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-try">Theo dõi hậu điều trị</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-short"><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=300" alt="Thiết bị kiểm định"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-try">Kiểm định chuẩn</span></div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-img-wrap cs-img-tall"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?q=80&w=300" alt="Quy trình chuẩn hóa"></div>
+                <div class="cs-item-info"><span class="cs-verdict cs-verdict-love">Quy trình chuẩn</span></div>
+              </div>
+            </div>
           </div>
-          <div class="ug-feature f3">
-            <span class="ug-dot"></span>
-            <span>Sóng siêu âm Sonic<small>Đưa dưỡng chất vào sâu</small></span>
+          <div class="cs-footer">EEAT · 03</div>
+        </div>
+      </div>
+      <div class="text-art-zone">
+        <span class="p-tag-pill">3 Tiêu Chuẩn & Công Nghệ</span>
+        <h2 class="p-title">Ứng dụng công nghệ tiên tiến cùng tiêu chuẩn điều trị hiện đại trong từng liệu trình</h2>
+        <p class="p-desc">Mỗi công nghệ và thiết bị được đưa vào vận hành tại clinic đều trải qua quá trình chọn lọc kỹ lưỡng, dựa trên hiệu quả thực tế, độ an toàn và khả năng phù hợp với từng tình trạng da. Từ công nghệ trẻ hóa, phục hồi đến điều trị chuyên sâu, mọi quy trình đều tuân thủ các tiêu chuẩn nghiêm ngặt nhằm tối ưu kết quả và giảm thiểu rủi ro trong suốt quá trình điều trị.</p>
+        <div class="p-quote">"Công nghệ chỉ thật sự có giá trị khi được ứng dụng đúng cách, đúng người và đúng thời điểm."</div>
+        <a href="#" class="chic-btn"><span class="btn-line"></span>Khám phá công nghệ điều trị</a>
+      </div>
+    </div>
+
+    <!-- ROW 4: T — TRUSTWORTHINESS — Sự tin cậy -->
+    <div class="chic-row reverse cr-sky reveal">
+      <div class="image-art-zone wellness-collage-zone">
+        <div class="art-row-orb"></div>
+        <div class="wellness-collage-wrap">
+          <div class="wc-top">
+            <div class="wc-left-col">
+              <div class="wc-card wc-small" style="flex:1">
+                <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=400" alt="Tư vấn rõ ràng">
+                <div class="wc-label"><span class="wc-tag">Bước 1</span><span class="wc-word">Tư Vấn Minh Bạch</span></div>
+              </div>
+              <div class="wc-card wc-small" style="flex:1">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=400" alt="Lộ trình rõ ràng">
+                <div class="wc-label"><span class="wc-tag">Bước 2</span><span class="wc-word">Lộ Trình Rõ Ràng</span></div>
+              </div>
+              <div class="wc-card wc-small" style="flex:1">
+                <img src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?q=80&w=400" alt="Theo dõi sát sao">
+                <div class="wc-label"><span class="wc-tag">Bước 3</span><span class="wc-word">Theo Dõi Sát Sao</span></div>
+              </div>
+            </div>
+            <div class="wc-card wc-hero">
+              <img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=700" alt="Đồng hành cùng khách hàng dài lâu">
+              <div class="wc-label">
+              </div>
+            </div>
           </div>
-          <div class="ug-feature f4">
-            <span class="ug-dot"></span>
-            <span>Mài mòn kim cương<small>Làm sạch, tái tạo bề mặt da</small></span>
+          <div class="wc-bottom">
+            <div class="wc-thumb"><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=300" alt="Chi phí minh bạch"><div class="wc-thumb-label"><span>Chi Phí Rõ</span></div></div>
+            <div class="wc-thumb"><img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?q=80&w=300" alt="Kỳ vọng đúng"><div class="wc-thumb-label"><span>Kỳ Vọng Đúng</span></div></div>
+            <div class="wc-thumb"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300" alt="An toàn tuyệt đối"><div class="wc-thumb-label"><span>An Toàn</span></div></div>
+            <div class="wc-thumb"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=300" alt="Hậu điều trị"><div class="wc-thumb-label"><span>Hậu Điều Trị</span></div></div>
+            <div class="wc-thumb"><img src="https://images.unsplash.com/photo-1583912267550-d6c2ac3196c0?q=80&w=300" alt="Đồng hành dài lâu"><div class="wc-thumb-label"><span>Đồng Hành</span></div></div>
           </div>
         </div>
-
-        <div class="ug-cta">Tìm hiểu thiết bị →</div>
       </div>
-      
+      <div class="text-art-zone">
+        <span class="p-tag-pill">4 Cam Kết Minh Bạch</span>
+        <h2 class="p-title">Sự tin tưởng được xây dựng từ minh bạch, an toàn và đồng hành dài lâu</h2>
+        <p class="p-desc">Chúng tôi luôn tin rằng một hành trình điều trị hiệu quả cần bắt đầu từ sự rõ ràng: rõ về tình trạng da, rõ về lộ trình, rõ về chi phí và rõ về kỳ vọng kết quả. Mỗi khách hàng đều được đồng hành xuyên suốt từ buổi đầu tiên đến giai đoạn hậu điều trị, với sự theo dõi sát sao để đảm bảo làn da phục hồi đúng hướng và bền vững theo thời gian.</p>
+        <div class="p-quote">"Niềm tin không đến từ lời hứa, mà đến từ sự minh bạch trong từng bước chăm sóc."</div>
+        <a href="#" class="chic-btn"><span class="btn-line"></span>Xem cam kết chăm sóc từ chúng tôi</a>
+      </div>
     </div>
+
+
+
+
   </div>
+
 </section>
 
+<script>
+// ── Scroll reveal ──────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      el.target.classList.add('visible');
+      observer.unobserve(el.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Gallery accordion ──────────────────────────────────────────
+const panels = document.querySelectorAll('.g-panel');
+panels.forEach((p, i) => {
+  p.addEventListener('mouseenter', () => {
+    panels.forEach((x, j) => x.classList.toggle('active', i === j));
+  });
+});
+</script>
+</body>
+</html> 
+  
+
+
+
+  
+  
+
 
   
   
@@ -3514,7 +3936,8 @@ a{text-decoration:none;color:inherit}
   
 
   
-  
+  <div style="padding-top: 40px;">
+</div>
   
   
   
@@ -3592,145 +4015,33 @@ body{background:transparent;}
   
 
   
-  
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
+
+
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+
 <style>
-/* Sử dụng thuộc tính font-face nhúng link trực tiếp bảo mật, độc lập không đụng hàng */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;600&display=swap');
-
-/* Cách ly hoàn toàn bằng cách chỉ reset thuộc tính trong phạm vi container .dt2-isolation */
-.dt2-isolation, .dt2-isolation * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-shadow: none;
-  box-shadow: none;
-}
-
 .dt2-isolation {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  background: transparent;
-  width: 100%;
+  display: flex; justify-content: center; align-items: center;
+  padding: 0; width: 100%;
 }
-
-.dt2-stage {
-  display: inline-block;
-  position: relative;
-  padding: 0px;
-  font-family: 'DM Sans', sans-serif;
-}
-
 .dt2-title {
   margin: 0;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(3rem, 9vw, 7rem);
+  font-family: 'Beautique Display', serif;
+  font-style: normal;
+  font-weight: 200;
+  font-size: clamp(1rem, 5vw, 4rem);
   line-height: 1.15;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.02em;
   text-align: center;
-  position: relative;
-  background: linear-gradient(165deg, #f1e6fb 0%, #d9c2f0 18%, #b89be0 38%, #8f7bc9 58%, #6f63ab 78%, #564f86 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Viền glass mỏng quanh nét chữ để giữ dấu thanh rõ ràng */
-.dt2-title::after {
-  content: 'Hướng dẫn làm đẹp';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(3rem, 9vw, 7rem);
-  line-height: 1.15;
-  letter-spacing: 0.4px;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.6px rgba(86, 79, 134, 0.4);
-  pointer-events: none;
-}
-
-/* Bóng mờ rất nhẹ phía sau để có độ sâu */
-.dt2-title::before {
-  content: 'Hướng dẫn làm đẹp';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(3rem, 9vw, 7rem);
-  line-height: 1.15;
-  letter-spacing: 0.4px;
-  color: #7a6fae;
-  transform: translate(0, 3px);
-  z-index: -1;
-  filter: blur(8px);
-  opacity: 0.22;
-}
-
-/* Bong bóng thủy tinh trôi nổi lững lờ phía sau chữ */
-.dt2-bubble {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.15) 38%, rgba(255, 255, 255, 0) 70%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  pointer-events: none;
-  z-index: -1;
-  animation: dt2Float 6s ease-in-out infinite;
-}
-
-.dt2-bubble.b1 { width: 46px; height: 46px; left: 2%; top: 8%; animation-delay: 0s; }
-.dt2-bubble.b2 { width: 26px; height: 26px; right: 6%; top: 18%; animation-delay: 1.1s; }
-.dt2-bubble.b3 { width: 18px; height: 18px; left: 14%; bottom: 6%; animation-delay: 2.3s; }
-.dt2-bubble.b4 { width: 32px; height: 32px; right: 1%; bottom: 2%; animation-delay: 0.6s; }
-
-@keyframes dt2Float {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.55; }
-  50% { transform: translateY(-10px) scale(1.06); opacity: 0.85; }
-}
-
-/* Sóng ánh sáng lan tỏa nhẹ phía dưới chữ */
-.dt2-glow {
-  width: 50%;
-  height: 10px;
-  margin: 14px auto 0;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(143, 123, 201, 0.45) 0%, rgba(143, 123, 201, 0) 75%);
-  filter: blur(3px);
-  animation: dt2Pulse 3.2s ease-in-out infinite;
-}
-
-@keyframes dt2Pulse {
-  0%, 100% { opacity: 0.5; transform: scaleX(0.85); }
-  50% { opacity: 1; transform: scaleX(1.05); }
+  text-transform: uppercase;
+  color: #8f7bc9;
 }
 </style>
-</head>
-<body>
 
 <div class="dt2-isolation">
-  <div class="dt2-stage">
-    <span class="dt2-bubble b1"></span>
-    <span class="dt2-bubble b2"></span>
-    <span class="dt2-bubble b3"></span>
-    <span class="dt2-bubble b4"></span>
-    <h2 class="dt2-title">Hướng dẫn làm đẹp</h2>
-    <div class="dt2-glow"></div>
-  </div>
+  <h2 class="dt2-title">Hướng dẫn làm đẹp</h2>
 </div>
 
-</body>
-</html>  
-  
-  
   
   
   
@@ -4331,7 +4642,7 @@ body{background:transparent;}
     <div class="ftr-card">
 
       <div class="ftr-head">
-        <span class="ftr-name">Nguyễn Thị Như Lan</span>
+        <span class="ftr-name">Như Lan</span>
         <div class="ftr-divider"></div>
       </div>
 
