@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -2110,224 +2111,226 @@ document.getElementById('s').textContent = String(s).padStart(2,'0');
 
 
 
-
 <div class="cgwgt-scope">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
-
 
 .cgwgt-scope, .cgwgt-scope * { box-sizing: border-box; }
 
-
 .cgwgt-scope {
+  font-family: 'Be Vietnam Pro', sans-serif;
 }
-
 
 .cgwgt-root {
-max-width: 1340px;
-margin: 0 auto;
-padding: 28px;
+  position: relative;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 28px;
 }
-
-
-.cgwgt-title {
-font-size: 20px;
-font-weight: 700;
-color: #2d2d2d;
-margin: 0 0 18px;
-}
-
 
 .cgwgt-slider-wrap {
-position: relative;
+  position: relative;
+  z-index: 2;
 }
-
 
 .cgwgt-grid {
-display: grid;
-grid-auto-flow: column;
-grid-auto-columns: calc((100% - 3 * 18px) / 4);
-gap: 18px;
-overflow-x: auto;
-scroll-behavior: smooth;
-scrollbar-width: none;
-padding: 2px 2px 6px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * 18px) / 4);
+  gap: 18px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 2px 2px 6px;
 }
-
 
 .cgwgt-grid::-webkit-scrollbar { display: none; }
 
-
 .cgwgt-nav-btn {
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-width: 36px;
-height: 36px;
-background: #ffffff;
-border: 1px solid #eeeeee;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-font-size: 15px;
-color: #2d2d2d;
-box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-z-index: 10;
-transition: background 0.2s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: #2d2d2d;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  transition: background 0.2s ease;
 }
 
+.cgwgt-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
 
-.cgwgt-nav-btn:hover { background: #f5f5f5; }
 .cgwgt-nav-prev { left: -16px; }
 .cgwgt-nav-next { right: -16px; }
 
-
 .cgwgt-card {
-background: #ffffff;
-border: 1px solid #eeeeee;
-border-radius: 16px;
-overflow: hidden;
-text-align: center;
-text-decoration: none;
-display: block;
-transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-
 
 .cgwgt-card:hover {
-transform: translateY(-4px);
-box-shadow: 0 10px 24px rgba(0, 0, 0, 0.09);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
 }
-
 
 .cgwgt-card-img {
-width: 100%;
-aspect-ratio: 1/1;
-overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
 }
 
+.cgwgt-card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 40%);
+  pointer-events: none;
+}
 
 .cgwgt-card-img img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
+.cgwgt-card:hover .cgwgt-card-img img {
+  transform: scale(1.06);
+}
 
 .cgwgt-card-name {
-padding: 14px 10px 16px;
-font-size: 14.5px;
-font-weight: 600;
-color: #2d2d2d;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  padding: 11px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
-
 
 @media (max-width: 768px) {
-.cgwgt-grid {
-grid-auto-columns: calc((100% - 14px) / 2.3);
-gap: 14px;
-}
-.cgwgt-card-name {
-font-size: 13px;
-padding: 12px 8px 14px;
-}
+  .cgwgt-grid {
+    grid-auto-columns: calc((100% - 14px) / 2.3);
+    gap: 14px;
+  }
+  .cgwgt-card-name {
+    font-size: 13px;
+    padding: 9px 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
 }
 </style>
 
-
 <div class="cgwgt-root">
-<div class="cgwgt-slider-wrap">
-<button class="cgwgt-nav-btn cgwgt-nav-prev" onclick="cgwgtSlide(this, -1)">❮</button>
-<button class="cgwgt-nav-btn cgwgt-nav-next" onclick="cgwgtSlide(this, 1)">❯</button>
-<div class="cgwgt-grid">
+  <div class="cgwgt-slider-wrap">
+    <button class="cgwgt-nav-btn cgwgt-nav-prev" onclick="cgwgtSlide(this, -1)">❮</button>
+    <button class="cgwgt-nav-btn cgwgt-nav-next" onclick="cgwgtSlide(this, 1)">❯</button>
+    <div class="cgwgt-grid">
 
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/06/01/5e/06015e639f0eb9fb5a5583d9ace5ce39.jpg" alt="Trị mụn">
+          </div>
+        <div class="cgwgt-card-name">Trị mụn</div>
+      </a>
 
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/06/01/5e/06015e639f0eb9fb5a5583d9ace5ce39.jpg" alt="Trị mụn">
-</div>
-<div class="cgwgt-card-name">Trị mụn</div>
-</a>
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Làm trắng da">
+          </div>
+        <div class="cgwgt-card-name">Làm trắng da</div>
+      </a>
 
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/84/92/57/849257f500fb6d9e784332612b1ecdd6.jpg" alt="Trị sẹo">
+          </div>
+        <div class="cgwgt-card-name">Trị sẹo</div>
+      </a>
 
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Làm trắng da">
-</div>
-<div class="cgwgt-card-name">Làm trắng da</div>
-</a>
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/73/4a/80/734a80c2d3cea90d7b181338f78257ba.jpg" alt="Trị nám">
+          </div>
+        <div class="cgwgt-card-name">Trị nám</div>
+      </a>
 
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Chống lão hóa">
+          </div>
+        <div class="cgwgt-card-name">Chống lão hóa</div>
+      </a>
 
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/84/92/57/849257f500fb6d9e784332612b1ecdd6.jpg" alt="Trị sẹo">
-</div>
-<div class="cgwgt-card-name">Trị sẹo</div>
-</a>
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Dưỡng ẩm">
+          </div>
+        <div class="cgwgt-card-name">Dưỡng ẩm</div>
+      </a>
 
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Se khít lỗ chân lông">
+          </div>
+        <div class="cgwgt-card-name">Se khít lỗ chân lông</div>
+      </a>
 
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/73/4a/80/734a80c2d3cea90d7b181338f78257ba.jpg" alt="Trị nám">
-</div>
-<div class="cgwgt-card-name">Trị nám</div>
-</a>
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Phục hồi da">
+          </div>
+        <div class="cgwgt-card-name">Phục hồi da</div>
+      </a>
 
-
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Chống lão hóa">
-</div>
-<div class="cgwgt-card-name">Chống lão hóa</div>
-</a>
-
-
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Dưỡng ẩm">
-</div>
-<div class="cgwgt-card-name">Dưỡng ẩm</div>
-</a>
-
-
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Se khít lỗ chân lông">
-</div>
-<div class="cgwgt-card-name">Se khít lỗ chân lông</div>
-</a>
-
-
-<a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
-<div class="cgwgt-card-img">
-<img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Phục hồi da">
-</div>
-<div class="cgwgt-card-name">Phục hồi da</div>
-</a>
-
-
+    </div>
+  </div>
 </div>
 </div>
-</div>
-</div>
-
 
 <script>
 (function(){
-function cgwgtSlide(btnEl, dir) {
-var root = btnEl.closest('.cgwgt-root');
-if (!root) return;
-var grid = root.querySelector('.cgwgt-grid');
-if (!grid) return;
-grid.scrollBy({ left: dir * grid.clientWidth * 0.6, behavior: 'smooth' });
-}
-window.cgwgtSlide = cgwgtSlide;
+  function cgwgtSlide(btnEl, dir) {
+    var root = btnEl.closest('.cgwgt-root');
+    if (!root) return;
+    var grid = root.querySelector('.cgwgt-grid');
+    if (!grid) return;
+    grid.scrollBy({ left: dir * grid.clientWidth * 0.6, behavior: 'smooth' });
+  }
+  window.cgwgtSlide = cgwgtSlide;
 })();
 </script>
-
 
 
 
@@ -2396,7 +2399,7 @@ border-radius: 24px;
 padding: 28px;
 position: relative;
 overflow: hidden;
-max-width: 1280px;
+max-width: 1300px;
 margin: 0 auto;
 }
 
@@ -2961,6 +2964,10 @@ window.cwgtSlide = cwgtSlide;
 
 
 
+<div style="padding-top: 20px;">
+
+
+</div>
 
 
 
@@ -3152,9 +3159,19 @@ box-shadow:0 1px 0 rgba(255,255,255,0.6) inset;
 width:fit-content;
 font-family:'DM Sans',sans-serif;
 }
+.lumia-service-widget .ls-btn-solid a{
+color:#5e4350;
+text-decoration:none;
+}
+.lumia-service-widget .ls-btn-solid a:visited,
+.lumia-service-widget .ls-btn-solid a:hover,
+.lumia-service-widget .ls-btn-solid a:active{
+color:#5e4350;
+text-decoration:none;
+}
 
 
-/* ===== Cột 3: Form NStreak, đồng bộ tone Lumia ===== */
+/* ===== Cột 3: Form NStreak, đồng bộ tone Lumia, gọn ===== */
 .lumia-service-widget .ls-lead-form{
 width:300px;
 flex-shrink:0;
@@ -3177,14 +3194,11 @@ color:#523741;margin:0 0 4px;letter-spacing:-0.5px;
 .lumia-service-widget .ls-lead-form .ls-form-subtitle{
 font-size:12px;color:rgba(100,75,82,0.6);margin:0 0 22px;font-weight:300;
 }
-.lumia-service-widget .ls-lead-field{margin:0 0 14px;}
-.lumia-service-widget .ls-lead-field label{
-display:block;font-size:10px;font-weight:600;color:rgba(150,110,125,0.75);
-margin:0 0 14px;letter-spacing:1.5px;text-transform:uppercase;
-}
+.lumia-service-widget .ls-lead-field{margin:0 0 12px;}
 .lumia-service-widget .ls-lead-field input,
-.lumia-service-widget .ls-lead-field select{
-width:100%;padding:11px 14px;
+.lumia-service-widget .ls-lead-field select,
+.lumia-service-widget .ls-lead-field textarea{
+width:100%;padding:12px 14px;
 background:rgba(255,255,255,0.45);
 border:1px solid rgba(255,255,255,0.85);
 border-radius:12px;
@@ -3195,9 +3209,17 @@ transition:background 0.2s, border-color 0.2s;
 backdrop-filter:blur(8px);
 -webkit-backdrop-filter:blur(8px);
 }
-.lumia-service-widget .ls-lead-field input::placeholder{color:rgba(120,95,105,0.4);}
+.lumia-service-widget .ls-lead-field textarea{
+resize:none;
+min-height:70px;
+line-height:1.5;
+font-family:'DM Sans',sans-serif;
+}
+.lumia-service-widget .ls-lead-field input::placeholder,
+.lumia-service-widget .ls-lead-field textarea::placeholder{color:rgba(120,95,105,0.4);}
 .lumia-service-widget .ls-lead-field input:focus,
-.lumia-service-widget .ls-lead-field select:focus{
+.lumia-service-widget .ls-lead-field select:focus,
+.lumia-service-widget .ls-lead-field textarea:focus{
 background:rgba(255,255,255,0.7);
 border-color:rgba(220,180,195,0.7);
 }
@@ -3342,27 +3364,21 @@ font-size:13px;color:#523741;margin:0;font-weight:400;
 </div>
 
 
-<!-- Cột 3: Lead form -->
+<!-- Cột 3: Lead form - gọn, không label, có ô yêu cầu thêm -->
 <div class="ls-lead-form">
 <p class="ls-form-title">TƯ VẤN NGAY</p>
 
-
 <div class="ls-lead-field">
-<label>Họ và tên</label>
-<input type="text" id="ls-f-name" placeholder="Tên của bạn" />
+<input type="text" id="ls-f-name" placeholder="Họ và tên" />
 </div>
 
-
 <div class="ls-lead-field">
-<label>Số điện thoại</label>
-<input type="tel" id="ls-f-phone" placeholder="+84 000 000 000" />
+<input type="tel" id="ls-f-phone" placeholder="Số điện thoại" />
 </div>
 
-
 <div class="ls-lead-field">
-<label>Dịch vụ quan tâm</label>
 <select id="ls-f-dest">
-<option value="" disabled selected>Chọn dịch vụ</option>
+<option value="" disabled selected>Dịch vụ quan tâm</option>
 <option>Trị Mụn</option>
 <option>Làm Trắng Da</option>
 <option>Trị Sẹo</option>
@@ -3370,9 +3386,11 @@ font-size:13px;color:#523741;margin:0;font-weight:400;
 </select>
 </div>
 
+<div class="ls-lead-field">
+<textarea id="ls-f-note" placeholder="Yêu cầu thêm của bạn"></textarea>
+</div>
 
 <button class="ls-btn-lead" id="lsSubmitBtn">Đăng Ký Tư Vấn</button>
-
 
 <div class="ls-lead-success" id="lsSuccess">
 <span class="ls-check">✓</span>
@@ -3410,19 +3428,19 @@ var submitBtn = root.querySelector('#lsSubmitBtn');
 if(submitBtn){
 submitBtn.addEventListener('click', function(){
 var nameInput = root.querySelector('#ls-f-name');
-var emailInput = root.querySelector('#ls-f-email');
+var phoneInput = root.querySelector('#ls-f-phone');
 var name = nameInput.value.trim();
-var email = emailInput.value.trim();
+var phone = phoneInput.value.trim();
 nameInput.style.borderColor = name ? 'rgba(255,255,255,0.85)' : 'rgba(220,80,80,0.5)';
-emailInput.style.borderColor = email ? 'rgba(255,255,255,0.85)' : 'rgba(220,80,80,0.5)';
-if (!name || !email) return;
+phoneInput.style.borderColor = phone ? 'rgba(255,255,255,0.85)' : 'rgba(220,80,80,0.5)';
+if (!name || !phone) return;
 submitBtn.style.display = 'none';
 root.querySelector('#lsSuccess').style.display = 'block';
 });
 }
 })();
 </script>
-
+</div>
 
 
 
@@ -3568,18 +3586,32 @@ margin-bottom: 20px;
 }
 
 
-/* Nút Xem thêm tinh khiết bên trong thẻ */
+/* Nút Xem thêm dạng glass pill tối, giống mẫu ảnh */
 .sv-glass-section .sv-btn {
 margin-top: auto;
-display: inline-flex;
+display: flex;
 align-items: center;
+justify-content: center;
 gap: 6px;
+width: 100%;
+padding: 11px 18px;
+border-radius: 999px;
+background: linear-gradient(160deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+backdrop-filter: blur(10px) saturate(140%);
+-webkit-backdrop-filter: blur(10px) saturate(140%);
+border: 1px solid rgba(255, 255, 255, 0.85);
+box-shadow: 0 4px 14px rgba(111, 99, 171, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 font-size: 12px;
 font-weight: 700;
 text-transform: uppercase;
 letter-spacing: 1px;
-color: #6f63ab;
-transition: color 0.3s ease;
+color: #4a3e85;
+transition: background 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+.sv-glass-section .sv-btn span {
+display: inline-flex;
+transition: transform 0.3s ease;
 }
 
 
@@ -3622,7 +3654,12 @@ transform: scale(1.05);
 
 
 .sv-glass-section .sv-card:hover .sv-btn {
-color: #4a3e85;
+background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55));
+box-shadow: 0 6px 18px rgba(111, 99, 171, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.sv-glass-section .sv-card:hover .sv-btn span {
+transform: translateX(3px);
 }
 
 
@@ -3651,7 +3688,7 @@ color: #4a3e85;
 <span class="sv-number">01</span>
 <h3 class="sv-title">Trị Mụn</h3>
 <p class="sv-desc">Làm sạch sâu ổ khuẩn, gom cồi mụn sinh học và phục hồi nền da tổn thương nhanh chóng.</p>
-<div class="sv-btn">Xem thêm ›</span></div>
+<div class="sv-btn">Xem thêm <span>›</span></div>
 </div>
 </a>
 
@@ -3698,8 +3735,6 @@ color: #4a3e85;
 </div>
 </div>
 </section>
-
-
 
 
 
@@ -3856,10 +3891,34 @@ position:relative;overflow:hidden
 .chic-row:hover .text-art-zone{background:linear-gradient(145deg,rgba(255,255,255,0.72),rgba(255,255,255,0.28));border-color:rgba(255,255,255,0.9);box-shadow:0 36px 80px rgba(13,31,26,0.07),inset 0 1px 3px rgba(255,255,255,1)}
 
 
-.chic-btn{display:inline-flex;align-items:center;gap:14px;font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink);margin-top:4px;transition:gap 0.35s}
-.chic-btn .btn-line{width:38px;height:1.5px;background:var(--ink);border-radius:2px;transition:width 0.4s cubic-bezier(0.25,1,0.5,1);flex-shrink:0}
-.chic-btn:hover{gap:20px}
-.chic-btn:hover .btn-line{width:64px}
+/* ═══ CHIC BUTTON — GLASSIC PILL ═══ */
+.chic-btn{
+position:relative;
+display:inline-flex;align-items:center;gap:12px;
+margin-top:8px;
+padding:15px 30px;
+border-radius:999px;
+font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+color:var(--ink);
+background:linear-gradient(160deg,rgba(255,255,255,0.7),rgba(255,255,255,0.32));
+backdrop-filter:blur(16px) saturate(160%);
+-webkit-backdrop-filter:blur(16px) saturate(160%);
+border:1px solid rgba(255,255,255,0.75);
+box-shadow:0 10px 26px rgba(13,31,26,0.08),inset 0 1px 0 rgba(255,255,255,0.7);
+overflow:hidden;
+transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),box-shadow 0.35s ease,background 0.35s ease;
+}
+.chic-btn::before{
+content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.55) 50%,rgba(255,255,255,0) 100%);
+transform:skewX(-25deg);
+}
+@keyframes chicShimmer{100%{left:130%;}}
+.chic-btn:hover::before{animation:chicShimmer 0.85s ease-out;}
+.chic-btn:hover{transform:translateY(-3px)}
+.chic-btn .btn-line{display:none}
+.chic-btn .btn-arrow{display:inline-flex;font-size:13px;transition:transform 0.35s cubic-bezier(0.16,1,0.3,1)}
+.chic-btn:hover .btn-arrow{transform:translateX(4px)}
 
 
 /* Color themes */
@@ -3869,8 +3928,8 @@ position:relative;overflow:hidden
 .cr-rose .p-quote{border-left-color:#f9a8a8;background:rgba(252,232,232,0.45)}
 .cr-rose .p-tag-pill{background:rgba(252,168,168,0.25);color:#b04040}
 .cr-rose .text-art-zone{background:linear-gradient(145deg,rgba(252,232,232,0.5),rgba(255,248,246,0.18))}
-.cr-rose .chic-btn{color:#b04040}
-.cr-rose .chic-btn .btn-line{background:#b04040}
+.cr-rose .chic-btn{color:#b04040;background:linear-gradient(160deg,rgba(252,232,232,0.75),rgba(255,248,246,0.35))}
+.cr-rose .chic-btn:hover{box-shadow:0 16px 34px rgba(176,64,64,0.2),inset 0 1px 0 rgba(255,255,255,0.85);background:linear-gradient(160deg,rgba(252,232,232,0.9),rgba(255,248,246,0.5))}
 
 
 .cr-lav .art-row-orb{width:480px;height:480px;bottom:-80px;left:-60px;background:radial-gradient(circle,rgba(184,168,252,0.45),transparent 65%)}
@@ -3879,8 +3938,8 @@ position:relative;overflow:hidden
 .cr-lav .p-quote{border-left-color:#b8a8fc;background:rgba(236,232,252,0.45)}
 .cr-lav .p-tag-pill{background:rgba(184,168,252,0.25);color:#5040a0}
 .cr-lav .text-art-zone{background:linear-gradient(145deg,rgba(236,232,252,0.5),rgba(248,246,255,0.18))}
-.cr-lav .chic-btn{color:#5040a0}
-.cr-lav .chic-btn .btn-line{background:#5040a0}
+.cr-lav .chic-btn{color:#5040a0;background:linear-gradient(160deg,rgba(236,232,252,0.75),rgba(248,246,255,0.35))}
+.cr-lav .chic-btn:hover{box-shadow:0 16px 34px rgba(80,64,160,0.2),inset 0 1px 0 rgba(255,255,255,0.85);background:linear-gradient(160deg,rgba(236,232,252,0.9),rgba(248,246,255,0.5))}
 
 
 .cr-mint .art-row-orb{width:520px;height:520px;top:-60px;left:-80px;background:radial-gradient(circle,rgba(130,210,185,0.4),transparent 65%)}
@@ -3889,8 +3948,8 @@ position:relative;overflow:hidden
 .cr-mint .p-quote{border-left-color:#82d2b9;background:rgba(227,245,239,0.45)}
 .cr-mint .p-tag-pill{background:rgba(130,210,185,0.25);color:#1a6048}
 .cr-mint .text-art-zone{background:linear-gradient(145deg,rgba(227,245,239,0.5),rgba(244,252,248,0.18))}
-.cr-mint .chic-btn{color:#1a6048}
-.cr-mint .chic-btn .btn-line{background:#1a6048}
+.cr-mint .chic-btn{color:#1a6048;background:linear-gradient(160deg,rgba(227,245,239,0.75),rgba(244,252,248,0.35))}
+.cr-mint .chic-btn:hover{box-shadow:0 16px 34px rgba(26,96,72,0.2),inset 0 1px 0 rgba(255,255,255,0.85);background:linear-gradient(160deg,rgba(227,245,239,0.9),rgba(244,252,248,0.5))}
 
 
 .cr-peach .art-row-orb{width:480px;height:480px;top:-60px;right:-60px;background:radial-gradient(circle,rgba(252,190,120,0.4),transparent 65%)}
@@ -3899,8 +3958,8 @@ position:relative;overflow:hidden
 .cr-peach .p-quote{border-left-color:#fcbe78;background:rgba(254,240,227,0.45)}
 .cr-peach .p-tag-pill{background:rgba(252,190,120,0.25);color:#9a5020}
 .cr-peach .text-art-zone{background:linear-gradient(145deg,rgba(254,240,227,0.5),rgba(255,248,240,0.18))}
-.cr-peach .chic-btn{color:#9a5020}
-.cr-peach .chic-btn .btn-line{background:#9a5020}
+.cr-peach .chic-btn{color:#9a5020;background:linear-gradient(160deg,rgba(254,240,227,0.75),rgba(255,248,240,0.35))}
+.cr-peach .chic-btn:hover{box-shadow:0 16px 34px rgba(154,80,32,0.2),inset 0 1px 0 rgba(255,255,255,0.85);background:linear-gradient(160deg,rgba(254,240,227,0.9),rgba(255,248,240,0.5))}
 
 
 .cr-sky .art-row-orb{width:500px;height:500px;bottom:-60px;right:-60px;background:radial-gradient(circle,rgba(130,175,252,0.4),transparent 65%)}
@@ -3909,8 +3968,8 @@ position:relative;overflow:hidden
 .cr-sky .p-quote{border-left-color:#82b0fc;background:rgba(227,238,255,0.45)}
 .cr-sky .p-tag-pill{background:rgba(130,175,252,0.25);color:#1a3d80}
 .cr-sky .text-art-zone{background:linear-gradient(145deg,rgba(227,238,255,0.5),rgba(240,246,255,0.18))}
-.cr-sky .chic-btn{color:#1a3d80}
-.cr-sky .chic-btn .btn-line{background:#1a3d80}
+.cr-sky .chic-btn{color:#1a3d80;background:linear-gradient(160deg,rgba(227,238,255,0.75),rgba(240,246,255,0.35))}
+.cr-sky .chic-btn:hover{box-shadow:0 16px 34px rgba(26,61,128,0.2),inset 0 1px 0 rgba(255,255,255,0.85);background:linear-gradient(160deg,rgba(227,238,255,0.9),rgba(240,246,255,0.5))}
 
 
 .cr-blush .art-row-orb{width:500px;height:500px;top:-80px;left:-40px;background:radial-gradient(circle,rgba(252,140,210,0.38),transparent 65%)}
@@ -3919,8 +3978,8 @@ position:relative;overflow:hidden
 .cr-blush .p-quote{border-left-color:#fc8cd2;background:rgba(253,232,244,0.45)}
 .cr-blush .p-tag-pill{background:rgba(252,140,210,0.25);color:#802058}
 .cr-blush .text-art-zone{background:linear-gradient(145deg,rgba(253,232,244,0.5),rgba(255,244,250,0.18))}
-.cr-blush .chic-btn{color:#802058}
-.cr-blush .chic-btn .btn-line{background:#802058}
+.cr-blush .chic-btn{color:#802058;background:linear-gradient(160deg,rgba(253,232,244,0.75),rgba(255,244,250,0.35))}
+.cr-blush .chic-btn:hover{box-shadow:0 16px 34px rgba(128,32,88,0.2),inset 0 1px 0 rgba(255,255,255,0.85);background:linear-gradient(160deg,rgba(253,232,244,0.9),rgba(255,244,250,0.5))}
 
 
 /* Typography */
@@ -4191,54 +4250,6 @@ border-radius:16px;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </style>
 </head>
 <body>
@@ -4278,7 +4289,7 @@ border-radius:16px;
 <h2 class="p-title">Mọi liệu trình tại đây đều bắt đầu từ những trải nghiệm thật và kết quả thật</h2>
 <p class="p-desc">Chúng tôi tin rằng một liệu trình hiệu quả không bắt đầu từ xu hướng, mà bắt đầu từ sự thấu hiểu làn da thực tế của từng khách hàng. Mỗi phương pháp điều trị tại clinic đều được xây dựng dựa trên hàng nghìn ca điều trị thực tế — từ da mụn, da nhạy cảm đến phục hồi chuyên sâu sau tổn thương. Không có một công thức chung cho tất cả. Chỉ có những giải pháp được cá nhân hóa dựa trên tình trạng thật, phản ứng thật và kết quả thật.</p>
 <div class="p-quote">"Chúng tôi không điều trị dựa trên lý thuyết. Chúng tôi điều trị dựa trên những gì làn da thật sự cần."</div>
-<a href="#" class="chic-btn"><span class="btn-line"></span>Khám phá hành trình điều trị thực tế</a>
+<a href="http://jsbin.et4.de/runner#" class="chic-btn">Khám phá hành trình điều trị thực tế <span class="btn-arrow">›</span></a>
 </div>
 </div>
 
@@ -4324,7 +4335,7 @@ border-radius:16px;
 <h2 class="p-title">Mỗi phác đồ được xây dựng từ nền tảng chuyên môn sâu và sự thấu hiểu làn da</h2>
 <p class="p-desc">Tại clinic, mỗi liệu trình đều được thiết kế dựa trên quy trình phân tích chuyên sâu về cấu trúc da, nguyên nhân gốc rễ và khả năng phục hồi tự nhiên của từng cá nhân. Đội ngũ chuyên gia của chúng tôi không chỉ tập trung vào việc cải thiện bề mặt, mà còn hướng đến việc tái thiết lập nền da khỏe mạnh từ bên trong — giúp kết quả duy trì bền vững và ổn định lâu dài.</p>
 <div class="p-quote">"Điều trị hiệu quả không nằm ở việc làm nhiều hơn, mà ở việc hiểu đúng hơn."</div>
-<a href="#" class="chic-btn"><span class="btn-line"></span>Tìm hiểu phác đồ chuyên sâu</a>
+<a href="http://jsbin.et4.de/runner#" class="chic-btn">Tìm hiểu phác đồ chuyên sâu <span class="btn-arrow">›</span></a>
 </div>
 </div>
 
@@ -4394,7 +4405,7 @@ border-radius:16px;
 <h2 class="p-title">Ứng dụng công nghệ tiên tiến cùng tiêu chuẩn điều trị hiện đại trong từng liệu trình</h2>
 <p class="p-desc">Mỗi công nghệ và thiết bị được đưa vào vận hành tại clinic đều trải qua quá trình chọn lọc kỹ lưỡng, dựa trên hiệu quả thực tế, độ an toàn và khả năng phù hợp với từng tình trạng da. Từ công nghệ trẻ hóa, phục hồi đến điều trị chuyên sâu, mọi quy trình đều tuân thủ các tiêu chuẩn nghiêm ngặt nhằm tối ưu kết quả và giảm thiểu rủi ro trong suốt quá trình điều trị.</p>
 <div class="p-quote">"Công nghệ chỉ thật sự có giá trị khi được ứng dụng đúng cách, đúng người và đúng thời điểm."</div>
-<a href="#" class="chic-btn"><span class="btn-line"></span>Khám phá công nghệ điều trị</a>
+<a href="http://jsbin.et4.de/runner#" class="chic-btn">Khám phá công nghệ điều trị <span class="btn-arrow">›</span></a>
 </div>
 </div>
 
@@ -4439,7 +4450,7 @@ border-radius:16px;
 <h2 class="p-title">Sự tin tưởng được xây dựng từ minh bạch, an toàn và đồng hành dài lâu</h2>
 <p class="p-desc">Chúng tôi luôn tin rằng một hành trình điều trị hiệu quả cần bắt đầu từ sự rõ ràng: rõ về tình trạng da, rõ về lộ trình, rõ về chi phí và rõ về kỳ vọng kết quả. Mỗi khách hàng đều được đồng hành xuyên suốt từ buổi đầu tiên đến giai đoạn hậu điều trị, với sự theo dõi sát sao để đảm bảo làn da phục hồi đúng hướng và bền vững theo thời gian.</p>
 <div class="p-quote">"Niềm tin không đến từ lời hứa, mà đến từ sự minh bạch trong từng bước chăm sóc."</div>
-<a href="#" class="chic-btn"><span class="btn-line"></span>Xem cam kết chăm sóc từ chúng tôi</a>
+<a href="http://jsbin.et4.de/runner#" class="chic-btn">Xem cam kết chăm sóc từ chúng tôi <span class="btn-arrow">›</span></a>
 </div>
 </div>
 
@@ -4479,8 +4490,6 @@ panels.forEach((x, j) => x.classList.toggle('active', i === j));
 </script>
 </body>
 </html>
-
-
 
 
 
