@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -620,6 +621,482 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
 
 
 
+
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+
+
+<style>
+.sp-glass-container {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px 0;
+}
+.sp-title {
+font-family: 'Beautique Display', serif;
+font-style: normal;
+font-weight: 400;
+font-size: clamp(1.2rem, 7.5vw, 3.5rem);
+line-height: 1.15;
+letter-spacing: 0.02em;
+color: #c97f63;
+text-align: center;
+margin: 0;
+}
+</style>
+
+
+<div class="sp-glass-container">
+<h2 class="sp-title">BÀI VIẾT LIÊN QUAN</h2>
+</div>
+
+
+
+
+
+
+<section class="kt-glass-section">
+<style>
+.kt-glass-section {
+all: initial; /* Cô lập hoàn toàn khỏi CSS bên ngoài */
+font-family: 'DM Sans', sans-serif;
+background: transparent;
+padding: 30px 20px 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+box-sizing: border-box;
+position: relative;
+width: 100%;
+min-height: 100%;
+}
+
+.kt-glass-section * {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+.kt-glass-section .kt-container {
+max-width: 1400px;
+width: 100%;
+margin: 0 auto;
+position: relative;
+padding: 0 12px;
+}
+
+/* === TRACK SLIDER 1 HÀNG === */
+.kt-glass-section .kt-track {
+display: flex;
+gap: 28px;
+overflow-x: auto;
+scroll-snap-type: x mandatory;
+scroll-behavior: smooth;
+-webkit-overflow-scrolling: touch;
+touch-action: pan-x;
+padding: 6px;
+cursor: grab;
+scrollbar-width: none;
+-ms-overflow-style: none;
+}
+
+.kt-glass-section .kt-track::-webkit-scrollbar {
+display: none;
+}
+
+.kt-glass-section .kt-track.kt-dragging {
+cursor: grabbing;
+scroll-snap-type: none;
+}
+
+/* Cấu trúc từng ô kính dịch vụ */
+.kt-glass-section .kt-card {
+background: rgba(255, 255, 255, 0.2);
+backdrop-filter: blur(14px);
+-webkit-backdrop-filter: blur(14px);
+
+/* Viền kính đồng nhất + box-shadow inset để tạo hiệu ứng ánh sáng, tránh lỗi hở góc khi bo tròn */
+border: 1px solid rgba(255, 255, 255, 0.55);
+box-shadow:
+inset 0 1px 0 rgba(255, 255, 255, 0.7),
+inset 1px 0 0 rgba(255, 255, 255, 0.5),
+0 8px 24px rgba(111, 99, 171, 0.08);
+
+border-radius: 24px;
+padding: 16px;
+display: flex;
+flex-direction: column;
+position: relative;
+overflow: hidden;
+transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease;
+text-decoration: none;
+
+flex: 0 0 calc(25% - 18px);
+scroll-snap-align: start;
+user-select: none;
+-webkit-user-drag: none;
+}
+
+/* Khung hình ảnh bo góc mềm */
+.kt-glass-section .kt-img-box {
+width: 100%;
+aspect-ratio: 4 / 3;
+border-radius: 16px;
+overflow: hidden;
+margin-bottom: 20px;
+background: #f0f0f0;
+pointer-events: none;
+}
+
+.kt-glass-section .kt-img-box img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+pointer-events: none;
+-webkit-user-drag: none;
+}
+
+/* Phần chữ & thông tin */
+.kt-glass-section .kt-info {
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+}
+
+.kt-glass-section .kt-number {
+font-size: 12px;
+font-weight: 700;
+color: rgba(111, 99, 171, 0.5);
+letter-spacing: 1px;
+margin-bottom: 6px;
+}
+
+.kt-glass-section .kt-title {
+font-family: 'Cormorant Garamond', serif;
+font-weight: 600;
+font-size: 22px;
+color: #332f47;
+margin-bottom: 10px;
+}
+
+.kt-glass-section .kt-desc {
+font-size: 13.5px;
+line-height: 1.6;
+color: #5b5470;
+margin-bottom: 20px;
+}
+
+/* Nút Xem thêm dạng glass pill tối, giống mẫu ảnh */
+.kt-glass-section .kt-btn {
+margin-top: auto;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+width: 100%;
+padding: 11px 18px;
+border-radius: 999px;
+background: linear-gradient(160deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+backdrop-filter: blur(10px) saturate(140%);
+-webkit-backdrop-filter: blur(10px) saturate(140%);
+border: 1px solid rgba(255, 255, 255, 0.85);
+box-shadow: 0 4px 14px rgba(111, 99, 171, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+font-size: 12px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: #4a3e85;
+transition: background 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+.kt-glass-section .kt-btn span {
+display: inline-flex;
+transition: transform 0.3s ease;
+}
+
+/* === HIỆU ỨNG HOVER PHẢN CHIẾU ÁNH SÁNG === */
+.kt-glass-section .kt-card::before {
+content: '';
+position: absolute;
+top: 0; left: -100%;
+width: 60%; height: 100%;
+background: linear-gradient(
+90deg,
+rgba(255, 255, 255, 0) 0%,
+rgba(255, 255, 255, 0.5) 50%,
+rgba(255, 255, 255, 0) 100%
+);
+transform: skewX(-25deg);
+z-index: 3;
+}
+
+@keyframes svShimmer {
+100% { left: 130%; }
+}
+
+.kt-glass-section .kt-card:hover::before {
+animation: svShimmer 0.8s ease-out;
+}
+
+.kt-glass-section .kt-card:hover {
+transform: translateY(-6px);
+border-color: rgba(111, 99, 171, 0.4);
+}
+
+.kt-glass-section .kt-card:hover .kt-img-box img {
+transform: scale(1.05);
+}
+
+.kt-glass-section .kt-card:hover .kt-btn {
+background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55));
+box-shadow: 0 6px 18px rgba(111, 99, 171, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.kt-glass-section .kt-card:hover .kt-btn span {
+transform: translateX(3px);
+}
+
+/* Nút điều hướng mũi tên trái/phải */
+.kt-glass-section .kt-arrow {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+z-index: 5;
+width: 40px;
+height: 40px;
+border-radius: 999px;
+border: 1px solid rgba(255, 255, 255, 0.7);
+background: rgba(255, 255, 255, 0.55);
+backdrop-filter: blur(8px) saturate(140%);
+-webkit-backdrop-filter: blur(8px) saturate(140%);
+box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+color: #4a3e85;
+transition: background 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.kt-glass-section .kt-arrow svg {
+width: 20px;
+height: 20px;
+pointer-events: none;
+}
+
+.kt-glass-section .kt-arrow:hover {
+background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
+box-shadow: 0 6px 18px rgba(111, 99, 171, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.kt-glass-section .kt-arrow.kt-disabled {
+opacity: 0.35;
+cursor: default;
+pointer-events: none;
+}
+
+.kt-glass-section .kt-arrow-prev {
+left: -14px;
+}
+
+.kt-glass-section .kt-arrow-next {
+right: -14px;
+}
+
+/* Responsive: điều chỉnh số box hiển thị theo màn hình, vẫn vuốt/bấm mũi tên được */
+@media (max-width: 1024px) {
+.kt-glass-section .kt-card { flex: 0 0 calc(50% - 12px); }
+}
+@media (max-width: 600px) {
+.kt-glass-section .kt-card { flex: 0 0 85%; }
+.kt-glass-section .kt-arrow { width: 36px; height: 36px; }
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div class="kt-container">
+
+<button type="button" class="kt-arrow kt-arrow-prev kt-disabled" id="ktPrev" aria-label="Xem bài viết trước">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+</button>
+<button type="button" class="kt-arrow kt-arrow-next" id="ktNext" aria-label="Xem bài viết tiếp theo">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</button>
+
+<div class="kt-track" id="ktTrack">
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=500&auto=format&fit=crop&q=80" alt="Chăm sóc da sau nặn mụn">
+</div>
+<div class="kt-info">
+<span class="kt-number">KIẾN THỨC</span>
+<h3 class="kt-title">Chăm sóc da đúng cách sau khi nặn mụn</h3>
+<p class="kt-desc">Những lưu ý quan trọng giúp da phục hồi nhanh, hạn chế thâm sẹo sau khi lấy nhân mụn.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=500&auto=format&fit=crop&q=80" alt="Phân biệt nám và tàn nhang">
+</div>
+<div class="kt-info">
+<span class="kt-number">KIẾN THỨC</span>
+<h3 class="kt-title">Phân biệt nám, tàn nhang và đồi mồi</h3>
+<p class="kt-desc">Nhận diện đúng loại sắc tố da đang gặp phải để lựa chọn hướng điều trị phù hợp.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop&q=80" alt="Xu hướng làm đẹp công nghệ cao">
+</div>
+<div class="kt-info">
+<span class="kt-number">TIN TỨC</span>
+<h3 class="kt-title">Xu hướng công nghệ trẻ hóa da 2026</h3>
+<p class="kt-desc">Điểm qua những công nghệ thẩm mỹ không xâm lấn được quan tâm nhiều nhất hiện nay.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=500&auto=format&fit=crop&q=80" alt="Dưỡng ẩm cho da dầu mụn">
+</div>
+<div class="kt-info">
+<span class="kt-number">KIẾN THỨC</span>
+<h3 class="kt-title">Da dầu mụn có cần dưỡng ẩm không?</h3>
+<p class="kt-desc">Giải đáp hiểu lầm phổ biến và gợi ý cách chọn kem dưỡng ẩm phù hợp cho da dầu.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500&auto=format&fit=crop&q=80" alt="Quy trình skincare buổi tối">
+</div>
+<div class="kt-info">
+<span class="kt-number">KIẾN THỨC</span>
+<h3 class="kt-title">Quy trình chăm sóc da buổi tối chuẩn khoa học</h3>
+<p class="kt-desc">Các bước cần thiết để làn da được phục hồi tối ưu trong khi ngủ.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=80" alt="Chọn kem chống nắng">
+</div>
+<div class="kt-info">
+<span class="kt-number">KIẾN THỨC</span>
+<h3 class="kt-title">Cách chọn kem chống nắng theo từng loại da</h3>
+<p class="kt-desc">Hướng dẫn lựa chọn chỉ số SPF, kết cấu kem phù hợp với da dầu, da khô và da hỗn hợp.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=500&auto=format&fit=crop&q=80" alt="Sự kiện khai trương chi nhánh mới">
+</div>
+<div class="kt-info">
+<span class="kt-number">TIN TỨC</span>
+<h3 class="kt-title">Khai trương chi nhánh mới tại trung tâm thành phố</h3>
+<p class="kt-desc">Cập nhật thông tin sự kiện, ưu đãi khai trương dành riêng cho khách hàng đăng ký sớm.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="#" class="kt-card">
+<div class="kt-img-box">
+<img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=500&auto=format&fit=crop&q=80" alt="Chế độ ăn hỗ trợ làn da khỏe">
+</div>
+<div class="kt-info">
+<span class="kt-number">KIẾN THỨC</span>
+<h3 class="kt-title">Chế độ dinh dưỡng giúp làn da khỏe từ bên trong</h3>
+<p class="kt-desc">Những nhóm thực phẩm nên bổ sung để hỗ trợ quá trình phục hồi và tái tạo da.</p>
+<div class="kt-btn">Đọc thêm <span>›</span></div>
+</div>
+</a>
+
+</div>
+</div>
+</section>
+
+<script>
+(function() {
+var track = document.getElementById('ktTrack');
+var prevBtn = document.getElementById('ktPrev');
+var nextBtn = document.getElementById('ktNext');
+if (!track || !prevBtn || !nextBtn) return;
+
+var cards = Array.prototype.slice.call(track.querySelectorAll('.kt-card'));
+
+function getStep() {
+if (!cards.length) return track.clientWidth;
+var cardWidth = cards[0].getBoundingClientRect().width;
+var gap = parseFloat(getComputedStyle(track).gap) || 24;
+return cardWidth + gap;
+}
+
+function updateArrowState() {
+var maxScroll = track.scrollWidth - track.clientWidth;
+prevBtn.classList.toggle('kt-disabled', track.scrollLeft <= 4);
+nextBtn.classList.toggle('kt-disabled', track.scrollLeft >= maxScroll - 4);
+}
+
+prevBtn.addEventListener('click', function() {
+track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+});
+
+nextBtn.addEventListener('click', function() {
+track.scrollBy({ left: getStep(), behavior: 'smooth' });
+});
+
+var scrollTimeout;
+track.addEventListener('scroll', function() {
+clearTimeout(scrollTimeout);
+scrollTimeout = setTimeout(updateArrowState, 60);
+}, { passive: true });
+
+window.addEventListener('resize', updateArrowState);
+
+/* Kéo vuốt bằng chuột trên desktop */
+var isDown = false;
+var startX, scrollLeftStart;
+
+track.addEventListener('mousedown', function(e) {
+isDown = true;
+track.classList.add('kt-dragging');
+startX = e.pageX - track.offsetLeft;
+scrollLeftStart = track.scrollLeft;
+});
+
+window.addEventListener('mouseup', function() {
+isDown = false;
+track.classList.remove('kt-dragging');
+});
+
+track.addEventListener('mouseleave', function() {
+isDown = false;
+track.classList.remove('kt-dragging');
+});
+
+track.addEventListener('mousemove', function(e) {
+if (!isDown) return;
+e.preventDefault();
+var x = e.pageX - track.offsetLeft;
+var walk = (x - startX) * 1;
+track.scrollLeft = scrollLeftStart - walk;
+});
+
+updateArrowState();
+})();
+</script>
 
 
 
