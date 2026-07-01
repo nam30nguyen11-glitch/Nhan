@@ -3482,11 +3482,15 @@ root.querySelector('#lsSuccess').style.display = 'block';
 all: initial; /* Cô lập hoàn toàn khỏi CSS bên ngoài */
 font-family: 'DM Sans', sans-serif;
 background: transparent;
-padding: 30px 30px; /* Đưa padding về 0px */
-display: block;
+padding: 30px 20px 10px;
+display: flex;
+align-items: center;
+justify-content: center;
 box-sizing: border-box;
+position: relative;
+width: 100%;
+min-height: 100%;
 }
-
 
 .sv-glass-section * {
 box-sizing: border-box;
@@ -3494,20 +3498,37 @@ margin: 0;
 padding: 0;
 }
 
-
 .sv-glass-section .sv-container {
-max-width: 1300px;
+max-width: 1340px;
+width: 100%;
 margin: 0 auto;
+position: relative;
+padding: 0 12px;
 }
 
-
-/* === HỆ THỐNG LƯỚI 4 Ô GLASSMORPHISM === */
-.sv-glass-section .sv-grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 24px;
+/* === TRACK SLIDER 1 HÀNG === */
+.sv-glass-section .sv-track {
+display: flex;
+gap: 28px;
+overflow-x: auto;
+scroll-snap-type: x mandatory;
+scroll-behavior: smooth;
+-webkit-overflow-scrolling: touch;
+touch-action: pan-x;
+padding: 6px;
+cursor: grab;
+scrollbar-width: none;
+-ms-overflow-style: none;
 }
 
+.sv-glass-section .sv-track::-webkit-scrollbar {
+display: none;
+}
+
+.sv-glass-section .sv-track.sv-dragging {
+cursor: grabbing;
+scroll-snap-type: none;
+}
 
 /* Cấu trúc từng ô kính dịch vụ */
 .sv-glass-section .sv-card {
@@ -3515,12 +3536,12 @@ background: rgba(255, 255, 255, 0.2);
 backdrop-filter: blur(14px);
 -webkit-backdrop-filter: blur(14px);
 
-
-/* Viền lập thể pha lê */
-border: 1px solid rgba(111, 99, 171, 0.18);
-border-top-color: rgba(255, 255, 255, 0.65);
-border-left-color: rgba(255, 255, 255, 0.45);
-
+/* Viền kính đồng nhất + box-shadow inset để tạo hiệu ứng ánh sáng, tránh lỗi hở góc khi bo tròn */
+border: 1px solid rgba(255, 255, 255, 0.55);
+box-shadow:
+inset 0 1px 0 rgba(255, 255, 255, 0.7),
+inset 1px 0 0 rgba(255, 255, 255, 0.5),
+0 8px 24px rgba(111, 99, 171, 0.08);
 
 border-radius: 24px;
 padding: 16px;
@@ -3530,8 +3551,12 @@ position: relative;
 overflow: hidden;
 transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease;
 text-decoration: none;
-}
 
+flex: 0 0 calc(25% - 18px);
+scroll-snap-align: start;
+user-select: none;
+-webkit-user-drag: none;
+}
 
 /* Khung hình ảnh bo góc mềm */
 .sv-glass-section .sv-img-box {
@@ -3541,16 +3566,17 @@ border-radius: 16px;
 overflow: hidden;
 margin-bottom: 20px;
 background: #f0f0f0;
+pointer-events: none;
 }
-
 
 .sv-glass-section .sv-img-box img {
 width: 100%;
 height: 100%;
 object-fit: cover;
 transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+pointer-events: none;
+-webkit-user-drag: none;
 }
-
 
 /* Phần chữ & thông tin */
 .sv-glass-section .sv-info {
@@ -3558,7 +3584,6 @@ display: flex;
 flex-direction: column;
 flex-grow: 1;
 }
-
 
 .sv-glass-section .sv-number {
 font-size: 12px;
@@ -3568,7 +3593,6 @@ letter-spacing: 1px;
 margin-bottom: 6px;
 }
 
-
 .sv-glass-section .sv-title {
 font-family: 'Cormorant Garamond', serif;
 font-weight: 600;
@@ -3577,14 +3601,12 @@ color: #332f47;
 margin-bottom: 10px;
 }
 
-
 .sv-glass-section .sv-desc {
 font-size: 13.5px;
 line-height: 1.6;
 color: #5b5470;
 margin-bottom: 20px;
 }
-
 
 /* Nút Xem thêm dạng glass pill tối, giống mẫu ảnh */
 .sv-glass-section .sv-btn {
@@ -3614,7 +3636,6 @@ display: inline-flex;
 transition: transform 0.3s ease;
 }
 
-
 /* === HIỆU ỨNG HOVER PHẢN CHIẾU ÁNH SÁNG === */
 .sv-glass-section .sv-card::before {
 content: '';
@@ -3631,27 +3652,22 @@ transform: skewX(-25deg);
 z-index: 3;
 }
 
-
 @keyframes svShimmer {
 100% { left: 130%; }
 }
 
-
 .sv-glass-section .sv-card:hover::before {
 animation: svShimmer 0.8s ease-out;
 }
-
 
 .sv-glass-section .sv-card:hover {
 transform: translateY(-6px);
 border-color: rgba(111, 99, 171, 0.4);
 }
 
-
 .sv-glass-section .sv-card:hover .sv-img-box img {
 transform: scale(1.05);
 }
-
 
 .sv-glass-section .sv-card:hover .sv-btn {
 background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55));
@@ -3662,23 +3678,75 @@ box-shadow: 0 6px 18px rgba(111, 99, 171, 0.2), inset 0 1px 0 rgba(255, 255, 255
 transform: translateX(3px);
 }
 
+/* Nút điều hướng mũi tên trái/phải */
+.sv-glass-section .sv-arrow {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+z-index: 5;
+width: 40px;
+height: 40px;
+border-radius: 999px;
+border: 1px solid rgba(255, 255, 255, 0.7);
+background: rgba(255, 255, 255, 0.55);
+backdrop-filter: blur(8px) saturate(140%);
+-webkit-backdrop-filter: blur(8px) saturate(140%);
+box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+color: #4a3e85;
+transition: background 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
 
-/* Responsive thông minh */
+.sv-glass-section .sv-arrow svg {
+width: 20px;
+height: 20px;
+pointer-events: none;
+}
+
+.sv-glass-section .sv-arrow:hover {
+background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
+box-shadow: 0 6px 18px rgba(111, 99, 171, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.sv-glass-section .sv-arrow.sv-disabled {
+opacity: 0.35;
+cursor: default;
+pointer-events: none;
+}
+
+.sv-glass-section .sv-arrow-prev {
+left: -14px;
+}
+
+.sv-glass-section .sv-arrow-next {
+right: -14px;
+}
+
+/* Responsive: điều chỉnh số box hiển thị theo màn hình, vẫn vuốt/bấm mũi tên được */
 @media (max-width: 1024px) {
-.sv-glass-section .sv-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.sv-glass-section .sv-card { flex: 0 0 calc(50% - 12px); }
 }
 @media (max-width: 600px) {
-.sv-glass-section .sv-grid { grid-template-columns: 1fr; gap: 20px; }
+.sv-glass-section .sv-card { flex: 0 0 85%; }
+.sv-glass-section .sv-arrow { width: 36px; height: 36px; }
 }
 </style>
 
-
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
 <div class="sv-container">
-<div class="sv-grid">
 
+<button type="button" class="sv-arrow sv-arrow-prev sv-disabled" id="svPrev" aria-label="Xem dịch vụ trước">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+</button>
+<button type="button" class="sv-arrow sv-arrow-next" id="svNext" aria-label="Xem dịch vụ tiếp theo">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</button>
+
+<div class="sv-track" id="svTrack">
 
 <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
 <div class="sv-img-box">
@@ -3692,7 +3760,6 @@ transform: translateX(3px);
 </div>
 </a>
 
-
 <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
 <div class="sv-img-box">
 <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=80" alt="Làm Trắng Da">
@@ -3704,7 +3771,6 @@ transform: translateX(3px);
 <div class="sv-btn">Xem thêm <span>›</span></div>
 </div>
 </a>
-
 
 <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
 <div class="sv-img-box">
@@ -3718,7 +3784,6 @@ transform: translateX(3px);
 </div>
 </a>
 
-
 <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
 <div class="sv-img-box">
 <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500&auto=format&fit=crop&q=80" alt="Trị Nám">
@@ -3731,11 +3796,128 @@ transform: translateX(3px);
 </div>
 </a>
 
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+<div class="sv-img-box">
+<img src="https://images.unsplash.com/photo-1544717304-a2db4a7b16ee?w=500&auto=format&fit=crop&q=80" alt="Triệt Lông">
+</div>
+<div class="sv-info">
+<span class="sv-number">05</span>
+<h3 class="sv-title">Triệt Lông</h3>
+<p class="sv-desc">Phá hủy nang lông tận gốc bằng công nghệ ánh sáng, làn da mịn màng dài lâu.</p>
+<div class="sv-btn">Xem thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+<div class="sv-img-box">
+<img src="https://images.unsplash.com/photo-1570554886111-e80fcca6a029?w=500&auto=format&fit=crop&q=80" alt="Căng Da Mặt">
+</div>
+<div class="sv-info">
+<span class="sv-number">06</span>
+<h3 class="sv-title">Căng Da Mặt</h3>
+<p class="sv-desc">Kích thích sản sinh collagen, kéo căng cấu trúc da chảy xệ, trẻ hóa toàn diện.</p>
+<div class="sv-btn">Xem thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+<div class="sv-img-box">
+<img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=500&auto=format&fit=crop&q=80" alt="Giảm Béo">
+</div>
+<div class="sv-info">
+<span class="sv-number">07</span>
+<h3 class="sv-title">Giảm Béo</h3>
+<p class="sv-desc">Phá vỡ liên kết mỡ thừa bằng sóng RF, định hình vóc dáng thon gọn tự nhiên.</p>
+<div class="sv-btn">Xem thêm <span>›</span></div>
+</div>
+</a>
+
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+<div class="sv-img-box">
+<img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&auto=format&fit=crop&q=80" alt="Tế Bào Gốc">
+</div>
+<div class="sv-info">
+<span class="sv-number">08</span>
+<h3 class="sv-title">Tế Bào Gốc</h3>
+<p class="sv-desc">Bổ sung dưỡng chất sinh học chuyên sâu, phục hồi và tái tạo làn da từ cấp độ tế bào.</p>
+<div class="sv-btn">Xem thêm <span>›</span></div>
+</div>
+</a>
 
 </div>
 </div>
 </section>
 
+<script>
+(function() {
+var track = document.getElementById('svTrack');
+var prevBtn = document.getElementById('svPrev');
+var nextBtn = document.getElementById('svNext');
+if (!track || !prevBtn || !nextBtn) return;
+
+var cards = Array.prototype.slice.call(track.querySelectorAll('.sv-card'));
+
+function getStep() {
+if (!cards.length) return track.clientWidth;
+var cardWidth = cards[0].getBoundingClientRect().width;
+var gap = parseFloat(getComputedStyle(track).gap) || 24;
+return cardWidth + gap;
+}
+
+function updateArrowState() {
+var maxScroll = track.scrollWidth - track.clientWidth;
+prevBtn.classList.toggle('sv-disabled', track.scrollLeft <= 4);
+nextBtn.classList.toggle('sv-disabled', track.scrollLeft >= maxScroll - 4);
+}
+
+prevBtn.addEventListener('click', function() {
+track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+});
+
+nextBtn.addEventListener('click', function() {
+track.scrollBy({ left: getStep(), behavior: 'smooth' });
+});
+
+var scrollTimeout;
+track.addEventListener('scroll', function() {
+clearTimeout(scrollTimeout);
+scrollTimeout = setTimeout(updateArrowState, 60);
+}, { passive: true });
+
+window.addEventListener('resize', updateArrowState);
+
+/* Kéo vuốt bằng chuột trên desktop */
+var isDown = false;
+var startX, scrollLeftStart;
+
+track.addEventListener('mousedown', function(e) {
+isDown = true;
+track.classList.add('sv-dragging');
+startX = e.pageX - track.offsetLeft;
+scrollLeftStart = track.scrollLeft;
+});
+
+window.addEventListener('mouseup', function() {
+isDown = false;
+track.classList.remove('sv-dragging');
+});
+
+track.addEventListener('mouseleave', function() {
+isDown = false;
+track.classList.remove('sv-dragging');
+});
+
+track.addEventListener('mousemove', function(e) {
+if (!isDown) return;
+e.preventDefault();
+var x = e.pageX - track.offsetLeft;
+var walk = (x - startX) * 1;
+track.scrollLeft = scrollLeftStart - walk;
+});
+
+updateArrowState();
+})();
+</script>
 
 
 
@@ -4490,6 +4672,7 @@ panels.forEach((x, j) => x.classList.toggle('active', i === j));
 </script>
 </body>
 </html>
+
 
 
 
