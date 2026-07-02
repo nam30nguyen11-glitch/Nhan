@@ -1,0 +1,476 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fahkwang:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.cgs-root,.cgs-root *{box-sizing:border-box;margin:0;padding:0}
+.cgs-root{font-family:'DM Sans',sans-serif;padding:32px 24px;position:relative;overflow:hidden}
+.cgs-inner{max-width:1280px;margin:0 auto;position:relative}
+
+/* ===== Layout 2 cột ===== */
+.cgs-layout{display:flex;gap:24px;align-items:flex-start}
+.cgs-sidebar{width:240px;flex-shrink:0;position:sticky;top:0}
+.cgs-main{flex:1;min-width:0}
+
+/* ===== Filter sidebar ===== */
+.cgs-filter-panel{border-radius:22px;background:rgba(255,255,255,0.5);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.6);padding:13px 18px 18px}
+.cgs-filter-title{font-size:16px;font-weight:700;color:#2c1a12;margin-bottom:14px;font-family:'Fahkwang',sans-serif;display:flex;align-items:center;gap:8px}
+.cgs-filter-title i{font-size:18px;color:#ee4d2d}
+
+.cgs-filter-list{display:flex;flex-direction:column;gap:6px}
+.cgs-chip{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:12px;background:transparent;border:1px solid transparent;font-size:13.5px;font-weight:500;color:#4a352c;cursor:pointer;transition:.2s;white-space:nowrap}
+.cgs-chip:hover{background:rgba(255,255,255,0.6)}
+.cgs-chip i:first-child{font-size:16px;color:#8a6a5c;flex-shrink:0}
+.cgs-chip.cgs-chip-main{background:rgba(238,77,45,0.1);border-color:rgba(238,77,45,0.35);color:#ee4d2d}
+.cgs-chip.cgs-chip-main i{color:#ee4d2d}
+.cgs-chip .ti-chevron-down{font-size:13px;opacity:.5;margin-left:auto}
+.cgs-filter-divider{height:1px;background:rgba(0,0,0,0.07);margin:10px 2px}
+
+/* ===== Search ===== */
+.cgs-search-wrap{position:relative;display:flex;align-items:center;margin-bottom:18px}
+.cgs-search-icon{position:absolute;left:18px;font-size:18px;color:#a07060;pointer-events:none}
+.cgs-search-input{width:100%;padding:13px 44px;border-radius:100px;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.65);font-size:14px;font-family:'DM Sans',sans-serif;color:#2c1a12;outline:none;transition:.2s}
+.cgs-search-input::placeholder{color:#a8887c}
+.cgs-search-input:focus{background:rgba(255,255,255,0.7);border-color:rgba(238,77,45,0.4)}
+.cgs-search-clear{position:absolute;right:16px;font-size:16px;color:#a07060;cursor:pointer;opacity:0;pointer-events:none;transition:.2s}
+.cgs-search-clear.cgs-show-clear{opacity:1;pointer-events:auto}
+.cgs-search-clear:hover{color:#ee4d2d}
+.cgs-search-empty{display:flex;align-items:center;gap:8px;justify-content:center;padding:30px 0;color:#a07060;font-size:14px}
+.cgs-search-empty i{font-size:20px}
+
+/* ===== Sort row ===== */
+.cgs-sort-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px}
+.cgs-sort-title{font-size:18px;font-weight:700;color:#2c1a12;font-family:'Fahkwang',sans-serif}
+.cgs-sort-opts{display:flex;flex-wrap:wrap;gap:10px}
+.cgs-sort-chip{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:100px;background:rgba(255,255,255,0.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,0.65);font-size:13.5px;font-weight:500;color:#4a352c;cursor:pointer;transition:.2s;white-space:nowrap}
+.cgs-sort-chip:hover{background:rgba(255,255,255,0.7)}
+.cgs-sort-chip.active{border-color:#ee4d2d;background:rgba(238,77,45,0.1);color:#ee4d2d}
+.cgs-sort-chip i{font-size:15px}
+
+/* ===== Grid ===== */
+.cgs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+.cgs-card{border-radius:22px;overflow:hidden;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.6);display:flex;flex-direction:column;transition:transform .2s,opacity .35s,max-height .4s;opacity:0;transform:translateY(10px)}
+.cgs-card.cgs-show{opacity:1;transform:translateY(0)}
+.cgs-card:hover{transform:translateY(-3px)}
+
+.cgs-img-wrap{width:100%;aspect-ratio:1/1;overflow:hidden;position:relative}
+.cgs-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.cgs-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#f53d2d,#f63);color:#fff;font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:.2px}
+
+.cgs-body{padding:13px 13px 15px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cgs-title{font-size:13.5px;font-weight:600;color:#2c1a12;line-height:1.4;min-height:38px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cgs-price-row{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-top:auto}
+.cgs-price-now{font-size:16.5px;font-weight:800;color:#ee4d2d;font-family:'Fahkwang',sans-serif}
+.cgs-price-old{font-size:11.5px;color:rgba(0,0,0,0.32);text-decoration:line-through}
+.cgs-discount{font-size:11px;font-weight:700;color:#ee4d2d;background:rgba(238,77,45,0.1);padding:1px 6px;border-radius:6px}
+
+/* ===== Load more ===== */
+.cgs-more-wrap{display:flex;justify-content:center;margin-top:30px}
+.cgs-btn-more{display:flex;align-items:center;gap:8px;padding:13px 34px;border-radius:100px;font-weight:700;font-size:13.5px;font-family:'Fahkwang',sans-serif;cursor:pointer;border:1px solid rgba(238,77,45,0.4);background:rgba(255,255,255,0.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);color:#ee4d2d;transition:.25s}
+.cgs-btn-more:hover{background:rgba(238,77,45,0.08);transform:translateY(-1px)}
+.cgs-btn-more i{font-size:16px;transition:transform .3s}
+.cgs-btn-more.cgs-loaded i{transform:rotate(180deg)}
+
+.cgs-hidden{display:none}
+
+@media(max-width:1280px){
+  .cgs-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:1080px){
+  .cgs-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+  .cgs-layout{flex-direction:column}
+  .cgs-sidebar{width:100%;position:static}
+
+  .cgs-filter-panel{padding:13px 0 16px}
+  .cgs-filter-title{padding:0 18px}
+  .cgs-filter-divider{display:none}
+
+  .cgs-filter-list{
+    flex-direction:row;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    gap:8px;
+    padding:0 18px 14px;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#ee4d2d rgba(0,0,0,0.06);
+  }
+  .cgs-filter-list::-webkit-scrollbar{height:4px}
+  .cgs-filter-list::-webkit-scrollbar-track{background:rgba(0,0,0,0.06);border-radius:10px}
+  .cgs-filter-list::-webkit-scrollbar-thumb{background:#ee4d2d;border-radius:10px}
+
+  .cgs-chip{flex:0 0 auto;scroll-snap-align:start}
+  .cgs-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:640px){
+  .cgs-grid{grid-template-columns:repeat(2,1fr)}
+  .cgs-sort-bar{flex-direction:column;align-items:flex-start}
+}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+
+<div class="cgs-root">
+  <div class="cgs-inner">
+    <!-- Search (luôn đứng đầu tiên) -->
+    <div class="cgs-search-wrap">
+      <i class="ti ti-search cgs-search-icon"></i>
+      <input type="text" class="cgs-search-input" id="cgsSearchInput" placeholder="Tìm kiếm sản phẩm mỹ phẩm...">
+      <i class="ti ti-x cgs-search-clear" id="cgsSearchClear"></i>
+    </div>
+    <div class="cgs-search-empty cgs-hidden" id="cgsSearchEmpty"><i class="ti ti-mood-empty"></i> Không tìm thấy sản phẩm phù hợp</div>
+
+    <div class="cgs-layout">
+
+      <!-- Sidebar filter -->
+      <aside class="cgs-sidebar">
+        <div class="cgs-filter-panel">
+          <div class="cgs-filter-title"><i class="ti ti-adjustments-horizontal"></i> Chọn theo tiêu chí</div>
+          <div class="cgs-filter-list">
+            <div class="cgs-chip cgs-chip-main"><i class="ti ti-filter"></i> Bộ lọc</div>
+            <div class="cgs-chip"><i class="ti ti-package"></i> Sẵn hàng</div>
+            <div class="cgs-chip"><i class="ti ti-sparkles"></i> Hàng mới về</div>
+            <div class="cgs-filter-divider"></div>
+            <div class="cgs-chip"><i class="ti ti-tag"></i> Xem theo giá <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-droplet"></i> Loại da <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-flask"></i> Công dụng <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-category"></i> Loại sản phẩm <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-leaf"></i> Thành phần chính <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-building-store"></i> Thương hiệu <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-stars"></i> Tính năng đặc biệt <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-bottle"></i> Dung tích <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-sun"></i> Ban ngày / Ban đêm <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-shield-check"></i> Xuất xứ <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-certificate"></i> Chứng nhận <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-gender-female"></i> Dành cho <i class="ti ti-chevron-down"></i></div>
+            <div class="cgs-chip"><i class="ti ti-percentage"></i> Mức ưu đãi <i class="ti ti-chevron-down"></i></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <div class="cgs-main">
+
+        <!-- Sort -->
+        <div class="cgs-sort-bar">
+          <div class="cgs-sort-title">Sắp xếp theo</div>
+          <div class="cgs-sort-opts">
+            <div class="cgs-sort-chip active" data-sort="popular"><i class="ti ti-star"></i> Phổ biến</div>
+            <div class="cgs-sort-chip" data-sort="promo"><i class="ti ti-discount-2"></i> Khuyến mãi HOT</div>
+            <div class="cgs-sort-chip" data-sort="asc"><i class="ti ti-sort-ascending-2"></i> Giá Thấp - Cao</div>
+            <div class="cgs-sort-chip" data-sort="desc"><i class="ti ti-sort-descending-2"></i> Giá Cao - Thấp</div>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="cgs-grid" id="cgsGrid">
+
+      <div class="cgs-card" data-price="890000" data-discount="26" data-popular="98">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-26%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Kem dưỡng trắng da chuyên sâu"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng trắng da chuyên sâu cao cấp</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">890.000đ</span><span class="cgs-price-old">1.200.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="650000" data-discount="32" data-popular="95">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-32%</span><img src="https://i.pinimg.com/1200x/89/b7/6e/89b76e67a617b19cbc209a03983ebb3a.jpg" alt="Serum tái tạo da"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum tái tạo da phục hồi ban đêm</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">650.000đ</span><span class="cgs-price-old">950.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="320000" data-discount="33" data-popular="91">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-33%</span><img src="https://i.pinimg.com/1200x/c6/a1/9a/c6a19aa36dd8ffc1bdcb8cf7b472aad5.jpg" alt="Mặt nạ dưỡng ẩm"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Mặt nạ dưỡng ẩm cấp nước tức thì</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">320.000đ</span><span class="cgs-price-old">480.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="1450000" data-discount="31" data-popular="99">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-31%</span><img src="https://i.pinimg.com/736x/a4/c0/32/a4c0322115b1ddd4c5baf8a26fccbbee.jpg" alt="Tinh chất chống lão hóa"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Tinh chất chống lão hóa tế bào gốc</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">1.450.000đ</span><span class="cgs-price-old">2.100.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="280000" data-discount="28" data-popular="88">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-28%</span><img src="https://i.pinimg.com/1200x/cd/9f/a6/cd9fa6ccaa6730c30f4c105d469314b9.jpg" alt="Sữa rửa mặt"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Sữa rửa mặt làm sạch sâu dịu nhẹ</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">280.000đ</span><span class="cgs-price-old">390.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="410000" data-discount="30" data-popular="93">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-30%</span><img src="https://i.pinimg.com/736x/04/1a/d1/041ad1b1d3deac0895167403bb07b250.jpg" alt="Kem chống nắng"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem chống nắng nâng tone bảo vệ da</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">410.000đ</span><span class="cgs-price-old">590.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="350000" data-discount="33" data-popular="86">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-33%</span><img src="https://i.pinimg.com/736x/14/bb/98/14bb98840235e9d964025dbddb42dbaa.jpg" alt="Toner cân bằng"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Toner cân bằng se khít lỗ chân lông</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">350.000đ</span><span class="cgs-price-old">520.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="1890000" data-discount="29" data-popular="97">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-29%</span><img src="https://i.pinimg.com/1200x/7a/e4/13/7ae41382a9c43b940557ed0f85b41654.jpg" alt="Bộ chăm sóc da"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Bộ chăm sóc da toàn diện 5 bước</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">1.890.000đ</span><span class="cgs-price-old">2.650.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="520000" data-discount="24" data-popular="90">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-24%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Kem dưỡng ban đêm"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng ban đêm phục hồi tế bào da</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">520.000đ</span><span class="cgs-price-old">685.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="780000" data-discount="35" data-popular="94">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-35%</span><img src="https://i.pinimg.com/1200x/89/b7/6e/89b76e67a617b19cbc209a03983ebb3a.jpg" alt="Serum vitamin C"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum vitamin C sáng da đều màu</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">780.000đ</span><span class="cgs-price-old">1.200.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="450000" data-discount="25" data-popular="89">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-25%</span><img src="https://i.pinimg.com/1200x/c6/a1/9a/c6a19aa36dd8ffc1bdcb8cf7b472aad5.jpg" alt="Gel rửa mặt"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Gel rửa mặt tạo bọt mịn cho da nhạy cảm</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">450.000đ</span><span class="cgs-price-old">600.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card" data-price="920000" data-discount="27" data-popular="92">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-27%</span><img src="https://i.pinimg.com/736x/a4/c0/32/a4c0322115b1ddd4c5baf8a26fccbbee.jpg" alt="Kem mắt"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng vùng mắt giảm thâm bọng mắt</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">920.000đ</span><span class="cgs-price-old">1.260.000đ</span></div>
+        </div>
+      </div>
+
+      <!-- 12 sản phẩm ẩn, hiện khi bấm Xem thêm -->
+      <div class="cgs-card cgs-hidden" data-price="265000" data-discount="22" data-popular="85">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-22%</span><img src="https://i.pinimg.com/1200x/cd/9f/a6/cd9fa6ccaa6730c30f4c105d469314b9.jpg" alt="Xịt khoáng"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Xịt khoáng cấp ẩm tức thì cho da khô</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">265.000đ</span><span class="cgs-price-old">340.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="1150000" data-discount="34" data-popular="96">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-34%</span><img src="https://i.pinimg.com/736x/04/1a/d1/041ad1b1d3deac0895167403bb07b250.jpg" alt="Tinh chất Retinol"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Tinh chất Retinol giảm nếp nhăn chuyên sâu</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">1.150.000đ</span><span class="cgs-price-old">1.750.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="390000" data-discount="20" data-popular="83">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-20%</span><img src="https://i.pinimg.com/736x/14/bb/98/14bb98840235e9d964025dbddb42dbaa.jpg" alt="Mặt nạ ngủ"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Mặt nạ ngủ phục hồi da qua đêm</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">390.000đ</span><span class="cgs-price-old">490.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="680000" data-discount="29" data-popular="87">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-29%</span><img src="https://i.pinimg.com/1200x/7a/e4/13/7ae41382a9c43b940557ed0f85b41654.jpg" alt="Dầu tẩy trang"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Dầu tẩy trang chiết xuất thiên nhiên dịu nhẹ</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">680.000đ</span><span class="cgs-price-old">960.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="540000" data-discount="23" data-popular="84">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-23%</span><img src="https://i.pinimg.com/1200x/89/b7/6e/89b76e67a617b19cbc209a03983ebb3a.jpg" alt="Kem trị mụn"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem giảm mụn ngăn ngừa thâm sẹo</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">540.000đ</span><span class="cgs-price-old">700.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="2200000" data-discount="38" data-popular="99">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-38%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Bộ dưỡng cao cấp"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Bộ sản phẩm dưỡng da cao cấp phiên bản giới hạn</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">2.200.000đ</span><span class="cgs-price-old">3.550.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="310000" data-discount="19" data-popular="81">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-19%</span><img src="https://i.pinimg.com/736x/a4/c0/32/a4c0322115b1ddd4c5baf8a26fccbbee.jpg" alt="Kem dưỡng môi"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng môi mềm mịn căng bóng tự nhiên</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">310.000đ</span><span class="cgs-price-old">385.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="860000" data-discount="31" data-popular="90">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-31%</span><img src="https://i.pinimg.com/1200x/c6/a1/9a/c6a19aa36dd8ffc1bdcb8cf7b472aad5.jpg" alt="Serum HA"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum HA cấp nước chuyên sâu 24 giờ</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">860.000đ</span><span class="cgs-price-old">1.250.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="430000" data-discount="26" data-popular="88">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-26%</span><img src="https://i.pinimg.com/736x/14/bb/98/14bb98840235e9d964025dbddb42dbaa.jpg" alt="Kem tẩy tế bào chết"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem tẩy tế bào chết dịu nhẹ cho da mặt</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">430.000đ</span><span class="cgs-price-old">580.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="970000" data-discount="33" data-popular="93">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-33%</span><img src="https://i.pinimg.com/1200x/7a/e4/13/7ae41382a9c43b940557ed0f85b41654.jpg" alt="Tinh chất collagen"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Tinh chất collagen săn chắc đàn hồi da</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">970.000đ</span><span class="cgs-price-old">1.450.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="610000" data-discount="28" data-popular="86">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-28%</span><img src="https://i.pinimg.com/736x/11/55/f7/1155f7cc3cf174008e39465fa062be48.jpg" alt="Kem dưỡng phục hồi"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Kem dưỡng phục hồi da sau nắng cháy</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">610.000đ</span><span class="cgs-price-old">850.000đ</span></div>
+        </div>
+      </div>
+
+      <div class="cgs-card cgs-hidden" data-price="740000" data-discount="30" data-popular="91">
+        <div class="cgs-img-wrap"><span class="cgs-badge">-30%</span><img src="https://i.pinimg.com/736x/04/1a/d1/041ad1b1d3deac0895167403bb07b250.jpg" alt="Serum niacinamide"></div>
+        <div class="cgs-body">
+          <div class="cgs-title">Serum niacinamide giảm thâm mờ lỗ chân lông</div>
+          <div class="cgs-price-row"><span class="cgs-price-now">740.000đ</span><span class="cgs-price-old">1.060.000đ</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Load more -->
+    <div class="cgs-more-wrap">
+      <button class="cgs-btn-more" id="cgsMoreBtn"><span id="cgsMoreText">Xem thêm sản phẩm</span><i class="ti ti-chevron-down"></i></button>
+    </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const grid=document.getElementById('cgsGrid');
+  const moreBtn=document.getElementById('cgsMoreBtn');
+  const moreText=document.getElementById('cgsMoreText');
+  const moreWrap=document.querySelector('.cgs-more-wrap');
+  const searchInput=document.getElementById('cgsSearchInput');
+  const searchClear=document.getElementById('cgsSearchClear');
+  const searchEmpty=document.getElementById('cgsSearchEmpty');
+  const INITIAL_COUNT=12;
+  let expanded=false;
+  let searching=false;
+
+  function revealVisible(){
+    grid.querySelectorAll('.cgs-card:not(.cgs-hidden)').forEach((c,i)=>{
+      setTimeout(()=>c.classList.add('cgs-show'),i*25);
+    });
+  }
+  revealVisible();
+
+  moreBtn.addEventListener('click',function(){
+    if(!expanded){
+      const hidden=grid.querySelectorAll('.cgs-card.cgs-hidden');
+      hidden.forEach((c,i)=>{
+        c.classList.remove('cgs-hidden');
+        setTimeout(()=>c.classList.add('cgs-show'),i*30);
+      });
+      moreText.textContent='Thu gọn';
+      moreBtn.classList.add('cgs-loaded');
+      expanded=true;
+    }else{
+      grid.querySelectorAll('.cgs-card').forEach((c,i)=>{
+        if(i>=INITIAL_COUNT){c.classList.remove('cgs-show');c.classList.add('cgs-hidden')}
+      });
+      moreText.textContent='Xem thêm sản phẩm';
+      moreBtn.classList.remove('cgs-loaded');
+      expanded=false;
+      grid.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  });
+
+  function sortCards(key){
+    const cards=Array.from(grid.querySelectorAll('.cgs-card'));
+    cards.sort((a,b)=>{
+      if(key==='asc')return (+a.dataset.price)-(+b.dataset.price);
+      if(key==='desc')return (+b.dataset.price)-(+a.dataset.price);
+      if(key==='promo')return (+b.dataset.discount)-(+a.dataset.discount);
+      return (+b.dataset.popular)-(+a.dataset.popular);
+    });
+    cards.forEach(c=>grid.appendChild(c));
+  }
+
+  document.querySelectorAll('.cgs-sort-chip').forEach(chip=>{
+    chip.addEventListener('click',function(){
+      document.querySelectorAll('.cgs-sort-chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      sortCards(chip.dataset.sort);
+    });
+  });
+
+  function normalize(str){
+    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  }
+
+  function runSearch(){
+    const q=normalize(searchInput.value.trim());
+    searchClear.classList.toggle('cgs-show-clear',q.length>0);
+
+    if(q.length===0){
+      searching=false;
+      grid.querySelectorAll('.cgs-card').forEach((c,i)=>{
+        c.style.display='';
+        if(i<INITIAL_COUNT||expanded){c.classList.remove('cgs-hidden');c.classList.add('cgs-show')}
+        else{c.classList.add('cgs-hidden');c.classList.remove('cgs-show')}
+      });
+      moreWrap.style.display='';
+      searchEmpty.classList.add('cgs-hidden');
+      return;
+    }
+
+    searching=true;
+    let visibleCount=0;
+    grid.querySelectorAll('.cgs-card').forEach(c=>{
+      const title=normalize(c.querySelector('.cgs-title').textContent);
+      const match=title.includes(q);
+      c.classList.remove('cgs-hidden');
+      c.style.display=match?'':'none';
+      if(match){c.classList.add('cgs-show');visibleCount++}
+    });
+    moreWrap.style.display='none';
+    searchEmpty.classList.toggle('cgs-hidden',visibleCount>0);
+  }
+
+  searchInput.addEventListener('input',runSearch);
+  searchClear.addEventListener('click',function(){
+    searchInput.value='';
+    runSearch();
+    searchInput.focus();
+  });
+})();
+</script>
