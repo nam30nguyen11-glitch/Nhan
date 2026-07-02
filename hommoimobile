@@ -1,0 +1,3439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Như Lan — Mega Menu Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+a{text-decoration:none;color:inherit}
+button{font:inherit;border:none;background:none;cursor:pointer}
+:root{
+  --sage:#2d4a43;
+  --sage-mid:#4a7068;
+  --sage-lt:#94b5ae;
+  --bg:#f0f5f2;
+  --rose-tint:#fce8e8;
+  --mint-tint:#e3f5ef;
+  --peach-tint:#fef0e3;
+  --accent:#c48a5a;
+}
+html,body{height:100%}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--sage);-webkit-font-smoothing:antialiased}
+
+/* ═══ decorative background so glass reads ═══ */
+.mesh-bg{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.45}
+.o1{width:520px;height:520px;top:-100px;left:-80px;background:radial-gradient(circle,#ffd6e0,#ffb3c6)}
+.o2{width:460px;height:460px;bottom:-80px;right:-60px;background:radial-gradient(circle,#c3f0e0,#9ee5cb)}
+
+/* ═══ top bar ═══ */
+.hdr{
+  position:sticky;top:5px;z-index:200;margin:5px;padding:0 10px 0 18px;height:60px;
+  background:rgba(255,255,255,.6);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.8);border-radius:100px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 8px 32px rgba(45,74,67,.08),inset 0 1px 0 rgba(255,255,255,.9);
+}
+.logo-wrap{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.logo-icon{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ffd6e0,#c3f0e0);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:12px;font-weight:600;color:#2d4a43}
+.logo-text{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--sage)}
+
+/* ═══ search bar ═══ */
+.search-wrap{
+  flex:1;display:flex;align-items:center;gap:9px;min-width:0;
+  background:rgba(255,255,255,.55);border:1px solid rgba(45,74,67,.1);
+  border-radius:100px;padding:0 8px 0 16px;height:40px;
+  transition:.2s;
+}
+.search-wrap:focus-within{background:rgba(255,255,255,.85);border-color:rgba(45,74,67,.2)}
+.search-icon{font-size:13px;color:var(--sage-lt);flex-shrink:0}
+.search-input{
+  flex:1;min-width:0;border:none;outline:none;background:transparent;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--sage);
+}
+.search-input::placeholder{color:var(--sage-lt)}
+.search-divider{width:1px;height:18px;background:rgba(45,74,67,.14);flex-shrink:0}
+.search-cta{
+  flex-shrink:0;white-space:nowrap;font-size:11.5px;font-weight:700;color:#fff;
+  padding:8px 14px;border-radius:100px;background:#2d4a43;
+  transition:.2s;
+}
+.search-cta:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(45,74,67,.35)}
+
+.burger{
+  width:40px;height:40px;border-radius:50%;border:1px solid rgba(45,74,67,.15);
+  background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-direction:column;gap:4px;transition:.25s;flex-shrink:0;
+}
+.burger:hover{background:rgba(255,255,255,.85)}
+.burger span{width:16px;height:2px;background:var(--sage);border-radius:2px;transition:.3s}
+.burger.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.active span:nth-child(2){opacity:0}
+.burger.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ═══ overlay ═══ */
+.overlay{
+  position:fixed;inset:0;background:rgba(13,31,26,.28);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:300;
+}
+.overlay.open{opacity:1;pointer-events:all}
+
+/* ═══ floating dropdown glass panel (2 columns: rail + content) ═══ */
+.menu-panel{
+  position:fixed;top:84px;left:20px;width:600px;max-width:92vw;
+  max-height:min(690px, calc(100vh - 110px));
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.8));
+  backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+  border:1px solid rgba(255,255,255,.9);border-radius:28px;
+  box-shadow:0 30px 80px rgba(45,74,67,.18);
+  z-index:400;opacity:0;pointer-events:none;
+  transform:translateY(-12px) scale(.97);
+  transition:opacity .3s ease,transform .35s cubic-bezier(.22,1,.36,1);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.menu-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+
+.menu-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 22px 16px;border-bottom:1px solid rgba(45,74,67,.08);flex-shrink:0;
+}
+.menu-close{
+  width:32px;height:32px;border-radius:50%;background:rgba(45,74,67,.06);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--sage-mid);
+  transition:.2s;
+}
+.menu-close:hover{background:rgba(45,74,67,.12)}
+
+.menu-main{flex:1;display:flex;min-height:0}
+
+/* ═══ left icon rail ═══ */
+.menu-rail{
+  width:92px;flex-shrink:0;border-right:1px solid rgba(45,74,67,.08);
+  padding:14px 8px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;
+}
+.rail-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 4px 10px;border-radius:16px;cursor:pointer;transition:background .2s,color .2s;
+  color:var(--sage-mid);position:relative;
+}
+.rail-item:hover{background:rgba(45,74,67,.05)}
+.rail-item.active{background:rgba(255,255,255,.9);box-shadow:0 6px 18px rgba(45,74,67,.1);color:var(--sage)}
+.rail-icon{
+  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:16px;background:rgba(45,74,67,.06);transition:.2s;
+}
+.rail-item.active .rail-icon{background:linear-gradient(135deg,var(--rose-tint),var(--mint-tint))}
+.rail-label{font-size:9.5px;font-weight:700;letter-spacing:.3px;text-align:center;line-height:1.25}
+.rail-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+.rail-item.active .rail-dot{opacity:1}
+
+/* ═══ right content pane ═══ */
+.menu-content{flex:1;min-width:0;overflow-y:auto;padding:18px 22px 26px}
+.menu-content::-webkit-scrollbar{width:5px}
+.menu-content::-webkit-scrollbar-thumb{background:rgba(45,74,67,.15);border-radius:10px}
+
+.content-group{margin-bottom:6px}
+.group-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--accent);padding:14px 4px 10px;
+}
+.group-title::before{content:"—";color:var(--accent)}
+
+.content-item{
+  display:flex;align-items:center;gap:10px;padding:12px 4px;
+  border-bottom:1px solid rgba(45,74,67,.06);font-size:13px;font-weight:500;color:var(--sage);
+  transition:.2s;
+}
+.content-item::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--sage-lt);flex-shrink:0}
+.content-item:hover{color:var(--accent);padding-left:8px}
+
+.content-cta{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:18px;padding:14px;border-radius:100px;
+  background:var(--sage);color:#fff;font-size:12px;font-weight:700;letter-spacing:.3px;
+  box-shadow:0 10px 24px rgba(45,74,67,.22);transition:.25s;
+}
+.content-cta:hover{transform:translateY(-2px)}
+
+/* simple page (no submenu) state */
+.content-plain{padding:30px 6px}
+.content-plain h3{font-family:'Playfair Display',serif;font-weight:400;font-size:20px;margin-bottom:8px}
+.content-plain p{font-size:12.5px;color:var(--sage-mid);line-height:1.7}
+
+.menu-foot{
+  padding:14px 18px 20px;border-top:1px solid rgba(45,74,67,.08);flex-shrink:0;
+}
+.cta-btn{
+  display:block;text-align:center;background:var(--sage);color:#fff;
+  padding:13px;border-radius:100px;font-size:12.5px;font-weight:700;
+  letter-spacing:.3px;box-shadow:0 10px 24px rgba(45,74,67,.25);transition:.25s;
+}
+.cta-btn:hover{transform:translateY(-2px)}
+
+/* page filler so scroll context exists */
+.page-demo{max-width:900px;margin:60px auto 100px;padding:0 24px;text-align:center}
+.page-demo h1{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:400;margin-bottom:14px}
+.page-demo p{color:var(--sage-mid);font-size:14px;line-height:1.8;max-width:560px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<div class="mesh-bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<header class="hdr">
+  <div class="logo-wrap">
+    <div class="logo-icon">L</div>
+    <span class="logo-text">Như Lan</span>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Tìm dịch vụ...">
+    <span class="search-divider"></span>
+    <a href="#" class="search-cta">Đặt lịch</a>
+  </div>
+
+  <div class="burger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-head">
+    <div class="logo-wrap">
+      <div class="logo-icon">L</div>
+      <span class="logo-text">Như Lan</span>
+    </div>
+    <div class="menu-close" onclick="toggleMenu()">✕</div>
+  </div>
+
+  <div class="menu-main">
+    <div class="menu-rail" id="menuRail"></div>
+    <div class="menu-content" id="menuContent"></div>
+  </div>
+
+  <div class="menu-foot">
+    <a href="#" class="cta-btn">Đặt lịch tư vấn</a>
+  </div>
+</nav>
+
+
+<script>
+const MENU_DATA = {
+  trangchu:{ icon:"🏠", label:"Trang chủ", type:"link" },
+  sanpham:{
+    icon:"🌿", label:"Sản phẩm", type:"groups",
+    groups:[
+      { title:"Trị mụn", items:["Trị mụn","Trị thâm mụn","Gel giảm sưng viêm","Chấm mụn ban đêm"] },
+      { title:"Chăm sóc da", items:["Làm trắng da","Dưỡng da","Serum phục hồi","Kem dưỡng ẩm chuyên sâu","Xịt khoáng cấp nước"] },
+      { title:"Chống nắng & bảo vệ", items:["Kem chống nắng SPF50+","Xịt chống nắng dạng phun sương","Viên uống chống nắng"] }
+    ],
+    cta:"Xem toàn bộ sản phẩm"
+  },
+  dichvu:{
+    icon:"✨", label:"Dịch vụ", type:"groups",
+    groups:[
+      { title:"Trị mụn chuyên sâu", items:["Mụn viêm & bọc","Mụn đầu đen","Laser trị mụn","Peel da hóa học","Lấy nhân mụn chuẩn y khoa"] },
+      { title:"Chăm sóc & phục hồi", items:["Nâng cơ da mặt","Trẻ hóa collagen","Cấp ẩm chuyên sâu","Công nghệ cao","Phục hồi da sau nắng"] },
+      { title:"Điều trị chuyên sâu", items:["Trị nám & tàn nhang","Xóa sẹo rỗ","Se khít lỗ chân lông","Triệt lông công nghệ Diode"] }
+    ],
+    cta:"Xem toàn bộ dịch vụ"
+  },
+  kienthuc:{
+    icon:"📰", label:"Kiến thức", type:"groups",
+    groups:[
+      { title:"Kiến thức da", items:["Kiến thức da 2","Kiến thức da 3","Kiến thức da 4","Kiến thức da 5"] }
+    ],
+    cta:"Xem toàn bộ bài viết"
+  },
+  vetoi:{ icon:"👤", label:"Về tôi", type:"link" },
+  lienhe:{ icon:"📞", label:"Liên hệ", type:"link" }
+};
+
+let activeKey = "dichvu";
+
+function renderRail(){
+  const rail = document.getElementById('menuRail');
+  rail.innerHTML = "";
+  Object.keys(MENU_DATA).forEach(key=>{
+    const item = MENU_DATA[key];
+    const el = document.createElement('div');
+    el.className = 'rail-item' + (key===activeKey ? ' active' : '');
+    el.innerHTML = `
+      <div class="rail-icon">${item.icon}</div>
+      <div class="rail-label">${item.label}</div>
+      <div class="rail-dot"></div>
+    `;
+    el.addEventListener('click', ()=>selectRail(key));
+    rail.appendChild(el);
+  });
+}
+
+function renderContent(){
+  const content = document.getElementById('menuContent');
+  const item = MENU_DATA[activeKey];
+  content.innerHTML = "";
+
+  if(item.type === "link"){
+    content.innerHTML = `
+      <div class="content-plain">
+        <h3>${item.label}</h3>
+        <p>Đây là liên kết trực tiếp — bấm vào mục "${item.label}" ở thanh bên trái sẽ đưa bạn tới trang tương ứng, không có danh sách con để sổ ra.</p>
+      </div>`;
+    return;
+  }
+
+  item.groups.forEach(group=>{
+    const groupEl = document.createElement('div');
+    groupEl.className = 'content-group';
+    const groupTitle = document.createElement('div');
+    groupTitle.className = 'group-title';
+    groupTitle.textContent = group.title.toUpperCase();
+    groupEl.appendChild(groupTitle);
+    group.items.forEach(sub=>{
+      const a = document.createElement('a');
+      a.href = "#";
+      a.className = 'content-item';
+      a.textContent = sub;
+      groupEl.appendChild(a);
+    });
+    content.appendChild(groupEl);
+  });
+
+  const cta = document.createElement('a');
+  cta.href = "#";
+  cta.className = 'content-cta';
+  cta.innerHTML = `${item.cta} →`;
+  content.appendChild(cta);
+}
+
+function selectRail(key){
+  activeKey = key;
+  renderRail();
+  renderContent();
+}
+
+function toggleMenu(){
+  const panel = document.getElementById('menuPanel');
+  const opening = !panel.classList.contains('open');
+  panel.classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+  document.getElementById('burger').classList.toggle('active');
+
+  if(opening){
+    // Dịch vụ luôn được chọn sẵn mỗi lần mở menu
+    activeKey = "dichvu";
+    renderRail();
+    renderContent();
+  }
+}
+
+renderRail();
+renderContent();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Glass Banner Slider — Mobile</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:#f0f5f2; }
+
+/* ===== SECTION BANNER — MOBILE ONLY ===== */
+.glass-banner {
+  position: relative;
+  width: 100%;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.glass-slider-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+/* ===== GLASS CARD CONTAINER ===== */
+.glass-card {
+  position: relative;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  overflow: hidden;
+  padding: 8px;
+}
+
+.glass-slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 800;
+  border-radius: 16px;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.glass-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.glass-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.glass-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.glass-caption {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #333333;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== NAV ARROWS (pill, glassy) — thu nhỏ cho mobile ===== */
+.glass-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.glass-nav:active {
+  background: rgba(255, 255, 255, 0.75);
+  transform: translateY(-50%) scale(0.94);
+}
+.glass-nav.prev { left: 10px; }
+.glass-nav.next { right: 10px; }
+.glass-nav svg { width: 16px; height: 16px; stroke: #333333; }
+
+/* ===== DOTS ===== */
+.glass-dots {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 3;
+}
+.glass-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.glass-dot.active {
+  width: 20px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+</style>
+</head>
+<body>
+
+<section class="glass-banner">
+  <div class="glass-slider-wrap">
+    <div class="glass-card">
+      <div class="glass-slider" id="glassSlider">
+        <div class="glass-track" id="glassTrack">
+          <div class="glass-slide">
+            <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/07/Gemini_Generated_Image_7zy6pm7zy6pm7zy6.png" alt="Ưu đãi chăm sóc da">
+            <span class="glass-caption">Ưu đãi chăm sóc da</span>
+          </div>
+          <div class="glass-slide">
+            <img src="https://benhvienthammynaman.com/wp-content/uploads/2026/07/Gemini_Generated_Image_7zy6pm7zy6pm7zy6.png" alt="Ưu đãi chăm sóc da">
+            <span class="glass-caption">Ưu đãi chăm sóc da</span>
+          </div>
+        </div>
+
+        <div class="glass-nav prev" id="glassPrev" aria-label="Slide trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </div>
+        <div class="glass-nav next" id="glassNext" aria-label="Slide sau">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+
+        <div class="glass-dots" id="glassDots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const slider = document.getElementById('glassSlider');
+  const track = document.getElementById('glassTrack');
+  const slides = track.querySelectorAll('.glass-slide');
+  const dotsWrap = document.getElementById('glassDots');
+  const prevBtn = document.getElementById('glassPrev');
+  const nextBtn = document.getElementById('glassNext');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'glass-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = dotsWrap.querySelectorAll('.glass-dot');
+
+  function update() {
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function goTo(index) {
+    current = (index + slides.length) % slides.length;
+    update();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+
+  /* ===== Vuốt chạm (swipe) cho mobile ===== */
+  let startX = 0;
+  let deltaX = 0;
+  let dragging = false;
+
+  slider.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    dragging = true;
+    track.style.transition = 'none';
+  }, { passive: true });
+
+  slider.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    deltaX = e.touches[0].clientX - startX;
+    const percent = (deltaX / slider.offsetWidth) * 100;
+    track.style.transform = `translateX(calc(-${current * 100}% + ${percent}%))`;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', () => {
+    dragging = false;
+    track.style.transition = 'transform 0.45s cubic-bezier(0.65, 0, 0.35, 1)';
+    const threshold = slider.offsetWidth * 0.15;
+    if (deltaX > threshold) {
+      prev();
+    } else if (deltaX < -threshold) {
+      next();
+    } else {
+      update();
+    }
+    deltaX = 0;
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="https://db.onlinewebfonts.com/c/08ee0bdd19b93bb20a3ce6c8be5ebf8b?family=Beautique+Display" rel="stylesheet">
+
+
+<style>
+.sp-glass-container {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px 0;
+}
+.sp-title {
+font-family: 'Beautique Display', serif;
+font-style: normal;
+font-weight: 400;
+font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+line-height: 1.15;
+letter-spacing: 0.02em;
+color: #c97f63;
+text-align: center;
+margin: 0;
+}
+</style>
+
+
+<div class="sp-glass-container">
+<h1 class="sp-title">SẢN PHẨM</h1>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Flash Sale — Mobile</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body{ background:#f0f5f2; }
+
+#fs-root {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: linear-gradient(135deg, #fff4ec 0%, #ffe8d6 30%, #ffdfc8 60%, #fff0e6 100%);
+  border-radius: 20px;
+  padding: 0 0 18px;
+  overflow: hidden;
+  position: relative;
+  max-width: 440px;
+  margin: 14px auto;
+  border: 1px solid rgba(255,180,120,0.25);
+}
+
+.blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; pointer-events: none; }
+.blob-1 { width: 200px; height: 200px; background: #ffcba4; top: -60px; left: -60px; }
+.blob-2 { width: 160px; height: 160px; background: #ffd6b0; bottom: -50px; right: 20px; }
+
+.fs-tabs {
+  display: flex;
+  background: rgba(255,200,150,0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,160,80,0.2);
+}
+
+.tab-item {
+  padding: 12px 20px;
+  color: rgba(160,80,20,0.5);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-item.active { color: #c85a10; background: rgba(255,200,150,0.25); }
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #e8873a, #f0a060);
+  border-radius: 2px 2px 0 0;
+}
+
+/* ===== sub header: xếp dọc trên mobile để không bị chật ===== */
+.fs-sub-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.time-slots { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.time-slots::-webkit-scrollbar{ display:none; }
+
+.slot {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(160,80,20,0.6);
+  border: 1px solid rgba(220,130,60,0.3);
+  background: rgba(255,200,150,0.15);
+  white-space: nowrap;
+}
+
+.slot.active {
+  background: rgba(232,135,58,0.15);
+  color: #c85a10;
+  font-weight: 700;
+  border-color: rgba(232,135,58,0.5);
+}
+
+.countdown-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a04010;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.time-num {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(220,130,60,0.3);
+  color: #c85a10;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 4px 9px;
+  border-radius: 8px;
+  min-width: 34px;
+  text-align: center;
+}
+
+.time-sep { font-size: 16px; font-weight: 800; color: #e8873a; }
+
+.fs-slider-wrap { position: relative; padding: 0 12px; }
+
+/* ===== hiển thị 2 sản phẩm / màn hình ===== */
+.fs-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 10px) / 2);
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 4px 2px 6px;
+}
+
+.fs-list::-webkit-scrollbar { display: none; }
+
+.fs-item {
+  scroll-snap-align: start;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,200,160,0.5);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(200,100,30,0.08);
+}
+
+.discount-tag {
+  position: absolute;
+  top: 0; right: 0;
+  background: linear-gradient(135deg, #ffb347, #e8873a);
+  color: #fff;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 0 14px 0 10px;
+  z-index: 2;
+  letter-spacing: 0.3px;
+}
+
+.fs-img img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+}
+
+.fs-card-body {
+  padding: 9px 10px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.fs-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #3a1a08;
+  line-height: 1.35;
+  height: 31px;
+  overflow: hidden;
+}
+
+.fs-price-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.fs-price { color: #d45a10; font-size: 16px; font-weight: 800; line-height: 1; }
+.fs-old { color: #c0a090; font-size: 10.5px; text-decoration: line-through; }
+
+.fs-progress {
+  height: 14px;
+  background: rgba(232,135,58,0.12);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(232,135,58,0.15);
+}
+
+.fs-progress-bar {
+  position: absolute;
+  top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #f0c080, #e8873a);
+  border-radius: 20px;
+}
+
+.fs-progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  font-size: 8px;
+  color: #7a3a08;
+  line-height: 14px;
+  font-weight: 700;
+}
+
+.btn-book {
+  margin-top: 1px;
+  background: linear-gradient(90deg, #e82020, #c00000);
+  border: none;
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232,135,58,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 13px;
+  color: #c85a10;
+}
+
+.nav-btn:active{ background: rgba(255,255,255,0.95); }
+.nav-prev { left: 0; }
+.nav-next { right: 0; }
+</style>
+</head>
+<body>
+
+<div id="fs-root">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="fs-tabs">
+    <div class="tab-item active">⚡ Flash Sale</div>
+  </div>
+
+  <div class="fs-sub-header">
+    <div class="time-slots">
+      <div class="slot active">12–14h · 04/04</div>
+      <div class="slot">20–22h · 04/04</div>
+    </div>
+    <div class="countdown-box">
+      <span>KẾT THÚC SAU</span>
+      <span class="time-num" id="h">00</span>
+      <span class="time-sep">:</span>
+      <span class="time-num" id="m">16</span>
+      <span class="time-sep">:</span>
+      <span class="time-num" id="s">49</span>
+    </div>
+  </div>
+
+  <div class="fs-slider-wrap">
+    <button class="nav-btn nav-prev" onclick="moveSlider(-1)">❮</button>
+    <button class="nav-btn nav-next" onclick="moveSlider(1)">❯</button>
+
+    <div class="fs-list" id="fsSlider">
+
+      <div class="fs-item">
+        <div class="discount-tag">-40%</div>
+        <div class="fs-img"><img src="https://i.pinimg.com/736x/c5/26/53/c52653d336fe9e26cd2cd75abea40e52.jpg" alt="Serum" /></div>
+        <div class="fs-card-body">
+          <div class="fs-name">Serum Vitamin C Brightening 20%</div>
+          <div class="fs-price-row"><span class="fs-price">390k</span><span class="fs-old">650k</span></div>
+          <div class="fs-progress"><div class="fs-progress-bar" style="width:70%"></div><div class="fs-progress-text">Đã bán 21/30 suất</div></div>
+          <a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitietsale.html" class="btn-book">Mua ngay</a>
+        </div>
+      </div>
+
+      <div class="fs-item">
+        <div class="discount-tag">-50%</div>
+        <div class="fs-img"><img src="https://i.pinimg.com/736x/8c/9e/00/8c9e00db429c5ea4feb1090b697d1362.jpg" alt="Kem chống nắng" /></div>
+        <div class="fs-card-body">
+          <div class="fs-name">Kem chống nắng Sunscreen SPF50+ PA++++</div>
+          <div class="fs-price-row"><span class="fs-price">245k</span><span class="fs-old">490k</span></div>
+          <div class="fs-progress"><div class="fs-progress-bar" style="width:40%"></div><div class="fs-progress-text">Đã bán 12/30 suất</div></div>
+          <a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitietsale.html" class="btn-book">Mua ngay</a>
+        </div>
+      </div>
+
+      <div class="fs-item">
+        <div class="discount-tag">-30%</div>
+        <div class="fs-img"><img src="https://i.pinimg.com/1200x/17/c4/8a/17c48aa6d1f62f04bff336a55453515a.jpg" alt="Retinol" /></div>
+        <div class="fs-card-body">
+          <div class="fs-name">Kem dưỡng Retinol Anti-Aging Night Cream</div>
+          <div class="fs-price-row"><span class="fs-price">560k</span><span class="fs-old">800k</span></div>
+          <div class="fs-progress"><div class="fs-progress-bar" style="width:90%"></div><div class="fs-progress-text">Sắp hết! Còn 3 suất</div></div>
+          <a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitietsale.html" class="btn-book">Mua ngay</a>
+        </div>
+      </div>
+
+      <div class="fs-item">
+        <div class="discount-tag">-45%</div>
+        <div class="fs-img"><img src="https://i.pinimg.com/736x/19/c6/14/19c614c0dd54c2ce656f2b4ef58daffb.jpg" alt="Tẩy trang" /></div>
+        <div class="fs-card-body">
+          <div class="fs-name">Nước tẩy trang Micellar Cleansing Water</div>
+          <div class="fs-price-row"><span class="fs-price">165k</span><span class="fs-old">300k</span></div>
+          <div class="fs-progress"><div class="fs-progress-bar" style="width:15%"></div><div class="fs-progress-text">Đã bán 5/30 suất</div></div>
+          <a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitietsale.html" class="btn-book">Mua ngay</a>
+        </div>
+      </div>
+
+      <div class="fs-item">
+        <div class="discount-tag">-35%</div>
+        <div class="fs-img"><img src="https://i.pinimg.com/736x/53/27/f6/5327f690d7eca64c9b59e277649fe93f.jpg" alt="Mặt nạ" /></div>
+        <div class="fs-card-body">
+          <div class="fs-name">Mặt nạ Centella Cica Soothing Mask</div>
+          <div class="fs-price-row"><span class="fs-price">195k</span><span class="fs-old">300k</span></div>
+          <div class="fs-progress"><div class="fs-progress-bar" style="width:60%"></div><div class="fs-progress-text">Đã bán 18/30 suất</div></div>
+          <a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitietsale.html" class="btn-book">Mua ngay</a>
+        </div>
+      </div>
+
+      <div class="fs-item">
+        <div class="discount-tag">-20%</div>
+        <div class="fs-img"><img src="https://i.pinimg.com/1200x/2c/06/22/2c06224e27c20da57e24a8c3d85c6b55.jpg" alt="Toner" /></div>
+        <div class="fs-card-body">
+          <div class="fs-name">Toner cân bằng da Niacinamide 5%</div>
+          <div class="fs-price-row"><span class="fs-price">280k</span><span class="fs-old">350k</span></div>
+          <div class="fs-progress"><div class="fs-progress-bar" style="width:30%"></div><div class="fs-progress-text">Đã bán 9/30 suất</div></div>
+          <a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitietsale.html" class="btn-book">Mua ngay</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function moveSlider(dir) {
+  const s = document.getElementById('fsSlider');
+  const itemWidth = s.querySelector('.fs-item').offsetWidth + 10; // + gap
+  s.scrollBy({ left: dir * itemWidth * 2, behavior: 'smooth' }); // lướt 2 sản phẩm mỗi lần bấm
+}
+
+let total = 16 * 60 + 49;
+setInterval(() => {
+  if (total <= 0) return;
+  total--;
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  document.getElementById('h').textContent = String(h).padStart(2,'0');
+  document.getElementById('m').textContent = String(m).padStart(2,'0');
+  document.getElementById('s').textContent = String(s).padStart(2,'0');
+}, 1000);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Category Cards — Mobile</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Be Vietnam Pro', sans-serif; background:#f0f5f2; }
+
+.cgwgt-scope, .cgwgt-scope * { box-sizing: border-box; }
+.cgwgt-scope { font-family: 'Be Vietnam Pro', sans-serif; }
+
+.cgwgt-root {
+  position: relative;
+  width: 100%;
+  max-width: 530px;
+  margin: 0 auto;
+  padding: 16px;
+  border-radius: 22px;
+}
+
+.cgwgt-slider-wrap { position: relative; z-index: 2; }
+
+/* ===== 2 cột / màn hình, có snap để dừng đúng vị trí ===== */
+.cgwgt-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 12px) / 2);
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 2px 2px 6px;
+}
+.cgwgt-grid::-webkit-scrollbar { display: none; }
+
+.cgwgt-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: #2d2d2d;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+.cgwgt-nav-btn:active { background: rgba(255, 255, 255, 0.95); }
+.cgwgt-nav-prev { left: -6px; }
+.cgwgt-nav-next { right: -6px; }
+
+.cgwgt-card {
+  scroll-snap-align: start;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.cgwgt-card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+}
+
+.cgwgt-card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 40%);
+  pointer-events: none;
+}
+
+.cgwgt-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cgwgt-card-name {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 9px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+</style>
+</head>
+<body>
+
+<div class="cgwgt-scope">
+  <div class="cgwgt-root">
+    <div class="cgwgt-slider-wrap">
+      <button class="cgwgt-nav-btn cgwgt-nav-prev" onclick="cgwgtSlide(this, -1)">❮</button>
+      <button class="cgwgt-nav-btn cgwgt-nav-next" onclick="cgwgtSlide(this, 1)">❯</button>
+      <div class="cgwgt-grid">
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/06/01/5e/06015e639f0eb9fb5a5583d9ace5ce39.jpg" alt="Trị mụn">
+          </div>
+          <div class="cgwgt-card-name">Trị mụn</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Làm trắng da">
+          </div>
+          <div class="cgwgt-card-name">Làm trắng da</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/84/92/57/849257f500fb6d9e784332612b1ecdd6.jpg" alt="Trị sẹo">
+          </div>
+          <div class="cgwgt-card-name">Trị sẹo</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/73/4a/80/734a80c2d3cea90d7b181338f78257ba.jpg" alt="Trị nám">
+          </div>
+          <div class="cgwgt-card-name">Trị nám</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Chống lão hóa">
+          </div>
+          <div class="cgwgt-card-name">Chống lão hóa</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Dưỡng ẩm">
+          </div>
+          <div class="cgwgt-card-name">Dưỡng ẩm</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Se khít lỗ chân lông">
+          </div>
+          <div class="cgwgt-card-name">Se khít lỗ chân lông</div>
+        </a>
+
+        <a href="https://nam30nguyen11-glitch.github.io/Nhan/spcate.html" class="cgwgt-card">
+          <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/83/d5/97/83d597218882489e67c65b0d52291709.jpg" alt="Phục hồi da">
+          </div>
+          <div class="cgwgt-card-name">Phục hồi da</div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function cgwgtSlide(btnEl, dir) {
+    var root = btnEl.closest('.cgwgt-root');
+    if (!root) return;
+    var grid = root.querySelector('.cgwgt-grid');
+    if (!grid) return;
+    var cardWidth = grid.querySelector('.cgwgt-card').offsetWidth + 12; // + gap
+    grid.scrollBy({ left: dir * cardWidth * 2, behavior: 'smooth' }); // lướt đúng 2 card mỗi lần bấm
+  }
+  window.cgwgtSlide = cgwgtSlide;
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<div class="cwgt-scope">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
+
+
+.cwgt-scope, .cwgt-scope * { box-sizing: border-box; }
+
+
+.cwgt-scope {
+font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+
+.cwgt-root {
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border: 1px solid rgba(120, 120, 120, 0.18);
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+border-radius: 24px;
+padding: 28px;
+position: relative;
+overflow: hidden;
+max-width: 440px;
+margin: 0 auto;
+}
+
+
+.cwgt-wrap {
+display: grid;
+grid-template-columns: 220px 1fr;
+gap: 24px;
+align-items: start;
+position: relative;
+z-index: 1;
+}
+
+
+/* BANNER */
+.cwgt-banner-box {
+position: relative;
+width: 220px;
+height: 590px;
+border-radius: 20px;
+overflow: hidden;
+border: 1px solid rgba(255,255,255,0.7);
+box-shadow: 0 8px 32px rgba(200,100,150,0.12);
+}
+
+
+.cwgt-banner-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+
+.cwgt-banner-box::after {
+content: "";
+position: absolute;
+inset: 0;
+background: linear-gradient(to top, rgba(80,0,40,0.65), transparent 60%);
+}
+
+
+.cwgt-banner-text {
+position: absolute;
+bottom: 20px;
+left: 16px;
+right: 16px;
+color: #fff;
+font-weight: 800;
+font-size: 15px;
+line-height: 1.4;
+z-index: 2;
+text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+
+.cwgt-banner-tag {
+display: inline-block;
+background: rgba(255,255,255,0.2);
+backdrop-filter: blur(8px);
+border: 1px solid rgba(255,255,255,0.4);
+color: #fff;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 1.5px;
+padding: 4px 10px;
+border-radius: 20px;
+margin-bottom: 8px;
+text-transform: uppercase;
+}
+
+
+/* RIGHT */
+.cwgt-content { width: 100%; min-width: 0; }
+
+
+/* TABS */
+.cwgt-tabs-wrap {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 18px;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+
+.cwgt-tabs-scroller {
+position: relative;
+min-width: 0;
+flex: 1;
+}
+
+.cwgt-tabs {
+display: flex;
+gap: 8px;
+flex-wrap: nowrap;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+padding-bottom: 8px;
+scrollbar-width: thin;
+scrollbar-color: rgba(232,90,90,0.55) rgba(120,120,120,0.15);
+}
+
+/* Thanh kéo (scrollbar) hiển thị rõ để biết còn tab bên phải */
+.cwgt-tabs::-webkit-scrollbar { height: 5px; }
+.cwgt-tabs::-webkit-scrollbar-track {
+background: rgba(120,120,120,0.15);
+border-radius: 10px;
+}
+.cwgt-tabs::-webkit-scrollbar-thumb {
+background: linear-gradient(90deg, #f08080, #e85a5a);
+border-radius: 10px;
+}
+
+/* Fade mờ bên phải để gợi ý còn nội dung có thể kéo */
+.cwgt-tabs-scroller::after {
+content: "";
+position: absolute;
+top: 0; right: 0; bottom: 8px;
+width: 26px;
+background: linear-gradient(to right, transparent, rgba(255,255,255,0.55));
+pointer-events: none;
+}
+
+
+.cwgt-tab {
+padding: 9px 18px;
+border-radius: 25px;
+background: rgba(255,255,255,0.4);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.6);
+cursor: pointer;
+font-size: 12.5px;
+font-weight: 600;
+color: #4a4a4a;
+letter-spacing: 0.5px;
+transition: 0.2s;
+white-space: nowrap;
+flex: 0 0 auto;
+}
+
+
+.cwgt-tab:hover { background: rgba(255,255,255,0.6); }
+
+
+.cwgt-tab.cwgt-active {
+background: rgba(80,80,80,0.12);
+border-color: rgba(80,80,80,0.35);
+color: #2d2d2d;
+}
+
+
+.cwgt-view-all {
+color: #4a4a4a;
+font-weight: 600;
+text-decoration: none;
+font-size: 13px;
+white-space: nowrap;
+}
+
+
+/* SLIDER */
+.cwgt-slider-wrap { position: relative; display: none; }
+.cwgt-slider-wrap.cwgt-active { display: block; }
+
+
+.cwgt-grid {
+display: none;
+grid-auto-flow: column;
+grid-auto-columns: calc((100% - 48px) / 3);
+gap: 26px;
+overflow-x: auto;
+scroll-behavior: smooth;
+scrollbar-width: none;
+-webkit-overflow-scrolling: touch;
+padding: 4px 2px 8px;
+}
+
+
+.cwgt-grid::-webkit-scrollbar { display: none; }
+.cwgt-grid.cwgt-active { display: grid; }
+
+
+/* CARD */
+.cwgt-card {
+background: rgba(255,255,255,0.45);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border: 1px solid rgba(255,255,255,0.7);
+border-radius: 18px;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+transition: transform 0.25s, box-shadow 0.25s;
+box-shadow: 0 4px 16px rgba(180,80,120,0.07);
+}
+
+
+.cwgt-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 12px 28px rgba(180,80,120,0.14);
+}
+
+
+.cwgt-img-wrap { position: relative; }
+
+
+.cwgt-card img {
+width: 100%;
+aspect-ratio: 3/4;
+object-fit: cover;
+display: block;
+}
+
+
+.cwgt-badge {
+position: absolute;
+top: 10px; left: 10px;
+background: rgba(60,60,60,0.75);
+color: #fff;
+font-size: 10px;
+font-weight: 700;
+padding: 4px 10px;
+border-radius: 20px;
+letter-spacing: 0.5px;
+}
+
+
+.cwgt-card-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+
+.cwgt-card h4 {
+font-size: 14px;
+font-weight: 600;
+color: #2d1a2e;
+line-height: 1.35;
+margin: 0;
+}
+
+
+.cwgt-price-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+
+.cwgt-old-price { color: #b0909a; font-size: 12px; text-decoration: line-through; }
+
+
+.cwgt-price { color: #2d2d2d; font-weight: 800; font-size: 16px; }
+
+
+/* NUT MUA NGAY - DO NHE NHANG */
+.cwgt-btn {
+display: block;
+padding: 9px;
+background: linear-gradient(90deg, #f08080, #e85a5a);
+color: #fff;
+text-align: center;
+border-radius: 10px;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+text-decoration: none;
+transition: opacity 0.2s;
+margin-top: auto;
+}
+
+
+.cwgt-btn:hover { opacity: 0.88; }
+
+
+/* NAV - 1 cặp nút duy nhất, nổi giữa bên trái/phải khu vực card */
+.cwgt-nav-btn {
+position: absolute;
+top: 50%; transform: translateY(-50%);
+width: 34px; height: 34px;
+background: rgba(255,255,255,0.85);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(120,120,120,0.3);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+cursor: pointer;
+font-size: 14px;
+color: #4a4a4a;
+z-index: 10;
+transition: background 0.2s;
+}
+
+
+.cwgt-nav-btn:hover { background: #fff; }
+.cwgt-nav-prev { left: -17px; }
+.cwgt-nav-next { right: -17px; }
+
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 900px) {
+.cwgt-root { padding: 18px; border-radius: 18px; }
+
+.cwgt-wrap {
+grid-template-columns: 1fr;
+gap: 16px;
+}
+
+/* Banner nằm ngang, full-width, thấp hơn trên mobile */
+.cwgt-banner-box {
+width: 100%;
+height: 150px;
+border-radius: 16px;
+}
+
+.cwgt-banner-text {
+bottom: 14px;
+left: 14px;
+right: 14px;
+font-size: 14px;
+}
+
+.cwgt-banner-tag {
+font-size: 9px;
+padding: 3px 9px;
+margin-bottom: 6px;
+}
+
+/* Hiển thị 2 sản phẩm mỗi lần trên mobile, vuốt ngang để xem tiếp */
+.cwgt-grid {
+grid-auto-columns: calc((100% - 14px) / 2);
+gap: 14px;
+padding: 4px 2px 10px;
+}
+
+.cwgt-card h4 { font-size: 13px; }
+.cwgt-price { font-size: 15px; }
+.cwgt-old-price { font-size: 11px; }
+
+.cwgt-btn { font-size: 10.5px; padding: 8px; }
+
+/* Nút mũi tên: thu nhỏ, di chuyển vào trong để không bị tràn màn hình */
+.cwgt-nav-btn {
+width: 30px; height: 30px;
+font-size: 12px;
+}
+.cwgt-nav-prev { left: 2px; }
+.cwgt-nav-next { right: 2px; }
+
+.cwgt-tabs-wrap { margin-bottom: 14px; }
+.cwgt-view-all { font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+.cwgt-banner-box { height: 130px; }
+
+/* Ẩn chữ "Ưu đãi đặc biệt / MỸ PHẨM CHÍNH HÃNG / GIẢM ĐẾN 30%" trên banner */
+.cwgt-banner-text { display: none; }
+
+/* Vẫn giữ 2 sản phẩm mỗi lần, chỉ giảm khoảng cách cho vừa màn hình nhỏ */
+.cwgt-grid { grid-auto-columns: calc((100% - 10px) / 2); gap: 10px; }
+
+.cwgt-card h4 { font-size: 12px; }
+.cwgt-price { font-size: 14px; }
+.cwgt-old-price { font-size: 10.5px; }
+.cwgt-card-body { padding: 10px 10px 12px; gap: 7px; }
+
+.cwgt-tab { padding: 8px 14px; font-size: 12px; }
+}
+</style>
+
+<div class="cwgt-root" id="cwgt-root-1">
+<div class="cwgt-wrap">
+
+
+<!-- BANNER -->
+<div>
+<div class="cwgt-banner-box">
+<img src="https://i.pinimg.com/736x/84/30/64/8430646a802a5281e1203691c6e1c4bd.jpg" alt="Banner" />
+<div class="cwgt-banner-text">
+<div class="cwgt-banner-tag">Ưu đãi đặc biệt</div><br>
+MỸ PHẨM CHÍNH HÃNG<br>GIẢM ĐẾN 30%
+</div>
+</div>
+</div>
+
+
+<!-- RIGHT -->
+<div class="cwgt-content">
+
+
+<div class="cwgt-tabs-wrap">
+<div class="cwgt-tabs-scroller">
+<div class="cwgt-tabs">
+<div class="cwgt-tab cwgt-active" onclick="cwgtShowTab(this, 0)">Chăm sóc da</div>
+<div class="cwgt-tab" onclick="cwgtShowTab(this, 1)">Trang điểm</div>
+<div class="cwgt-tab" onclick="cwgtShowTab(this, 2)">Chăm sóc tóc</div>
+<div class="cwgt-tab" onclick="cwgtShowTab(this, 3)">Nước hoa</div>
+</div>
+</div>
+<a href="#" class="cwgt-view-all">Xem tất cả →</a>
+</div>
+
+
+<!-- TAB 1 -->
+<div class="cwgt-slider-wrap cwgt-active">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 0, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 0, 1)">❯</button>
+<div class="cwgt-grid cwgt-active" data-cwgt-grid="0">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/66/23/9a/66239a1485de08d7c9d73f52e4ca2408.jpg" alt="Serum dưỡng da" />
+<div class="cwgt-badge">Giảm 30%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Serum Vitamin C dưỡng sáng da</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">800.000đ</span><span class="cwgt-price">560.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/a9/6d/ec/a96dec14b35fee47b359ae1ce1e83542.jpg" alt="Kem chống nắng" />
+<div class="cwgt-badge">Giảm 20%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Kem chống nắng nâng tone SPF50</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">450.000đ</span><span class="cwgt-price">360.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/fd/6a/da/fd6ada40784909307d2c236a9e3dde03.jpg" alt="Mặt nạ dưỡng ẩm" />
+<div class="cwgt-badge">Giảm 25%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Mặt nạ giấy dưỡng ẩm cấp nước</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">280.000đ</span><span class="cwgt-price">210.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/ab/e5/64/abe564b4b5c147594bd5aab157fe5bc0.jpg" alt="Toner cân bằng" />
+<div class="cwgt-badge">Giảm 15%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Toner cân bằng độ pH cho da</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">350.000đ</span><span class="cwgt-price">298.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://benhvienthammynaman.com/wp-content/uploads/2026/06/3-1.png" alt="Kem trị mụn" />
+<div class="cwgt-badge">Giảm 30%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Gel trị mụn giảm viêm chuyên sâu</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">320.000đ</span><span class="cwgt-price">224.000đ</span></div>
+<a href="#" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- TAB 2 -->
+<div class="cwgt-slider-wrap">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 1, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 1, 1)">❯</button>
+<div class="cwgt-grid" data-cwgt-grid="1">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/7c/14/ee/7c14ee272b678480cc2f41473cd60b07.jpg" alt="Son môi" />
+<div class="cwgt-badge">Giảm 30%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Son lì lâu trôi đa sắc</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">420.000đ</span><span class="cwgt-price">294.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/c5/2b/a0/c52ba07e144d7b6d414a6821561200e0.jpg" alt="Kem nền" />
+<div class="cwgt-badge">Giảm 20%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Kem nền che phủ tự nhiên</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">650.000đ</span><span class="cwgt-price">520.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/736x/33/3c/af/333caf0f21726d45e2e5db9fb0e8bc11.jpg" alt="Bảng phấn mắt" />
+<div class="cwgt-badge">Giảm 25%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Bảng phấn mắt 12 màu</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">550.000đ</span><span class="cwgt-price">412.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- TAB 3 -->
+<div class="cwgt-slider-wrap">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 2, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 2, 1)">❯</button>
+<div class="cwgt-grid" data-cwgt-grid="2">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/1200x/3b/d0/1d/3bd01d79487a7787c705a4a53cf0f17b.jpg" alt="Dầu gội" />
+<div class="cwgt-badge">Giảm 45%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Dầu gội phục hồi tóc hư tổn</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">280.000đ</span><span class="cwgt-price">154.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/1200x/3b/d0/1d/3bd01d79487a7787c705a4a53cf0f17b.jpg" alt="Serum tóc" />
+<div class="cwgt-badge">Giảm 30%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Serum dưỡng tóc bóng mượt</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">390.000đ</span><span class="cwgt-price">273.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/1200x/3b/d0/1d/3bd01d79487a7787c705a4a53cf0f17b.jpg" alt="Mặt nạ tóc" />
+<div class="cwgt-badge">Giảm 35%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Mặt nạ tóc phục hồi chuyên sâu</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">320.000đ</span><span class="cwgt-price">208.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://i.pinimg.com/1200x/3b/d0/1d/3bd01d79487a7787c705a4a53cf0f17b.jpg" alt="Tinh dầu tóc" />
+<div class="cwgt-badge">Giảm 20%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Tinh dầu dưỡng ngọn chống xơ rối</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">250.000đ</span><span class="cwgt-price">200.000đ</span></div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- TAB 4 -->
+<div class="cwgt-slider-wrap">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 3, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 3, 1)">❯</button>
+<div class="cwgt-grid" data-cwgt-grid="3">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://benhvienthammynaman.com/wp-content/uploads/2026/06/23233244.png" alt="Nước hoa nữ" />
+<div class="cwgt-badge">Giảm 30%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Nước hoa nữ hương hoa nhẹ nhàng</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">1.200.000đ</span><span class="cwgt-price">840.000đ</span></div>
+<a href="#" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://benhvienthammynaman.com/wp-content/uploads/2026/06/1341321.png" alt="Nước hoa nam" />
+<div class="cwgt-badge">Giảm 15%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Nước hoa nam lưu hương lâu</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">1.500.000đ</span><span class="cwgt-price">1.275.000đ</span></div>
+<a href="#" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://benhvienthammynaman.com/wp-content/uploads/2026/06/1413412.png" alt="Xịt khoáng" />
+<div class="cwgt-badge">Giảm 40%</div>
+</div>
+<div class="cwgt-card-body">
+<h4>Xịt khoáng dưỡng ẩm toàn thân</h4>
+<div class="cwgt-price-wrap"><span class="cwgt-old-price">350.000đ</span><span class="cwgt-price">210.000đ</span></div>
+<a href="#" class="cwgt-btn">Mua ngay</a>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+(function(){
+function cwgtShowTab(tabEl, i) {
+var root = tabEl.closest('.cwgt-root');
+if (!root) return;
+root.querySelectorAll('.cwgt-tab').forEach(function(t, idx){ t.classList.toggle('cwgt-active', idx === i); });
+root.querySelectorAll('.cwgt-grid').forEach(function(g, idx){ g.classList.toggle('cwgt-active', idx === i); });
+root.querySelectorAll('.cwgt-slider-wrap').forEach(function(w, idx){ w.classList.toggle('cwgt-active', idx === i); });
+}
+
+
+function cwgtSlide(btnEl, tabIdx, dir) {
+var root = btnEl.closest('.cwgt-root');
+if (!root) return;
+var grid = root.querySelector('[data-cwgt-grid="' + tabIdx + '"]');
+if (!grid) return;
+grid.scrollBy({ left: dir * grid.clientWidth * 0.8, behavior: 'smooth' });
+}
+
+
+window.cwgtShowTab = cwgtShowTab;
+window.cwgtSlide = cwgtSlide;
+})();
+</script>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+">
+    <h2 style="
+        font-family: 'Beautique Display', 'Playfair Display', 'Georgia', serif;
+        font-style: normal;
+        font-weight: 400;
+        /* Đã tăng kích thước: Tối thiểu 2rem, Tự động phóng theo màn hình 8vw, Tối đa lên tới 6rem */
+        font-size: clamp(3rem, 8vw, 8rem); 
+        line-height: 1.15;
+        letter-spacing: 0.02em;
+        color: #c97f63;
+        text-align: center;
+        margin: 0;
+    ">DỊCH VỤ</h2>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="lumia-service-widget">
+<style>
+.lumia-service-widget{
+font-family:'DM Sans',sans-serif;
+padding:2px;
+box-sizing:border-box;
+}
+.lumia-service-widget *{
+box-sizing:border-box;
+}
+
+
+.lumia-service-widget .ls-wrap{
+max-width:440px;
+margin:0 auto;
+display:flex;
+gap:22px;
+align-items:flex-start;
+}
+
+
+/* ===== Cột 1: thanh ngang có ảnh, xếp dọc ===== */
+.lumia-service-widget .ls-rail{
+display:flex;
+flex-direction:column;
+gap:14px;
+width:300px;
+flex-shrink:0;
+}
+.lumia-service-widget .ls-bar{
+position:relative;
+display:flex;
+align-items:center;
+gap:14px;
+background:linear-gradient(160deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.3) 100%);
+backdrop-filter:blur(20px) saturate(160%);
+-webkit-backdrop-filter:blur(20px) saturate(160%);
+border:1px solid rgba(255,255,255,0.85);
+border-radius:18px;
+padding:12px 16px 12px 12px;
+cursor:pointer;
+margin:0;
+box-shadow:0 1px 0 rgba(255,255,255,0.85) inset, 0 8px 20px rgba(190,160,180,0.1);
+transition:transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, background 0.3s ease;
+}
+.lumia-service-widget .ls-bar:hover{transform:translateX(3px);}
+.lumia-service-widget .ls-bar img{
+width:58px;height:58px;border-radius:14px;object-fit:cover;flex-shrink:0;
+margin:0;padding:0;display:block;
+}
+.lumia-service-widget .ls-bar .ls-bar-text{flex:1;min-width:0;}
+.lumia-service-widget .ls-bar .ls-num{
+font-size:9px;letter-spacing:2px;color:rgba(150,110,125,0.55);font-weight:600;
+margin:0;line-height:1.4;
+}
+.lumia-service-widget .ls-bar .ls-name{
+font-family:'Playfair Display',serif;font-weight:900;font-size:1rem;
+color:#523741;line-height:1.3;margin:0;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+.lumia-service-widget .ls-bar .ls-chev{
+font-size:13px;color:rgba(150,110,125,0.5);flex-shrink:0;
+transition:transform 0.3s ease;
+}
+.lumia-service-widget .ls-bar.ls-active{
+background:linear-gradient(135deg, rgba(235,190,200,0.55), rgba(205,195,225,0.55));
+border:1px solid rgba(255,255,255,0.95);
+box-shadow:0 1px 0 rgba(255,255,255,0.7) inset, 0 14px 28px rgba(190,160,180,0.22);
+transform:translateX(6px);
+}
+.lumia-service-widget .ls-bar.ls-active .ls-name{color:#7a3f54;}
+.lumia-service-widget .ls-bar.ls-active .ls-chev{transform:translateX(2px); color:#7a3f54;}
+
+
+/* ===== Cột 2: panel chi tiết dịch vụ ===== */
+.lumia-service-widget .ls-panel-area{
+flex:1;
+position:relative;
+min-width:0;
+}
+.lumia-service-widget .ls-panel{
+position:absolute;
+inset:0;
+height:fit-content;
+background:linear-gradient(160deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.35) 100%);
+backdrop-filter:blur(28px) saturate(160%);
+-webkit-backdrop-filter:blur(28px) saturate(160%);
+border:1px solid rgba(255,255,255,0.9);
+border-radius:28px;
+box-shadow:0 1px 0 rgba(255,255,255,0.9) inset, 0 18px 40px rgba(190,160,180,0.14);
+padding:26px 26px 28px;
+margin:0;
+display:none;
+flex-direction:column;
+opacity:0;
+transform:translateX(14px) scale(0.98);
+pointer-events:none;
+transition:opacity 0.4s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.lumia-service-widget .ls-panel.ls-show{display:flex; opacity:1; transform:translateX(0) scale(1); pointer-events:auto; position:relative;}
+.lumia-service-widget .ls-panel .ls-panel-imgs{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:12px;
+width:100%;
+margin:0 0 18px;
+}
+.lumia-service-widget .ls-panel .ls-img-box{
+position:relative;
+width:100%;
+aspect-ratio:18/12;
+border-radius:18px;
+overflow:hidden;
+margin:0;
+}
+.lumia-service-widget .ls-panel .ls-img-box img{
+width:100%;height:100%;object-fit:cover;display:block;margin:0;padding:0;
+}
+.lumia-service-widget .ls-panel .ls-img-box::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 30%);
+}
+.lumia-service-widget .ls-panel .ls-eyebrow{
+font-size:9px;letter-spacing:3px;text-transform:uppercase;
+color:rgba(190,150,165,0.85);font-weight:600;margin:0 0 8px;
+}
+.lumia-service-widget .ls-panel h3{
+font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;
+color:#523741;line-height:1.2;margin:0 0 10px;
+}
+.lumia-service-widget .ls-panel p{
+font-size:13px;color:rgba(100,75,82,0.65);line-height:1.75;font-weight:300;margin:0 0 18px;
+}
+.lumia-service-widget .ls-btn-solid{
+background:linear-gradient(135deg, rgba(240,200,205,0.9), rgba(215,205,230,0.9));
+border:1px solid rgba(255,255,255,0.7);
+border-radius:100px;
+padding:10px 28px;
+font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+color:#5e4350;cursor:pointer;
+margin:0;
+box-shadow:0 1px 0 rgba(255,255,255,0.6) inset;
+width:fit-content;
+font-family:'DM Sans',sans-serif;
+}
+.lumia-service-widget .ls-btn-solid a{
+color:#5e4350;
+text-decoration:none;
+}
+.lumia-service-widget .ls-btn-solid a:visited,
+.lumia-service-widget .ls-btn-solid a:hover,
+.lumia-service-widget .ls-btn-solid a:active{
+color:#5e4350;
+text-decoration:none;
+}
+
+
+/* ===== Cột 3: Form NStreak, đồng bộ tone Lumia, gọn ===== */
+.lumia-service-widget .ls-lead-form{
+width:300px;
+flex-shrink:0;
+background:linear-gradient(160deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.35) 100%);
+backdrop-filter:blur(28px) saturate(160%);
+-webkit-backdrop-filter:blur(28px) saturate(160%);
+border:1px solid rgba(255,255,255,0.9);
+border-radius:28px;
+box-shadow:0 1px 0 rgba(255,255,255,0.9) inset, 0 18px 40px rgba(190,160,180,0.14);
+padding:26px 26px 28px;
+margin:0;
+display:flex;
+flex-direction:column;
+height:fit-content;
+}
+.lumia-service-widget .ls-lead-form .ls-form-title{
+font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;
+color:#523741;margin:0 0 4px;letter-spacing:-0.5px;
+}
+.lumia-service-widget .ls-lead-form .ls-form-subtitle{
+font-size:12px;color:rgba(100,75,82,0.6);margin:0 0 22px;font-weight:300;
+}
+.lumia-service-widget .ls-lead-field{margin:0 0 12px;}
+.lumia-service-widget .ls-lead-field input,
+.lumia-service-widget .ls-lead-field select,
+.lumia-service-widget .ls-lead-field textarea{
+width:100%;padding:12px 14px;
+background:rgba(255,255,255,0.45);
+border:1px solid rgba(255,255,255,0.85);
+border-radius:12px;
+font-size:13px;font-family:'DM Sans',sans-serif;
+color:#523741;outline:none;
+margin:0;
+transition:background 0.2s, border-color 0.2s;
+backdrop-filter:blur(8px);
+-webkit-backdrop-filter:blur(8px);
+}
+.lumia-service-widget .ls-lead-field textarea{
+resize:none;
+min-height:70px;
+line-height:1.5;
+font-family:'DM Sans',sans-serif;
+}
+.lumia-service-widget .ls-lead-field input::placeholder,
+.lumia-service-widget .ls-lead-field textarea::placeholder{color:rgba(120,95,105,0.4);}
+.lumia-service-widget .ls-lead-field input:focus,
+.lumia-service-widget .ls-lead-field select:focus,
+.lumia-service-widget .ls-lead-field textarea:focus{
+background:rgba(255,255,255,0.7);
+border-color:rgba(220,180,195,0.7);
+}
+.lumia-service-widget .ls-lead-field select option{background:#fbeeec;color:#523741;}
+
+
+.lumia-service-widget .ls-btn-lead{
+width:100%;
+margin:6px 0 0;
+padding:13px;
+background:linear-gradient(135deg, rgba(240,200,205,0.9), rgba(215,205,230,0.9));
+border:1px solid rgba(255,255,255,0.7);
+border-radius:100px;
+font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;
+color:#5e4350;letter-spacing:1.5px;text-transform:uppercase;
+cursor:pointer;
+box-shadow:0 1px 0 rgba(255,255,255,0.6) inset;
+transition:opacity 0.25s, transform 0.15s;
+}
+.lumia-service-widget .ls-btn-lead:hover{opacity:0.85; transform:translateY(-1px);}
+.lumia-service-widget .ls-btn-lead:active{transform:scale(0.98);}
+
+
+.lumia-service-widget .ls-lead-success{
+display:none;
+text-align:center;
+padding:1rem 0 0.5rem;
+}
+.lumia-service-widget .ls-lead-success .ls-check{
+font-size:32px;color:#3d8a6a;margin:0 0 8px;display:block;line-height:1;
+}
+.lumia-service-widget .ls-lead-success p{
+font-size:13px;color:#523741;margin:0;font-weight:400;
+}
+
+
+/* ============ MOBILE / TABLET (≤1000px) ============ */
+@media (max-width:1000px){
+.lumia-service-widget{padding:0;}
+
+.lumia-service-widget .ls-wrap{
+flex-direction:column;
+gap:16px;
+}
+
+/* Rail: chuyển thành thanh cuộn ngang dạng pill gọn, có thanh kéo rõ ràng */
+.lumia-service-widget .ls-rail{
+width:100%;
+flex-direction:row;
+flex-wrap:nowrap;
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+gap:10px;
+padding:2px 2px 10px;
+scrollbar-width:thin;
+scrollbar-color:rgba(215,150,175,0.55) rgba(150,110,125,0.15);
+}
+.lumia-service-widget .ls-rail::-webkit-scrollbar{height:5px;}
+.lumia-service-widget .ls-rail::-webkit-scrollbar-track{
+background:rgba(150,110,125,0.15);
+border-radius:10px;
+}
+.lumia-service-widget .ls-rail::-webkit-scrollbar-thumb{
+background:linear-gradient(90deg, rgba(235,175,190,0.95), rgba(205,180,220,0.95));
+border-radius:10px;
+}
+
+.lumia-service-widget .ls-bar{
+width:auto;
+flex:0 0 auto;
+min-width:190px;
+padding:9px 14px 9px 9px;
+gap:10px;
+}
+.lumia-service-widget .ls-bar img{width:44px;height:44px;border-radius:11px;}
+.lumia-service-widget .ls-bar .ls-name{font-size:0.9rem;}
+.lumia-service-widget .ls-bar .ls-num{font-size:8px;letter-spacing:1.5px;}
+.lumia-service-widget .ls-bar.ls-active{transform:translateY(-2px);}
+.lumia-service-widget .ls-bar:hover{transform:translateX(0) translateY(-2px);}
+
+.lumia-service-widget .ls-panel-area{width:100%;}
+.lumia-service-widget .ls-panel{
+padding:22px 20px 24px;
+border-radius:22px;
+}
+.lumia-service-widget .ls-panel .ls-panel-imgs{
+grid-template-columns:repeat(2, 1fr);
+gap:10px;
+margin-bottom:16px;
+}
+.lumia-service-widget .ls-panel h3{font-size:1.4rem;}
+.lumia-service-widget .ls-panel p{font-size:12.5px;line-height:1.65;}
+
+.lumia-service-widget .ls-lead-form{
+width:100%;
+padding:24px 22px 26px;
+border-radius:22px;
+}
+.lumia-service-widget .ls-lead-form .ls-form-title{font-size:1.5rem;}
+}
+
+
+/* ============ ĐIỆN THOẠI NHỎ (≤480px) ============ */
+@media (max-width:480px){
+.lumia-service-widget .ls-bar{min-width:165px; padding:8px 12px 8px 8px;}
+.lumia-service-widget .ls-bar img{width:38px;height:38px;border-radius:10px;}
+.lumia-service-widget .ls-bar .ls-name{font-size:0.82rem;}
+
+.lumia-service-widget .ls-panel{padding:18px 16px 20px; border-radius:20px;}
+.lumia-service-widget .ls-panel h3{font-size:1.2rem;margin-bottom:8px;}
+.lumia-service-widget .ls-panel p{font-size:12px;margin-bottom:14px;}
+
+/* Ảnh minh họa xếp 1 cột, to rõ, dễ nhìn trên màn hình nhỏ */
+.lumia-service-widget .ls-panel .ls-panel-imgs{
+grid-template-columns:1fr;
+gap:8px;
+margin-bottom:14px;
+}
+.lumia-service-widget .ls-panel .ls-img-box{aspect-ratio:16/10;}
+
+.lumia-service-widget .ls-btn-solid{padding:9px 22px; font-size:9.5px;}
+
+.lumia-service-widget .ls-lead-form{padding:20px 16px 22px; border-radius:20px;}
+.lumia-service-widget .ls-lead-form .ls-form-title{font-size:1.3rem;}
+.lumia-service-widget .ls-lead-field{margin-bottom:10px;}
+.lumia-service-widget .ls-lead-field input,
+.lumia-service-widget .ls-lead-field select,
+.lumia-service-widget .ls-lead-field textarea{
+padding:11px 12px;
+font-size:12.5px;
+}
+.lumia-service-widget .ls-btn-lead{padding:12px; font-size:10.5px;}
+}
+</style>
+
+
+<div class="ls-wrap">
+
+
+<!-- Cột 1: thanh ngang có ảnh -->
+<div class="ls-rail" id="lsRail">
+<div class="ls-bar ls-active" data-target="0">
+<img src="https://i.pinimg.com/1200x/dc/90/5a/dc905a9c9422125d5928840449091912.jpg" alt="Trị Mụn">
+<div class="ls-bar-text">
+<div class="ls-num">01</div>
+<div class="ls-name">Trị Mụn</div>
+</div>
+<span class="ls-chev">›</span>
+</div>
+
+
+<div class="ls-bar" data-target="1">
+<img src="https://i.pinimg.com/1200x/f5/b2/84/f5b284b0b4cc2bb79002f801ed5bc2aa.jpg" alt="Làm Trắng Da">
+<div class="ls-bar-text">
+<div class="ls-num">02</div>
+<div class="ls-name">Làm Trắng Da</div>
+</div>
+<span class="ls-chev">›</span>
+</div>
+
+
+<div class="ls-bar" data-target="2">
+<img src="https://i.pinimg.com/736x/c1/36/c8/c136c8449ba11da6c9b32b7fced2fe49.jpg" alt="Trị Sẹo">
+<div class="ls-bar-text">
+<div class="ls-num">03</div>
+<div class="ls-name">Trị Sẹo</div>
+</div>
+<span class="ls-chev">›</span>
+</div>
+
+
+<div class="ls-bar" data-target="3">
+<img src="https://i.pinimg.com/1200x/8e/9d/ac/8e9dac2cefc3eff4d5deaa4e2b7d2d31.jpg" alt="Trị Nám">
+<div class="ls-bar-text">
+<div class="ls-num">04</div>
+<div class="ls-name">Trị Nám</div>
+</div>
+<span class="ls-chev">›</span>
+</div>
+</div>
+
+
+<!-- Cột 2: nội dung sổ ra -->
+<div class="ls-panel-area" id="lsPanelArea">
+
+
+<div class="ls-panel ls-show" data-panel="0">
+<div class="ls-panel-imgs">
+<div class="ls-img-box"><img src="https://i.pinimg.com/1200x/a2/be/57/a2be57e2126ec68082f712dc582d7517.jpg" alt="Trị Mụn 1"></div>
+<div class="ls-img-box"><img src="https://i.pinimg.com/1200x/a2/be/57/a2be57e2126ec68082f712dc582d7517.jpg" alt="Trị Mụn 2"></div>
+</div>
+<h3>Trị Mụn</h3>
+<p>Điều trị chuyên sâu, kiểm soát bã nhờn, phục hồi làn da sáng mịn bền lâu.</p>
+<button class="ls-btn-solid"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi2.html" class="mega-footer-link">Xem tất cả →</a></button>
+</div>
+
+
+<div class="ls-panel" data-panel="1">
+<div class="ls-panel-imgs">
+<div class="ls-img-box"><img src="https://i.pinimg.com/1200x/65/fb/56/65fb5619af607611704a12200ed70251.jpg" alt="Làm Trắng Da 1"></div>
+<div class="ls-img-box"><img src="https://i.pinimg.com/1200x/65/fb/56/65fb5619af607611704a12200ed70251.jpg" alt="Làm Trắng Da 2"></div>
+</div>
+<h3>Làm Trắng Da</h3>
+<p>Nâng tông da đều màu, xóa thâm sạm, trả lại vẻ rạng rỡ tự nhiên.</p>
+<button class="ls-btn-solid"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi2.html" class="mega-footer-link">Xem tất cả →</a></button>
+</div>
+
+
+<div class="ls-panel" data-panel="2">
+<div class="ls-panel-imgs">
+<div class="ls-img-box"><img src="https://i.pinimg.com/736x/68/d7/18/68d718a67cadfc29b947aba8559d7da0.jpg" alt="Trị Sẹo 1"></div>
+<div class="ls-img-box"><img src="https://i.pinimg.com/736x/68/d7/18/68d718a67cadfc29b947aba8559d7da0.jpg" alt="Trị Sẹo 2"></div>
+</div>
+<h3>Trị Sẹo</h3>
+<p>Làm mờ sẹo lõm, sẹo thâm, tái tạo bề mặt da với công nghệ tiên tiến.</p>
+<button class="ls-btn-solid"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi2.html" class="mega-footer-link">Xem tất cả →</a></button>
+</div>
+
+
+<div class="ls-panel" data-panel="3">
+<div class="ls-panel-imgs">
+<div class="ls-img-box"><img src="https://i.pinimg.com/736x/a8/1e/e8/a81ee8dfdf526da2dceb356ae00e3b1a.jpg" alt="Trị Nám 1"></div>
+<div class="ls-img-box"><img src="https://i.pinimg.com/736x/a8/1e/e8/a81ee8dfdf526da2dceb356ae00e3b1a.jpg" alt="Trị Nám 2"></div>
+</div>
+<h3>Trị Nám</h3>
+<p>Ức chế melanin, xóa mờ đốm nám, tàn nhang từ sâu bên trong da.</p>
+<button class="ls-btn-solid"><a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi2.html" class="mega-footer-link">Xem tất cả →</a></button>
+</div>
+
+
+</div>
+
+
+<!-- Cột 3: Lead form - gọn, không label, có ô yêu cầu thêm -->
+<div class="ls-lead-form">
+<p class="ls-form-title">TƯ VẤN NGAY</p>
+
+<div class="ls-lead-field">
+<input type="text" id="ls-f-name" placeholder="Họ và tên" />
+</div>
+
+<div class="ls-lead-field">
+<input type="tel" id="ls-f-phone" placeholder="Số điện thoại" />
+</div>
+
+<div class="ls-lead-field">
+<select id="ls-f-dest">
+<option value="" disabled selected>Dịch vụ quan tâm</option>
+<option>Trị Mụn</option>
+<option>Làm Trắng Da</option>
+<option>Trị Sẹo</option>
+<option>Trị Nám</option>
+</select>
+</div>
+
+<div class="ls-lead-field">
+<textarea id="ls-f-note" placeholder="Yêu cầu thêm của bạn"></textarea>
+</div>
+
+<button class="ls-btn-lead" id="lsSubmitBtn">Đăng Ký Tư Vấn</button>
+
+<div class="ls-lead-success" id="lsSuccess">
+<span class="ls-check">✓</span>
+<p>Cảm ơn bạn! Chúng tôi sẽ liên hệ sớm nhất.</p>
+</div>
+</div>
+
+
+</div>
+</div>
+
+
+<script>
+(function(){
+var root = document.currentScript.closest('.lumia-service-widget') || document;
+var bars = root.querySelectorAll('.ls-bar');
+var panels = root.querySelectorAll('.ls-panel');
+bars.forEach(function(bar){
+bar.addEventListener('click', function(){
+var target = bar.getAttribute('data-target');
+bars.forEach(function(b){ b.classList.remove('ls-active'); });
+bar.classList.add('ls-active');
+panels.forEach(function(panel){
+if (panel.getAttribute('data-panel') === target) {
+panel.classList.add('ls-show');
+} else {
+panel.classList.remove('ls-show');
+}
+});
+});
+});
+
+
+var submitBtn = root.querySelector('#lsSubmitBtn');
+if(submitBtn){
+submitBtn.addEventListener('click', function(){
+var nameInput = root.querySelector('#ls-f-name');
+var phoneInput = root.querySelector('#ls-f-phone');
+var name = nameInput.value.trim();
+var phone = phoneInput.value.trim();
+nameInput.style.borderColor = name ? 'rgba(255,255,255,0.85)' : 'rgba(220,80,80,0.5)';
+phoneInput.style.borderColor = phone ? 'rgba(255,255,255,0.85)' : 'rgba(220,80,80,0.5)';
+if (!name || !phone) return;
+submitBtn.style.display = 'none';
+root.querySelector('#lsSuccess').style.display = 'block';
+});
+}
+})();
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<glass-service-slider></glass-service-slider>
+
+<script>
+class GlassServiceSlider extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: block;
+          width: 100%;
+        }
+        
+        .sv-glass-section {
+          all: initial;
+          font-family: 'DM Sans', sans-serif;
+          background: transparent;
+          /* SỬA TẠI ĐÂY: Thu nhỏ padding trên/dưới xuống 24px (hoặc tùy chỉnh theo ý bạn) */
+          padding: 24px 20px; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          position: relative;
+          width: 100%;
+          /* SỬA TẠI ĐÂY: Chuyển từ min-height: 100% thành tự động để không bị kéo giãn */
+          height: auto; 
+        }
+
+        .sv-glass-section * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        .sv-glass-section .sv-container {
+          max-width: 1340px;
+          width: 100%;
+          margin: 0 auto;
+          position: relative;
+          padding: 0 12px;
+        }
+
+        /* === TRACK SLIDER 1 HÀNG === */
+        .sv-glass-section .sv-track {
+          display: flex;
+          gap: 28px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-x;
+          padding: 6px;
+          cursor: grab;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .sv-glass-section .sv-track::-webkit-scrollbar {
+          display: none;
+        }
+
+        .sv-glass-section .sv-track.sv-dragging {
+          cursor: grabbing;
+          scroll-snap-type: none;
+        }
+
+        /* Cấu trúc từng ô kính dịch vụ */
+        .sv-glass-section .sv-card {
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.55);
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.7),
+            inset 1px 0 0 rgba(255, 255, 255, 0.5),
+            0 8px 24px rgba(111, 99, 171, 0.08);
+          border-radius: 24px;
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease;
+          text-decoration: none;
+          flex: 0 0 calc(25% - 18px);
+          scroll-snap-align: start;
+          user-select: none;
+          -webkit-user-drag: none;
+        }
+
+        /* Khung hình ảnh bo góc mềm */
+        .sv-glass-section .sv-img-box {
+          width: 100%;
+          aspect-ratio: 4 / 3;
+          border-radius: 16px;
+          overflow: hidden;
+          margin-bottom: 20px;
+          background: #f0f0f0;
+          pointer-events: none;
+        }
+
+        .sv-glass-section .sv-img-box img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          pointer-events: none;
+          -webkit-user-drag: none;
+        }
+
+        /* Phần chữ & thông tin */
+        .sv-glass-section .sv-info {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+
+        .sv-glass-section .sv-number {
+          font-size: 12px;
+          font-weight: 700;
+          color: rgba(111, 99, 171, 0.5);
+          letter-spacing: 1px;
+          margin-bottom: 6px;
+        }
+
+        .sv-glass-section .sv-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 600;
+          font-size: 22px;
+          color: #332f47;
+          margin-bottom: 10px;
+        }
+
+        .sv-glass-section .sv-desc {
+          font-size: 13.5px;
+          line-height: 1.6;
+          color: #5b5470;
+          margin-bottom: 20px;
+        }
+
+        /* Nút Xem thêm dạng glass pill */
+        .sv-glass-section .sv-btn {
+          margin-top: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          width: 100%;
+          padding: 11px 18px;
+          border-radius: 999px;
+          background: linear-gradient(160deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+          backdrop-filter: blur(10px) saturate(140%);
+          -webkit-backdrop-filter: blur(10px) saturate(140%);
+          border: 1px solid rgba(255, 255, 255, 0.85);
+          box-shadow: 0 4px 14px rgba(111, 99, 171, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+          font-size: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: #4a3e85;
+          transition: background 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+        }
+
+        .sv-glass-section .sv-btn span {
+          display: inline-flex;
+          transition: transform 0.3s ease;
+        }
+
+        /* === HIỆU ỨNG HOVER PHẢN CHIẾU ÁNH SÁNG === */
+        .sv-glass-section .sv-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: -100%;
+          width: 60%; height: 100%;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          transform: skewX(-25deg);
+          z-index: 3;
+        }
+
+        @keyframes svShimmer {
+          100% { left: 130%; }
+        }
+
+        .sv-glass-section .sv-card:hover::before {
+          animation: svShimmer 0.8s ease-out;
+        }
+
+        .sv-glass-section .sv-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(111, 99, 171, 0.4);
+        }
+
+        .sv-glass-section .sv-card:hover .sv-img-box img {
+          transform: scale(1.05);
+        }
+
+        .sv-glass-section .sv-card:hover .sv-btn {
+          background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55));
+          box-shadow: 0 6px 18px rgba(111, 99, 171, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+        }
+
+        .sv-glass-section .sv-card:hover .sv-btn span {
+          transform: translateX(3px);
+        }
+
+        /* Nút điều hướng mũi tên trái/phải */
+        .sv-glass-section .sv-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 5;
+          width: 40px;
+          height: 40px;
+          border-radius: 999px;
+          border: 1px solid rgba(255, 255, 255, 0.7);
+          background: rgba(255, 255, 255, 0.55);
+          backdrop-filter: blur(8px) saturate(140%);
+          -webkit-backdrop-filter: blur(8px) saturate(140%);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: #4a3e85;
+          transition: background 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sv-glass-section .sv-arrow svg {
+          width: 20px;
+          height: 20px;
+          pointer-events: none;
+        }
+
+        .sv-glass-section .sv-arrow:hover {
+          background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
+          box-shadow: 0 6px 18px rgba(111, 99, 171, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+        }
+
+        .sv-glass-section .sv-arrow.sv-disabled {
+          opacity: 0.35;
+          cursor: default;
+          pointer-events: none;
+        }
+
+        .sv-glass-section .sv-arrow-prev { left: -14px; }
+        .sv-glass-section .sv-arrow-next { right: -14px; }
+
+        /* Chấm chỉ báo vị trí (dots) */
+        .sv-glass-section .sv-dots {
+          display: none;
+          justify-content: center;
+          align-items: center;
+          gap: 7px;
+          margin-top: 16px;
+        }
+        .sv-glass-section .sv-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 999px;
+          background: rgba(111, 99, 171, 0.28);
+          transition: background 0.3s ease, width 0.3s ease;
+        }
+        .sv-glass-section .sv-dot.sv-dot-active {
+          background: #6f63ab;
+          width: 18px;
+        }
+
+        /* Responsive: Laptop / Tablet lớn */
+        @media (max-width: 1024px) {
+          .sv-glass-section .sv-card { flex: 0 0 calc(50% - 12px); }
+        }
+
+        /* ============ MOBILE (≤600px) ============ */
+        @media (max-width: 600px) {
+          /* SỬA TẠI ĐÂY: Giảm padding trên mobile để gọn hơn nữa */
+          .sv-glass-section { padding: 12px 10px; }
+          .sv-glass-section .sv-container { padding: 0 4px; }
+          .sv-glass-section .sv-track { gap: 12px; padding: 4px 2px; scroll-padding-left: 4px; }
+          .sv-glass-section .sv-card { flex: 0 0 calc(50% - 6px); padding: 10px; border-radius: 16px; }
+          .sv-glass-section .sv-img-box { margin-bottom: 10px; border-radius: 12px; aspect-ratio: 1 / 1; }
+          .sv-glass-section .sv-number { font-size: 10px; margin-bottom: 3px; }
+          .sv-glass-section .sv-title { font-size: 15px; margin-bottom: 5px; }
+          .sv-glass-section .sv-desc {
+            font-size: 11px;
+            line-height: 1.45;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          .sv-glass-section .sv-btn { padding: 8px 10px; font-size: 9.5px; letter-spacing: 0.6px; }
+          .sv-glass-section .sv-arrow { width: 34px; height: 34px; }
+          .sv-glass-section .sv-arrow svg { width: 17px; height: 17px; }
+          .sv-glass-section .sv-arrow-prev { left: -6px; }
+          .sv-glass-section .sv-arrow-next { right: -6px; }
+          .sv-glass-section .sv-dots { display: flex; }
+        }
+
+        /* ============ ĐIỆN THOẠI NHỎ (≤380px) ============ */
+        @media (max-width: 380px) {
+          .sv-glass-section .sv-card { flex: 0 0 calc(50% - 5px); padding: 8px; }
+          .sv-glass-section .sv-title { font-size: 13.5px; }
+          .sv-glass-section .sv-desc { font-size: 10px; }
+          .sv-glass-section .sv-arrow { width: 30px; height: 30px; }
+          .sv-glass-section .sv-arrow svg { width: 15px; height: 15px; }
+        }
+      </style>
+
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+      <section class="sv-glass-section">
+        <div class="sv-container">
+          <button type="button" class="sv-arrow sv-arrow-prev sv-disabled" id="svPrev" aria-label="Xem dịch vụ trước">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="sv-arrow sv-arrow-next" id="svNext" aria-label="Xem dịch vụ tiếp theo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+
+          <div class="sv-track" id="svTrack">
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop&q=80" alt="Trị Mụn">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">01</span>
+                <h3 class="sv-title">Trị Mụn</h3>
+                <p class="sv-desc">Làm sạch sâu ổ khuẩn, gom cồi mụn sinh học và phục hồi nền da tổn thương nhanh chóng.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=80" alt="Làm Trắng Da">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">02</span>
+                <h3 class="sv-title">Làm Trắng Da</h3>
+                <p class="sv-desc">Truyền dưỡng chất tế bào gốc, bật tone trắng hồng tự nhiên từ sâu bên trong.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=500&auto=format&fit=crop&q=80" alt="Trị Sẹo">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">03</span>
+                <h3 class="sv-title">Trị Sẹo</h3>
+                <p class="sv-desc">Cắt đáy sẹo kết hợp công nghệ siêu vi điểm làm đầy các vết sẹo rỗ, sẹo lõm lâu năm.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500&auto=format&fit=crop&q=80" alt="Trị Nám">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">04</span>
+                <h3 class="sv-title">Trị Nám</h3>
+                <p class="sv-desc">Ức chế melanin hắc sắc tố, xóa mờ đốm nám, tàn nhang tận gốc rễ tế bào.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1544717304-a2db4a7b16ee?w=500&auto=format&fit=crop&q=80" alt="Triệt Lông">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">05</span>
+                <h3 class="sv-title">Triệt Lông</h3>
+                <p class="sv-desc">Phá hủy nang lông tận gốc bằng công nghệ ánh sáng, làn da mịn màng dài lâu.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1570554886111-e80fcca6a029?w=500&auto=format&fit=crop&q=80" alt="Căng Da Mặt">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">06</span>
+                <h3 class="sv-title">Căng Da Mặt</h3>
+                <p class="sv-desc">Kích thích sản sinh collagen, kéo căng cấu trúc da chảy xệ, trẻ hóa toàn diện.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=500&auto=format&fit=crop&q=80" alt="Giảm Béo">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">07</span>
+                <h3 class="sv-title">Giảm Béo</h3>
+                <p class="sv-desc">Phá vỡ liên kết mỡ thừa bằng sóng RF, định hình vóc dáng thon gọn tự nhiên.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+
+            <a href="https://nam30nguyen11-glitch.github.io/Nhan/dvmoi3.html" class="sv-card">
+              <div class="sv-img-box">
+                <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&auto=format&fit=crop&q=80" alt="Tế Bào Gốc">
+              </div>
+              <div class="sv-info">
+                <span class="sv-number">08</span>
+                <h3 class="sv-title">Tế Bào Gốc</h3>
+                <p class="sv-desc">Bổ sung dưỡng chất sinh học chuyên sâu, phục hồi và tái tạo làn da từ cấp độ tế bào.</p>
+                <div class="sv-btn">Xem thêm <span>›</span></div>
+              </div>
+            </a>
+          </div>
+
+          <div class="sv-dots" id="svDots"></div>
+        </div>
+      </section>
+    `;
+
+    this.initSlider();
+  }
+
+  initSlider() {
+    const root = this.shadowRoot;
+    const track = root.getElementById('svTrack');
+    const prevBtn = root.getElementById('svPrev');
+    const nextBtn = root.getElementById('svNext');
+    const dotsWrap = root.getElementById('svDots');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const cards = Array.from(track.querySelectorAll('.sv-card'));
+
+    cards.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.className = 'sv-dot' + (idx === 0 ? ' sv-dot-active' : '');
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.querySelectorAll('.sv-dot'));
+
+    const getStep = () => {
+      if (!cards.length) return track.clientWidth;
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      const gap = parseFloat(window.getComputedStyle(track).gap) || 24;
+      return cardWidth + gap;
+    };
+
+    const updateActiveDot = () => {
+      if (!dots.length) return;
+      const step = getStep();
+      let idx = Math.round(track.scrollLeft / step);
+      idx = Math.max(0, Math.min(idx, dots.length - 1));
+      dots.forEach((d, i) => {
+        d.classList.toggle('sv-dot-active', i === idx);
+      });
+    };
+
+    const updateArrowState = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      prevBtn.classList.toggle('sv-disabled', track.scrollLeft <= 4);
+      nextBtn.classList.toggle('sv-disabled', track.scrollLeft >= maxScroll - 4);
+      updateActiveDot();
+    };
+
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: getStep(), behavior: 'smooth' });
+    });
+
+    let scrollTimeout;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateArrowState, 60);
+    }, { passive: true });
+
+    window.addEventListener('resize', updateArrowState);
+
+    let isDown = false;
+    let startX, scrollLeftStart;
+
+    track.addEventListener('mousedown', (e) => {
+      isDown = true;
+      track.classList.add('sv-dragging');
+      startX = e.pageX - track.offsetLeft;
+      scrollLeftStart = track.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+      track.classList.remove('sv-dragging');
+    });
+
+    track.addEventListener('mouseleave', () => {
+      isDown = false;
+      track.classList.remove('sv-dragging');
+    });
+
+    track.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1;
+      track.scrollLeft = scrollLeftStart - walk;
+    });
+
+    updateArrowState();
+  }
+}
+
+if (!customElements.get('glass-service-slider')) {
+  customElements.define('glass-service-slider', GlassServiceSlider);
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 100px;"></div>
+
+<div class="naf-bar-wrapper">
+    <style>
+        .naf-bar-wrapper .naf-bar {
+            position: fixed;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+            width: auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 0px solid rgba(255, 255, 255, 0.35);
+            border-radius: 54px;
+            box-shadow:
+                0 8px 32px rgba(74, 46, 30, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.6),
+                inset 0 -1px 1px rgba(74, 46, 30, 0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 6px;
+            z-index: 9999;
+        }
+
+        .naf-bar-wrapper .naf-bar::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 44px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0) 50%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .naf-bar-wrapper .naf-bar-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: px;
+            text-decoration: none;
+            color: #4a2e1e;
+            flex: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .naf-bar-wrapper .naf-bar-item:active {
+            transform: scale(0.92);
+        }
+
+        .naf-bar-wrapper .naf-bar-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow:
+                0 4px 12px rgba(74, 46, 30, 0.12),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .naf-bar-wrapper .naf-bar-icon img {
+            width: 55%;
+            height: 55%;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+        }
+
+        .naf-bar-wrapper .naf-bar-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #3a2416;
+            opacity: .75;
+        }
+
+        /* ===== Hiệu ứng nhịp tim cho Flash Sale ===== */
+        .naf-bar-wrapper .naf-bar-icon--flash {
+            background: rgba(255, 87, 34, 0.25);
+            border-color: rgba(255, 87, 34, 0.5);
+            animation: naf-heartbeat 1.2s ease-in-out infinite;
+        }
+
+        .naf-bar-wrapper .naf-bar-icon--flash::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 87, 34, 0.6);
+            animation: naf-heartbeat-ring 1.2s ease-out infinite;
+        }
+
+        .naf-bar-wrapper .naf-bar-label--flash {
+            color: #d84315;
+            opacity: 1;
+        }
+
+        @keyframes naf-heartbeat {
+            0%   { transform: scale(1); }
+            14%  { transform: scale(1.12); }
+            28%  { transform: scale(1); }
+            42%  { transform: scale(1.12); }
+            70%  { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes naf-heartbeat-ring {
+            0%   { transform: scale(1);   opacity: 0.7; }
+            70%  { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        @media (min-width: 768px) { .naf-bar-wrapper { display: none; } }
+    </style>
+    <div class="naf-bar">
+        <a href="#san-pham" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://i.pinimg.com/736x/94/82/c1/9482c1817e224bf7274f0019cad37d45.jpg" alt="Sản phẩm">
+            </div>
+            <div class="naf-bar-label">Sản phẩm</div>
+        </a>
+
+        <a href="#flash-sale" class="naf-bar-item">
+            <div class="naf-bar-icon naf-bar-icon--flash">
+                <img src="https://i.pinimg.com/736x/f9/e1/a5/f9e1a58fee7fa014d88b0744b41aed31.jpg" alt="Flash sale">
+            </div>
+            <div class="naf-bar-label naf-bar-label--flash">Flash sale</div>
+        </a>
+
+        <a href="#dich-vu" class="naf-bar-item">
+            <div class="naf-bar-icon">
+                <img src="https://i.pinimg.com/736x/2c/3d/91/2c3d916368901c47231cf3e3079f3310.jpg" alt="Dịch vụ">
+            </div>
+            <div class="naf-bar-label">Dịch vụ</div>
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
+
+<glass-contact-popup></glass-contact-popup>
+
+<script>
+class GlassContactPopup extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: block;
+        }
+
+        .glass-popup-wrapper {
+          position: fixed;
+          /* ĐÃ NÂNG CAO LÊN TIẾP: 120px trên máy tính */
+          bottom: 120px;
+          right: 24px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          z-index: 999999;
+          font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .glass-popup-wrapper * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        /* === THIẾT KẾ NÚT CHÍNH CHỨA LOGO THƯƠNG HIỆU === */
+        .glass-popup-main {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.35);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.6);
+          box-shadow: 0 10px 28px rgba(111, 99, 171, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+          z-index: 10;
+        }
+
+        .glass-popup-main img {
+          width: 36px;
+          height: 36px;
+          object-fit: contain;
+          border-radius: 50%;
+        }
+
+        /* Bong bóng thủy tinh lơ lửng bám theo logo thương hiệu */
+        .glass-popup-wrapper .dt2-bubble {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0) 70%);
+          border: 1px solid rgba(255, 255, 255, 0.6);
+          pointer-events: none;
+          z-index: 11;
+          animation: popupFloat 4s ease-in-out infinite;
+        }
+        .glass-popup-wrapper .b1 { width: 14px; height: 14px; right: -2px; top: -2px; }
+
+        @keyframes popupFloat {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-4px) scale(1.1); }
+        }
+
+        /* === DANH SÁCH CÁC SOCIAL LIÊN HỆ === */
+        .glass-popup-menu {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .glass-popup-item {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.4);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          box-shadow: 0 6px 20px rgba(111, 99, 171, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          position: relative;
+          transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Định dạng cho ảnh logo Facebook bên trong nút */
+        .glass-popup-item img.fb-icon {
+          width: 22px;
+          height: 22px;
+          object-fit: contain;
+          transition: transform 0.3s ease;
+        }
+
+        /* SVG icon Hotline */
+        .glass-popup-item svg {
+          width: 20px;
+          height: 20px;
+          transition: transform 0.3s ease;
+        }
+
+        .glass-popup-item.hotline {
+          color: #e35d5d;
+          background: rgba(255, 235, 235, 0.4);
+        }
+
+        /* Hiệu ứng gợn sóng cho Hotline */
+        .glass-popup-item.hotline::after {
+          content: '';
+          position: absolute;
+          width: 100%; height: 100%;
+          border-radius: 50%;
+          border: 1px solid rgba(227, 93, 93, 0.35);
+          top: 0; left: 0;
+          z-index: -1;
+          animation: glassPulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes glassPulse {
+          0% { transform: scale(1); opacity: 0.8; }
+          100% { transform: scale(1.35); opacity: 0; }
+        }
+
+        /* Tooltip text khi rê chuột vào */
+        .glass-popup-item .glass-tooltip {
+          position: absolute;
+          right: 62px;
+          top: 50%;
+          transform: translateY(-50%) translateX(10px);
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.7);
+          padding: 5px 12px;
+          border-radius: 100px;
+          font-size: 11.5px;
+          font-weight: 600;
+          white-space: nowrap;
+          opacity: 0;
+          pointer-events: none;
+          transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+          box-shadow: 0 4px 12px rgba(111, 99, 171, 0.05);
+        }
+
+        /* === TRẠNG THÁI HOVER NÚT === */
+        .glass-popup-main:hover {
+          transform: scale(1.05) rotate(5deg);
+          border-color: rgba(111, 99, 171, 0.4);
+          background: rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-popup-item:hover {
+          transform: translateY(-3px);
+          background: rgba(255, 255, 255, 0.75);
+          border-color: rgba(111, 99, 171, 0.3);
+          box-shadow: 0 10px 24px rgba(111, 99, 171, 0.15);
+        }
+
+        .glass-popup-item:hover img.fb-icon,
+        .glass-popup-item:hover svg { transform: scale(1.1); }
+        .glass-popup-item:hover .glass-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+        /* Responsive cho di động */
+        @media (max-width: 768px) {
+          .glass-popup-wrapper { 
+            /* ĐÃ NÂNG CAO LÊN TIẾP: 96px trên mobile */
+            bottom: 96px; 
+            right: 16px; 
+            gap: 10px; 
+          }
+          .glass-popup-main { width: 50px; height: 50px; }
+          .glass-popup-main img { width: 32px; height: 32px; }
+          .glass-popup-item { width: 44px; height: 44px; }
+          .glass-popup-item img.fb-icon { width: 20px; height: 20px; }
+          .glass-popup-item svg { width: 18px; height: 18px; }
+          .glass-popup-item .glass-tooltip { display: none; }
+        }
+      </style>
+
+      <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+
+      <div class="glass-popup-wrapper">
+        <div class="glass-popup-menu">
+          <a href="https://facebook.com/yourpage" target="_blank" class="glass-popup-item" rel="noopener noreferrer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/250px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook" class="fb-icon">
+            <span class="glass-tooltip">Nhắn tin Fanpage</span>
+          </a>
+
+          <a href="tel:0900000000" class="glass-popup-item hotline">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            <span class="glass-tooltip">Hotline 24/7</span>
+          </a>
+        </div>
+
+        <div class="glass-popup-main">
+          <span class="dt2-bubble b1"></span>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLE1BP8WcQ7-1jkPFKCuxMcdzxs6kOX4VmkC3UOV1BBg&s=10" alt="Logo">
+        </div>
+      </div>
+    `;
+  }
+}
+
+if (!customElements.get('glass-contact-popup')) {
+  customElements.define('glass-contact-popup', GlassContactPopup);
+}
+</script>
