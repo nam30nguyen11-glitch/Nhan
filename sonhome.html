@@ -1,0 +1,3691 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liên Sơn Header with Mega Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: #fff;
+    height: 200vh;
+  }
+
+  header {
+    width: 100%;
+    background: #f0f1f6;
+    border-bottom: 1px solid #dcdfea;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 0 24px;
+    position: relative;
+  }
+
+  .logo { flex-shrink: 0; }
+  .logo img { height: 48px; display: block; }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+    height: 72px;
+    position: static;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .nav-item > a, nav > a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3a3a3a;
+    padding: 8px 18px;
+    border-radius: 999px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nav-item:hover > a, nav a:hover {
+    color: #040742;
+    background: #e7e8f2;
+  }
+
+  nav a.active {
+    background: #040742;
+    color: #fff;
+  }
+
+  .nh-chevron {
+    width: 12px;
+    height: 12px;
+    opacity: 0.5;
+    transition: transform 0.25s ease;
+  }
+  .nav-item:hover .nh-chevron {
+    transform: rotate(180deg);
+    opacity: 1;
+    color: #040742;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .btn-search {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid #c6c9db;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .btn-dat-lich {
+    background: #040742;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .btn-dat-lich:hover { background: #0a0e6b; }
+
+  /* MEGA MENU STYLES */
+  .nh-mega {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #eceef5;
+    border-bottom: 3px solid #040742;
+    box-shadow: 0 24px 48px rgba(4, 7, 66, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    z-index: 998;
+  }
+
+  .nav-item:hover .nh-mega {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .nh-mega-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .nh-mega-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #040742;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eceef5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nh-mega-col-title span {
+    width: 15px;
+    height: 1px;
+    background: #040742;
+    flex-shrink: 0;
+  }
+  
+  .nh-mega-links { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .nh-mega-links li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    color: #4b4d5e;
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .nh-mega-links li a:hover {
+    color: #040742;
+    background: #f7f7fb;
+    padding-left: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <img src="https://benhvienthammynaman.com/wp-content/uploads/2023/04/footer-logo-home.svg" alt="Logo Liên Sơn">
+    </div>
+
+    <nav>
+      <a href="home.html" class="active">Trang Chủ</a>
+
+      <div class="nav-item">
+        <a href="san-pham.html">
+          Sản Phẩm
+          <svg class="nh-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <div class="nh-mega">
+          <div class="nh-mega-inner">
+            <div class="nh-mega-col">
+              <div class="nh-mega-col-title"><span></span>Sơn</div>
+              <ul class="nh-mega-links">
+                <li><a href="san-pham.html">Sơn Chống Nóng</a></li>
+                <li><a href="san-pham.html">Sơn Dầu Galant</a></li>
+                <li><a href="san-pham.html">Sơn Kova</a></li>
+                <li><a href="san-pham.html">Sơn Dulux</a></li>
+                <li><a href="san-pham.html">Sơn Bạch Tuyết</a></li>
+                <li><a href="san-pham.html">Sơn Spec</a></li>
+                <li><a href="san-pham.html">Sơn Nippon</a></li>
+                <li><a href="san-pham.html">Sơn Boss</a></li>
+                <li><a href="san-pham.html">Sơn Joton</a></li>
+              </ul>
+            </div>
+            <div class="nh-mega-col">
+              <div class="nh-mega-col-title"><span></span>Phụ Kiện</div>
+              <ul class="nh-mega-links">
+                <li><a href="san-pham.html">Phụ Kiện Sơn</a></li>
+                <li><a href="san-pham.html">Bột Trét</a></li>
+              </ul>
+            </div>
+            <div class="nh-mega-col">
+              <div class="nh-mega-col-title"><span></span>Trang Trí</div>
+              <ul class="nh-mega-links">
+                <li><a href="san-pham.html">Giấy Dán Tường</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="ve-lien-son.html">Về Liên Sơn</a>
+      <a href="cong-trinh.html">Công Trình</a>
+      <a href="lien-he.html">Liên Hệ</a>
+    </nav>
+
+    <div class="actions">
+      <button class="btn-search"><svg viewBox="0 0 24 24" width="18" height="18" stroke="#040742" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button>
+      <button class="btn-dat-lich">Giỏ hàng</button>
+    </div>
+  </div>
+</header>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="cg-banner-scope">
+<style>
+  .cg-banner-scope, .cg-banner-scope * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .cg-banner-slider {
+    position: relative;
+    width: 100%;
+    max-width: 1340px;
+    margin: 80px auto;
+    aspect-ratio: 1280 / 480;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 8px solid #ffffff;
+    box-shadow: 0 20px 50px rgba(4, 7, 66, 0.18);
+    background: #fff;
+    font-family: 'Be Vietnam Pro', Arial, sans-serif;
+  }
+
+  .cg-slides-track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .cg-slide {
+    width: 50%;
+    height: 100%;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .cg-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Nav arrows */
+  .cg-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.25s, transform 0.25s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .cg-slider-arrow:hover {
+    background: #040742;
+    transform: translateY(-50%) scale(1.06);
+  }
+  .cg-slider-arrow:hover svg { stroke: #fff; }
+  .cg-slider-arrow svg {
+    width: 20px;
+    height: 20px;
+    stroke: #040742;
+    transition: stroke 0.25s;
+  }
+  .cg-arrow-prev { left: 20px; }
+  .cg-arrow-next { right: 20px; }
+
+  /* Dots */
+  .cg-slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .cg-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+  .cg-dot.cg-active {
+    background: #ffffff;
+    width: 26px;
+    border-radius: 5px;
+  }
+
+  @media (max-width: 768px) {
+    .cg-banner-slider { border-radius: 18px; border-width: 5px; }
+    .cg-slider-arrow { width: 38px; height: 38px; }
+    .cg-slider-arrow svg { width: 16px; height: 16px; }
+  }
+</style>
+
+<div class="cg-banner-slider">
+  <div class="cg-slides-track">
+    <div class="cg-slide">
+      <img src="https://i.pinimg.com/1200x/03/9f/36/039f3639e5b13459bc68d79ff9b38896.jpg" alt="Banner 1">
+    </div>
+    <div class="cg-slide">
+      <img src="https://i.pinimg.com/1200x/a9/fd/37/a9fd3795f540338cd37442d731e5887a.jpg" alt="Banner 2">
+    </div>
+  </div>
+
+  <button class="cg-slider-arrow cg-arrow-prev">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="cg-slider-arrow cg-arrow-next">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <div class="cg-slider-dots">
+    <button class="cg-dot cg-active"></button>
+    <button class="cg-dot"></button>
+  </div>
+</div>
+
+<script>
+(function() {
+  // Tìm scope hiện tại dựa vào thẻ script đang chạy
+  var currentScript = document.currentScript || (function() {
+    var scripts = document.getElementsByTagName('script');
+    return scripts[scripts.length - 1];
+  })();
+  
+  var scope = currentScript.closest('.cg-banner-scope');
+  if (!scope) return;
+
+  var track = scope.querySelector('.cg-slides-track');
+  var dots = scope.querySelectorAll('.cg-dot');
+  var prevBtn = scope.querySelector('.cg-arrow-prev');
+  var nextBtn = scope.querySelector('.cg-arrow-next');
+  
+  var totalReal = 2; 
+  var current = 0;
+
+  function updateTrack() {
+    if (track) {
+      track.style.transform = 'translateX(-' + (current * 50) + '%)';
+    }
+  }
+
+  function updateDots() {
+    dots.forEach(function(d, i) {
+      if (i === current) {
+        d.classList.add('cg-active');
+      } else {
+        d.classList.remove('cg-active');
+      }
+    });
+  }
+
+  function moveSlide(dir) {
+    current = (current + dir + totalReal) % totalReal;
+    updateTrack();
+    updateDots();
+  }
+
+  function goToSlide(index) {
+    current = index;
+    updateTrack();
+    updateDots();
+  }
+
+  // Gắn sự kiện cho nút điều hướng
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() { moveSlide(-1); });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() { moveSlide(1); });
+  }
+
+  // Gắn sự kiện cho các chấm tròn (dots)
+  dots.forEach(function(dot, index) {
+    dot.addEventListener('click', function() { goToSlide(index); });
+  });
+
+  // Khởi tạo trạng thái ban đầu
+  updateTrack();
+})();
+</script>
+</div>
+
+
+
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<div class="cg-product-title-scope">
+<style>
+/* Toàn bộ CSS được cô lập hoàn toàn trong scope .cg-product-title-scope */
+.cg-product-title-scope {
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.cg-product-title-scope *, 
+.cg-product-title-scope *::before, 
+.cg-product-title-scope *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.cg-product-title-scope .cg-section-heading {
+  text-align: center;
+}
+
+/* ============ Liquid Glass Bubble — Bản độc lập ============ */
+.cg-product-title-scope .cg-text-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 0px;
+}
+
+.cg-product-title-scope .cg-main-title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  position: relative;
+  letter-spacing: 0.5px;
+  /* Phối dải màu Gradient chuyển tiếp mượt mà về #040742 */
+  background: linear-gradient(170deg, #9cb3f7 0%, #5a76cf 20%, #2e4ca8 40%, #152c80 65%, #081452 82%, #040742 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Bóng đổ khuếch tán phía sau sử dụng màu #040742 */
+.cg-product-title-scope .cg-main-title::before {
+  content: 'SẢN PHẨM';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  color: #040742;
+  transform: translate(0px, 4px);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.4;
+}
+
+/* Viền chữ kính mỏng trong suốt tiệp màu #040742 */
+.cg-product-title-scope .cg-main-title::after {
+  content: 'SẢN PHẨM';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.6px rgba(4, 7, 66, 0.45);
+  pointer-events: none;
+}
+
+/* Highlight vòm sáng mềm phía trên đỉnh chữ */
+.cg-product-title-scope .cg-title-glow {
+  position: absolute;
+  top: 14%; left: 8%; right: 8%; height: 32%;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(235, 243, 255, 0.75) 0%, rgba(235, 243, 255, 0) 75%);
+  pointer-events: none;
+  filter: blur(3px);
+  mix-blend-mode: screen;
+}
+
+/* Mặt nạ dải shimmer quét qua chữ */
+.cg-product-title-scope .cg-title-flash {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(170deg, #9cb3f7 0%, #5a76cf 20%, #2e4ca8 40%, #152c80 65%, #081452 82%, #040742 100%);
+  mask-image: linear-gradient(170deg, #9cb3f7 0%, #5a76cf 20%, #2e4ca8 40%, #152c80 65%, #081452 82%, #040742 100%);
+  -webkit-mask-mode: alpha;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: transparent;
+}
+
+.cg-product-title-scope .cg-title-flash::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: -60%; width: 40%; height: 140%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
+  transform: skewX(-12deg);
+  animation: cgProductShimmerSweep 4.5s ease-in-out infinite;
+}
+
+@keyframes cgProductShimmerSweep {
+  0% { left: -60%; opacity: 0; }
+  8% { opacity: 1; }
+  45% { left: 120%; opacity: 1; }
+  55% { opacity: 0; }
+  100% { left: 120%; opacity: 0; }
+}
+
+/* Hạt pha lê lấp lánh phản chiếu */
+.cg-product-title-scope .cg-light-dots {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+  animation: cgProductSparkleTwinkle 2.6s ease-in-out infinite;
+}
+
+.cg-product-title-scope .cg-light-dots.cg-pt1 { top: 12%; left: 18%; animation-delay: 0s; }
+.cg-product-title-scope .cg-light-dots.cg-pt2 { top: 30%; left: 78%; width: 4px; height: 4px; animation-delay: 0.6s; }
+.cg-product-title-scope .cg-light-dots.cg-pt3 { top: 65%; left: 8%; width: 3px; height: 3px; animation-delay: 1.3s; }
+.cg-product-title-scope .cg-light-dots.cg-pt4 { top: 78%; left: 70%; width: 4px; height: 4px; animation-delay: 1.9s; }
+.cg-product-title-scope .cg-light-dots.cg-pt5 { top: 8%; left: 55%; width: 3px; height: 3px; animation-delay: 2.2s; }
+
+@keyframes cgProductSparkleTwinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Đường gạch mờ nhẹ tinh tế dưới chân chữ */
+.cg-product-title-scope .cg-text-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: 10%; left: 6%; right: 6%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(4, 7, 66, 0.2) 50%, transparent);
+  filter: blur(1px);
+}
+</style>
+
+<div class="cg-section-heading">
+  <div class="cg-text-wrap">
+    <h1 class="cg-main-title">SẢN PHẨM</h1>
+    <div class="cg-title-flash" aria-hidden="true">SẢN PHẨM</div>
+    <div class="cg-title-glow"></div>
+    <span class="cg-light-dots cg-pt1"></span>
+    <span class="cg-light-dots cg-pt2"></span>
+    <span class="cg-light-dots cg-pt3"></span>
+    <span class="cg-light-dots cg-pt4"></span>
+    <span class="cg-light-dots cg-pt5"></span>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="cgwgt-scope">
+<style>
+.cgwgt-scope, .cgwgt-scope * { box-sizing: border-box; }
+
+.cgwgt-scope {
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.cgwgt-root {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0; /* Đã sửa lỗi thiếu đơn vị px */
+  border-radius: 28px;
+}
+
+.cgwgt-slider-wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.cgwgt-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * 18px) / 4);
+  gap: 18px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 2px 2px 6px;
+}
+
+.cgwgt-grid::-webkit-scrollbar { display: none; }
+
+.cgwgt-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: #040742;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.cgwgt-nav-btn:hover {
+  background: #040742;
+  color: #ffffff;
+}
+
+.cgwgt-nav-prev { left: -16px; }
+.cgwgt-nav-next { right: -16px; }
+
+.cgwgt-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  box-shadow: 0 6px 18px rgba(4, 7, 66, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cgwgt-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(4, 7, 66, 0.2);
+}
+
+.cgwgt-card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background: #eef0f5;
+}
+
+.cgwgt-card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 7, 66, 0.55) 0%, rgba(4, 7, 66, 0) 42%);
+  pointer-events: none;
+}
+
+.cgwgt-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.cgwgt-card:hover .cgwgt-card-img img {
+  transform: scale(1.06);
+}
+
+.cgwgt-card-name {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  padding: 11px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .cgwgt-grid {
+    grid-auto-columns: calc((100% - 14px) / 2.3);
+    gap: 14px;
+  }
+  .cgwgt-card-name {
+    font-size: 13px;
+    padding: 9px 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+</style>
+
+<div class="cgwgt-root">
+  <div class="cgwgt-slider-wrap">
+    <button class="cgwgt-nav-btn cgwgt-nav-prev" onclick="window.cgwgtSlide(this, -1)">❮</button>
+    <button class="cgwgt-nav-btn cgwgt-nav-next" onclick="window.cgwgtSlide(this, 1)">❯</button>
+    <div class="cgwgt-grid">
+
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/san-pham.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/e0/be/4b/e0be4be77bb6b8c42fec3c6d287e4975.jpg" alt="Sơn Chống Nóng">
+          </div>
+        <div class="cgwgt-card-name">Sơn Chống Nóng</div>
+      </a>
+
+      <a href="h" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/be/6f/a0/be6fa04f04323adba8d00c7a85acbe02.jpg" alt="Sơn Dầu Galant">
+          </div>
+        <div class="cgwgt-card-name">Sơn Dầu Galant</div>
+      </a>
+
+      <a href="" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/e9/f3/91/e9f391d467eb7c11c078eed5122b8588.jpg" alt="Sơn Kova">
+          </div>
+        <div class="cgwgt-card-name">Sơn Kova</div>
+      </a>
+
+      <a href="" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://i.pinimg.com/736x/f0/ec/a1/f0eca1dd3b2daabd9fcb00bd56eba716.jpg" alt="Sơn Dulux">
+          </div>
+        <div class="cgwgt-card-name">Sơn Dulux</div>
+      </a>
+
+      <a href="" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=500&q=80" alt="Sơn Bạch Tuyết">
+          </div>
+        <div class="cgwgt-card-name">Sơn Bạch Tuyết</div>
+      </a>
+
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/san-pham.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=500&q=80" alt="Sơn Spec">
+          </div>
+        <div class="cgwgt-card-name">Sơn Spec</div>
+      </a>
+
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/san-pham.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=500&q=80" alt="Sơn Nippon">
+          </div>
+        <div class="cgwgt-card-name">Sơn Nippon</div>
+      </a>
+
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/san-pham.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80" alt="Sơn Boss">
+          </div>
+        <div class="cgwgt-card-name">Sơn Boss</div>
+      </a>
+
+      <a href="https://nam30nguyen11-glitch.github.io/Nhan/san-pham.html" class="cgwgt-card">
+        <div class="cgwgt-card-img">
+            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&q=80" alt="Sơn Joton">
+          </div>
+        <div class="cgwgt-card-name">Sơn Joton</div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  if (!window.cgwgtSlide) {
+    window.cgwgtSlide = function(btnEl, dir) {
+      var root = btnEl.closest('.cgwgt-root');
+      if (!root) return;
+      var grid = root.querySelector('.cgwgt-grid');
+      if (!grid) return;
+      
+      var firstCard = grid.querySelector('.cgwgt-card');
+      if (!firstCard) return;
+
+      // Lấy chính xác chiều rộng của 1 card (bao gồm cả border/padding nếu có)
+      var cardWidth = firstCard.getBoundingClientRect().width;
+      
+      // Lấy khoảng cách gap thực tế giữa các item từ CSScomputed
+      var gridGap = parseFloat(window.getComputedStyle(grid).gap) || 0;
+      
+      // Tính toán bước nhảy tối ưu: Cuộn chính xác theo cụm dựa theo kích thước màn hình
+      var scrollStep = cardWidth + gridGap;
+      var visibleWidth = grid.clientWidth;
+      
+      // Số lượng card hiển thị trọn vẹn trong khung nhìn
+      var cardsInView = Math.floor((visibleWidth + gridGap) / scrollStep) || 1;
+      
+      // Quãng đường dịch chuyển bằng tổng độ rộng các card hiển thị + khoảng cách
+      var finalDistance = dir * (scrollStep * cardsInView);
+
+      grid.scrollBy({ left: finalDistance, behavior: 'smooth' });
+    };
+  }
+})();
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 40px;">
+
+
+
+
+
+
+
+
+
+
+
+<div class="cwgt-scope">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
+
+
+.cwgt-scope, .cwgt-scope * { box-sizing: border-box; }
+
+
+.cwgt-scope {
+font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+
+.cwgt-root {
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border: 1px solid rgba(120, 120, 120, 0.18);
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+border-radius: 24px;
+padding: 28px;
+position: relative;
+overflow: hidden;
+max-width: 1280px;
+margin: 0 auto;
+}
+
+
+.cwgt-wrap {
+position: relative;
+z-index: 1;
+}
+
+
+/* RIGHT */
+.cwgt-content { width: 100%; }
+
+
+/* TABS */
+.cwgt-tabs-wrap {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 18px;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+
+.cwgt-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+
+
+.cwgt-tab {
+padding: 9px 18px;
+border-radius: 25px;
+background: rgba(255,255,255,0.4);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.6);
+cursor: pointer;
+font-size: 12.5px;
+font-weight: 600;
+color: #4a4a4a;
+letter-spacing: 0.5px;
+transition: 0.2s;
+}
+
+
+.cwgt-tab:hover { background: rgba(255,255,255,0.6); }
+
+
+.cwgt-tab.cwgt-active {
+background: rgba(4,7,66,0.1);
+border-color: rgba(4,7,66,0.35);
+color: #040742;
+}
+
+
+.cwgt-view-all {
+color: #040742;
+font-weight: 600;
+text-decoration: none;
+font-size: 13px;
+white-space: nowrap;
+}
+
+
+/* SLIDER */
+.cwgt-slider-wrap { position: relative; display: none; }
+.cwgt-slider-wrap.cwgt-active { display: block; }
+
+
+.cwgt-grid {
+display: none;
+grid-auto-flow: column;
+grid-auto-columns: calc((100% - 3 * 26px) / 4);
+gap: 26px;
+overflow-x: auto;
+scroll-behavior: smooth;
+scrollbar-width: none;
+padding: 4px 2px 8px;
+}
+
+
+.cwgt-grid::-webkit-scrollbar { display: none; }
+.cwgt-grid.cwgt-active { display: grid; }
+
+
+/* CARD */
+.cwgt-card {
+background: rgba(255,255,255,0.45);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border: 1px solid rgba(255,255,255,0.7);
+border-radius: 18px;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+transition: transform 0.25s, box-shadow 0.25s;
+box-shadow: 0 4px 16px rgba(4,7,66,0.08);
+}
+
+
+.cwgt-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 12px 28px rgba(4,7,66,0.16);
+}
+
+
+.cwgt-img-wrap { position: relative; }
+
+
+.cwgt-card img {
+width: 100%;
+aspect-ratio: 3/4;
+object-fit: cover;
+display: block;
+}
+
+
+.cwgt-badge {
+position: absolute;
+top: 10px; left: 10px;
+background: rgba(4,7,66,0.8);
+color: #fff;
+font-size: 10px;
+font-weight: 700;
+padding: 4px 10px;
+border-radius: 20px;
+letter-spacing: 0.5px;
+}
+
+
+.cwgt-card-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+
+.cwgt-card h4 {
+font-size: 14px;
+font-weight: 600;
+color: #1a1a2e;
+line-height: 1.35;
+margin: 0;
+}
+
+
+.cwgt-price-wrap { display: flex; align-items: center; gap: 8px; }
+
+
+.cwgt-old-price { color: #9a9aad; font-size: 12px; text-decoration: line-through; }
+
+
+.cwgt-price { color: #040742; font-weight: 800; font-size: 16px; }
+
+
+.cwgt-contact {
+color: #040742;
+font-weight: 700;
+font-size: 14px;
+letter-spacing: 0.3px;
+}
+
+
+/* NUT MUA NGAY */
+.cwgt-btn {
+display: block;
+padding: 9px;
+background: linear-gradient(90deg, #040742, #10156e);
+color: #fff;
+text-align: center;
+border-radius: 10px;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+text-decoration: none;
+transition: opacity 0.2s;
+margin-top: auto;
+}
+
+
+.cwgt-btn:hover { opacity: 0.88; }
+
+
+/* NAV */
+.cwgt-nav-btn {
+position: absolute;
+top: 50%; transform: translateY(-50%);
+width: 34px; height: 34px;
+background: rgba(255,255,255,0.85);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border: 1px solid rgba(120,120,120,0.3);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+cursor: pointer;
+font-size: 14px;
+color: #040742;
+z-index: 10;
+transition: background 0.2s;
+}
+
+
+.cwgt-nav-btn:hover { background: #040742; color: #fff; }
+.cwgt-nav-prev { left: -17px; }
+.cwgt-nav-next { right: -17px; }
+
+@media (max-width: 900px) {
+  .cwgt-grid {
+    grid-auto-columns: calc((100% - 20px) / 2.3);
+    gap: 16px;
+  }
+}
+</style>
+
+
+<div class="cwgt-root" id="cwgt-root-1">
+<div class="cwgt-wrap">
+
+
+<div class="cwgt-content">
+
+
+<div class="cwgt-tabs-wrap">
+<div class="cwgt-tabs">
+<div class="cwgt-tab cwgt-active" onclick="cwgtShowTab(this, 0)">Sơn Nội Thất</div>
+<div class="cwgt-tab" onclick="cwgtShowTab(this, 1)">Sơn Ngoại Thất</div>
+<div class="cwgt-tab" onclick="cwgtShowTab(this, 2)">Sơn Chống Thấm</div>
+<div class="cwgt-tab" onclick="cwgtShowTab(this, 3)">Phụ Kiện Thi Công</div>
+</div>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/san-pham.html" class="cwgt-view-all">Xem tất cả →</a>
+</div>
+
+
+<!-- TAB 1: SƠN NỘI THẤT -->
+<div class="cwgt-slider-wrap cwgt-active">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 0, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 0, 1)">❯</button>
+<div class="cwgt-grid cwgt-active" data-cwgt-grid="0">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80" alt="Sơn Dulux nội thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Dulux nội thất bóng mờ</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&q=80" alt="Sơn Kova nội thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Kova nội thất siêu trắng</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=500&q=80" alt="Sơn Bạch Tuyết nội thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Bạch Tuyết nội thất cao cấp</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=500&q=80" alt="Sơn Nippon nội thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Nippon nội thất kháng khuẩn</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1523419409543-8c1a91125f2f?w=500&q=80" alt="Sơn Boss nội thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Boss nội thất bề mặt mịn</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- TAB 2: SƠN NGOẠI THẤT -->
+<div class="cwgt-slider-wrap">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 1, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 1, 1)">❯</button>
+<div class="cwgt-grid" data-cwgt-grid="1">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=500&q=80" alt="Sơn chống nóng ngoại thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn chống nóng ngoại thất cách nhiệt</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1580462611452-33f6b7c5f5a2?w=500&q=80" alt="Sơn Dulux ngoại thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Dulux ngoại thất bền màu</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80" alt="Sơn Joton ngoại thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Joton ngoại thất chống rêu mốc</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&q=80" alt="Sơn Spec ngoại thất" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn Spec ngoại thất chịu thời tiết</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- TAB 3: SƠN CHỐNG THẤM -->
+<div class="cwgt-slider-wrap">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 2, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 2, 1)">❯</button>
+<div class="cwgt-grid" data-cwgt-grid="2">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=500&q=80" alt="Sơn chống thấm Kova" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn chống thấm Kova CT-11A</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=500&q=80" alt="Sơn chống thấm sân thượng" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn chống thấm sân thượng gốc Bitum</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1523419409543-8c1a91125f2f?w=500&q=80" alt="Sơn chống thấm nhà vệ sinh" />
+</div>
+<div class="cwgt-card-body">
+<h4>Sơn chống thấm nhà vệ sinh 2 thành phần</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- TAB 4: PHỤ KIỆN THI CÔNG -->
+<div class="cwgt-slider-wrap">
+<button class="cwgt-nav-btn cwgt-nav-prev" onclick="cwgtSlide(this, 3, -1)">❮</button>
+<button class="cwgt-nav-btn cwgt-nav-next" onclick="cwgtSlide(this, 3, 1)">❯</button>
+<div class="cwgt-grid" data-cwgt-grid="3">
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1580462611452-33f6b7c5f5a2?w=500&q=80" alt="Rulo lăn sơn" />
+</div>
+<div class="cwgt-card-body">
+<h4>Bộ rulo lăn sơn chuyên dụng</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=500&q=80" alt="Bột trét tường" />
+</div>
+<div class="cwgt-card-body">
+<h4>Bột trét tường nội thất Kova</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+<div class="cwgt-card">
+<div class="cwgt-img-wrap">
+<img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500&q=80" alt="Giấy dán tường" />
+</div>
+<div class="cwgt-card-body">
+<h4>Giấy dán tường họa tiết hiện đại</h4>
+<a href="https://nam30nguyen11-glitch.github.io/Nhan/spchitiet.html" class="cwgt-btn">Liên hệ</a>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<script>
+(function(){
+function cwgtShowTab(tabEl, i) {
+var root = tabEl.closest('.cwgt-root');
+if (!root) return;
+root.querySelectorAll('.cwgt-tab').forEach(function(t, idx){ t.classList.toggle('cwgt-active', idx === i); });
+root.querySelectorAll('.cwgt-grid').forEach(function(g, idx){ g.classList.toggle('cwgt-active', idx === i); });
+root.querySelectorAll('.cwgt-slider-wrap').forEach(function(w, idx){ w.classList.toggle('cwgt-active', idx === i); });
+}
+
+
+function cwgtSlide(btnEl, tabIdx, dir) {
+var root = btnEl.closest('.cwgt-root');
+if (!root) return;
+var grid = root.querySelector('[data-cwgt-grid="' + tabIdx + '"]');
+if (!grid) return;
+grid.scrollBy({ left: dir * grid.clientWidth * 0.8, behavior: 'smooth' });
+}
+
+
+window.cwgtShowTab = cwgtShowTab;
+window.cwgtSlide = cwgtSlide;
+})();
+</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 40px;">
+
+
+<div class="cgf-booking-scope">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+
+  .cgf-booking-scope {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    width: 100%;
+    max-width: 1280px; /* Thu nhỏ chiều rộng tổng thể */
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 4px; /* Giảm padding cho gọn */
+  }
+
+  .cgf-booking-scope *, 
+  .cgf-booking-scope *::before, 
+  .cgf-booking-scope *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cgf-wrap {
+    display: flex;
+    gap: 32px; /* Thu hẹp khoảng cách giữa 2 cột */
+    align-items: flex-start;
+    background: linear-gradient(135deg, #fff7f0 0%, #fdeede 20%, #fdf3e8 40%, #faebd7 60%, #fdf0e0 80%, #fff8f0 100%);
+    border-radius: 20px;
+    padding: 28px; /* Giảm khoảng cách đệm bên trong */
+    box-shadow: 0 10px 30px rgba(42, 26, 10, 0.04);
+  }
+
+  /* Cột bên trái */
+  .cgf-left { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+  }
+
+  .cgf-hours-card {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(18px); 
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,220,180,0.6);
+    border-radius: 14px; 
+    padding: 18px 20px;
+    display: flex; 
+    flex-direction: column; 
+    gap: 4px;
+  }
+
+  .cgf-hours-title {
+    font-size: 11px; 
+    font-weight: 600; 
+    letter-spacing: 1.5px;
+    text-transform: uppercase; 
+    color: #c47a2a; 
+    margin-bottom: 8px;
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+  }
+
+  .cgf-hours-row {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 8px 0; 
+    border-bottom: 0.5px solid rgba(200,140,60,0.12);
+    font-size: 13px;
+  }
+
+  .cgf-hours-row:last-child { border-bottom: none; }
+  .cgf-hours-day { color: #5c3e1a; font-weight: 400; }
+  .cgf-hours-time { font-weight: 600; color: #2a1a0a; }
+
+  .cgf-hours-badge {
+    font-size: 10px; 
+    font-weight: 600; 
+    padding: 2px 8px;
+    border-radius: 20px; 
+    letter-spacing: 0.5px;
+  }
+
+  .cgf-badge-open { background: #e6f9ee; color: #1a7a40; }
+  .cgf-badge-closed { background: #fce8d8; color: #c84a1a; }
+
+  .cgf-contact-row { 
+    display: flex; 
+    gap: 14px; 
+  }
+
+  .cgf-contact-item {
+    flex: 1;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(18px); 
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,220,180,0.6);
+    border-radius: 12px; 
+    padding: 12px 14px;
+    display: flex; 
+    flex-direction: column; 
+    gap: 4px;
+  }
+
+  .cgf-contact-label { 
+    font-size: 10px; 
+    font-weight: 600; 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
+    color: #c47a2a; 
+  }
+  .cgf-contact-val { 
+    font-size: 13px; 
+    font-weight: 600; 
+    color: #2a1a0a; 
+    line-height: 1.4;
+  }
+
+  /* Cột bên phải (Form) */
+  .cgf-right { 
+    flex: 0 0 320px; /* Thu nhỏ độ rộng form cố định */
+  }
+
+  .cgf-form-card {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(24px); 
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,220,180,0.7);
+    border-radius: 16px; 
+    padding: 24px 20px; /* Thu nhỏ khoảng cách đệm form */
+    display: flex; 
+    flex-direction: column; 
+    gap: 14px;
+  }
+
+  .cgf-form-heading {
+    font-size: 22px; /* Thu nhỏ tiêu đề form */
+    font-weight: 700; 
+    color: #2a1a0a;
+    letter-spacing: -0.3px; 
+    margin-bottom: 4px; 
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .cgf-form-group { 
+    display: flex; 
+    flex-direction: column; 
+  }
+
+  .cgf-input {
+    width: 100%; 
+    box-sizing: border-box;
+    border: 1px solid rgba(200,140,60,0.25);
+    border-radius: 10px; 
+    padding: 11px 14px; /* Giảm padding input */
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 13.5px; 
+    color: #2a1a0a;
+    background: rgba(255,255,255,0.7);
+    outline: none; 
+    transition: all 0.2s ease;
+  }
+
+  .cgf-input::placeholder { color: #c8a878; opacity: 0.8; }
+  .cgf-input:focus { 
+    border-color: rgba(200,140,60,0.6); 
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(200,140,60,0.08);
+  }
+
+  .cgf-btn {
+    width: 100%; 
+    padding: 12px; 
+    border: none; 
+    border-radius: 10px;
+    background: linear-gradient(90deg, #e8873a 0%, #d4601a 100%);
+    color: #fff; 
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px; 
+    font-weight: 700; 
+    letter-spacing: 1.5px;
+    text-transform: uppercase; 
+    cursor: pointer; 
+    margin-top: 2px;
+    transition: opacity 0.2s;
+  }
+  .cgf-btn:hover { opacity: 0.95; }
+
+  .cgf-note {
+    font-size: 11px; 
+    color: #a07840; 
+    text-align: center;
+    margin: 0; 
+    line-height: 1.5;
+  }
+
+  /* Responsive mượt cho thiết bị di động */
+  @media (max-width: 768px) {
+    .cgf-wrap {
+      flex-direction: column;
+      gap: 24px;
+      padding: 20px;
+    }
+    .cgf-right {
+      width: 100%;
+      flex: none;
+    }
+    .cgf-contact-row {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+</style>
+
+<div class="cgf-wrap">
+  <div class="cgf-left">
+    <div class="cgf-hours-card">
+      <div class="cgf-hours-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        Giờ làm việc
+      </div>
+      <div class="cgf-hours-row">
+        <span class="cgf-hours-day">Thứ Hai – Thứ Bảy</span>
+        <span class="cgf-hours-time">08:00 – 18:00</span>
+        <span class="cgf-hours-badge cgf-badge-open">Mở cửa</span>
+      </div>
+      <div class="cgf-hours-row">
+        <span class="cgf-hours-day">Chủ Nhật</span>
+        <span class="cgf-hours-badge cgf-badge-closed">Nghỉ</span>
+      </div>
+      <div class="cgf-hours-row">
+        <span class="cgf-hours-day">Ngày Lễ</span>
+        <span class="cgf-hours-badge cgf-badge-closed">Nghỉ lễ</span>
+      </div>
+    </div>
+
+    <div class="cgf-contact-row">
+      <div class="cgf-contact-item">
+        <span class="cgf-contact-label">Hotline</span>
+        <span class="cgf-contact-val">1800 1234</span>
+      </div>
+      <div class="cgf-contact-item">
+        <span class="cgf-contact-label">Địa chỉ</span>
+        <span class="cgf-contact-val">791 Lũy Bán Bích, Tân Thành, Tân Phú, TPHCM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cgf-right">
+    <div class="cgf-form-card">
+      <h3 class="cgf-form-heading">Tư Vấn Ngay</h3>
+
+      <div class="cgf-form-group">
+        <input class="cgf-input" type="text" placeholder="Tên của bạn" aria-label="Tên của bạn" />
+      </div>
+
+      <div class="cgf-form-group">
+        <input class="cgf-input" type="tel" placeholder="Số điện thoại" aria-label="Số điện thoại" />
+      </div>
+
+      <button class="cgf-btn">Đăng Ký Tư Vấn</button>
+      <p class="cgf-note">Dữ liệu của khách hàng được bảo mật tuyệt đối</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div style="padding-top: 40px;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* Toàn bộ CSS được cô lập hoàn toàn trong scope .my-diary-container */
+.my-diary-container {
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.my-diary-container *, 
+.my-diary-container *::before, 
+.my-diary-container *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.my-diary-container .section-title {
+  text-align: center;
+}
+
+/* ============ Liquid Glass Bubble — Bản độc lập ============ */
+.my-diary-container .title-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 0px;
+}
+
+.my-diary-container .title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  position: relative;
+  letter-spacing: 0.5px;
+  background: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Bóng đổ phía sau */
+.my-diary-container .title::before {
+  content: 'CÔNG TRÌNH';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  color: #040742;
+  transform: translate(0px, 4px);
+  z-index: -1;
+  filter: blur(9px);
+  opacity: 0.28;
+}
+
+/* Viền chữ glass mỏng */
+.my-diary-container .title::after {
+  content: 'CÔNG TRÌNH';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.6px rgba(4, 7, 66, 0.35);
+  pointer-events: none;
+}
+
+/* Highlight bầu mềm phía trên */
+.my-diary-container .title-shine {
+  position: absolute;
+  top: 16%; left: 8%; right: 8%; height: 32%;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(255, 250, 245, 0.55) 0%, rgba(255, 250, 245, 0) 75%);
+  pointer-events: none;
+  filter: blur(4px);
+  mix-blend-mode: screen;
+}
+
+/* Dải shimmer chạy qua chữ */
+.my-diary-container .title-shimmer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  mask-image: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  -webkit-mask-mode: alpha;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: transparent;
+}
+
+.my-diary-container .title-shimmer::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: -60%; width: 40%; height: 140%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+  transform: skewX(-12deg);
+  animation: diaryShimmerSweep 4.5s ease-in-out infinite;
+}
+
+@keyframes diaryShimmerSweep {
+  0% { left: -60%; opacity: 0; }
+  8% { opacity: 1; }
+  45% { left: 120%; opacity: 1; }
+  55% { opacity: 0; }
+  100% { left: 120%; opacity: 0; }
+}
+
+/* Hạt thủy tinh lấp lánh */
+.my-diary-container .sparkle {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+  animation: diarySparkleTwinkle 2.6s ease-in-out infinite;
+}
+
+.my-diary-container .sparkle.s1 { top: 12%; left: 18%; animation-delay: 0s; }
+.my-diary-container .sparkle.s2 { top: 30%; left: 78%; width: 4px; height: 4px; animation-delay: 0.6s; }
+.my-diary-container .sparkle.s3 { top: 65%; left: 8%; width: 3px; height: 3px; animation-delay: 1.3s; }
+.my-diary-container .sparkle.s4 { top: 78%; left: 70%; width: 4px; height: 4px; animation-delay: 1.9s; }
+.my-diary-container .sparkle.s5 { top: 8%; left: 55%; width: 3px; height: 3px; animation-delay: 2.2s; }
+
+@keyframes diarySparkleTwinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Viền gạch mờ bên dưới */
+.my-diary-container .title-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: 10%; left: 6%; right: 6%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(4, 7, 66, 0.2) 50%, transparent);
+  filter: blur(1px);
+}
+</style>
+
+<div class="my-diary-container">
+  <div class="section-title">
+    <div class="title-wrap">
+      <h1 class="title">CÔNG TRÌNH</h1>
+      <div class="title-shimmer" aria-hidden="true">CÔNG TRÌNH</div>
+      <div class="title-shine"></div>
+      <span class="sparkle s1"></span>
+      <span class="sparkle s2"></span>
+      <span class="sparkle s3"></span>
+      <span class="sparkle s4"></span>
+      <span class="sparkle s5"></span>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .skin-section {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    border-radius: 20px;
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    width: 1280px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .left-block {
+    flex: 0 0 auto;
+    width: 420px;
+    height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .left-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px;
+  }
+
+  .glass-box {
+    flex: 1;
+    background: rgba(255,255,255,0.45);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 20px;
+    padding: 32px 30px;
+    box-shadow: 0 4px 24px rgba(4,7,66,0.10), 0 1.5px 6px rgba(4,7,66,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-self: center;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: #040742;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .main-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #12142e;
+    line-height: 1.35;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+
+  .body-text {
+    font-size: 13.5px;
+    color: #4a4d63;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .blockquote {
+    border-left: 2.5px solid #040742;
+    padding-left: 16px;
+    margin: 0;
+  }
+
+  .blockquote p {
+    font-size: 13px;
+    color: #3a3d5c;
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0;
+  }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Section sơn nội thất bền màu</h2>
+
+<div class="wrapper">
+  <section class="skin-section">
+
+    <div class="left-block">
+      <img src="https://i.pinimg.com/736x/fd/87/7c/fd877c18e2357fe9923b28825b4022e0.jpg" alt="Sơn nội thất" width="900" height="900" />
+    </div>
+
+    <div class="glass-box">
+      <div class="section-label">01 — SƠN NỘI THẤT </div>
+      <h2 class="main-title">Hành Trình Tìm Ra Lớp Sơn<br>Nội Thất Ưng Ý Nhất</h2>
+      <p class="body-text">
+        Sơn nội thất không chỉ là lớp áo cho ngôi nhà mà còn ảnh hưởng trực tiếp đến sức khỏe người ở. Chúng tôi từng thử nhiều dòng sơn giá rẻ, dễ bong tróc và ám mùi lâu ngày — cho đến khi tìm ra công thức sơn gốc nước, phủ mịn, không mùi và bền màu theo thời gian.
+      </p>
+      <div class="blockquote">
+        <p>"Sau khi đổi sang dòng sơn đúng chuẩn — tường nhà lên màu chuẩn, đều và không còn ám mùi sau vài ngày sử dụng..."</p>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+  .nam-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .nam-section {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    border-radius: 20px;
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    width: 1280px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .nam-glass-box {
+    flex: 1;
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 20px;
+    padding: 32px 30px;
+    box-shadow: 0 4px 24px rgba(171,141,107,0.14), 0 1.5px 6px rgba(171,141,107,0.10);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-self: center;
+  }
+
+  .nam-section-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: #AB8D6B;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .main-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #2d2318;
+    line-height: 1.35;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+
+  .body-text {
+    font-size: 13.5px;
+    color: #5c4e3a;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .blockquote {
+    border-left: 2.5px solid #AB8D6B;
+    padding-left: 16px;
+    margin: 0;
+  }
+
+  .blockquote p {
+    font-size: 13px;
+    color: #8a6a40;
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .right-block {
+    flex: 0 0 auto;
+    width: 420px;
+    height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .right-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px;
+  }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Section sơn ngoại thất chịu thời tiết</h2>
+
+<div class="nam-wrapper">
+  <section class="skin-section">
+
+    <div class="nam-glass-box">
+      <div class="nam-section-label">02 — SƠN NGOẠI THẤT</div>
+      <h2 class="main-title">Sơn Ngoại Thất —<br>Bền Màu Dưới Mọi Thời Tiết</h2>
+      <p class="body-text">
+        Nắng gắt, mưa dầm và độ ẩm cao là những "kẻ thù" khiến sơn ngoại thất nhanh bạc màu, bong tróc. Chúng tôi đã thử nghiệm qua nhiều mùa mưa nắng khắc nghiệt, để rồi tìm ra dòng sơn có khả năng chống tia UV, kháng kiềm và chống thấm ngược hiệu quả.
+      </p>
+      <div class="blockquote">
+        <p>"Qua hai mùa mưa nắng — mặt tường vẫn giữ màu tươi mới, không hề bong tróc hay ố vàng..."</p>
+      </div>
+    </div>
+
+    <div class="right-block">
+      <img src="https://i.pinimg.com/736x/b1/15/31/b1153170ed221cf59c2244c9a07889a6.jpg" alt="Sơn ngoại thất" width="900" height="900" />
+    </div>
+
+  </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding-top: 40px;">
+  
+</div>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .skin-section {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    border-radius: 20px;
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    width: 1280px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .left-block {
+    flex: 0 0 auto;
+    width: 420px;
+    height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .left-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px;
+  }
+
+  .glass-box {
+    flex: 1;
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 20px;
+    padding: 32px 30px;
+    box-shadow: 0 4px 24px rgba(58,90,120,0.12), 0 1.5px 6px rgba(58,90,120,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-self: center;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: #3a5a78;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .main-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #1a2a38;
+    line-height: 1.35;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+
+  .body-text {
+    font-size: 13.5px;
+    color: #3a5068;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .blockquote {
+    border-left: 2.5px solid #3a5a78;
+    padding-left: 16px;
+    margin: 0;
+  }
+
+  .blockquote p {
+    font-size: 13px;
+    color: #4a7090;
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0;
+  }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Section sơn chống thấm</h2>
+
+<div class="wrapper">
+  <section class="skin-section">
+
+    <div class="left-block">
+      <img src="https://i.pinimg.com/736x/f5/e7/46/f5e746f99062b3f2cb77e4c32e684217.jpg" alt="Sơn chống thấm" width="900" height="900" />
+    </div>
+
+    <div class="glass-box">
+      <div class="section-label">03 — SƠN CHỐNG THẤM</div>
+      <h2 class="main-title">Khi Tường Nhà Không Còn<br>Nỗi Lo Thấm Dột</h2>
+      <p class="body-text">
+        Thấm dột là nỗi ám ảnh lớn nhất với mọi công trình lâu năm — không chỉ gây ố tường mà còn ảnh hưởng đến kết cấu. Chúng tôi đã tìm hiểu sâu về các lớp sơn phủ gốc polyurethane và acrylic co giãn, giúp bịt kín mọi vết nứt nhỏ và ngăn nước thấm ngược hiệu quả.
+      </p>
+      <div class="blockquote">
+        <p>"Sau một mùa mưa dài — trần và tường nhà vẫn khô ráo hoàn toàn, không còn vết ố loang như trước..."</p>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+/* Toàn bộ CSS được cô lập hoàn toàn trong scope .my-diary-container-2 */
+.my-diary-container-2 {
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.my-diary-container-2 *,
+.my-diary-container-2 *::before,
+.my-diary-container-2 *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.my-diary-container-2 .section-title {
+  text-align: center;
+}
+
+.my-diary-container-2 .title-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 0px;
+}
+
+.my-diary-container-2 .title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  position: relative;
+  letter-spacing: 0.5px;
+  background: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.my-diary-container-2 .title::before {
+  content: 'CÔNG NGHỆ';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  color: #040742;
+  transform: translate(0px, 4px);
+  z-index: -1;
+  filter: blur(9px);
+  opacity: 0.28;
+}
+
+.my-diary-container-2 .title::after {
+  content: 'CÔNG NGHỆ';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.6px rgba(4, 7, 66, 0.35);
+  pointer-events: none;
+}
+
+.my-diary-container-2 .title-shine {
+  position: absolute;
+  top: 16%; left: 8%; right: 8%; height: 32%;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(255, 250, 245, 0.55) 0%, rgba(255, 250, 245, 0) 75%);
+  pointer-events: none;
+  filter: blur(4px);
+  mix-blend-mode: screen;
+}
+
+.my-diary-container-2 .title-shimmer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  mask-image: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  -webkit-mask-mode: alpha;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: transparent;
+}
+
+.my-diary-container-2 .title-shimmer::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: -60%; width: 40%; height: 140%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+  transform: skewX(-12deg);
+  animation: diaryShimmerSweep2 4.5s ease-in-out infinite;
+}
+
+@keyframes diaryShimmerSweep2 {
+  0% { left: -60%; opacity: 0; }
+  8% { opacity: 1; }
+  45% { left: 120%; opacity: 1; }
+  55% { opacity: 0; }
+  100% { left: 120%; opacity: 0; }
+}
+
+.my-diary-container-2 .sparkle {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+  animation: diarySparkleTwinkle2 2.6s ease-in-out infinite;
+}
+
+.my-diary-container-2 .sparkle.s1 { top: 12%; left: 18%; animation-delay: 0s; }
+.my-diary-container-2 .sparkle.s2 { top: 30%; left: 78%; width: 4px; height: 4px; animation-delay: 0.6s; }
+.my-diary-container-2 .sparkle.s3 { top: 65%; left: 8%; width: 3px; height: 3px; animation-delay: 1.3s; }
+.my-diary-container-2 .sparkle.s4 { top: 78%; left: 70%; width: 4px; height: 4px; animation-delay: 1.9s; }
+.my-diary-container-2 .sparkle.s5 { top: 8%; left: 55%; width: 3px; height: 3px; animation-delay: 2.2s; }
+
+@keyframes diarySparkleTwinkle2 {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.my-diary-container-2 .title-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: 10%; left: 6%; right: 6%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(4, 7, 66, 0.2) 50%, transparent);
+  filter: blur(1px);
+}
+</style>
+
+<div class="my-diary-container-2">
+  <div class="section-title">
+    <div class="title-wrap">
+      <h1 class="title">CÔNG NGHỆ</h1>
+      <div class="title-shimmer" aria-hidden="true">CÔNG NGHỆ</div>
+      <div class="title-shine"></div>
+      <span class="sparkle s1"></span>
+      <span class="sparkle s2"></span>
+      <span class="sparkle s3"></span>
+      <span class="sparkle s4"></span>
+      <span class="sparkle s5"></span>
+    </div>
+  </div>
+</div>
+
+<div style="padding-top: 40px;">
+  
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap');
+
+  #tb-wrap {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    width: 1280px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 48px 36px;
+  }
+
+  .tb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .tb-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 20px rgba(4, 7, 66, 0.08);
+  }
+
+  .tb-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%;
+    overflow: hidden;
+  }
+
+  .tb-img-wrap img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .tb-body {
+    background: #ffffff;
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .tb-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    width: fit-content;
+  }
+
+  .tb-tag-noi { background: #e6e7f6; color: #040742; }
+  .tb-tag-ngoai { background: #f3ece2; color: #AB8D6B; }
+  .tb-tag-chong-tham { background: #e6eef5; color: #3a5a78; }
+
+  .tb-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1e1a2e;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .tb-method {
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a7a9a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .tb-divider {
+    height: 1px;
+    background: rgba(4,7,66,0.12);
+    margin: 2px 0;
+  }
+
+  .tb-desc {
+    font-size: 13px;
+    color: #4a4d63;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .tb-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 4px;
+  }
+
+  .tb-spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .tb-spec-key { color: #8a8aa5; }
+
+  .tb-spec-val { font-weight: 600; }
+  .tb-spec-val-noi { color: #040742; }
+  .tb-spec-val-ngoai { color: #AB8D6B; }
+  .tb-spec-val-chong-tham { color: #3a5a78; }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">3 công nghệ sơn nội thất, ngoại thất và chống thấm</h2>
+
+<div id="tb-wrap">
+  <div class="tb-grid">
+
+    <div class="tb-card">
+      <div class="tb-img-wrap">
+        <img src="https://i.pinimg.com/736x/89/c6/71/89c67148018e3d8c7742d5517c3ea087.jpg" alt="Công nghệ sơn nội thất" />
+      </div>
+      <div class="tb-body">
+        <span class="tb-tag tb-tag-noi">Sơn Nội Thất</span>
+        <h3 class="tb-name">Công Nghệ Phủ Mịn Không Mùi AirClean</h3>
+        <div class="tb-method">Công nghệ gốc nước kháng khuẩn</div>
+        <div class="tb-divider"></div>
+        <p class="tb-desc">Hạt sơn siêu mịn kết hợp phụ gia kháng khuẩn giúp bề mặt tường láng mượt, không mùi hắc, an toàn cho không gian sống có trẻ nhỏ và người lớn tuổi.</p>
+        <div class="tb-specs">
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Gốc sơn</span>
+            <span class="tb-spec-val tb-spec-val-noi">Gốc nước Acrylic</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Độ phủ</span>
+            <span class="tb-spec-val tb-spec-val-noi">12 – 14 m²/lít</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Thời gian khô</span>
+            <span class="tb-spec-val tb-spec-val-noi">1 – 2 giờ/lớp</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Phù hợp</span>
+            <span class="tb-spec-val tb-spec-val-noi">Phòng khách, phòng ngủ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tb-card">
+      <div class="tb-img-wrap">
+        <img src="https://i.pinimg.com/736x/94/8f/0d/948f0d5560b1f729f328167f12dd963f.jpg" alt="Công nghệ sơn ngoại thất" />
+      </div>
+      <div class="tb-body">
+        <span class="tb-tag tb-tag-ngoai">Sơn Ngoại Thất</span>
+        <h3 class="tb-name">Công Nghệ Chống Tia UV WeatherShield</h3>
+        <div class="tb-method">Công nghệ kháng kiềm & chống UV</div>
+        <div class="tb-divider"></div>
+        <p class="tb-desc">Lớp màng sơn co giãn chịu được nắng gắt và mưa axit, hạn chế phai màu, nứt chân chim, giữ mặt tiền công trình luôn tươi mới theo thời gian.</p>
+        <div class="tb-specs">
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Gốc sơn</span>
+            <span class="tb-spec-val tb-spec-val-ngoai">Nhũ tương Styrene Acrylic</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Hiệu quả</span>
+            <span class="tb-spec-val tb-spec-val-ngoai">Bền màu trên 8 năm</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Thời gian khô</span>
+            <span class="tb-spec-val tb-spec-val-ngoai">2 – 3 giờ/lớp</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Phù hợp</span>
+            <span class="tb-spec-val tb-spec-val-ngoai">Mặt tiền, tường ngoài trời</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tb-card">
+      <div class="tb-img-wrap">
+        <img src="https://i.pinimg.com/1200x/c3/16/1a/c3161aaedb0fbc99bcd3e6f83aa28ee4.jpg" alt="Công nghệ sơn chống thấm" />
+      </div>
+      <div class="tb-body">
+        <span class="tb-tag tb-tag-chong-tham">Chống Thấm</span>
+        <h3 class="tb-name">Công Nghệ Màng Đàn Hồi HydroBlock</h3>
+        <div class="tb-method">Công nghệ Polyurethane co giãn</div>
+        <div class="tb-divider"></div>
+        <p class="tb-desc">Màng sơn đàn hồi cao, bám dính tốt trên bê tông và tường cũ, tự bịt kín các vết nứt nhỏ, ngăn nước thấm ngược hiệu quả trong điều kiện mưa kéo dài.</p>
+        <div class="tb-specs">
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Gốc sơn</span>
+            <span class="tb-spec-val tb-spec-val-chong-tham">Polyurethane 1 thành phần</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Độ giãn dài</span>
+            <span class="tb-spec-val tb-spec-val-chong-tham">Trên 250%</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Thời gian khô</span>
+            <span class="tb-spec-val tb-spec-val-chong-tham">4 – 6 giờ/lớp</span>
+          </div>
+          <div class="tb-spec-row">
+            <span class="tb-spec-key">Phù hợp</span>
+            <span class="tb-spec-val tb-spec-val-chong-tham">Sân thượng, nhà vệ sinh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============ Tiêu đề TIN TỨC — Liquid Glass Bubble ============ */
+.news-title-container {
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.news-title-container *,
+.news-title-container *::before,
+.news-title-container *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.news-title-container .section-title { text-align: center; }
+
+.news-title-container .title-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 0px;
+}
+
+.news-title-container .title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  position: relative;
+  letter-spacing: 0.5px;
+  background: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.news-title-container .title::before {
+  content: 'TIN TỨC';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  color: #040742;
+  transform: translate(0px, 4px);
+  z-index: -1;
+  filter: blur(9px);
+  opacity: 0.28;
+}
+
+.news-title-container .title::after {
+  content: 'TIN TỨC';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.6px rgba(4, 7, 66, 0.35);
+  pointer-events: none;
+}
+
+.news-title-container .title-shine {
+  position: absolute;
+  top: 16%; left: 8%; right: 8%; height: 32%;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(255, 250, 245, 0.55) 0%, rgba(255, 250, 245, 0) 75%);
+  pointer-events: none;
+  filter: blur(4px);
+  mix-blend-mode: screen;
+}
+
+.news-title-container .title-shimmer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  mask-image: linear-gradient(170deg, #b9bdf0 0%, #7d84d6 20%, #4a52b8 40%, #262c8f 58%, #12155e 78%, #040742 100%);
+  -webkit-mask-mode: alpha;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(3.2rem, 9.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: transparent;
+}
+
+.news-title-container .title-shimmer::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: -60%; width: 40%; height: 140%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+  transform: skewX(-12deg);
+  animation: newsShimmerSweep 4.5s ease-in-out infinite;
+}
+
+@keyframes newsShimmerSweep {
+  0% { left: -60%; opacity: 0; }
+  8% { opacity: 1; }
+  45% { left: 120%; opacity: 1; }
+  55% { opacity: 0; }
+  100% { left: 120%; opacity: 0; }
+}
+
+.news-title-container .sparkle {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+  animation: newsSparkleTwinkle 2.6s ease-in-out infinite;
+}
+
+.news-title-container .sparkle.s1 { top: 12%; left: 18%; animation-delay: 0s; }
+.news-title-container .sparkle.s2 { top: 30%; left: 78%; width: 4px; height: 4px; animation-delay: 0.6s; }
+.news-title-container .sparkle.s3 { top: 65%; left: 8%; width: 3px; height: 3px; animation-delay: 1.3s; }
+.news-title-container .sparkle.s4 { top: 78%; left: 70%; width: 4px; height: 4px; animation-delay: 1.9s; }
+.news-title-container .sparkle.s5 { top: 8%; left: 55%; width: 3px; height: 3px; animation-delay: 2.2s; }
+
+@keyframes newsSparkleTwinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.news-title-container .title-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: 10%; left: 6%; right: 6%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(4, 7, 66, 0.2) 50%, transparent);
+  filter: blur(1px);
+}
+</style>
+
+<div class="news-title-container">
+  <div class="section-title">
+    <div class="title-wrap">
+      <h1 class="title">TIN TỨC</h1>
+      <div class="title-shimmer" aria-hidden="true">TIN TỨC</div>
+      <div class="title-shine"></div>
+      <span class="sparkle s1"></span>
+      <span class="sparkle s2"></span>
+      <span class="sparkle s3"></span>
+      <span class="sparkle s4"></span>
+      <span class="sparkle s5"></span>
+    </div>
+  </div>
+</div>
+
+<div style="padding-top: 32px;"></div>
+
+<!-- ============ NEWS SLIDER — CHIA ĐỀU 4 BOX KHỚP 1 HÀNG ============ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+
+.nws-scope, .nws-scope * { box-sizing: border-box; }
+.nws-scope { font-family: 'Be Vietnam Pro', sans-serif; }
+
+.nws-wrap {
+  width: 1280px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 36px 60px;
+  position: relative;
+}
+
+.nws-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 22px;
+}
+
+.nws-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #040742;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.nws-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: #14162e;
+  margin: 0;
+}
+
+.nws-nav-group { display: flex; gap: 10px; }
+
+.nws-nav-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(4,7,66,0.18);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.nws-nav-btn svg { width: 16px; height: 16px; stroke: #040742; transition: stroke 0.2s; }
+.nws-nav-btn:hover { background: #040742; border-color: #040742; }
+.nws-nav-btn:hover svg { stroke: #fff; }
+
+.nws-track {
+  display: flex;
+  gap: 20px; /* Độ dãn giữa các hộp */
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 4px 2px 10px;
+}
+.nws-track::-webkit-scrollbar { display: none; }
+
+/* FIX CỐ ĐỊNH 4 BOX CHIA ĐỀU TRÊN 1 HÀNG */
+.nws-card {
+  /* Tự động tính toán chia chính xác 4 box một dòng trên Desktop */
+  width: calc((100% - (20px * 3)) / 4); 
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid rgba(4,7,66,0.06);
+  box-shadow: 0 6px 18px rgba(4,7,66,0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nws-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(4,7,66,0.1);
+}
+
+.nws-img-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 58%; /* Tỷ lệ khung ảnh */
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.nws-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.nws-card:hover .nws-img {
+  transform: scale(1.05);
+}
+
+.nws-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.nws-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nws-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: #eceeF8;
+  color: #040742;
+}
+
+.nws-date {
+  font-size: 11px;
+  color: #9a9ab0;
+  font-weight: 500;
+}
+
+.nws-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #14162e;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.nws-excerpt {
+  font-size: 12.5px;
+  color: #6a6a80;
+  line-height: 1.55;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.nws-readmore {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #040742;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* Responsive mượt cho Tablet và Mobile */
+@media (max-width: 1024px) {
+  .nws-card { width: calc((100% - (20px * 2)) / 3); } /* Hiện 3 box trên tablet */
+}
+
+@media (max-width: 768px) {
+  .nws-wrap { padding: 0 16px 40px; }
+  .nws-card { width: calc((100% - 20px) / 2); } /* Hiện 2 box trên mobile lớn */
+  .nws-top { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+
+@media (max-width: 480px) {
+  .nws-card { width: 82%; } /* Vuốt mượt từng card trên điện thoại nhỏ */
+}
+</style>
+
+<div class="nws-scope">
+  <div class="nws-wrap">
+
+    <div class="nws-top">
+      <div>
+        <span class="nws-eyebrow">Góc chia sẻ</span>
+        <h2 class="nws-heading">Tin tức & kiến thức về sơn</h2>
+      </div>
+      <div class="nws-nav-group">
+        <button class="nws-nav-btn" onclick="nwsSlide(this, -1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="nws-nav-btn" onclick="nwsSlide(this, 1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="nws-track" id="nwsTrack">
+
+      <!-- Bài viết 1 -->
+      <a href="#" class="nws-card">
+        <div class="nws-img-wrap">
+          <img class="nws-img" src="https://i.pinimg.com/736x/92/68/79/926879d4fb2a90d61a6f903626b367ba.jpg" alt="Xu hướng màu sơn 2026" />
+        </div>
+        <div class="nws-body">
+          <div class="nws-meta">
+            <span class="nws-tag">Xu hướng</span>
+            <div class="nws-date">02/07/2026</div>
+          </div>
+          <h3 class="nws-title">Top 5 Xu Hướng Màu Sơn Nhà Được Ưa Chuộng Nhất 2026</h3>
+          <p class="nws-excerpt">Từ tông đất ấm áp đến xanh navy sang trọng — điểm qua những gam màu nội thất năm nay.</p>
+          <span class="nws-readmore">Đọc thêm →</span>
+        </div>
+      </a>
+
+      <!-- Bài viết 2 -->
+      <a href="#" class="nws-card">
+        <div class="nws-img-wrap">
+          <img class="nws-img" src="https://i.pinimg.com/1200x/63/7f/ae/637fae0cb9bd97392fcf5a99b01ae5f4.jpg" alt="Kinh nghiệm chọn sơn" />
+        </div>
+        <div class="nws-body">
+          <div class="nws-meta">
+            <span class="nws-tag">Kinh nghiệm</span>
+            <div class="nws-date">28/06/2026</div>
+          </div>
+          <h3 class="nws-title">5 Sai Lầm Thường Gặp Khi Tự Sơn Nhà Bạn Cần Tránh</h3>
+          <p class="nws-excerpt">Tự sơn nhà giúp tiết kiệm chi phí nhưng rất dễ mắc những sai lầm kỹ thuật không đáng có.</p>
+          <span class="nws-readmore">Đọc thêm →</span>
+        </div>
+      </a>
+
+      <!-- Bài viết 3 -->
+      <a href="#" class="nws-card">
+        <div class="nws-img-wrap">
+          <img class="nws-img" src="https://i.pinimg.com/1200x/02/de/ed/02deed3bb6a1876426ed929c4f843107.jpg" alt="Sơn chống thấm mùa mưa" />
+        </div>
+        <div class="nws-body">
+          <div class="nws-meta">
+            <span class="nws-tag">Kỹ thuật</span>
+            <div class="nws-date">22/06/2026</div>
+          </div>
+          <h3 class="nws-title">Cách Xử Lý Chống Thấm Trước Mùa Mưa Hiệu Quả</h3>
+          <p class="nws-excerpt">Hướng dẫn từng bước kiểm tra và xử lý các vị trí dễ thấm dột bề mặt tường cực chuẩn.</p>
+          <span class="nws-readmore">Đọc thêm →</span>
+        </div>
+      </a>
+
+      <!-- Bài viết 4 -->
+      <a href="#" class="nws-card">
+        <div class="nws-img-wrap">
+          <img class="nws-img" src="https://i.pinimg.com/736x/39/2c/42/392c42a20800f9d43ea73044b6748ff1.jpg" alt="So sánh sơn Dulux Kova" />
+        </div>
+        <div class="nws-body">
+          <div class="nws-meta">
+            <span class="nws-tag">So sánh</span>
+            <div class="nws-date">18/06/2026</div>
+          </div>
+          <h3 class="nws-title">Sơn Dulux Và Sơn Kova: Nên Chọn Loại Nào Cho Nhà Bạn?</h3>
+          <p class="nws-excerpt">Phân tích ưu nhược điểm chi tiết của hai dòng sơn phổ biến nhất thị trường hiện nay.</p>
+          <span class="nws-readmore">Đọc thêm →</span>
+        </div>
+      </a>
+
+      <!-- Bài viết 5 -->
+      <a href="#" class="nws-card">
+        <div class="nws-img-wrap">
+          <img class="nws-img" src="https://i.pinimg.com/736x/cd/46/1c/cd461cbec1b1c781dbc071ea66bfe431.jpg" alt="Phong thủy màu sơn" />
+        </div>
+        <div class="nws-body">
+          <div class="nws-meta">
+            <span class="nws-tag">Phong thủy</span>
+            <div class="nws-date">15/06/2026</div>
+          </div>
+          <h3 class="nws-title">Chọn Màu Sơn Nhà Theo Mệnh Hợp Phong Thủy Tài Lộc</h3>
+          <p class="nws-excerpt">Gợi ý cách phối các gam màu sơn hợp bản mệnh giúp gia chủ đón tài lộc, may mắn vào nhà.</p>
+          <span class="nws-readmore">Đọc thêm →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function nwsSlide(btnEl, dir) {
+    var wrap = btnEl.closest('.nws-scope');
+    if (!wrap) return;
+    var track = wrap.querySelector('#nwsTrack');
+    if (!track) return;
+    
+    // Tính toán khoảng cách trượt khớp bằng kích thước thực tế của 1 box
+    var firstCard = track.querySelector('.nws-card');
+    var step = firstCard ? firstCard.offsetWidth + 20 : 320; 
+    track.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+  window.nwsSlide = nwsSlide;
+})();
+</script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+.ftr-wrap, .ftr-wrap * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.ftr-wrap {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: 40px 20px;
+  background: #f8fa9f2; /* Nền xám nhạt cao cấp */
+}
+
+.ftr-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card Chân trang đồng bộ màu sắc với thiết kế web trong image_65cfa7.jpg */
+.ftr-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(10, 17, 66, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(10, 17, 66, 0.04);
+  padding: 48px;
+}
+
+/* Header thương hiệu */
+.ftr-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 36px;
+  gap: 8px;
+}
+
+.ftr-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0A1142; /* Màu xanh Navy đậm từ nút chính của image_65cfa7.jpg */
+  letter-spacing: 0.5px;
+}
+
+.ftr-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0A1142, transparent);
+  margin: 4px auto 0;
+}
+
+/* Kẻ ngang phân tách */
+.ftr-hline {
+  width: 100%;
+  height: 1px;
+  background: rgba(10, 17, 66, 0.08);
+  margin-bottom: 36px;
+}
+
+/* Grid layout */
+.ftr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+.ftr-vline {
+  background: rgba(10, 17, 66, 0.08);
+  height: 100%;
+  min-height: 130px;
+  width: 1px;
+}
+
+.ftr-col {
+  padding: 0 28px;
+}
+.ftr-col:first-child { padding-left: 0; }
+.ftr-col:last-child { padding-right: 0; }
+
+.ftr-col-title {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0A1142;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* MXH Mạng xã hội */
+.ftr-social {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ftr-social a {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(10, 17, 66, 0.1);
+  box-shadow: 0 4px 12px rgba(10, 17, 66, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.ftr-social a:hover {
+  transform: translateY(-3px);
+  background: #0A1142;
+  border-color: #0A1142;
+  box-shadow: 0 8px 20px rgba(10, 17, 66, 0.2);
+}
+
+.ftr-social a:hover img {
+  filter: brightness(0) invert(1); /* Chuyển icon sang màu trắng khi hover */
+}
+
+.ftr-social a img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+/* Links danh mục chính sách */
+.ftr-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ftr-links a {
+  font-size: 13.5px;
+  color: #4A5173;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+}
+
+.ftr-links a:hover {
+  color: #0A1142;
+  padding-left: 4px;
+  font-weight: 500;
+}
+
+/* Thông tin liên lạc */
+.ftr-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ftr-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: #4A5173;
+  line-height: 1.5;
+}
+
+.ftr-info-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  stroke: #0A1142;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Chứng nhận Bộ công thương & DMCA */
+.ftr-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ftr-trust-imgs {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ftr-trust-imgs img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.ftr-trust-imgs a:hover img {
+  opacity: 0.8;
+}
+
+/* Copyright chân trang */
+.ftr-copy {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(10, 17, 66, 0.06);
+  font-size: 12px;
+  color: #8C93B3;
+}
+
+/* Responsive mượt mà cho Mobile & Tablet */
+@media(max-width: 991px) {
+  .ftr-card { padding: 36px 28px; }
+  .ftr-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .ftr-vline { display: none; }
+  .ftr-col { padding: 0; }
+}
+
+@media(max-width: 576px) {
+  .ftr-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+</style>
+
+<div class="ftr-wrap">
+  <div class="ftr-inner">
+    <div class="ftr-card">
+
+      <div class="ftr-head">
+        <span class="ftr-name">CÔNG TY CỔ PHẦN SƠN LIÊN SƠN</span>
+        <div class="ftr-divider"></div>
+      </div>
+
+      <div class="ftr-hline"></div>
+
+      <div class="ftr-grid">
+
+        <!-- Cột 1: Kết nối mạng xã hội -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Kết nối</div>
+          <div class="ftr-social">
+            <a href="#" target="_blank" rel="noopener" title="Facebook">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/250px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook">
+            </a>
+            <a href="#" target="_blank" rel="noopener" title="TikTok">
+              <img src="https://img.magnific.com/vector-cao-cap/logo-tik-tok_578229-290.jpg?semt=ais_hybrid&w=740&q=80" alt="TikTok">
+            </a>
+          </div>
+        </div>
+
+        <div class="ftr-vline"></div>
+
+        <!-- Cột 2: Quy định & Chính sách -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Chính sách</div>
+          <div class="ftr-links">
+            <a href="#">Chính sách đại lý</a>
+            <a href="#">Chính sách bảo hành sản phẩm</a>
+            <a href="#">Chính sách bảo mật thông tin</a>
+            <a href="#">Điều khoản dịch vụ và sử dụng</a>
+          </div>
+        </div>
+
+        <div class="ftr-vline"></div>
+
+        <!-- Cột 3: Liên hệ trực tiếp -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Liên hệ văn phòng</div>
+          <div class="ftr-info">
+            <div class="ftr-info-item">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Trụ sở chính nhà máy Sơn Liên Sơn</span>
+            </div>
+            <div class="ftr-info-item">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Giờ làm việc: Thứ 2 – Thứ 7: 8:00 – 17:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ftr-vline"></div>
+
+        <!-- Cột 4: Chứng nhận uy tín -->
+        <div class="ftr-col">
+          <div class="ftr-col-title">Chứng nhận</div>
+          <div class="ftr-trust">
+            <div class="ftr-trust-imgs">
+              <a href="#" target="_blank" rel="noopener">
+                <img src="https://zaria.vn/wp-content/uploads/2021/04/logo-dmca.png" alt="DMCA Protected">
+              </a>
+              <a href="#" target="_blank" rel="noopener">
+                <img src="https://webmedia.com.vn/images/2021/09/logo-da-thong-bao-bo-cong-thuong-mau-xanh.png" alt="Bộ Công Thương">
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ftr-copy">
+        &copy; 2026 Bản quyền thuộc về Công ty Cổ phần Sơn Liên Sơn.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ================= GLASS CONTACT POPUP BUTTONS ================= -->
+<div class="glass-popup-wrapper">
+  <style>
+    .glass-popup-wrapper {
+      position: fixed;
+      bottom: 284px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 999999;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .glass-popup-wrapper * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* === NÚT CHÍNH TRÒN LOGO CÔNG NGHỆ === */
+    .glass-popup-main {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(10, 17, 66, 0.9); /* Tone Navy Đậm */
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 28px rgba(10, 17, 66, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 10;
+    }
+
+    .glass-popup-main img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .glass-popup-wrapper .dt2-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 11;
+      animation: popupFloat 4s ease-in-out infinite;
+    }
+    .glass-popup-wrapper .b1 { width: 14px; height: 14px; right: -2px; top: -2px; }
+
+    @keyframes popupFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.1); }
+    }
+
+    /* === MENU ICON LIÊN HỆ === */
+    .glass-popup-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .glass-popup-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(10, 17, 66, 0.15);
+      box-shadow: 0 6px 20px rgba(10, 17, 66, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .glass-popup-item img.fb-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .glass-popup-item svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    /* Custom nút Gọi Điện / Hotline đồng màu xanh Navy thương hiệu */
+    .glass-popup-item.hotline { 
+      color: #0A1142; 
+      background: rgba(235, 238, 255, 0.9);
+      border-color: rgba(10, 17, 66, 0.25);
+    }
+
+    .glass-popup-item.hotline::after {
+      content: '';
+      position: absolute;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 1px solid rgba(10, 17, 66, 0.3);
+      top: 0; left: 0;
+      z-index: -1;
+      animation: glassPulse 2.5s infinite ease-in-out;
+    }
+
+    @keyframes glassPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* Tooltip */
+    .glass-popup-item .glass-tooltip {
+      position: absolute;
+      right: 62px;
+      top: 50%;
+      transform: translateY(-50%) translateX(10px);
+      background: #0A1142;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 4px 14px rgba(10, 17, 66, 0.15);
+    }
+
+    /* === TRẠNG THÁI HOVER === */
+    .glass-popup-main:hover {
+      transform: scale(1.05) rotate(5deg);
+      background: #0D1654;
+      box-shadow: 0 12px 32px rgba(10, 17, 66, 0.4);
+    }
+
+    .glass-popup-item:hover {
+      transform: translateY(-3px);
+      background: #ffffff;
+      border-color: #0A1142;
+      box-shadow: 0 10px 24px rgba(10, 17, 66, 0.15);
+    }
+
+    .glass-popup-item:hover img.fb-icon,
+    .glass-popup-item:hover svg { transform: scale(1.1); }
+    .glass-popup-item:hover .glass-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    @media (max-width: 768px) {
+      .glass-popup-wrapper { bottom: 16px; right: 16px; gap: 10px; }
+      .glass-popup-main { width: 50px; height: 50px; }
+      .glass-popup-main img { width: 32px; height: 32px; }
+      .glass-popup-item { width: 44px; height: 44px; }
+      .glass-popup-item img.fb-icon { width: 20px; height: 20px; }
+      .glass-popup-item svg { width: 18px; height: 18px; }
+      .glass-popup-item .glass-tooltip { display: none; }
+    }
+  </style>
+
+  <div class="glass-popup-menu">
+    <a href="#" target="_blank" class="glass-popup-item" rel="noopener noreferrer">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/250px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook" class="fb-icon">
+      <span class="glass-tooltip">Nhắn tin Fanpage</span>
+    </a>
+
+    <a href="tel:0900000000" class="glass-popup-item hotline">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      <span class="glass-tooltip">Hotline Kỹ Thuật 24/7</span>
+    </a>
+  </div>
+
+  <div class="glass-popup-main">
+    <span class="dt2-bubble b1"></span>
+    <!-- Bạn có thể chèn link ảnh logo tròn của Liên Sơn vào đây -->
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLE1BP8WcQ7-1jkPFKCuxMcdzxs6kOX4VmkC3UOV1BBg&s=10" alt="Liên Sơn">
+  </div>
+</div>
+  
