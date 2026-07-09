@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -827,87 +828,106 @@ img{width:100%;height:100%;object-fit:cover;display:block}
 
 
 
-
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fahkwang:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 .fsg-root,.fsg-root *{box-sizing:border-box;margin:0;padding:0}
-.fsg-root{font-family:'DM Sans',sans-serif;padding:32px 24px;position:relative;overflow:hidden;min-height:500px}
+.fsg-root{font-family:'DM Sans',sans-serif;padding:20px 16px;min-height:auto;position:relative;overflow:hidden}
 .fsg-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1}
 
-.fsg-card{display:flex;border-radius:32px;overflow:hidden;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.6)}
+.fsg-card{display:flex;border-radius:24px;overflow:hidden;background:rgba(255,255,255,0.55);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.6)}
 
-.fsg-left{width:50%;padding:28px;display:flex;flex-direction:column;gap:14px;border-right:1px solid rgba(0,0,0,0.06)}
+/* ============ LEFT — ảnh + tên sản phẩm ============ */
+.fsg-left{width:50%;padding:20px;display:flex;flex-direction:column;gap:12px;border-right:1px solid rgba(0,0,0,0.06);justify-content:center}
 
-.fsg-banner{border-radius:20px;overflow:hidden;position:relative}
-.fsg-banner img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;transition:opacity .25s}
+.fsg-banner{position:relative;border-radius:14px;overflow:hidden}
+.fsg-banner img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;transition:opacity .25s}
+.fsg-sticker{position:absolute;top:10px;left:10px;z-index:2;background:linear-gradient(135deg,#e61a1a,#cc0000);color:#fff;font-weight:700;font-size:11px;padding:5px 14px;border-radius:100px;letter-spacing:.3px;border:1px solid rgba(255,255,255,0.3)}
 
 .fsg-slider-wrap{position:relative}
-.fsg-thumb-outer{overflow:hidden;border-radius:14px;cursor:grab;user-select:none}
+.fsg-thumb-outer{overflow:hidden;border-radius:10px;cursor:grab;user-select:none}
 .fsg-thumb-outer:active{cursor:grabbing}
-.fsg-thumb-track{display:flex;gap:10px;transition:transform .3s cubic-bezier(0.25,1,0.5,1)}
-.fsg-thumb-item{width:90px;flex-shrink:0;border-radius:12px;overflow:hidden;border:2px solid transparent;transition:border-color .2s,transform .2s;cursor:pointer}
+.fsg-thumb-track{display:flex;gap:8px;transition:transform .3s cubic-bezier(0.25,1,0.5,1)}
+.fsg-thumb-item{width:70px;flex-shrink:0;border-radius:8px;overflow:hidden;border:2px solid transparent;transition:border-color .2s,transform .2s;cursor:pointer}
 .fsg-thumb-item:hover{transform:scale(1.04)}
-.fsg-thumb-item.active{border-color:#ee4d2d}
+.fsg-thumb-item.active{border-color:#e61a1a}
 .fsg-thumb-item img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;pointer-events:none}
 
-.fsg-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(238,77,45,0.25);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#ee4d2d;transition:background .2s,transform .2s;padding:0;line-height:1}
-.fsg-arr:hover{background:#ee4d2d;color:#fff;transform:translateY(-50%) scale(1.1)}
-.fsg-arr-l{left:-10px}
-.fsg-arr-r{right:-10px}
+.fsg-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(230,26,26,0.25);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:#e61a1a;transition:background .2s,transform .2s;line-height:1;padding:0}
+.fsg-arr:hover{background:#e61a1a;color:#fff;transform:translateY(-50%) scale(1.1)}
+.fsg-arr-l{left:-8px}
+.fsg-arr-r{right:-8px}
 
-.fsg-right{width:50%;padding:28px 32px;display:flex;flex-direction:column;gap:14px;justify-content:center}
+/* ============ RIGHT — Giá Flash Sale + Form thu gọn ============ */
+.fsg-right{width:50%;padding:20px 24px;display:flex;flex-direction:column;justify-content:center;gap:12px;background:rgba(255,255,255,0.18)}
 
-.fsg-title{font-size:22px;font-weight:700;color:#2c1a12;font-family:'Fahkwang',sans-serif;line-height:1.3}
+.fsg-title{font-size:18px;font-weight:700;color:#2c1a12;font-family:'Fahkwang',sans-serif;line-height:1.2}
 
-.fsg-header{border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(245,61,45,0.78),rgba(255,102,51,0.78));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,0.4);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;position:relative}
+/* Đã chỉnh padding giá cao thoáng ráo lên */
+.fsg-header{margin-top:24px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,rgba(230,26,26,0.85),rgba(204,0,0,0.85));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,0.4);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px;position:relative}
 .fsg-header::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)}
 
-.fsg-h-left .fsg-htitle{font-weight:700;font-size:13px;color:rgba(255,255,255,0.95);display:block;letter-spacing:.2px}
-.fsg-h-left .fsg-price-big{font-size:28px;font-weight:800;color:#fff;display:block;margin-top:4px;font-family:'Fahkwang',sans-serif}
+.fsg-h-left .fsg-htitle{font-weight:700;font-size:11px;color:rgba(255,255,255,0.95);display:block;letter-spacing:.2px}
+.fsg-h-left .fsg-price-big{font-size:26px;font-weight:800;color:#fff;display:block;margin-top:4px;font-family:'Fahkwang',sans-serif;line-height:1}
 .fsg-h-left .fsg-price-old{font-size:12px;color:rgba(255,255,255,0.65);text-decoration:line-through}
 
 .fsg-h-right{text-align:right;flex-shrink:0}
-.fsg-cd-label{font-size:11px;color:rgba(255,255,255,0.8);display:block;margin-bottom:6px;letter-spacing:.5px}
+.fsg-cd-label{font-size:10px;color:rgba(255,255,255,0.8);display:block;margin-bottom:4px;letter-spacing:.5px}
 .fsg-timer{display:flex;gap:4px;align-items:center;justify-content:flex-end}
-.fsg-timer-seg{background:rgba(255,255,255,0.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;padding:5px 8px;border-radius:8px;font-weight:700;font-size:15px;min-width:28px;text-align:center;border:1px solid rgba(255,255,255,0.35);font-family:'Fahkwang',sans-serif}
-.fsg-timer-dot{color:rgba(255,255,255,0.8);font-weight:700;font-size:14px}
+.fsg-timer-seg{background:rgba(255,255,255,0.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;padding:4px 6px;border-radius:6px;font-weight:700;font-size:13px;min-width:24px;text-align:center;border:1px solid rgba(255,255,255,0.35);font-family:'Fahkwang',sans-serif}
+.fsg-timer-dot{color:rgba(255,255,255,0.8);font-weight:700;font-size:12px}
 
-.fsg-promo{background:rgba(255,255,255,0.6);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,0.7);border-radius:18px;padding:16px 20px;position:relative;overflow:hidden}
-.fsg-promo::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(238,77,45,0.4),transparent)}
-.fsg-promo-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.fsg-promo-top span{font-size:12.5px;color:#6b4a3e}
-.fsg-promo-top strong{color:#ee4d2d;font-size:12.5px}
-.fsg-bar-bg{background:rgba(238,77,45,0.12);height:13px;border-radius:100px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.6)}
-.fsg-bar-fill{background:linear-gradient(90deg,#ff8a00,#ff4d00);height:100%;width:50%;border-radius:100px}
+.fsg-promo{background:rgba(255,255,255,0.6);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,0.7);border-radius:14px;padding:12px 16px;position:relative;overflow:hidden}
+.fsg-promo::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(230,26,26,0.4),transparent)}
+.fsg-promo-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.fsg-promo-top span{font-size:12px;color:#6b4a3e}
+.fsg-promo-top strong{color:#e61a1a;font-size:12px}
+.fsg-bar-bg{background:rgba(230,26,26,0.08);height:13px;border-radius:100px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.6)}
+.fsg-bar-fill{background:linear-gradient(90deg,#e61a1a,#990000);height:100%;width:50%;border-radius:100px}
 .fsg-bar-text{position:absolute;inset:0;text-align:center;font-size:9px;font-weight:700;color:#fff;line-height:13px;letter-spacing:.5px}
 
-.fsg-info-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:14px;background:rgba(255,255,255,0.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.7)}
-.fsg-info-icon{width:32px;height:32px;border-radius:50%;background:rgba(76,175,80,0.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.fsg-info-text{display:flex;flex-direction:column;gap:1px}
-.fsg-info-label{font-size:11px;color:#a07060;font-weight:500}
-.fsg-info-val{font-size:13px;font-weight:700;color:#2c1a12}
-
-.fsg-qty-row{display:flex;align-items:center;gap:10px}
-.fsg-qty-label{font-size:13px;color:#6b4a3e;font-weight:600}
-.fsg-qty{display:flex;align-items:center;border:1px solid rgba(238,77,45,0.25);border-radius:100px;overflow:hidden;background:rgba(255,255,255,0.65)}
-.fsg-qty button{width:34px;height:34px;border:none;background:transparent;font-size:18px;cursor:pointer;color:#ee4d2d;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.fsg-qty button:hover{background:rgba(238,77,45,0.08)}
-.fsg-qty span{min-width:32px;text-align:center;font-size:14px;font-weight:700;color:#2c1a12}
-
-.fsg-actions{display:flex;gap:10px}
-.fsg-btn-cart{flex:1;padding:14px;border-radius:100px;font-weight:700;font-size:13px;letter-spacing:.5px;font-family:'Fahkwang',sans-serif;cursor:pointer;transition:.3s cubic-bezier(0.25,1,0.5,1);border:2px solid #ee4d2d;background:rgba(255,255,255,0.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#ee4d2d}
-.fsg-btn-cart:hover{background:rgba(238,77,45,0.08);transform:translateY(-1px)}
-.fsg-btn-buy{flex:1.4;padding:14px;border-radius:100px;font-weight:700;font-size:13px;letter-spacing:.5px;font-family:'Fahkwang',sans-serif;cursor:pointer;transition:.3s cubic-bezier(0.25,1,0.5,1);border:none;background:linear-gradient(135deg,#f53d2d,#f66030);color:#fff;position:relative;overflow:hidden}
+/* Button săn sale màu đỏ sale nằm bên trên */
+.fsg-btn-buy{width:100%;padding:11px;border-radius:100px;font-weight:700;font-size:12px;letter-spacing:.5px;font-family:'Fahkwang',sans-serif;cursor:pointer;transition:.3s cubic-bezier(0.25,1,0.5,1);border:none;background:linear-gradient(135deg,#e61a1a,#b30000);color:#fff;position:relative;overflow:hidden}
 .fsg-btn-buy::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);transform:skewX(-20deg);transition:left .5s}
 .fsg-btn-buy:hover::before{left:130%}
 .fsg-btn-buy:hover{transform:translateY(-2px)}
 
+/* Form thông tin nằm bên dưới */
+.fsg-lead-container{border-top:1px dashed rgba(230,26,26,0.15);padding-top:12px;display:flex;flex-direction:column;gap:10px}
+.fsg-lead-title{font-family:'Fahkwang',sans-serif;font-size:15px;font-weight:700;color:#b83a1f;letter-spacing:.2px;text-align:center}
+
+.fsg-lead-fields{display:flex;flex-direction:column;gap:8px}
+.fsg-lead-field input,
+.fsg-lead-field textarea{
+  width:100%;padding:10px 14px;background:rgba(255,255,255,0.6);
+  border:1px solid rgba(230,26,26,0.18);border-radius:10px;
+  font-size:12.5px;font-family:'DM Sans',sans-serif;color:#2c1a12;outline:none;
+  transition:background .2s,border-color .2s;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.fsg-lead-field textarea{resize:none;min-height:50px;line-height:1.4}
+.fsg-lead-field input::placeholder,.fsg-lead-field textarea::placeholder{color:rgba(160,112,96,0.55)}
+.fsg-lead-field input:focus,.fsg-lead-field textarea:focus{background:rgba(255,255,255,0.85);border-color:rgba(230,26,26,0.5)}
+
+.fsg-btn-lead{
+  width:100%;padding:10px;border-radius:100px;font-size:11.5px;font-weight:700;
+  font-family:'Fahkwang',sans-serif;letter-spacing:0.8px;text-transform:uppercase;
+  color:#fff;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#e61a1a,#b30000);
+  box-shadow:0 4px 10px rgba(230,26,26,0.2);
+  transition:.3s cubic-bezier(0.25,1,0.5,1);
+}
+.fsg-btn-lead:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(230,26,26,0.3)}
+.fsg-btn-lead:active{transform:scale(0.98)}
+
+.fsg-lead-success{display:none;text-align:center;padding:6px 0}
+.fsg-lead-success .fsg-check{font-size:22px;color:#e61a1a;display:block;margin-bottom:2px;line-height:1}
+.fsg-lead-success p{font-size:12px;color:#6b4a3e;margin:0}
+
 @media(max-width:860px){
   .fsg-card{flex-direction:column}
   .fsg-left,.fsg-right{width:100%;border-right:none}
-  .fsg-right{padding:24px}
+  .fsg-right{padding:20px}
 }
 </style>
 
@@ -915,8 +935,10 @@ img{width:100%;height:100%;object-fit:cover;display:block}
   <div class="fsg-inner">
     <div class="fsg-card">
 
+      <!-- LEFT COLUMN -->
       <div class="fsg-left">
         <div class="fsg-banner">
+          <div class="fsg-sticker">CHỚP DEAL NGAY ⚡</div>
           <img id="mainImg" src="https://i.pinimg.com/736x/0e/6d/d3/0e6dd3b1af8bbca56b0fae5f20a13b4e.jpg" alt="Banner">
         </div>
 
@@ -937,12 +959,14 @@ img{width:100%;height:100%;object-fit:cover;display:block}
         </div>
       </div>
 
+      <!-- RIGHT COLUMN -->
       <div class="fsg-right">
         <div class="fsg-title">Kem dưỡng trắng da</div>
 
+        <!-- Khung giá Flash sale đổi tông Đỏ Sale và căn chỉnh cao thoáng -->
         <div class="fsg-header">
           <div class="fsg-h-left">
-            <span class="fsg-htitle">🔥 ĐẸP KHÔNG CHỜ — DEAL LIỀN MỞ 🔥</span>
+            <span class="fsg-htitle">🔥 ĐẸP KHÔNG CHỜ DEAL LIỀN MỞ 🔥</span>
             <span class="fsg-price-big">7.200.000đ</span>
             <span class="fsg-price-old">10.300.000đ &nbsp;(-30%)</span>
           </div>
@@ -958,38 +982,35 @@ img{width:100%;height:100%;object-fit:cover;display:block}
           </div>
         </div>
 
-        <div class="fsg-promo">
-          <div class="fsg-promo-top">
-            <span>Khuyến mãi đặc biệt</span>
-            <strong>Còn 5/10 Voucher</strong>
+
+
+        <!-- Button săn sale màu đỏ đặt phía trên -->
+        <button class="fsg-btn-buy" onclick="buyNow()">SĂN SALE TRÊN TIKTOK SHOP</button>
+
+        <!-- Form Đăng ký tư vấn đặt phía dưới gọn gàng -->
+        <div class="fsg-lead-container">
+          <div class="fsg-lead-title">Đăng Ký Tư Vấn Miễn Phí</div>
+
+          <div class="fsg-lead-fields">
+            <div class="fsg-lead-field">
+              <input type="text" id="ls-f-name" placeholder="Họ và tên" />
+            </div>
+            <div class="fsg-lead-field">
+              <input type="tel" id="ls-f-phone" placeholder="Số điện thoại" />
+            </div>
+            <div class="fsg-lead-field">
+              <textarea id="ls-f-note" placeholder="Yêu cầu thêm của bạn"></textarea>
+            </div>
           </div>
-          <div class="fsg-bar-bg">
-            <div class="fsg-bar-text">Còn lại</div>
-            <div class="fsg-bar-fill"></div>
+
+          <button class="fsg-btn-lead" id="lsSubmitBtn">Đăng Ký Tư Vấn</button>
+
+          <div class="fsg-lead-success" id="lsSuccess">
+            <span class="fsg-check">✓</span>
+            <p>Cảm ơn bạn! Chúng tôi sẽ liên hệ sớm nhất.</p>
           </div>
         </div>
 
-        <div class="fsg-info-row">
-          <div class="fsg-info-icon">🚚</div>
-          <div class="fsg-info-text">
-            <span class="fsg-info-label">Vận chuyển</span>
-            <span class="fsg-info-val">Freeship toàn bộ khu vực TP.HCM</span>
-          </div>
-        </div>
-
-        <div class="fsg-qty-row">
-          <span class="fsg-qty-label">Số lượng:</span>
-          <div class="fsg-qty">
-            <button onclick="changeQty(-1)">−</button>
-            <span id="qty">1</span>
-            <button onclick="changeQty(1)">+</button>
-          </div>
-        </div>
-
-        <div class="fsg-actions">
-          <button class="fsg-btn-cart" onclick="addCart()">🛒 GIỎ HÀNG</button>
-          <button class="fsg-btn-buy" onclick="buyNow()">MUA NGAY</button>
-        </div>
       </div>
 
     </div>
@@ -1007,7 +1028,7 @@ const imgs=[
   'https://i.pinimg.com/1200x/36/43/74/36437417099b3e478cd983ed451cf1d0.jpg'
 ];
 
-const ITEM_W=100;
+const ITEM_W=78; // Tối ưu kích thước thumb trượt như code trước
 let currentOffset=0;
 
 function setMain(el,idx){
@@ -1054,24 +1075,27 @@ outer.addEventListener('touchmove',e=>{
 },{passive:true});
 outer.addEventListener('click',e=>{if(didDrag)e.stopImmediatePropagation()},true);
 
-function changeQty(d){
-  const el=document.getElementById('qty');
-  let v=parseInt(el.textContent)+d;
-  if(v<1)v=1;
-  el.textContent=v;
-}
-function addCart(){
-  const q=document.getElementById('qty').textContent;
-  const btn=document.querySelector('.fsg-btn-cart');
-  btn.textContent='✓ Đã thêm ('+q+')';
-  btn.style.background='rgba(238,77,45,0.1)';
-  setTimeout(()=>{btn.textContent='🛒 GIỎ HÀNG';btn.style.background='transparent'},2000);
-}
 function buyNow(){
   const btn=document.querySelector('.fsg-btn-buy');
+  const old=btn.textContent;
   btn.textContent='Đang xử lý...';
-  setTimeout(()=>{btn.textContent='MUA NGAY'},2000);
+  setTimeout(()=>{btn.textContent=old},2000);
 }
+
+document.getElementById('lsSubmitBtn').addEventListener('click',function(){
+  const name=document.getElementById('ls-f-name').value.trim();
+  const phone=document.getElementById('ls-f-phone').value.trim();
+  if(!name||!phone){
+    this.textContent='Vui lòng nhập đủ tên & SĐT';
+    setTimeout(()=>{this.textContent='Đăng Ký Tư Vấn'},1800);
+    return;
+  }
+  document.querySelector('.fsg-lead-fields').style.display='none';
+  this.style.display='none';
+  document.getElementById('lsSuccess').style.display='block';
+});
+
+// Bộ đếm ngược Flash Sale gốc từ mã của bạn
 (function(){
   let total=2*3600+27*60+50;
   const h=document.getElementById('fsg-h');
@@ -1087,14 +1111,6 @@ function buyNow(){
   },1000);
 })();
 </script>
-
-
-
-
-
-
-
-
 
 
 
