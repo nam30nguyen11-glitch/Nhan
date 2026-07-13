@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -345,10 +346,6 @@ a{text-decoration:none;color:inherit}
     </li>
   </ol>
 </div>
-
-
-
-
 
 
 
@@ -861,17 +858,16 @@ a{text-decoration:none;color:inherit}
 
   <!-- MAIN COLUMN -->
   <div class="main-column">
-    <p class="section-label">VIDEO SHORT</p>
-    <div id="video-container" class="video-grid"></div>
-    <button class="btn-xemthem" id="btn-more-video" onclick="loadMoreVideos()">
+    <p class="section-label">TIN TỨC MỚI NHẤT</p>
+    <div id="posts-container" class="news-grid"></div>
+    <button class="btn-xemthem" id="btn-more" onclick="loadMore()">
       Xem thêm <span class="btn-arrow">▾</span>
     </button>
 
     <div style="margin-top: 44px;">
-      <p class="section-label">TIN TỨC MỚI NHẤT</p>
-      <div id="news-hero-container"></div>
-      <div id="posts-container" class="news-grid"></div>
-      <button class="btn-xemthem" id="btn-more" onclick="loadMore()">
+      <p class="section-label">VIDEO SHORT</p>
+      <div id="video-container" class="video-grid"></div>
+      <button class="btn-xemthem" id="btn-more-video" onclick="loadMoreVideos()">
         Xem thêm <span class="btn-arrow">▾</span>
       </button>
     </div>
@@ -911,20 +907,6 @@ var allPosts = [
 ];
 var shownPosts = 0;
 
-function renderHero(p) {
-  var heroContainer = document.getElementById('news-hero-container');
-  var el = document.createElement('a');
-  el.className = 'news-hero';
-  el.href = '#';
-  el.innerHTML = '<img src="' + p.img + '" alt="" loading="lazy">'
-    + '<div class="news-hero-overlay">'
-    + '<span class="news-hero-tag">' + p.cat + '</span>'
-    + '<h2 class="news-hero-title">' + p.title + '</h2>'
-    + '<span class="news-hero-date">' + p.date + '</span>'
-    + '</div>';
-  heroContainer.appendChild(el);
-}
-
 function renderPosts(posts) {
   var container = document.getElementById('posts-container');
   posts.forEach(function(p) {
@@ -944,17 +926,9 @@ function renderPosts(posts) {
 }
 
 function loadMore() {
-  // Lần tải đầu tiên: tách bài đầu làm hero, các bài còn lại vào lưới
-  if (shownPosts === 0) {
-    renderHero(allPosts[0]);
-    var firstBatch = allPosts.slice(1, 7);
-    renderPosts(firstBatch);
-    shownPosts = 1 + firstBatch.length;
-  } else {
-    var next = allPosts.slice(shownPosts, shownPosts + 6);
-    renderPosts(next);
-    shownPosts += next.length;
-  }
+  var next = allPosts.slice(shownPosts, shownPosts + 9);
+  renderPosts(next);
+  shownPosts += next.length;
   if (shownPosts >= allPosts.length) document.getElementById('btn-more').style.display = 'none';
 }
 
@@ -1016,8 +990,6 @@ loadMoreVideos();
 </script>
 </body>
 </html>
-
-
 
 
 
