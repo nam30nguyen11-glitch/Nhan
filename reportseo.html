@@ -53,6 +53,9 @@ th:first-child,td:first-child{text-align:left;}
 td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;}
 tr:last-child td{border-bottom:none;}
 
+.table-scroll{overflow-x:auto;}
+.table-scroll table{min-width:900px;}
+
 .empty-note{font-size:12.5px;color:var(--ink-faint);background:var(--apricot-soft);border-radius:10px;padding:10px 14px;margin-top:14px;}
 footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);}
 a{color:var(--jade);}
@@ -89,6 +92,17 @@ a{color:var(--jade);}
     <table id="table1"></table>
   </div>
 
+  <div class="section-title"><h2 id="dailyTitle">Hiệu suất theo ngày</h2><span id="dailySub">Impression · Click/Tương tác · Leads theo từng ngày</span></div>
+  <div class="kpi-row" id="kpiRowDaily"></div>
+  <div class="chart-row-3">
+    <div class="card mini"><h4>Impression theo ngày</h4><div class="chart-box small"><canvas id="chartDailyImpr"></canvas></div></div>
+    <div class="card mini"><h4>Click/Tương tác theo ngày</h4><div class="chart-box small"><canvas id="chartDailyClick"></canvas></div></div>
+    <div class="card mini"><h4>Leads theo ngày</h4><div class="chart-box small"><canvas id="chartDailyLeads"></canvas></div></div>
+  </div>
+  <div class="card table-scroll" style="margin-top:14px;">
+    <table id="tableDaily"></table>
+  </div>
+
   <div class="section-title"><h2>Thứ hạng từ khóa</h2><span>Top (1 - 5)  (6 - 10) (Trên 10)</span></div>
   <div class="kpi-row" id="kpiRow2"></div>
   <div class="chart-row-3">
@@ -119,12 +133,17 @@ const SHEET_ID = '1ZUsM5F7FrjRiJWBnj3qZzOkYTwrQJ5lQYVbqnem1Tkw';
 const GID = '677116470';
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&t=${Date.now()}`;
 
+// Nguồn dữ liệu "Hiệu suất theo ngày" — tab "Data chi tiết"
+const GID_DAILY = '134547651';
+const CSV_URL_DAILY = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID_DAILY}&t=${Date.now()}`;
+
 const months = ['T7','T8','T9','T10','T11','T12'];
 const gridColor = '#E3E8E6';
 Chart.defaults.font.family = "Inter, sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.color = '#5B6B6E';
 let chartImpr, chartClick, chartLeads, chartTop15, chartTop610, chartTop10p;
+let chartDailyImpr, chartDailyClick, chartDailyLeads;
 
 function num(v){
   if(v === undefined || v === null) return null;
@@ -157,17 +176,47 @@ function deltaBadge(arr){
   const arrow = pct>0 ? '↑':'↓';
   return `<span class="delta ${cls}">${arrow} ${Math.abs(pct).toFixed(0)}% so tháng đầu</span>`;
 }
+function deltaBadgeDay(arr){
+  const {first,last} = firstLast(arr);
+  if(first===null || last===null || first===0) return '<span class="delta flat">Chưa đủ dữ liệu</span>';
+  const pct = ((last-first)/first*100);
+  if(Math.abs(pct) < 0.5) return '<span class="delta flat">Không đổi</span>';
+  const cls = pct>0 ? 'up':'down';
+  const arrow = pct>0 ? '↑':'↓';
+  return `<span class="delta ${cls}">${arrow} ${Math.abs(pct).toFixed(0)}% so ngày đầu</span>`;
+}
 function sumArr(arr){
   const vals = arr.filter(v=>v!==null);
   if(vals.length===0) return null;
   return vals.reduce((a,b)=>a+b,0);
 }
+function addArr(...arrs){
+  const len = Math.max(...arrs.map(a=>a.length));
+  const out = [];
+  for(let i=0;i<len;i++){
+    let any=false, s=0;
+    arrs.forEach(a=>{ const v=a[i]; if(v!==undefined && v!==null){ s+=v; any=true; } });
+    out.push(any ? s : null);
+  }
+  return out;
+}
 function kpiCard(label, arr){
   const total = sumArr(arr);
   return `<div class="kpi"><p class="label">${label}</p><p class="value">${fmtCompact(total)}</p>${deltaBadge(arr)}</div>`;
 }
+function kpiCardDay(label, arr){
+  const total = sumArr(arr);
+  return `<div class="kpi"><p class="label">${label}</p><p class="value">${fmtCompact(total)}</p>${deltaBadgeDay(arr)}</div>`;
+}
 function buildTable(el, rowsDef){
   let head = '<thead><tr><th>Chỉ số</th>' + months.map(m=>`<th>${m}</th>`).join('') + '</tr></thead><tbody>';
+  rowsDef.forEach(rd=>{
+    head += `<tr><td>${rd.label}</td>` + rd.data.map(v=>`<td>${fmt(v)}</td>`).join('') + '</tr>';
+  });
+  el.innerHTML = head + '</tbody>';
+}
+function buildTableDaily(el, dayLabels, rowsDef){
+  let head = '<thead><tr><th>Chỉ số</th>' + dayLabels.map(d=>`<th>${d}</th>`).join('') + '</tr></thead><tbody>';
   rowsDef.forEach(rd=>{
     head += `<tr><td>${rd.label}</td>` + rd.data.map(v=>`<td>${fmt(v)}</td>`).join('') + '</tr>';
   });
@@ -191,6 +240,14 @@ async function loadAll(){
   const btn = document.getElementById('refreshBtn');
   statusEl.textContent = 'Đang tải...';
   btn.disabled = true;
+
+  await Promise.all([loadMonthly(), loadDaily()]);
+
+  btn.disabled = false;
+}
+
+async function loadMonthly(){
+  const statusEl = document.getElementById('status');
   const missing = [];
   try{
     const res = await fetch(CSV_URL, {cache:'no-store'});
@@ -235,11 +292,11 @@ async function loadAll(){
 
     // Charts — mỗi chỉ số 1 biểu đồ đường nhỏ riêng, dễ nhìn xu hướng lên/xuống
     const zero = a => a.map(v=>v===null?0:v);
-    function miniLine(existing, canvasId, data, color){
+    function miniLine(existing, canvasId, data, color, labels){
       if(existing) existing.destroy();
       return new Chart(document.getElementById(canvasId), {
         type:'line',
-        data:{labels:months, datasets:[{
+        data:{labels:labels||months, datasets:[{
           data:zero(data), borderColor:color, backgroundColor:color+'22',
           borderWidth:2.5, pointRadius:3, pointBackgroundColor:color, pointBorderColor:'#fff',
           pointBorderWidth:1.5, tension:.3, fill:true
@@ -252,6 +309,7 @@ async function loadAll(){
           }}
       });
     }
+    window.miniLine = miniLine; // dùng chung cho phần "theo ngày"
 
     chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62');
     chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A');
@@ -280,7 +338,99 @@ async function loadAll(){
     statusEl.textContent = 'Lỗi tải dữ liệu — kiểm tra quyền chia sẻ Sheet (Anyone with the link: Viewer)';
     console.error(err);
   }
-  btn.disabled = false;
+}
+
+// ===== Hiệu suất theo ngày (tab "Data chi tiết", gid = GID_DAILY) =====
+// Cấu trúc cố định:
+// Hàng 1: A1 = "THÁNG X", cột C.. = nhãn ngày (1/7, 2/7, ...)
+// Hàng 2: Impression/View - Google      | Hàng 3: (Impression) - Bing
+// Hàng 4: Click/User engagement - Google| Hàng 5: - Bing | Hàng 6: - Cốc Cốc (GA4) | Hàng 7: - AI search (GA4)
+// Hàng 8: Lead
+async function loadDaily(){
+  const dailySub = document.getElementById('dailySub');
+  const dailyTitle = document.getElementById('dailyTitle');
+  try{
+    const res = await fetch(CSV_URL_DAILY, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const csvText = await res.text();
+    const parsed = Papa.parse(csvText, {skipEmptyLines:false});
+    const rows = parsed.data;
+
+    if(!rows || rows.length < 8){
+      dailySub.textContent = 'Chưa có dữ liệu ở tab "Data chi tiết"';
+      return;
+    }
+
+    const headerRow = rows[0] || [];
+    const monthLabel = (headerRow[0] || '').toString().trim();
+    if(monthLabel) dailyTitle.textContent = `Hiệu suất theo ngày — ${monthLabel}`;
+
+    // xác định số cột ngày thực tế dựa theo nhãn ở hàng tiêu đề (cột C trở đi = index 2)
+    let lastCol = 2;
+    for(let c=2;c<headerRow.length;c++){
+      if(String(headerRow[c]||'').trim() !== '') lastCol = c;
+    }
+    const colRange = [];
+    for(let c=2;c<=lastCol;c++) colRange.push(c);
+    const dayLabels = colRange.map(c => (headerRow[c] || '').toString().trim() || `#${c-1}`);
+
+    const readRow = idx => {
+      const row = rows[idx] || [];
+      return colRange.map(c => num(row[c]));
+    };
+
+    const imprGoogle = readRow(1);
+    const imprBing   = readRow(2);
+    const clickGoogle= readRow(3);
+    const clickBing  = readRow(4);
+    const clickCoc   = readRow(5);
+    const clickAI    = readRow(6);
+    const leadDay    = readRow(7);
+
+    const imprTotal  = addArr(imprGoogle, imprBing);
+    const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
+
+    const anyData = [...imprTotal, ...clickTotal, ...leadDay].some(v=>v!==null);
+
+    document.getElementById('kpiRowDaily').innerHTML =
+      kpiCardDay('Impression', imprTotal) + kpiCardDay('Click/Tương tác', clickTotal) + kpiCardDay('Leads', leadDay);
+
+    const zero = a => a.map(v=>v===null?0:v);
+    const line = window.miniLine || function(existing, canvasId, data, color, labels){
+      if(existing) existing.destroy();
+      return new Chart(document.getElementById(canvasId), {
+        type:'line',
+        data:{labels, datasets:[{ data:zero(data), borderColor:color, backgroundColor:color+'22',
+          borderWidth:2.5, pointRadius:2, pointBackgroundColor:color, pointBorderColor:'#fff',
+          pointBorderWidth:1.5, tension:.3, fill:true }]},
+        options:{responsive:true, maintainAspectRatio:false,
+          plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
+          scales:{ y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
+            x:{grid:{display:false}, ticks:{maxTicksLimit:8, autoSkip:true}} }}
+      });
+    };
+
+    chartDailyImpr  = line(chartDailyImpr,  'chartDailyImpr',  imprTotal,  '#2F6F62', dayLabels);
+    chartDailyClick = line(chartDailyClick, 'chartDailyClick', clickTotal, '#D98E4A', dayLabels);
+    chartDailyLeads = line(chartDailyLeads, 'chartDailyLeads', leadDay,    '#C9667A', dayLabels);
+
+    buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
+      {label:'Impression - Google', data:imprGoogle},
+      {label:'Impression - Bing', data:imprBing},
+      {label:'Click - Google', data:clickGoogle},
+      {label:'Click - Bing', data:clickBing},
+      {label:'Click - Cốc Cốc (GA4)', data:clickCoc},
+      {label:'Click - AI search (GA4)', data:clickAI},
+      {label:'Lead', data:leadDay}
+    ]);
+
+    dailySub.textContent = anyData
+      ? 'Impression · Click/Tương tác · Leads theo từng ngày'
+      : 'Đã kết nối — chưa có số liệu theo ngày';
+  }catch(err){
+    dailySub.textContent = 'Lỗi tải dữ liệu theo ngày — kiểm tra quyền chia sẻ Sheet';
+    console.error(err);
+  }
 }
 
 loadAll();
