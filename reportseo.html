@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -441,12 +442,17 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 
 
 
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Danh sách Search Engines</title>
+  <title>Ảnh data - Các tháng</title>
   <style>
     /* Reset CSS cơ bản */
     body {
@@ -459,9 +465,9 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
     /* Container căn giữa chuẩn 1280px */
     .main-container {
       width: 100%;
-      max-width: 1480px;
-      margin: 0 auto; /* Căn giữa màn hình, không bị xô lệch */
-      padding: 0px;
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 20px;
       box-sizing: border-box;
     }
 
@@ -470,34 +476,35 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
       display: flex;
       align-items: baseline;
       gap: 10px;
-      margin: 20px 0 16px;
+      margin: 10px 0 20px;
     }
 
     .section-title h2 {
       font-family: 'Fraunces', serif, system-ui;
-      font-weight: 500;
-      font-size: 19px;
+      font-weight: 600;
+      font-size: 24px;
       margin: 0;
       color: #16262B;
     }
 
-    /* Grid chứa 4 thẻ */
+    /* Grid chia 4 cột bằng nhau */
     .search-grid {
-      display: flex;
-      gap: 20px;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
     }
 
-    /* Thẻ hiển thị từng Search Engine */
+    /* Thẻ hiển thị từng tháng */
     .search-card {
-      flex: 1;
-      text-align: center;
       background: #ffffff;
       border-radius: 12px;
-      padding: 16px;
+      padding: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .search-card:hover {
@@ -505,38 +512,61 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
 
-    .search-card img {
+    /* Tiêu đề cho từng card tháng */
+    .month-header {
+      font-size: 16px;
+      font-weight: 600;
+      color: #16262B;
+      margin: 0;
+      text-align: center;
+    }
+
+    /* Khung chứa ảnh chuẩn tỉ lệ 1000 x 1500 (2:3) */
+    .card-image-box {
       width: 100%;
-      height: 200px;
-      object-fit: cover;
+      aspect-ratio: 1000 / 1500;
+      background-color: #f5f5f5;
       border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #cccccc;
+    }
+
+    .card-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
 
-    .search-card h3 {
-      margin: 14px 0 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: #333333;
+    /* Chữ hiển thị khi trống (chưa có ảnh) */
+    .empty-placeholder {
+      font-size: 14px;
+      color: #888888;
+      font-weight: 500;
+      text-align: center;
+      padding: 10px;
     }
 
-    /* --- Modal Popup Style --- */
+    /* --- Modal Popup Style (Tối ưu cho ảnh 1000x1500) --- */
     .modal {
       position: fixed;
-      inset: 0; /* Phủ toàn màn hình */
+      inset: 0;
       z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: rgba(0, 0, 0, 0.85);
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
       
-      /* Ẩn mặc định */
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.25s ease, visibility 0.25s ease;
     }
 
-    /* Hiển thị khi có class .show */
     .modal.show {
       opacity: 1;
       visibility: visible;
@@ -544,36 +574,45 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 
     .modal-content {
       background-color: #ffffff;
-      padding: 24px;
+      padding: 20px;
       border-radius: 16px;
       position: relative;
+      /* Giới hạn chiều cao popup tránh bị vượt màn hình */
+      height: 90vh;
       max-width: 90vw;
-      max-height: 85vh;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       
-      /* Hiệu ứng phóng to nhẹ */
       transform: scale(0.85);
       transition: transform 0.25s ease;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .modal.show .modal-content {
       transform: scale(1);
     }
 
-    .modal-content img {
-      max-width: 100%;
-      max-height: 65vh;
+    /* Khung chứa ảnh trong Modal giữ tỉ lệ chuẩn 1000x1500 */
+    .image-wrapper {
+      height: 100%;
+      aspect-ratio: 1000 / 1500;
+      background-color: #000000;
       border-radius: 8px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .modal-content h3 {
-      margin: 16px 0 0;
-      font-size: 20px;
-      color: #111111;
+    .modal-content img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     /* Nút đóng (X) */
@@ -586,45 +625,66 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
       color: #888888;
       cursor: pointer;
       line-height: 1;
+      z-index: 10;
       transition: color 0.2s;
     }
 
     .close-modal:hover {
       color: #000000;
     }
+
+    /* Responsive cho màn hình nhỏ hơn */
+    @media (max-width: 1024px) {
+      .search-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .search-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
 
   <div class="main-container">
-    <!-- Tiêu đề H2 thêm mới -->
     <div class="section-title">
-      <h2>Tháng 07: Ảnh data</h2>
+      <h2>Ảnh data theo tháng</h2>
     </div>
 
     <div class="search-grid">
-      <!-- Card 1 -->
-      <div class="search-card" onclick="openModal('https://i.pinimg.com/736x/68/bc/8d/68bc8d012be1b7bd5831b61734c489a6.jpg', 'Google')">
-        <img src="https://i.pinimg.com/736x/66/4e/3e/664e3ef205cbb92fc4e6ca53705ecbf0.jpg" alt="Google">
-        <h3>Google</h3>      
-      </div>      
+      <!-- Cột 1: Tháng 07 -->
+      <div class="search-card" onclick="openModal('https://i.pinimg.com/736x/0a/cb/8c/0acb8cd508e765c0c863b96121b77386.jpg')">
+        <h3 class="month-header">Tháng 07</h3>
+        <div class="card-image-box" style="border: none;">
+          <img src="https://i.pinimg.com/736x/0a/cb/8c/0acb8cd508e765c0c863b96121b77386.jpg" alt="Tháng 07">
+        </div>
+      </div>     
 
-      <!-- Card 2 -->
-       <div class="search-card" onclick="openModal('https://i.pinimg.com/736x/07/15/60/07156036bb58c5fcfd655b6ed6b0ac1f.jpg', 'Microsoft Bing')">
-        <img src="https://i.pinimg.com/736x/70/8d/f6/708df67bb08c0891911aa1116cb9d193.jpg" alt="Microsoft Bing">
-        <h3>Microsoft Bing</h3>
+      <!-- Cột 2: Tháng 08 (Chưa có ảnh) -->
+      <div class="search-card">
+        <h3 class="month-header">Tháng 08</h3>
+        <div class="card-image-box">
+          <span class="empty-placeholder">Chưa có ảnh data</span>
+        </div>
       </div>        
 
-      <!-- Card 3 -->
-      <div class="search-card" onclick="openModal('https://i.pinimg.com/736x/52/7f/5c/527f5cce39b89b8291f5fdeab931ee38.jpg', 'AI Search')">
-        <img src="https://i.pinimg.com/736x/fe/a0/65/fea065683d85d1357a2e4d15a7308b81.jpg" alt="AI Search">
-        <h3>AI Search</h3>
+      <!-- Cột 3: Tháng 09 (Chưa có ảnh) -->
+      <div class="search-card">
+        <h3 class="month-header">Tháng 09</h3>
+        <div class="card-image-box">
+          <span class="empty-placeholder">Chưa có ảnh data</span>
+        </div>
       </div>
 
-      <!-- Card 4 -->
-      <div class="search-card" onclick="openModal('https://i.pinimg.com/736x/41/2e/d9/412ed9667be3058e693147f4ed024b5a.jpg', 'Coccoc.com')">
-        <img src="https://i.pinimg.com/736x/28/3c/c2/283cc24a5a87cd8256c094a20fa47b07.jpg" alt="Coccoc.com">
-        <h3>Coccoc.com</h3>
+      <!-- Cột 4: Tháng 10 (Chưa có ảnh) -->
+      <div class="search-card">
+        <h3 class="month-header">Tháng 10</h3>
+        <div class="card-image-box">
+          <span class="empty-placeholder">Chưa có ảnh data</span>
+        </div>
       </div>
     </div>
   </div>
@@ -633,29 +693,28 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
   <div id="imageModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-modal" onclick="closeModal()">&times;</span>
-      <img id="modalImage" src="" alt="Popup Image">
-      <h3 id="modalTitle"></h3>
+      <div class="image-wrapper">
+        <img id="modalImage" src="" alt="Popup Image">
+      </div>
     </div>
   </div>
 
   <script>
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
-    const modalTitle = document.getElementById('modalTitle');
 
-    function openModal(imgSrc, title) {
+    function openModal(imgSrc) {
+      if (!imgSrc) return; // Nếu không có link ảnh thì không mở popup
       modalImg.src = imgSrc;
-      modalTitle.innerText = title;
       modal.classList.add('show');
-      document.body.style.overflow = 'hidden'; // Khóa cuộn trang khi mở popup
+      document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
       modal.classList.remove('show');
-      document.body.style.overflow = ''; // Cho phép cuộn lại
+      document.body.style.overflow = '';
     }
 
-    // Lắng nghe phím ESC để đóng
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('show')) {
         closeModal();
@@ -665,11 +724,6 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 
 </body>
 </html>
-
-
-
-
-
 
 
 
