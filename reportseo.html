@@ -346,9 +346,11 @@ async function loadMonthly(){
 // ===== Hiệu suất theo ngày (tab "Data chi tiết", gid = GID_DAILY) =====
 // Cấu trúc cố định:
 // Hàng 1: A1 = "THÁNG X", cột C.. = nhãn ngày (1/7, 2/7, ...)
-// Hàng 2: Impression/View - Google      | Hàng 3: (Impression) - Bing
-// Hàng 4: Click/User engagement - Google| Hàng 5: - Bing | Hàng 6: - Cốc Cốc (GA4) | Hàng 7: - AI search (GA4)
-// Hàng 8: Lead
+// Hàng 2: Impression/View - Google
+// Hàng 3: Impression/View - AI Overview
+// Hàng 4: Impression/View - Bing
+// Hàng 5: Click/User engagement - Google | Hàng 6: - Bing | Hàng 7: - Cốc Cốc (GA4) | Hàng 8: - AI search (GA4)
+// Hàng 9: Lead
 async function loadDaily(){
   const dailySub = document.getElementById('dailySub');
   const dailyTitle = document.getElementById('dailyTitle');
@@ -359,7 +361,7 @@ async function loadDaily(){
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
     const rows = parsed.data;
 
-    if(!rows || rows.length < 8){
+    if(!rows || rows.length < 9){
       dailySub.textContent = 'Chưa có dữ liệu ở tab "Data chi tiết"';
       return;
     }
@@ -382,16 +384,17 @@ async function loadDaily(){
       return colRange.map(c => num(row[c]));
     };
 
-    const imprGoogle = readRow(1);
-    const imprBing   = readRow(2);
-    const clickGoogle= readRow(3);
-    const clickBing  = readRow(4);
-    const clickCoc   = readRow(5);
-    const clickAI    = readRow(6);
-    const leadDay    = readRow(7);
+    const imprGoogle     = readRow(1);
+const imprAIOverview = readRow(2);   // hàng mới
+const imprBing        = readRow(3);
+const clickGoogle     = readRow(4);
+const clickBing       = readRow(5);
+const clickCoc        = readRow(6);
+const clickAI         = readRow(7);
+const leadDay         = readRow(8);
 
-    const imprTotal  = addArr(imprGoogle, imprBing);
-    const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
+const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing);
+const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
 
     const anyData = [...imprTotal, ...clickTotal, ...leadDay].some(v=>v!==null);
 
@@ -417,15 +420,16 @@ async function loadDaily(){
     chartDailyClick = line(chartDailyClick, 'chartDailyClick', clickTotal, '#D98E4A', dayLabels);
     chartDailyLeads = line(chartDailyLeads, 'chartDailyLeads', leadDay,    '#C9667A', dayLabels);
 
-    buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
-      {label:'Impression - Google', data:imprGoogle},
-      {label:'Impression - Bing', data:imprBing},
-      {label:'Click - Google', data:clickGoogle},
-      {label:'Click - Bing', data:clickBing},
-      {label:'Click - Cốc Cốc (GA4)', data:clickCoc},
-      {label:'Click - AI search (GA4)', data:clickAI},
-      {label:'Lead', data:leadDay}
-    ]);
+buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
+  {label:'Impression - Google', data:imprGoogle},
+  {label:'Impression - AI Overview', data:imprAIOverview},   // hàng mới
+  {label:'Impression - Bing', data:imprBing},
+  {label:'Click - Google', data:clickGoogle},
+  {label:'Click - Bing', data:clickBing},
+  {label:'Click - Cốc Cốc (GA4)', data:clickCoc},
+  {label:'Click - AI search (GA4)', data:clickAI},
+  {label:'Lead', data:leadDay}
+]);
 
     dailySub.textContent = anyData
       ? 'Impression · Click/Tương tác · Leads theo từng ngày'
