@@ -57,6 +57,25 @@ tr:last-child td{border-bottom:none;}
 .table-scroll table{min-width:900px;}
 
 .empty-note{font-size:12.5px;color:var(--ink-faint);background:var(--apricot-soft);border-radius:10px;padding:10px 14px;margin-top:14px;}
+
+.topkw-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.topkw-tab{border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;cursor:pointer;transition:.15s;}
+.topkw-tab:hover{border-color:var(--jade);color:var(--jade-deep);}
+.topkw-tab.active{background:var(--jade);border-color:var(--jade);color:#fff;}
+.topkw-count{font-size:12px;color:var(--ink-faint);margin:0 0 12px;}
+.topkw-count b{color:var(--ink);font-weight:700;}
+.topkw-list{max-height:360px;overflow-y:auto;border:1px solid var(--line);border-radius:12px;}
+.topkw-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;}
+.topkw-row:last-child{border-bottom:none;}
+.topkw-row:nth-child(even){background:#FAFBFA;}
+.topkw-rank{flex:0 0 26px;height:26px;border-radius:8px;background:var(--jade-soft);color:var(--jade-deep);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.topkw-main{flex:1;min-width:0;}
+.topkw-kw{font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.topkw-meta{font-size:11.5px;color:var(--ink-faint);margin-top:2px;}
+.topkw-badge{flex:0 0 auto;font-size:11px;font-weight:600;color:var(--jade-deep);background:var(--jade-soft);padding:2px 9px;border-radius:20px;white-space:nowrap;}
+.topkw-link{flex:0 0 auto;font-size:12px;color:var(--jade);text-decoration:none;font-weight:600;}
+.topkw-link:hover{text-decoration:underline;}
+.topkw-empty{padding:24px;text-align:center;color:var(--ink-faint);font-size:13px;}
 footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);}
 a{color:var(--jade);}
 
@@ -117,6 +136,14 @@ a{color:var(--jade);}
   </div>
 <div style="padding-top: 40px;">
 </div>
+  <div class="section-title"><h2>Top từ khóa chuyển đổi</h2><span id="topkwSub">Chọn vị trí Top để xem danh sách từ khóa</span></div>
+  <div class="card">
+    <div class="topkw-tabs" id="topkwTabs"></div>
+    <p class="topkw-count" id="topkwCount"></p>
+    <div class="topkw-list" id="topkwList"></div>
+  </div>
+<div style="padding-top: 40px;">
+</div>
   <div class="section-title"><h2>Thứ hạng từ khóa</h2><span>Top (1 - 5)  (6 - 10) (Trên 10)</span></div>
   <div class="kpi-row" id="kpiRow2"></div>
   <div class="chart-row-3">
@@ -154,6 +181,10 @@ const CSV_URL_WEEKLY = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/
 // Nguồn dữ liệu "Hiệu suất theo ngày" — tab "Data chi tiết"
 const GID_DAILY = '134547651';
 const CSV_URL_DAILY = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID_DAILY}&t=${Date.now()}`;
+
+// Nguồn dữ liệu "Top từ khóa chuyển đổi" — tab "Trang tính2"
+const GID_TOPKW = '1315395176';
+const CSV_URL_TOPKW = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID_TOPKW}&t=${Date.now()}`;
 
 const months = ['T7','T8','T9','T10','T11','T12'];
 const gridColor = '#E3E8E6';
@@ -260,7 +291,7 @@ async function loadAll(){
   statusEl.textContent = 'Đang tải...';
   btn.disabled = true;
 
-  await Promise.all([loadMonthly(), loadWeekly(), loadDaily()]);
+  await Promise.all([loadMonthly(), loadWeekly(), loadDaily(), loadTopKeywords()]);
 
   btn.disabled = false;
 }
@@ -572,12 +603,124 @@ buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
   }
 }
 
+// ===== Top từ khóa chuyển đổi (tab "Trang tính2", gid = GID_TOPKW) =====
+// Cấu trúc cố định:
+// Hàng có cột A = "DỊCH VỤ" là hàng tiêu đề, các hàng bên dưới là dữ liệu tới khi hết:
+// A = Dịch vụ | B = Từ khóa | C = Vị trí Top | D = Ngày update Top | E = Link
+let topkwData = [];   // toàn bộ danh sách từ khóa đọc từ sheet
+let topkwSelected = '1';
+
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function loadTopKeywords(){
+  const sub = document.getElementById('topkwSub');
+  try{
+    const res = await fetch(CSV_URL_TOPKW, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const csvText = await res.text();
+    const parsed = Papa.parse(csvText, {skipEmptyLines:false});
+    const rows = parsed.data;
+
+    // tìm hàng tiêu đề có cột A = "DỊCH VỤ" (không phân biệt hoa/thường, dấu)
+    const headerIdx = rows.findIndex(r => norm(r[0]) === 'dich vu');
+    if(headerIdx < 0){
+      sub.textContent = 'Không tìm thấy bảng "DỊCH VỤ / TOP KEYWORD" trong sheet';
+      document.getElementById('topkwTabs').innerHTML = '';
+      document.getElementById('topkwCount').textContent = '';
+      document.getElementById('topkwList').innerHTML = '<div class="topkw-empty">Chưa có dữ liệu</div>';
+      return;
+    }
+
+    const list = [];
+    for(let i = headerIdx + 1; i < rows.length; i++){
+      const row = rows[i] || [];
+      const service = (row[0] || '').toString().trim();
+      const keyword = (row[1] || '').toString().trim();
+      if(!service && !keyword) continue; // bỏ hàng trống
+      if(!keyword) continue;
+      const topPos = num(row[2]);
+      const updated = (row[3] || '').toString().trim();
+      const link = (row[4] || '').toString().trim();
+      list.push({service, keyword, topPos, updated, link});
+    }
+    topkwData = list;
+
+    renderTopKwTabs();
+    renderTopKwList();
+
+    sub.textContent = list.length
+      ? `Tổng cộng ${list.length.toLocaleString('vi-VN')} từ khóa — chọn vị trí Top để xem chi tiết`
+      : 'Đã kết nối — chưa có từ khóa nào trong sheet';
+  }catch(err){
+    sub.textContent = 'Lỗi tải dữ liệu Top từ khóa — kiểm tra quyền chia sẻ Sheet';
+    console.error(err);
+  }
+}
+
+function renderTopKwTabs(){
+  const tabsEl = document.getElementById('topkwTabs');
+  let html = '';
+  for(let pos = 1; pos <= 10; pos++){
+    const count = topkwData.filter(k => k.topPos === pos).length;
+    const active = String(pos) === topkwSelected ? ' active' : '';
+    html += `<button class="topkw-tab${active}" data-pos="${pos}" onclick="selectTopKw('${pos}')">Top ${pos} <span style="opacity:.75">(${count})</span></button>`;
+  }
+  const otherCount = topkwData.filter(k => k.topPos !== null && !(k.topPos>=1 && k.topPos<=10)).length;
+  const activeOther = topkwSelected === 'other' ? ' active' : '';
+  html += `<button class="topkw-tab${activeOther}" data-pos="other" onclick="selectTopKw('other')">Khác <span style="opacity:.75">(${otherCount})</span></button>`;
+  const activeAll = topkwSelected === 'all' ? ' active' : '';
+  html += `<button class="topkw-tab${activeAll}" data-pos="all" onclick="selectTopKw('all')">Tất cả <span style="opacity:.75">(${topkwData.length})</span></button>`;
+  tabsEl.innerHTML = html;
+}
+
+function selectTopKw(pos){
+  topkwSelected = pos;
+  renderTopKwTabs();
+  renderTopKwList();
+}
+window.selectTopKw = selectTopKw;
+
+function renderTopKwList(){
+  const listEl = document.getElementById('topkwList');
+  const countEl = document.getElementById('topkwCount');
+
+  let filtered;
+  if(topkwSelected === 'all'){
+    filtered = topkwData;
+  } else if(topkwSelected === 'other'){
+    filtered = topkwData.filter(k => k.topPos !== null && !(k.topPos>=1 && k.topPos<=10));
+  } else {
+    const pos = Number(topkwSelected);
+    filtered = topkwData.filter(k => k.topPos === pos);
+  }
+
+  countEl.innerHTML = `<b>${filtered.length.toLocaleString('vi-VN')}</b> từ khóa`;
+
+  if(filtered.length === 0){
+    listEl.innerHTML = '<div class="topkw-empty">Không có từ khóa nào ở vị trí này</div>';
+    return;
+  }
+
+  listEl.innerHTML = filtered.map(k => `
+    <div class="topkw-row">
+      <div class="topkw-rank">${k.topPos===null ? '–' : k.topPos}</div>
+      <div class="topkw-main">
+        <div class="topkw-kw">${escapeHtml(k.keyword)}</div>
+        <div class="topkw-meta">${k.updated ? 'Cập nhật '+escapeHtml(k.updated) : ''}</div>
+      </div>
+      ${k.service ? `<span class="topkw-badge">${escapeHtml(k.service)}</span>` : ''}
+      ${k.link ? `<a class="topkw-link" href="${escapeHtml(k.link)}" target="_blank" rel="noopener noreferrer">Xem →</a>` : ''}
+    </div>
+  `).join('');
+}
+
 loadAll();
 setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 </script>
 </body>
 </html>
-
 
 
 
