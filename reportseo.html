@@ -397,7 +397,7 @@ async function loadMonthly(){
 // Hàng 3: Impression/View - Google
 // Hàng 4: Impression/View - AI Overview
 // Hàng 5: Impression/View - Bing
-// Hàng 6: Click/User engagement - Google | Hàng 7: - Bing | Hàng 8: - Cốc Cốc (GA4) | Hàng 9: - AI search (GA4)
+// Hàng 6: Click/User engagement - Google | Hàng 7: - Bing | Hàng 8: - Cốc Cốc, Backlink | Hàng 9: - AI search
 // Hàng 10: Leads
 async function loadWeekly(){
   const weeklySub = document.getElementById('weeklySub');
@@ -492,8 +492,8 @@ async function loadWeekly(){
       {label:'Impression - Bing', data:imprBing},
       {label:'Click - Google', data:clickGoogle},
       {label:'Click - Bing', data:clickBing},
-      {label:'Click - Cốc Cốc (GA4)', data:clickCoc},
-      {label:'Click - AI search (GA4)', data:clickAI},
+      {label:'Click - Cốc Cốc, Backlink', data:clickCoc},
+      {label:'Click - AI search', data:clickAI},
       {label:'Lead', data:leadWeek}
     ]);
 
@@ -512,7 +512,7 @@ async function loadWeekly(){
 // Hàng 2: Impression/View - Google
 // Hàng 3: Impression/View - AI Overview
 // Hàng 4: Impression/View - Bing
-// Hàng 5: Click/User engagement - Google | Hàng 6: - Bing | Hàng 7: - Cốc Cốc (GA4) | Hàng 8: - AI search (GA4)
+// Hàng 5: Click/User engagement - Google | Hàng 6: - Bing | Hàng 7: - Cốc Cốc, Backlink | Hàng 8: - AI search
 // Hàng 9: Lead
 async function loadDaily(){
   const dailySub = document.getElementById('dailySub');
@@ -589,8 +589,8 @@ buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
   {label:'Impression - Bing', data:imprBing},
   {label:'Click - Google', data:clickGoogle},
   {label:'Click - Bing', data:clickBing},
-  {label:'Click - Cốc Cốc (GA4)', data:clickCoc},
-  {label:'Click - AI search (GA4)', data:clickAI},
+  {label:'Click - Cốc Cốc, Backlink', data:clickCoc},
+  {label:'Click - AI search', data:clickAI},
   {label:'Lead', data:leadDay}
 ]);
 
