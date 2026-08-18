@@ -474,7 +474,7 @@ async function loadWeekly(){
     const dateRangeRow  = rows[1] || []; // C2.. = khoảng ngày của từng tuần
 
     const monthLabel = (weekHeaderRow[0] || '').toString().trim();
-    if(monthLabel) weeklyTitle.textContent = `Data mỗi tuần của ${monthLabel}`;
+    if(monthLabel) weeklyTitle.textContent = `Data mỗi tuần`;
 
     // xác định số cột tuần thực tế dựa theo nhãn "TUẦN x" ở hàng tiêu đề (cột C trở đi = index 2)
     let lastCol = 2;
@@ -565,7 +565,7 @@ async function loadDaily(){
 
     const headerRow = rows[0] || [];
     const monthLabel = (headerRow[0] || '').toString().trim();
-    if(monthLabel) dailyTitle.textContent = `Data mỗi ngày của ${monthLabel}`;
+    if(monthLabel) dailyTitle.textContent = `Data mỗi ngày của`;
 
     // xác định số cột ngày thực tế dựa theo nhãn ở hàng tiêu đề (cột C trở đi = index 2)
     let lastCol = 2;
@@ -883,5 +883,78 @@ function renderCustList(){
 loadAll();
 setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 </script>
+</body>
+</html>
+  
+  
+  <div style="padding: 40px;"> </div>
+  
+  
+  
+  
+  <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
+    <title>Số lượng Keyword hiển thị AI</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .container {
+            width: 1220px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .header {
+            padding: 24px 32px;
+            border-bottom: 1px solid #eeeeee;
+            background-color: #ffffff;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+        .image-wrapper {
+            width: 100%;
+            display: block;
+        }
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Số lượng Keyword hiển thị AI</h1>
+        </div>
+        <div class="image-wrapper">
+            <img src="https://i.pinimg.com/736x/ed/e2/7f/ede27fb379d49caebb21558583323e61.jpg" alt="Số lượng Keyword hiển thị AI" width="1200">
+        </div>
+    </div>
+
 </body>
 </html>
