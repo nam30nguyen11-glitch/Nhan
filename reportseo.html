@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -137,6 +136,25 @@ a{color:var(--jade);}
   </div>
 <div style="padding-top: 40px;">
 </div>
+
+  <!-- ============ SECTION: KHÁCH HÀNG ĐÃ ĐỂ LẠI THÔNG TIN ============ -->
+  <div class="section-title">
+    <h2>Khách hàng đã để lại thông tin</h2>
+    <span id="custSub">Chọn dịch vụ để xem danh sách khách hàng</span>
+  </div>
+  <div class="card">
+    <h4>Số lượng khách để lại thông tin theo dịch vụ</h4>
+    <div class="chart-box" style="height:520px;"><canvas id="custChart"></canvas></div>
+  </div>
+  <div class="card" style="margin-top:14px;">
+    <div class="topkw-tabs" id="custTabs"></div>
+    <p class="topkw-count" id="custCount"></p>
+    <div class="topkw-list" id="custList"></div>
+  </div>
+  <!-- ============ HẾT SECTION ============ -->
+
+<div style="padding-top: 40px;">
+</div>
   <div class="section-title"><h2>Top từ khóa CHÍNH chuyển đổi</h2><span id="topkwSub">Chọn vị trí Top để xem danh sách từ khóa</span></div>
   <div class="card">
     <div class="topkw-tabs" id="topkwTabs"></div>
@@ -187,6 +205,18 @@ const CSV_URL_DAILY = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/t
 const GID_TOPKW = '1315395176';
 const CSV_URL_TOPKW = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID_TOPKW}&t=${Date.now()}`;
 
+// Nguồn dữ liệu "Khách hàng đã để lại thông tin" — file "chi tiết", tab gid=244890177
+const SHEET_ID_CUST = '1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs';
+const GID_CUST = '244890177';
+const CSV_URL_CUST = `https://docs.google.com/spreadsheets/d/${SHEET_ID_CUST}/gviz/tq?tqx=out:csv&gid=${GID_CUST}&t=${Date.now()}`;
+
+// Danh sách dịch vụ cố định — dùng làm các tab lọc cho phần "Khách hàng đã để lại thông tin"
+const CUST_CATEGORIES = [
+  "Căng da","Cắt mí mắt","Cắt môi","Công nghệ cao","Điêu khắc vùng kín","Điều trị da",
+  "Độn cằm","Gọt hàm/Hạ gò má","Hút mỡ","Làm đẹp da","Nâng mông","Nâng mũi","Nâng ngực",
+  "Nha khoa","Phun xăm","Nâng cơ trẻ hóa","Tiêm làm đẹp","Khác"
+];
+
 const months = ['T3','T4','T5','T6','T7','T8'];
 const gridColor = '#E3E8E6';
 Chart.defaults.font.family = "Inter, sans-serif";
@@ -195,6 +225,11 @@ Chart.defaults.color = '#5B6B6E';
 let chartImpr, chartClick, chartLeads, chartTop15, chartTop610, chartTop10p;
 let chartWeeklyImpr, chartWeeklyClick, chartWeeklyLeads;
 let chartDailyImpr, chartDailyClick, chartDailyLeads;
+
+// State cho phần "Khách hàng đã để lại thông tin"
+let custData = [];
+let custSelected = CUST_CATEGORIES[0];
+let custChart;
 
 function num(v){
   if(v === undefined || v === null) return null;
@@ -277,6 +312,9 @@ function buildTableDaily(el, colLabels, rowsDef){
 function norm(s){
   return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 }
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 // tìm dòng theo nhãn xuất hiện ở cột A hoặc B (không phân biệt hoa/thường, dấu)
 function findRow(rows, variants){
   for(const row of rows){
@@ -286,13 +324,68 @@ function findRow(rows, variants){
   return null;
 }
 
+// ===== % thay đổi so với kỳ liền trước + plugin vẽ nhãn % trên biểu đồ =====
+// Dùng chung cho cả 3 khối: theo tháng / theo tuần / theo ngày
+function pctChangeArr(arr){
+  return arr.map((v,i)=>{
+    if(i===0) return null; // kỳ đầu tiên không có gì để so sánh
+    const prev = arr[i-1];
+    if(prev===null || prev===undefined || prev===0 || v===null || v===undefined) return null;
+    return ((v-prev)/prev*100);
+  });
+}
+
+function pctLabelPlugin(pctArr){
+  return {
+    id: 'pctLabels_'+Math.random().toString(36).slice(2),
+    afterDatasetsDraw(chart){
+      const {ctx} = chart;
+      const meta = chart.getDatasetMeta(0);
+      ctx.save();
+      ctx.font = '700 11px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      meta.data.forEach((point, i)=>{
+        const pct = pctArr[i];
+        if(pct===null || pct===undefined) return;
+        const text = (pct>=0?'+':'') + pct.toFixed(0) + '%';
+        ctx.fillStyle = pct>=0 ? '#1B463D' : '#C1443C';
+        ctx.fillText(text, point.x, point.y - 10);
+      });
+      ctx.restore();
+    }
+  };
+}
+
+// ===== Vẽ đường mini dùng chung cho tháng / tuần / ngày =====
+function miniLine(existing, canvasId, data, color, labels, extraPlugins){
+  const zero = a => a.map(v=>v===null?0:v);
+  if(existing) existing.destroy();
+  return new Chart(document.getElementById(canvasId), {
+    type:'line',
+    data:{labels:labels||months, datasets:[{
+      data:zero(data), borderColor:color, backgroundColor:color+'22',
+      borderWidth:2.5, pointRadius:3, pointBackgroundColor:color, pointBorderColor:'#fff',
+      pointBorderWidth:1.5, tension:.3, fill:true
+    }]},
+    plugins: extraPlugins || [],
+    options:{responsive:true, maintainAspectRatio:false,
+      layout:{padding:{top:22}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
+      scales:{
+        y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
+        x:{grid:{display:false}, ticks:{maxTicksLimit:8, autoSkip:true}}
+      }}
+  });
+}
+window.miniLine = miniLine; // dùng chung cho phần "theo tuần"/"theo ngày"
+
 async function loadAll(){
   const statusEl = document.getElementById('status');
   const btn = document.getElementById('refreshBtn');
   statusEl.textContent = 'Đang tải...';
   btn.disabled = true;
 
-  await Promise.all([loadMonthly(), loadWeekly(), loadDaily(), loadTopKeywords()]);
+  await Promise.all([loadMonthly(), loadWeekly(), loadDaily(), loadTopKeywords(), loadCustomers()]);
 
   btn.disabled = false;
 }
@@ -334,71 +427,21 @@ async function loadMonthly(){
 
     const anyData1 = [...impression, ...click, ...leads].some(v=>v!==null);
     const anyData2 = [...top15, ...top610, ...top10p].some(v=>v!==null);
-function pctChangeArr(arr){
-  return arr.map((v,i)=>{
-    if(i===0) return null; // tháng đầu không có gì để so sánh
-    const prev = arr[i-1];
-    if(prev===null || prev===undefined || prev===0 || v===null || v===undefined) return null;
-    return ((v-prev)/prev*100);
-  });
-}
 
-function pctLabelPlugin(pctArr){
-  return {
-    id: 'pctLabels_'+Math.random().toString(36).slice(2),
-    afterDatasetsDraw(chart){
-      const {ctx} = chart;
-      const meta = chart.getDatasetMeta(0);
-      ctx.save();
-      ctx.font = '700 11px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      meta.data.forEach((point, i)=>{
-        const pct = pctArr[i];
-        if(pct===null || pct===undefined) return;
-        const text = (pct>=0?'+':'') + pct.toFixed(0) + '%';
-        ctx.fillStyle = pct>=0 ? '#1B463D' : '#C1443C';
-        ctx.fillText(text, point.x, point.y - 10);
-      });
-      ctx.restore();
-    }
-  };
-}
     // KPI cards
-document.getElementById('kpiRow1').innerHTML =
-  kpiCardDay('Impression', impression) + kpiCardDay('Click', click) + kpiCardDay('Leads', leads);
-document.getElementById('kpiRow2').innerHTML =
-  kpiCardDay('Top 1-5', top15) + kpiCardDay('Top 6-10', top610) + kpiCardDay('Trên 10', top10p);
+    document.getElementById('kpiRow1').innerHTML =
+      kpiCardDay('Impression', impression) + kpiCardDay('Click', click) + kpiCardDay('Leads', leads);
+    document.getElementById('kpiRow2').innerHTML =
+      kpiCardDay('Top 1-5', top15) + kpiCardDay('Top 6-10', top610) + kpiCardDay('Trên 10', top10p);
 
     // Charts — mỗi chỉ số 1 biểu đồ đường nhỏ riêng, dễ nhìn xu hướng lên/xuống
-    const zero = a => a.map(v=>v===null?0:v);
-function miniLine(existing, canvasId, data, color, labels, extraPlugins){
-  if(existing) existing.destroy();
-  return new Chart(document.getElementById(canvasId), {
-    type:'line',
-    data:{labels:labels||months, datasets:[{
-      data:zero(data), borderColor:color, backgroundColor:color+'22',
-      borderWidth:2.5, pointRadius:3, pointBackgroundColor:color, pointBorderColor:'#fff',
-      pointBorderWidth:1.5, tension:.3, fill:true
-    }]},
-    plugins: extraPlugins || [],
-    options:{responsive:true, maintainAspectRatio:false,
-      layout:{padding:{top:22}},
-      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
-      scales:{
-        y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
-        x:{grid:{display:false}}
-      }}
-  });
-}
-    window.miniLine = miniLine; // dùng chung cho phần "theo tuần"/"theo ngày"
+    chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62', months, [pctLabelPlugin(pctChangeArr(impression))]);
+    chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A', months, [pctLabelPlugin(pctChangeArr(click))]);
+    chartLeads = miniLine(chartLeads, 'chartLeads', leads,      '#C9667A', months, [pctLabelPlugin(pctChangeArr(leads))]);
 
-chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62', months, [pctLabelPlugin(pctChangeArr(impression))]);
-chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A', months, [pctLabelPlugin(pctChangeArr(click))]);
-chartLeads = miniLine(chartLeads, 'chartLeads', leads,      '#C9667A', months, [pctLabelPlugin(pctChangeArr(leads))]);
-
-chartTop15   = miniLine(chartTop15,   'chartTop15',   top15,   '#2F6F62', months, [pctLabelPlugin(pctChangeArr(top15))]);
-chartTop610  = miniLine(chartTop610,  'chartTop610',  top610,  '#D98E4A', months, [pctLabelPlugin(pctChangeArr(top610))]);
-chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93', months, [pctLabelPlugin(pctChangeArr(top10p))]);
+    chartTop15   = miniLine(chartTop15,   'chartTop15',   top15,   '#2F6F62', months, [pctLabelPlugin(pctChangeArr(top15))]);
+    chartTop610  = miniLine(chartTop610,  'chartTop610',  top610,  '#D98E4A', months, [pctLabelPlugin(pctChangeArr(top610))]);
+    chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93', months, [pctLabelPlugin(pctChangeArr(top10p))]);
 
     buildTable(document.getElementById('table1'), [
       {label:'Impression', data:impression}, {label:'Click', data:click}, {label:'Leads', data:leads}
@@ -422,14 +465,6 @@ chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93', months
 }
 
 // ===== Hiệu suất theo tuần (tab "Theo tuần", gid = GID_WEEKLY) =====
-// Cấu trúc cố định:
-// Hàng 1: A1 = "THÁNG X", cột C.. = "TUẦN 1", "TUẦN 2", ...
-// Hàng 2: cột C.. = khoảng ngày của tuần đó (vd "01 - 09")
-// Hàng 3: Impression/View - Google
-// Hàng 4: Impression/View - AI Overview
-// Hàng 5: Impression/View - Bing
-// Hàng 6: Click/User engagement - Google | Hàng 7: - Bing | Hàng 8: - Cốc Cốc, Backlink | Hàng 9: - AI search
-// Hàng 10: Leads
 async function loadWeekly(){
   const weeklySub = document.getElementById('weeklySub');
   const weeklyTitle = document.getElementById('weeklyTitle');
@@ -498,24 +533,9 @@ async function loadWeekly(){
     document.getElementById('kpiRowWeekly').innerHTML =
       kpiCardDay('Impression', imprTotal) + kpiCardDay('Click/Tương tác', clickTotal) + kpiCardDay('Leads', leadWeek);
 
-    const zero = a => a.map(v=>v===null?0:v);
-    const line = window.miniLine || function(existing, canvasId, data, color, labels){
-      if(existing) existing.destroy();
-      return new Chart(document.getElementById(canvasId), {
-        type:'line',
-        data:{labels, datasets:[{ data:zero(data), borderColor:color, backgroundColor:color+'22',
-          borderWidth:2.5, pointRadius:2, pointBackgroundColor:color, pointBorderColor:'#fff',
-          pointBorderWidth:1.5, tension:.3, fill:true }]},
-        options:{responsive:true, maintainAspectRatio:false,
-          plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
-          scales:{ y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
-            x:{grid:{display:false}, ticks:{maxTicksLimit:8, autoSkip:true}} }}
-      });
-    };
-
-    chartWeeklyImpr  = line(chartWeeklyImpr,  'chartWeeklyImpr',  imprTotal,  '#2F6F62', weekLabels);
-    chartWeeklyClick = line(chartWeeklyClick, 'chartWeeklyClick', clickTotal, '#D98E4A', weekLabels);
-    chartWeeklyLeads = line(chartWeeklyLeads, 'chartWeeklyLeads', leadWeek,   '#C9667A', weekLabels);
+    chartWeeklyImpr  = miniLine(chartWeeklyImpr,  'chartWeeklyImpr',  imprTotal,  '#2F6F62', weekLabels, [pctLabelPlugin(pctChangeArr(imprTotal))]);
+    chartWeeklyClick = miniLine(chartWeeklyClick, 'chartWeeklyClick', clickTotal, '#D98E4A', weekLabels, [pctLabelPlugin(pctChangeArr(clickTotal))]);
+    chartWeeklyLeads = miniLine(chartWeeklyLeads, 'chartWeeklyLeads', leadWeek,   '#C9667A', weekLabels, [pctLabelPlugin(pctChangeArr(leadWeek))]);
 
     buildTableDaily(document.getElementById('tableWeekly'), weekLabels, [
       {label:'Impression - Google', data:imprGoogle},
@@ -538,13 +558,6 @@ async function loadWeekly(){
 }
 
 // ===== Hiệu suất theo ngày (tab "Data chi tiết", gid = GID_DAILY) =====
-// Cấu trúc cố định:
-// Hàng 1: A1 = "THÁNG X", cột C.. = nhãn ngày (1/7, 2/7, ...)
-// Hàng 2: Impression/View - Google
-// Hàng 3: Impression/View - AI Overview
-// Hàng 4: Impression/View - Bing
-// Hàng 5: Click/User engagement - Google | Hàng 6: - Bing | Hàng 7: - Cốc Cốc, Backlink | Hàng 8: - AI search
-// Hàng 9: Lead
 async function loadDaily(){
   const dailySub = document.getElementById('dailySub');
   const dailyTitle = document.getElementById('dailyTitle');
@@ -579,51 +592,36 @@ async function loadDaily(){
     };
 
     const imprGoogle     = readRow(1);
-const imprAIOverview = readRow(2);   // hàng mới
-const imprBing        = readRow(3);
-const clickGoogle     = readRow(4);
-const clickBing        = readRow(5);
-const clickCoc        = readRow(6);
-const clickAI         = readRow(7);
-const leadDay         = readRow(8);
+    const imprAIOverview = readRow(2);   // hàng mới
+    const imprBing        = readRow(3);
+    const clickGoogle     = readRow(4);
+    const clickBing        = readRow(5);
+    const clickCoc        = readRow(6);
+    const clickAI         = readRow(7);
+    const leadDay         = readRow(8);
 
-const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing);
-const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
+    const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing);
+    const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
 
     const anyData = [...imprTotal, ...clickTotal, ...leadDay].some(v=>v!==null);
 
     document.getElementById('kpiRowDaily').innerHTML =
       kpiCardDay('Impression', imprTotal) + kpiCardDay('Click/Tương tác', clickTotal) + kpiCardDay('Leads', leadDay);
 
-    const zero = a => a.map(v=>v===null?0:v);
-    const line = window.miniLine || function(existing, canvasId, data, color, labels){
-      if(existing) existing.destroy();
-      return new Chart(document.getElementById(canvasId), {
-        type:'line',
-        data:{labels, datasets:[{ data:zero(data), borderColor:color, backgroundColor:color+'22',
-          borderWidth:2.5, pointRadius:2, pointBackgroundColor:color, pointBorderColor:'#fff',
-          pointBorderWidth:1.5, tension:.3, fill:true }]},
-        options:{responsive:true, maintainAspectRatio:false,
-          plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
-          scales:{ y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
-            x:{grid:{display:false}, ticks:{maxTicksLimit:8, autoSkip:true}} }}
-      });
-    };
+    chartDailyImpr  = miniLine(chartDailyImpr,  'chartDailyImpr',  imprTotal,  '#2F6F62', dayLabels);
+    chartDailyClick = miniLine(chartDailyClick, 'chartDailyClick', clickTotal, '#D98E4A', dayLabels);
+    chartDailyLeads = miniLine(chartDailyLeads, 'chartDailyLeads', leadDay,    '#C9667A', dayLabels);
 
-    chartDailyImpr  = line(chartDailyImpr,  'chartDailyImpr',  imprTotal,  '#2F6F62', dayLabels);
-    chartDailyClick = line(chartDailyClick, 'chartDailyClick', clickTotal, '#D98E4A', dayLabels);
-    chartDailyLeads = line(chartDailyLeads, 'chartDailyLeads', leadDay,    '#C9667A', dayLabels);
-
-buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
-  {label:'Impression - Google', data:imprGoogle},
-  {label:'Impression - AI Overview', data:imprAIOverview},   // hàng mới
-  {label:'Impression - Bing', data:imprBing},
-  {label:'Click - Google', data:clickGoogle},
-  {label:'Click - Bing', data:clickBing},
-  {label:'Click - Cốc Cốc, Backlink', data:clickCoc},
-  {label:'Click - AI search', data:clickAI},
-  {label:'Lead', data:leadDay}
-]);
+    buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
+      {label:'Impression - Google', data:imprGoogle},
+      {label:'Impression - AI Overview', data:imprAIOverview},   // hàng mới
+      {label:'Impression - Bing', data:imprBing},
+      {label:'Click - Google', data:clickGoogle},
+      {label:'Click - Bing', data:clickBing},
+      {label:'Click - Cốc Cốc, Backlink', data:clickCoc},
+      {label:'Click - AI search', data:clickAI},
+      {label:'Lead', data:leadDay}
+    ]);
 
     dailySub.textContent = anyData
       ? 'Impression · Click/Tương tác · Leads theo từng ngày'
@@ -634,23 +632,9 @@ buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
   }
 }
 
-  
-  
-  
-  
-  
-  
-  
 // ===== Top từ khóa chuyển đổi (tab "Trang tính2", gid = GID_TOPKW) =====
-// Cấu trúc cố định:
-// Hàng có cột A = "DỊCH VỤ" là hàng tiêu đề, các hàng bên dưới là dữ liệu tới khi hết:
-// A = Dịch vụ | B = Từ khóa | C = Vị trí Top | D = Ngày update Top | E = Link
 let topkwData = [];   // toàn bộ danh sách từ khóa đọc từ sheet
 let topkwSelected = '1';
-
-function escapeHtml(s){
-  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
 
 async function loadTopKeywords(){
   const sub = document.getElementById('topkwSub');
@@ -754,325 +738,160 @@ function renderTopKwList(){
   `).join('');
 }
 
+// ===== Khách hàng đã để lại thông tin (file "chi tiết", gid = GID_CUST) =====
+// Cột A = Tháng | B = Ngày | C = Họ tên | D = Phone | E = Dịch vụ | F = Yêu cầu
+async function loadCustomers(){
+  const sub = document.getElementById('custSub');
+  try{
+    const res = await fetch(CSV_URL_CUST, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const csvText = await res.text();
+    const parsed = Papa.parse(csvText, {skipEmptyLines:false});
+    const rows = parsed.data;
+
+    // tìm hàng tiêu đề có cột C chứa "họ tên" hoặc cột E chứa "dịch vụ"
+    const headerIdx = rows.findIndex(r => norm(r[2]).includes('ho ten') || norm(r[4]).includes('dich vu'));
+    const startIdx = headerIdx >= 0 ? headerIdx + 1 : 1;
+
+    const list = [];
+    for(let i = startIdx; i < rows.length; i++){
+      const row = rows[i] || [];
+      const month    = (row[0] || '').toString().trim(); // A = Tháng
+      const day      = (row[1] || '').toString().trim(); // B = Ngày
+      const name     = (row[2] || '').toString().trim(); // C = Họ tên
+      const phone    = (row[3] || '').toString().trim(); // D = Phone
+      const category = (row[4] || '').toString().trim(); // E = Dịch vụ
+      const request  = (row[5] || '').toString().trim(); // F = Yêu cầu
+      if(!category && !name && !phone) continue; // bỏ hàng trống
+      const time = [day, month].filter(Boolean).join('/'); // ghép Ngày/Tháng thành chuỗi thời gian hiển thị
+      list.push({category, name, phone, time, request});
+    }
+    custData = list;
+
+    renderCustChart();
+    renderCustTabs();
+    renderCustList();
+
+    sub.textContent = list.length
+      ? `Tổng cộng ${list.length.toLocaleString('vi-VN')} khách đã để lại thông tin`
+      : 'Đã kết nối — chưa có khách hàng nào trong sheet';
+  }catch(err){
+    sub.textContent = 'Lỗi tải dữ liệu khách hàng — kiểm tra quyền chia sẻ Sheet (Anyone with the link: Viewer)';
+    console.error(err);
+  }
+}
+
+// plugin nhỏ: in số leads ngay cạnh mỗi cột của biểu đồ
+function custCountLabelPlugin(){
+  return {
+    id: 'custCountLabels',
+    afterDatasetsDraw(chart){
+      const {ctx} = chart;
+      const meta = chart.getDatasetMeta(0);
+      ctx.save();
+      ctx.font = '700 12px Inter, sans-serif';
+      ctx.fillStyle = '#16262B';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      meta.data.forEach((bar,i)=>{
+        const val = chart.data.datasets[0].data[i];
+        ctx.fillText(val, bar.x + 8, bar.y);
+      });
+      ctx.restore();
+    }
+  };
+}
+
+// đếm số khách theo từng dịch vụ trong CUST_CATEGORIES rồi vẽ 1 biểu đồ cột ngang duy nhất
+function renderCustChart(){
+  const counts = CUST_CATEGORIES.map(cat => custData.filter(k => custCategoryOf(k) === cat).length);
+
+  if(custChart) custChart.destroy();
+  custChart = new Chart(document.getElementById('custChart'), {
+    type: 'bar',
+    data: {
+      labels: CUST_CATEGORIES,
+      datasets: [{
+        data: counts,
+        backgroundColor: '#2F6F62',
+        borderRadius: 6,
+        barThickness: 16
+      }]
+    },
+    plugins: [custCountLabelPlugin()],
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 30 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => c.raw + ' leads' } }
+      },
+      scales: {
+        x: { grid: { color: '#E3E8E6' }, ticks: { precision: 0 } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+// khớp giá trị cột E (Dịch vụ) với danh sách dịch vụ cố định; không khớp -> xếp vào "Khác"
+function custCategoryOf(row){
+  const rc = norm(row.category);
+  const match = CUST_CATEGORIES.find(c => norm(c) === rc);
+  return match || 'Khác';
+}
+
+function renderCustTabs(){
+  const tabsEl = document.getElementById('custTabs');
+  let html = '';
+  CUST_CATEGORIES.forEach(cat=>{
+    const count = custData.filter(k => custCategoryOf(k) === cat).length;
+    const active = cat === custSelected ? ' active' : '';
+    html += `<button class="topkw-tab${active}" onclick="selectCust('${cat.replace(/'/g,"\\'")}')">${escapeHtml(cat)} <span style="opacity:.75">(${count})</span></button>`;
+  });
+  const activeAll = custSelected === 'all' ? ' active' : '';
+  html += `<button class="topkw-tab${activeAll}" onclick="selectCust('all')">Tất cả <span style="opacity:.75">(${custData.length})</span></button>`;
+  tabsEl.innerHTML = html;
+}
+
+function selectCust(cat){
+  custSelected = cat;
+  renderCustTabs();
+  renderCustList();
+}
+window.selectCust = selectCust;
+
+function renderCustList(){
+  const listEl = document.getElementById('custList');
+  const countEl = document.getElementById('custCount');
+
+  const filtered = custSelected === 'all'
+    ? custData
+    : custData.filter(k => custCategoryOf(k) === custSelected);
+
+  countEl.innerHTML = `<b>${filtered.length.toLocaleString('vi-VN')}</b> khách hàng`;
+
+  if(filtered.length === 0){
+    listEl.innerHTML = '<div class="topkw-empty">Chưa có khách hàng nào ở mục này</div>';
+    return;
+  }
+
+  listEl.innerHTML = filtered.map((k,i) => `
+    <div class="topkw-row">
+      <div class="topkw-rank">${i+1}</div>
+      <div class="topkw-main">
+        <div class="topkw-kw">${escapeHtml(k.name || '(chưa có tên)')}</div>
+        <div class="topkw-meta">${k.phone ? escapeHtml(k.phone) : ''}${k.time ? ' · '+escapeHtml(k.time) : ''}</div>
+      </div>
+      <span class="topkw-badge">${escapeHtml(k.category || 'Khác')}</span>
+    </div>
+  `).join('');
+}
+
 loadAll();
 setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ảnh data - Các tháng</title>
-  <style>
-    /* Reset CSS cơ bản */
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f0f2f5;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    /* Container căn giữa chuẩn 1280px */
-    .main-container {
-      width: 100%;
-      max-width: 1260px;
-      margin: 0 auto;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    /* Style cho Title H2 */
-    .section-title {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin: 10px 0 20px;
-    }
-
-    .section-title h2 {
-      font-family: 'Fraunces', serif, system-ui;
-      font-weight: 600;
-      font-size: 24px;
-      margin: 0;
-      color: #16262B;
-    }
-
-    /* Grid chia 4 cột bằng nhau */
-    .search-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    /* Thẻ hiển thị từng tháng */
-    .search-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .search-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Tiêu đề cho từng card tháng */
-    .month-header {
-      font-size: 16px;
-      font-weight: 600;
-      color: #16262B;
-      margin: 0;
-      text-align: center;
-    }
-
-    /* Khung chứa ảnh chuẩn tỉ lệ 1000 x 1500 (2:3) */
-    .card-image-box {
-      width: 100%;
-      aspect-ratio: 1000 / 1500;
-      background-color: #f5f5f5;
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px dashed #cccccc;
-    }
-
-    .card-image-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Chữ hiển thị khi trống (chưa có ảnh) */
-    .empty-placeholder {
-      font-size: 14px;
-      color: #888888;
-      font-weight: 500;
-      text-align: center;
-      padding: 10px;
-    }
-
-    /* --- Modal Popup Style (Tối ưu cho ảnh 1000x1500) --- */
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.85);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
-      
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-    }
-
-    .modal.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .modal-content {
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 16px;
-      position: relative;
-      /* Giới hạn chiều cao popup tránh bị vượt màn hình */
-      height: 90vh;
-      max-width: 90vw;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      
-      transform: scale(0.85);
-      transition: transform 0.25s ease;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal.show .modal-content {
-      transform: scale(1);
-    }
-
-    /* Khung chứa ảnh trong Modal giữ tỉ lệ chuẩn 1000x1500 */
-    .image-wrapper {
-      height: 100%;
-      aspect-ratio: 1000 / 1500;
-      background-color: #000000;
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    /* Nút đóng (X) */
-    .close-modal {
-      position: absolute;
-      top: 10px;
-      right: 16px;
-      font-size: 28px;
-      font-weight: bold;
-      color: #888888;
-      cursor: pointer;
-      line-height: 1;
-      z-index: 10;
-      transition: color 0.2s;
-    }
-
-    .close-modal:hover {
-      color: #000000;
-    }
-
-    /* Responsive cho màn hình nhỏ hơn */
-    @media (max-width: 1024px) {
-      .search-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .search-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="main-container">
-    <div class="section-title">
-      <h2>Ảnh data theo tháng</h2>
-    </div>
-
-    <div class="search-grid">
-      <!-- Cột 1: Tháng 07 -->
-      <div class="search-card" onclick="openModal('https://i.pinimg.com/736x/0a/cb/8c/0acb8cd508e765c0c863b96121b77386.jpg')">
-        <h3 class="month-header">Tháng 07</h3>
-        <div class="card-image-box" style="border: none;">
-          <img src="https://i.pinimg.com/736x/0a/cb/8c/0acb8cd508e765c0c863b96121b77386.jpg" alt="Tháng 07">
-        </div>
-      </div>     
-
-      <!-- Cột 2: Tháng 08 (Chưa có ảnh) -->
-      <div class="search-card">
-        <h3 class="month-header">Tháng 08</h3>
-        <div class="card-image-box">
-          <span class="empty-placeholder">Chưa có ảnh data</span>
-        </div>
-      </div>        
-
-      <!-- Cột 3: Tháng 09 (Chưa có ảnh) -->
-      <div class="search-card">
-        <h3 class="month-header">Tháng 09</h3>
-        <div class="card-image-box">
-          <span class="empty-placeholder">Chưa có ảnh data</span>
-        </div>
-      </div>
-
-      <!-- Cột 4: Tháng 10 (Chưa có ảnh) -->
-      <div class="search-card">
-        <h3 class="month-header">Tháng 10</h3>
-        <div class="card-image-box">
-          <span class="empty-placeholder">Chưa có ảnh data</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Popup Modal -->
-  <div id="imageModal" class="modal" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <span class="close-modal" onclick="closeModal()">&times;</span>
-      <div class="image-wrapper">
-        <img id="modalImage" src="" alt="Popup Image">
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-
-    function openModal(imgSrc) {
-      if (!imgSrc) return; // Nếu không có link ảnh thì không mở popup
-      modalImg.src = imgSrc;
-      modal.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modal.classList.remove('show');
-      document.body.style.overflow = '';
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('show')) {
-        closeModal();
-      }
-    });
-  </script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
