@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -92,7 +93,7 @@ a{color:var(--jade);}
   <div class="top">
     <div>
       <p class="eyebrow"> NHAN TRI NGUYEN </p>
-      <h1>HIỆU SUẤT SEO THÁNG 7 - 12/2026</h1>
+      <h1>SEO</h1>
     </div>
     <div class="refresh-box">
       <span id="status">Đang tải...</span>
@@ -100,7 +101,7 @@ a{color:var(--jade);}
     </div>
   </div>
 
-  <div class="section-title"><h2>Tổng hiệu suất SEO</h2><span>Impression · Click · Leads </span></div>
+  <div class="section-title"><h2>Data mỗi tháng</h2><span>Impression · Click · Leads </span></div>
   <div class="kpi-row" id="kpiRow1"></div>
   <div class="chart-row-3">
     <div class="card mini"><h4>Impression</h4><div class="chart-box small"><canvas id="chartImpr"></canvas></div></div>
@@ -112,7 +113,7 @@ a{color:var(--jade);}
   </div>
 <div style="padding-top: 40px;">
 </div>
-  <div class="section-title"><h2 id="weeklyTitle">Hiệu suất theo tuần</h2><span id="weeklySub">Impression · Click/Tương tác · Leads theo từng tuần</span></div>
+  <div class="section-title"><h2 id="weeklyTitle">Data theo tuần của</h2><span id="weeklySub">Impression · Click/Tương tác · Leads theo từng tuần</span></div>
   <div class="kpi-row" id="kpiRowWeekly"></div>
   <div class="chart-row-3">
     <div class="card mini"><h4>Impression theo tuần</h4><div class="chart-box small"><canvas id="chartWeeklyImpr"></canvas></div></div>
@@ -186,7 +187,7 @@ const CSV_URL_DAILY = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/t
 const GID_TOPKW = '1315395176';
 const CSV_URL_TOPKW = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID_TOPKW}&t=${Date.now()}`;
 
-const months = ['T7','T8','T9','T10','T11','T12'];
+const months = ['T3','T4','T5','T6','T7','T8'];
 const gridColor = '#E3E8E6';
 Chart.defaults.font.family = "Inter, sans-serif";
 Chart.defaults.font.size = 12;
@@ -333,41 +334,71 @@ async function loadMonthly(){
 
     const anyData1 = [...impression, ...click, ...leads].some(v=>v!==null);
     const anyData2 = [...top15, ...top610, ...top10p].some(v=>v!==null);
+function pctChangeArr(arr){
+  return arr.map((v,i)=>{
+    if(i===0) return null; // tháng đầu không có gì để so sánh
+    const prev = arr[i-1];
+    if(prev===null || prev===undefined || prev===0 || v===null || v===undefined) return null;
+    return ((v-prev)/prev*100);
+  });
+}
 
+function pctLabelPlugin(pctArr){
+  return {
+    id: 'pctLabels_'+Math.random().toString(36).slice(2),
+    afterDatasetsDraw(chart){
+      const {ctx} = chart;
+      const meta = chart.getDatasetMeta(0);
+      ctx.save();
+      ctx.font = '700 11px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      meta.data.forEach((point, i)=>{
+        const pct = pctArr[i];
+        if(pct===null || pct===undefined) return;
+        const text = (pct>=0?'+':'') + pct.toFixed(0) + '%';
+        ctx.fillStyle = pct>=0 ? '#1B463D' : '#C1443C';
+        ctx.fillText(text, point.x, point.y - 10);
+      });
+      ctx.restore();
+    }
+  };
+}
     // KPI cards
-    document.getElementById('kpiRow1').innerHTML =
-      kpiCard('Impression', impression) + kpiCard('Click', click) + kpiCard('Leads', leads);
-    document.getElementById('kpiRow2').innerHTML =
-      kpiCard('Top 1-5', top15) + kpiCard('Top 6-10', top610) + kpiCard('Trên 10', top10p);
+document.getElementById('kpiRow1').innerHTML =
+  kpiCardDay('Impression', impression) + kpiCardDay('Click', click) + kpiCardDay('Leads', leads);
+document.getElementById('kpiRow2').innerHTML =
+  kpiCardDay('Top 1-5', top15) + kpiCardDay('Top 6-10', top610) + kpiCardDay('Trên 10', top10p);
 
     // Charts — mỗi chỉ số 1 biểu đồ đường nhỏ riêng, dễ nhìn xu hướng lên/xuống
     const zero = a => a.map(v=>v===null?0:v);
-    function miniLine(existing, canvasId, data, color, labels){
-      if(existing) existing.destroy();
-      return new Chart(document.getElementById(canvasId), {
-        type:'line',
-        data:{labels:labels||months, datasets:[{
-          data:zero(data), borderColor:color, backgroundColor:color+'22',
-          borderWidth:2.5, pointRadius:3, pointBackgroundColor:color, pointBorderColor:'#fff',
-          pointBorderWidth:1.5, tension:.3, fill:true
-        }]},
-        options:{responsive:true, maintainAspectRatio:false,
-          plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
-          scales:{
-            y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
-            x:{grid:{display:false}}
-          }}
-      });
-    }
+function miniLine(existing, canvasId, data, color, labels, extraPlugins){
+  if(existing) existing.destroy();
+  return new Chart(document.getElementById(canvasId), {
+    type:'line',
+    data:{labels:labels||months, datasets:[{
+      data:zero(data), borderColor:color, backgroundColor:color+'22',
+      borderWidth:2.5, pointRadius:3, pointBackgroundColor:color, pointBorderColor:'#fff',
+      pointBorderWidth:1.5, tension:.3, fill:true
+    }]},
+    plugins: extraPlugins || [],
+    options:{responsive:true, maintainAspectRatio:false,
+      layout:{padding:{top:22}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmtCompact(c.raw)}}},
+      scales:{
+        y:{grid:{color:gridColor}, ticks:{callback:v=>fmtCompact(v), maxTicksLimit:4}},
+        x:{grid:{display:false}}
+      }}
+  });
+}
     window.miniLine = miniLine; // dùng chung cho phần "theo tuần"/"theo ngày"
 
-    chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62');
-    chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A');
-    chartLeads = miniLine(chartLeads, 'chartLeads', leads,      '#C9667A');
+chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62', months, [pctLabelPlugin(pctChangeArr(impression))]);
+chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A', months, [pctLabelPlugin(pctChangeArr(click))]);
+chartLeads = miniLine(chartLeads, 'chartLeads', leads,      '#C9667A', months, [pctLabelPlugin(pctChangeArr(leads))]);
 
-    chartTop15   = miniLine(chartTop15,   'chartTop15',   top15,   '#2F6F62');
-    chartTop610  = miniLine(chartTop610,  'chartTop610',  top610,  '#D98E4A');
-    chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93');
+chartTop15   = miniLine(chartTop15,   'chartTop15',   top15,   '#2F6F62', months, [pctLabelPlugin(pctChangeArr(top15))]);
+chartTop610  = miniLine(chartTop610,  'chartTop610',  top610,  '#D98E4A', months, [pctLabelPlugin(pctChangeArr(top610))]);
+chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93', months, [pctLabelPlugin(pctChangeArr(top10p))]);
 
     buildTable(document.getElementById('table1'), [
       {label:'Impression', data:impression}, {label:'Click', data:click}, {label:'Leads', data:leads}
@@ -418,7 +449,7 @@ async function loadWeekly(){
     const dateRangeRow  = rows[1] || []; // C2.. = khoảng ngày của từng tuần
 
     const monthLabel = (weekHeaderRow[0] || '').toString().trim();
-    if(monthLabel) weeklyTitle.textContent = `Hiệu suất theo tuần — ${monthLabel}`;
+    if(monthLabel) weeklyTitle.textContent = `Data mỗi tuần của ${monthLabel}`;
 
     // xác định số cột tuần thực tế dựa theo nhãn "TUẦN x" ở hàng tiêu đề (cột C trở đi = index 2)
     let lastCol = 2;
@@ -531,7 +562,7 @@ async function loadDaily(){
 
     const headerRow = rows[0] || [];
     const monthLabel = (headerRow[0] || '').toString().trim();
-    if(monthLabel) dailyTitle.textContent = `Hiệu suất theo ngày — ${monthLabel}`;
+    if(monthLabel) dailyTitle.textContent = `Data mỗi ngày của ${monthLabel}`;
 
     // xác định số cột ngày thực tế dựa theo nhãn ở hàng tiêu đề (cột C trở đi = index 2)
     let lastCol = 2;
@@ -603,6 +634,13 @@ buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
   }
 }
 
+  
+  
+  
+  
+  
+  
+  
 // ===== Top từ khóa chuyển đổi (tab "Trang tính2", gid = GID_TOPKW) =====
 // Cấu trúc cố định:
 // Hàng có cột A = "DỊCH VỤ" là hàng tiêu đề, các hàng bên dưới là dữ liệu tới khi hết:
@@ -721,6 +759,25 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
