@@ -565,7 +565,7 @@ async function loadDaily(){
 
     const headerRow = rows[0] || [];
     const monthLabel = (headerRow[0] || '').toString().trim();
-    if(monthLabel) dailyTitle.textContent = `Data mỗi ngày của`;
+    if(monthLabel) dailyTitle.textContent = `Data mỗi ngày`;
 
     // xác định số cột ngày thực tế dựa theo nhãn ở hàng tiêu đề (cột C trở đi = index 2)
     let lastCol = 2;
