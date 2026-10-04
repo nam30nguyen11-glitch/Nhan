@@ -76,6 +76,14 @@ tr:last-child td{border-bottom:none;}
 .topkw-link{flex:0 0 auto;font-size:12px;color:var(--jade);text-decoration:none;font-weight:600;}
 .topkw-link:hover{text-decoration:underline;}
 .topkw-empty{padding:24px;text-align:center;color:var(--ink-faint);font-size:13px;}
+
+/* ===== Thanh chọn dịch vụ (Top từ khóa CHÍNH) ===== */
+.svc-label{font-size:12px;color:var(--ink-faint);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;}
+.svc-bar{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 14px;margin-bottom:14px;border-bottom:1px solid var(--line);scrollbar-width:thin;}
+.svc-chip{flex:0 0 auto;border:1px solid var(--jade-soft);background:var(--jade-soft);color:var(--jade-deep);font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:10px;cursor:pointer;transition:.15s;white-space:nowrap;}
+.svc-chip:hover{border-color:var(--jade);}
+.svc-chip.active{background:var(--jade-deep);border-color:var(--jade-deep);color:#fff;}
+
 footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);}
 a{color:var(--jade);}
 
@@ -112,6 +120,7 @@ a{color:var(--jade);}
   </div>
 <div style="padding-top: 40px;">
 </div>
+
   <div class="section-title"><h2 id="weeklyTitle">Data theo tuần của</h2><span id="weeklySub">Impression · Click/Tương tác · Leads theo từng tuần</span></div>
   <div class="kpi-row" id="kpiRowWeekly"></div>
   <div class="chart-row-3">
@@ -124,6 +133,7 @@ a{color:var(--jade);}
   </div>
 <div style="padding-top: 40px;">
 </div>
+
   <div class="section-title"><h2 id="dailyTitle">Hiệu suất theo ngày</h2><span id="dailySub">Impression · Click/Tương tác · Leads theo từng ngày</span></div>
   <div class="kpi-row" id="kpiRowDaily"></div>
   <div class="chart-row-3">
@@ -155,14 +165,19 @@ a{color:var(--jade);}
 
 <div style="padding-top: 40px;">
 </div>
-  <div class="section-title"><h2>Top từ khóa CHÍNH chuyển đổi</h2><span id="topkwSub">Chọn vị trí Top để xem danh sách từ khóa</span></div>
+
+  <!-- ============ SECTION: TOP TỪ KHÓA CHÍNH (có chọn dịch vụ) ============ -->
+  <div class="section-title"><h2>Top từ khóa CHÍNH chuyển đổi</h2><span id="topkwSub">Chọn dịch vụ, sau đó chọn vị trí Top để xem danh sách từ khóa</span></div>
   <div class="card">
+    <p class="svc-label">Chọn dịch vụ</p>
+    <div class="svc-bar" id="topkwServices"></div>
     <div class="topkw-tabs" id="topkwTabs"></div>
     <p class="topkw-count" id="topkwCount"></p>
     <div class="topkw-list" id="topkwList"></div>
   </div>
 <div style="padding-top: 40px;">
 </div>
+
   <div class="section-title"><h2>Top từ khóa PHỤ Branding</h2><span>Top (1 - 5)  (6 - 10) (Trên 10)</span></div>
   <div class="kpi-row" id="kpiRow2"></div>
   <div class="chart-row-3">
@@ -209,6 +224,8 @@ const CUST_CATEGORIES = [
 
 const months = ['T4','T5','T6','T7','T8','T9'];
 const gridColor = '#E3E8E6';
+// URL mới mỗi lần tải để Google không trả dữ liệu cũ (trước đây tham số t cố định lúc mở trang)
+const fresh = u => u.replace(/&t=\d+$/, '&t=' + Date.now());
 Chart.defaults.font.family = "Inter, sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.color = '#5B6B6E';
@@ -284,8 +301,8 @@ function kpiCardDay(label, arr){
   const total = sumArr(arr);
   return `<div class="kpi"><p class="label">${label}</p><p class="value">${fmtCompact(total)}</p></div>`;
 }
-function buildTable(el, rowsDef){
-  let head = '<thead><tr><th>Chỉ số</th>' + months.map(m=>`<th>${m}</th>`).join('') + '</tr></thead><tbody>';
+function buildTable(el, labels, rowsDef){
+  let head = '<thead><tr><th>Chỉ số</th>' + labels.map(m=>`<th>${m}</th>`).join('') + '</tr></thead><tbody>';
   rowsDef.forEach(rd=>{
     head += `<tr><td>${rd.label}</td>` + rd.data.map(v=>`<td>${fmt(v)}</td>`).join('') + '</tr>';
   });
@@ -380,16 +397,45 @@ async function loadAll(){
   btn.disabled = false;
 }
 
+// Đọc nhãn tháng từ hàng tiêu đề nằm ngay phía trên dòng dữ liệu (cột C trở đi).
+// Tự động theo sheet: xóa/thêm tháng trong file thì nhãn và số liệu đổi theo.
+function readMonthHeader(rows, dataIdx){
+  for(let i = dataIdx - 1; i >= Math.max(0, dataIdx - 4); i--){
+    const row = rows[i] || [];
+    const cells = [];
+    let bad = false;
+    for(let c = 2; c < row.length; c++){
+      const raw = String(row[c] || '').trim();
+      if(raw === '') continue;
+      if(!/^\d{1,2}$/.test(raw) || Number(raw) < 1 || Number(raw) > 12){ bad = true; break; }
+      cells.push({col:c, label:'T' + Number(raw)});
+    }
+    if(!bad && cells.length) return cells;
+  }
+  return [];
+}
+
+// Đọc 1 khối bảng (các dòng dữ liệu dùng chung 1 hàng tiêu đề tháng)
+function monthBlock(rows, dataRows){
+  const first = dataRows.find(r => r);
+  let hdr = first ? readMonthHeader(rows, rows.indexOf(first)) : [];
+  if(!hdr.length) hdr = [2,3,4,5,6,7].map((c,i) => ({col:c, label:months[i]})); // dự phòng
+  const arrays = dataRows.map(r => r ? hdr.map(h => num(r[h.col])) : hdr.map(() => null));
+  // bỏ các tháng cuối chưa có số liệu (trống hoặc toàn 0)
+  let end = hdr.length;
+  while(end > 0 && arrays.every(a => a[end-1] === null || a[end-1] === 0)) end--;
+  return {labels: hdr.slice(0, end).map(h => h.label), arrays: arrays.map(a => a.slice(0, end))};
+}
+
 async function loadMonthly(){
   const statusEl = document.getElementById('status');
   const missing = [];
   try{
-    const res = await fetch(CSV_URL, {cache:'no-store'});
+    const res = await fetch(fresh(CSV_URL), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const csvText = await res.text();
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
     const rows = parsed.data;
-    const cols = [2,3,4,5,6,7]; // C..H -> months 7-12
 
     const rImpr = findRow(rows, ['impression']);
     const rClick = findRow(rows, ['click']);
@@ -405,38 +451,33 @@ async function loadMonthly(){
     if(!r610) missing.push('6-10');
     if(!r10p) missing.push('Trên 10');
 
-    const readRow = row => row ? cols.map(c => num(row[c])) : cols.map(()=>null);
-
-    const impression = readRow(rImpr);
-    const click       = readRow(rClick);
-    const leads       = readRow(rLeads);
-
-    const top15  = readRow(r15);
-    const top610 = readRow(r610);
-    const top10p = readRow(r10p);
+    // Mỗi bảng có hàng tháng riêng nên đọc tách biệt
+    const blk1 = monthBlock(rows, [rImpr, rClick, rLeads]);
+    const blk2 = monthBlock(rows, [r15, r610, r10p]);
+    const [impression, click, leads] = blk1.arrays;
+    const [top15, top610, top10p] = blk2.arrays;
+    const labels1 = blk1.labels, labels2 = blk2.labels;
 
     const anyData1 = [...impression, ...click, ...leads].some(v=>v!==null);
     const anyData2 = [...top15, ...top610, ...top10p].some(v=>v!==null);
 
-    // KPI cards
     document.getElementById('kpiRow1').innerHTML =
       kpiCardDay('Impression', impression) + kpiCardDay('Click', click) + kpiCardDay('Leads', leads);
     document.getElementById('kpiRow2').innerHTML =
       kpiCardDay('Top 1-5', top15) + kpiCardDay('Top 6-10', top610) + kpiCardDay('Trên 10', top10p);
 
-    // Charts — mỗi chỉ số 1 biểu đồ đường nhỏ riêng, dễ nhìn xu hướng lên/xuống
-    chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62', months, [pctLabelPlugin(pctChangeArr(impression))]);
-    chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A', months, [pctLabelPlugin(pctChangeArr(click))]);
-    chartLeads = miniLine(chartLeads, 'chartLeads', leads,      '#C9667A', months, [pctLabelPlugin(pctChangeArr(leads))]);
+    chartImpr  = miniLine(chartImpr,  'chartImpr',  impression, '#2F6F62', labels1, [pctLabelPlugin(pctChangeArr(impression))]);
+    chartClick = miniLine(chartClick, 'chartClick', click,      '#D98E4A', labels1, [pctLabelPlugin(pctChangeArr(click))]);
+    chartLeads = miniLine(chartLeads, 'chartLeads', leads,      '#C9667A', labels1, [pctLabelPlugin(pctChangeArr(leads))]);
 
-    chartTop15   = miniLine(chartTop15,   'chartTop15',   top15,   '#2F6F62', months, [pctLabelPlugin(pctChangeArr(top15))]);
-    chartTop610  = miniLine(chartTop610,  'chartTop610',  top610,  '#D98E4A', months, [pctLabelPlugin(pctChangeArr(top610))]);
-    chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93', months, [pctLabelPlugin(pctChangeArr(top10p))]);
+    chartTop15   = miniLine(chartTop15,   'chartTop15',   top15,   '#2F6F62', labels2, [pctLabelPlugin(pctChangeArr(top15))]);
+    chartTop610  = miniLine(chartTop610,  'chartTop610',  top610,  '#D98E4A', labels2, [pctLabelPlugin(pctChangeArr(top610))]);
+    chartTop10p  = miniLine(chartTop10p,  'chartTop10p',  top10p,  '#5C7A93', labels2, [pctLabelPlugin(pctChangeArr(top10p))]);
 
-    buildTable(document.getElementById('table1'), [
+    buildTable(document.getElementById('table1'), labels1, [
       {label:'Impression', data:impression}, {label:'Click', data:click}, {label:'Leads', data:leads}
     ]);
-    buildTable(document.getElementById('table2'), [
+    buildTable(document.getElementById('table2'), labels2, [
       {label:'Top 1-5', data:top15}, {label:'Top 6-10', data:top610}, {label:'Trên 10', data:top10p}
     ]);
 
@@ -459,7 +500,7 @@ async function loadWeekly(){
   const weeklySub = document.getElementById('weeklySub');
   const weeklyTitle = document.getElementById('weeklyTitle');
   try{
-    const res = await fetch(CSV_URL_WEEKLY, {cache:'no-store'});
+    const res = await fetch(fresh(CSV_URL_WEEKLY), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const csvText = await res.text();
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
@@ -552,7 +593,7 @@ async function loadDaily(){
   const dailySub = document.getElementById('dailySub');
   const dailyTitle = document.getElementById('dailyTitle');
   try{
-    const res = await fetch(CSV_URL_DAILY, {cache:'no-store'});
+    const res = await fetch(fresh(CSV_URL_DAILY), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const csvText = await res.text();
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
@@ -623,13 +664,14 @@ async function loadDaily(){
 }
 
 // ===== Top từ khóa chuyển đổi (tab "Trang tính2", gid = GID_TOPKW) =====
-let topkwData = [];   // toàn bộ danh sách từ khóa đọc từ sheet
-let topkwSelected = '1';
+let topkwData = [];          // toàn bộ danh sách từ khóa đọc từ sheet
+let topkwSelected = '1';     // tab Top đang chọn
+let topkwService = null;     // dịch vụ đang chọn (dạng đã chuẩn hóa)
 
 async function loadTopKeywords(){
   const sub = document.getElementById('topkwSub');
   try{
-    const res = await fetch(CSV_URL_TOPKW, {cache:'no-store'});
+    const res = await fetch(fresh(CSV_URL_TOPKW), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const csvText = await res.text();
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
@@ -639,6 +681,7 @@ async function loadTopKeywords(){
     const headerIdx = rows.findIndex(r => norm(r[0]) === 'dich vu');
     if(headerIdx < 0){
       sub.textContent = 'Không tìm thấy bảng "DỊCH VỤ / TOP KEYWORD" trong sheet';
+      document.getElementById('topkwServices').innerHTML = '';
       document.getElementById('topkwTabs').innerHTML = '';
       document.getElementById('topkwCount').textContent = '';
       document.getElementById('topkwList').innerHTML = '<div class="topkw-empty">Chưa có dữ liệu</div>';
@@ -659,11 +702,16 @@ async function loadTopKeywords(){
     }
     topkwData = list;
 
+    // giữ dịch vụ đang chọn khi auto-refresh; nếu chưa có thì chọn dịch vụ đầu tiên
+    const svcs = getTopKwServices();
+    if(!svcs.some(s => s.key === topkwService)) topkwService = svcs.length ? svcs[0].key : null;
+
+    renderTopKwServices();
     renderTopKwTabs();
     renderTopKwList();
 
     sub.textContent = list.length
-      ? `Tổng cộng ${list.length.toLocaleString('vi-VN')} từ khóa — chọn vị trí Top để xem chi tiết`
+      ? `Tổng cộng ${list.length.toLocaleString('vi-VN')} từ khóa — chọn dịch vụ rồi chọn vị trí Top để xem chi tiết`
       : 'Đã kết nối — chưa có từ khóa nào trong sheet';
   }catch(err){
     sub.textContent = 'Lỗi tải dữ liệu Top từ khóa — kiểm tra quyền chia sẻ Sheet';
@@ -671,20 +719,51 @@ async function loadTopKeywords(){
   }
 }
 
+const svcKey = k => norm(k.service || 'Khác');
+const svcLabel = k => k.service || 'Khác';
+
+// danh sách dịch vụ lấy tự động từ cột A của sheet (giữ đúng thứ tự xuất hiện)
+function getTopKwServices(){
+  const seen = new Map();
+  topkwData.forEach(k => { const key = svcKey(k); if(!seen.has(key)) seen.set(key, svcLabel(k)); });
+  return [...seen].map(([key,label]) => ({key,label}));
+}
+function topkwServiceItems(){
+  return topkwData.filter(k => svcKey(k) === topkwService);
+}
+
+function renderTopKwServices(){
+  const el = document.getElementById('topkwServices');
+  el.innerHTML = getTopKwServices().map((s,i) => {
+    const count = topkwData.filter(k => svcKey(k) === s.key).length;
+    const active = s.key === topkwService ? ' active' : '';
+    return `<button class="svc-chip${active}" onclick="selectTopKwService(${i})">${escapeHtml(s.label)} <span style="opacity:.7">(${count})</span></button>`;
+  }).join('');
+}
+function selectTopKwService(i){
+  const s = getTopKwServices()[i];
+  if(!s) return;
+  topkwService = s.key;
+  topkwSelected = '1';
+  renderTopKwServices();
+  renderTopKwTabs();
+  renderTopKwList();
+}
+window.selectTopKwService = selectTopKwService;
+
 function renderTopKwTabs(){
   const tabsEl = document.getElementById('topkwTabs');
+  const items = topkwServiceItems();
   let html = '';
   for(let pos = 1; pos <= 10; pos++){
-    const count = topkwData.filter(k => k.topPos === pos).length;
+    const count = items.filter(k => k.topPos === pos).length;
     const active = String(pos) === topkwSelected ? ' active' : '';
     html += `<button class="topkw-tab${active}" data-pos="${pos}" onclick="selectTopKw('${pos}')">Top ${pos} <span style="opacity:.75">(${count})</span></button>`;
   }
-  const otherCount = topkwData.filter(k => k.topPos !== null && !(k.topPos>=1 && k.topPos<=10)).length;
+  const otherCount = items.filter(k => k.topPos !== null && !(k.topPos>=1 && k.topPos<=10)).length;
   const activeOther = topkwSelected === 'other' ? ' active' : '';
   html += `<button class="topkw-tab${activeOther}" data-pos="other" onclick="selectTopKw('other')">Khác <span style="opacity:.75">(${otherCount})</span></button>`;
-  const activeAll = topkwSelected === 'all' ? ' active' : '';
-  html += `<button class="topkw-tab${activeAll}" data-pos="all" onclick="selectTopKw('all')">Tất cả <span style="opacity:.75">(${topkwData.length})</span></button>`;
-  tabsEl.innerHTML = html;
+  tabsEl.innerHTML = html;   // đã bỏ nút "Tất cả"
 }
 
 function selectTopKw(pos){
@@ -697,16 +776,11 @@ window.selectTopKw = selectTopKw;
 function renderTopKwList(){
   const listEl = document.getElementById('topkwList');
   const countEl = document.getElementById('topkwCount');
+  const items = topkwServiceItems();
 
-  let filtered;
-  if(topkwSelected === 'all'){
-    filtered = topkwData;
-  } else if(topkwSelected === 'other'){
-    filtered = topkwData.filter(k => k.topPos !== null && !(k.topPos>=1 && k.topPos<=10));
-  } else {
-    const pos = Number(topkwSelected);
-    filtered = topkwData.filter(k => k.topPos === pos);
-  }
+  const filtered = topkwSelected === 'other'
+    ? items.filter(k => k.topPos !== null && !(k.topPos>=1 && k.topPos<=10))
+    : items.filter(k => k.topPos === Number(topkwSelected));
 
   countEl.innerHTML = `<b>${filtered.length.toLocaleString('vi-VN')}</b> từ khóa`;
 
@@ -722,7 +796,7 @@ function renderTopKwList(){
         <div class="topkw-kw">${escapeHtml(k.keyword)}</div>
         <div class="topkw-meta">${k.updated ? 'Cập nhật '+escapeHtml(k.updated) : ''}</div>
       </div>
-      ${k.service ? `<span class="topkw-badge">${escapeHtml(k.service)}</span>` : ''}
+      <span class="topkw-badge">${escapeHtml(svcLabel(k))}</span>
       ${k.link ? `<a class="topkw-link" href="${escapeHtml(k.link)}" target="_blank" rel="noopener noreferrer">Xem →</a>` : ''}
     </div>
   `).join('');
@@ -733,7 +807,7 @@ function renderTopKwList(){
 async function loadCustomers(){
   const sub = document.getElementById('custSub');
   try{
-    const res = await fetch(CSV_URL_CUST, {cache:'no-store'});
+    const res = await fetch(fresh(CSV_URL_CUST), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const csvText = await res.text();
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
@@ -885,14 +959,13 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 </script>
 </body>
 </html>
-  
-  
+
+
   <div style="padding: 40px;"> </div>
-  
-  
-  
-  
-  <!DOCTYPE html>
+
+
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -952,7 +1025,7 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
             <h1>Số lượng Keyword hiển thị AI (nguồn Semrush)</h1>
         </div>
         <div class="image-wrapper">
-            <img src="https://i.pinimg.com/736x/80/35/b0/8035b05857b57794f8259828c4b9e377.jpg" alt="Số lượng Keyword hiển thị AI (nguồn Semrush)" width="1200">
+            <img src="https://i.pinimg.com/736x/c6/d9/d8/c6d9d84f37120b203062291848821308.jpg" alt="Số lượng Keyword hiển thị AI (nguồn Semrush)" width="1200">
         </div>
     </div>
 
