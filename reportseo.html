@@ -27,9 +27,10 @@ button#refreshBtn{background:var(--jade);color:#fff;border:none;border-radius:8p
 button#refreshBtn:hover{background:var(--jade-deep);}
 button#refreshBtn:disabled{opacity:.6;cursor:default;}
 
-.section-title{display:flex;align-items:baseline;gap:10px;margin:44px 0 16px;}
-.section-title h2{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin:0;}
-.section-title span{font-size:12.5px;color:var(--ink-faint);}
+.section-title{position:relative;display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:48px 0 18px;padding-left:16px;}
+.section-title::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:4px;background:linear-gradient(180deg,var(--jade),#8FBFB1);}
+.section-title h2{font-family:'Fraunces',serif;font-weight:600;font-size:23px;letter-spacing:-.015em;margin:0;color:var(--ink);}
+.section-title span{font-size:12px;font-weight:500;color:var(--jade-deep);background:var(--jade-soft);padding:4px 12px;border-radius:999px;line-height:1.4;}
 
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
@@ -83,6 +84,20 @@ tr:last-child td{border-bottom:none;}
 .svc-chip{flex:0 0 auto;border:1px solid var(--jade-soft);background:var(--jade-soft);color:var(--jade-deep);font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:10px;cursor:pointer;transition:.15s;white-space:nowrap;}
 .svc-chip:hover{border-color:var(--jade);}
 .svc-chip.active{background:var(--jade-deep);border-color:var(--jade-deep);color:#fff;}
+
+
+/* ===== Biểu đồ tầng: Top từ khóa độ khó 100% ===== */
+.tier-chart{display:flex;flex-direction:column;gap:8px;}
+.tier{display:flex;gap:12px;align-items:stretch;}
+.tier-label{flex:0 0 104px;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;justify-content:center;font-weight:700;font-size:14px;line-height:1.2;}
+.tier-label small{font-size:11.5px;font-weight:600;opacity:.8;margin-top:2px;}
+.tier-body{flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#FAFBFA;min-height:46px;}
+.tier-chip{font-size:12.5px;font-weight:600;color:var(--jade-deep);background:var(--jade-soft);padding:5px 11px;border-radius:999px;text-decoration:none;white-space:nowrap;}
+a.tier-chip:hover{background:var(--jade);color:#fff;}
+.tier-empty{font-size:12px;color:var(--ink-faint);}
+.tier.muted .tier-chip{background:var(--line);color:var(--ink-soft);}
+.tier-legend{font-size:12px;color:var(--ink-faint);margin:0 0 14px;}
+@media(max-width:760px){ .tier{flex-direction:column;} .tier-label{flex-basis:auto;flex-direction:row;gap:8px;align-items:center;} }
 
 footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-faint);}
 a{color:var(--jade);}
@@ -166,6 +181,15 @@ a{color:var(--jade);}
 <div style="padding-top: 40px;">
 </div>
 
+  <!-- ============ SECTION: TOP TỪ KHÓA ĐỘ KHÓ 100% ============ -->
+  <div class="section-title"><h2>Top từ khóa độ khó 100%</h2><span id="hardSub">Từ khóa xếp theo từng tầng Top</span></div>
+  <div class="card">
+    <p class="tier-legend">Top 1 nằm trên cùng, thấp dần xuống dưới. Từ khóa N/A được bỏ qua. Bấm vào từ khóa để mở link.</p>
+    <div class="tier-chart" id="hardChart"></div>
+  </div>
+<div style="padding-top: 40px;">
+</div>
+
   <!-- ============ SECTION: TOP TỪ KHÓA CHÍNH (có chọn dịch vụ) ============ -->
   <div class="section-title"><h2>Top từ khóa CHÍNH chuyển đổi</h2><span id="topkwSub">Chọn dịch vụ, sau đó chọn vị trí Top để xem danh sách từ khóa</span></div>
   <div class="card">
@@ -214,6 +238,11 @@ const CSV_URL_TOPKW = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/t
 const SHEET_ID_CUST = '1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs';
 const GID_CUST = '244890177';
 const CSV_URL_CUST = `https://docs.google.com/spreadsheets/d/${SHEET_ID_CUST}/gviz/tq?tqx=out:csv&gid=${GID_CUST}&t=${Date.now()}`;
+
+// Nguồn dữ liệu "Top từ khóa độ khó 100%" — cùng file "chi tiết", tab gid=449351315
+// Cột A = Từ khóa | B = Top Google (N/A thì bỏ) | C = Link
+const GID_HARD = '449351315';
+const CSV_URL_HARD = `https://docs.google.com/spreadsheets/d/${SHEET_ID_CUST}/gviz/tq?tqx=out:csv&gid=${GID_HARD}&t=${Date.now()}`;
 
 // Danh sách dịch vụ cố định — dùng làm các tab lọc cho phần "Khách hàng đã để lại thông tin"
 const CUST_CATEGORIES = [
@@ -392,7 +421,7 @@ async function loadAll(){
   statusEl.textContent = 'Đang tải...';
   btn.disabled = true;
 
-  await Promise.all([loadMonthly(), loadWeekly(), loadDaily(), loadTopKeywords(), loadCustomers()]);
+  await Promise.all([loadMonthly(), loadWeekly(), loadDaily(), loadTopKeywords(), loadCustomers(), loadHardKeywords()]);
 
   btn.disabled = false;
 }
@@ -868,13 +897,16 @@ function custCountLabelPlugin(){
 
 // đếm số khách theo từng dịch vụ trong CUST_CATEGORIES rồi vẽ 1 biểu đồ cột ngang duy nhất
 function renderCustChart(){
-  const counts = CUST_CATEGORIES.map(cat => custData.filter(k => custCategoryOf(k) === cat).length);
+  // thứ tự giảm dần dùng chung với hàng nút bên dưới (xem custSortedCategories)
+  const sorted = custSortedCategories();
+  const sortedLabels = sorted.map(x => x.cat);
+  const counts = sorted.map(x => x.n);
 
   if(custChart) custChart.destroy();
   custChart = new Chart(document.getElementById('custChart'), {
     type: 'bar',
     data: {
-      labels: CUST_CATEGORIES,
+      labels: sortedLabels,
       datasets: [{
         data: counts,
         backgroundColor: '#2F6F62',
@@ -900,6 +932,13 @@ function renderCustChart(){
   });
 }
 
+// danh sách dịch vụ kèm số khách, xếp giảm dần (bằng nhau thì giữ thứ tự ban đầu)
+function custSortedCategories(){
+  return CUST_CATEGORIES
+    .map((cat, i) => ({cat, i, n: custData.filter(k => custCategoryOf(k) === cat).length}))
+    .sort((a, b) => b.n - a.n || a.i - b.i);
+}
+
 // khớp giá trị cột E (Dịch vụ) với danh sách dịch vụ cố định; không khớp -> xếp vào "Khác"
 function custCategoryOf(row){
   const rc = norm(row.category);
@@ -910,8 +949,7 @@ function custCategoryOf(row){
 function renderCustTabs(){
   const tabsEl = document.getElementById('custTabs');
   let html = '';
-  CUST_CATEGORIES.forEach(cat=>{
-    const count = custData.filter(k => custCategoryOf(k) === cat).length;
+  custSortedCategories().forEach(({cat, n: count})=>{
     const active = cat === custSelected ? ' active' : '';
     html += `<button class="topkw-tab${active}" onclick="selectCust('${cat.replace(/'/g,"\\'")}')">${escapeHtml(cat)} <span style="opacity:.75">(${count})</span></button>`;
   });
@@ -952,6 +990,71 @@ function renderCustList(){
       <span class="topkw-badge">${escapeHtml(k.category || 'Khác')}</span>
     </div>
   `).join('');
+}
+
+
+// ===== Top từ khóa độ khó 100% (biểu đồ tầng Top 1 → Top 10) =====
+let hardData = [];
+
+async function loadHardKeywords(){
+  const sub = document.getElementById('hardSub');
+  try{
+    const res = await fetch(fresh(CSV_URL_HARD), {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const csvText = await res.text();
+    const rows = Papa.parse(csvText, {skipEmptyLines:false}).data;
+
+    const headerIdx = rows.findIndex(r => norm(r[0]) === 'tu khoa');
+    const startIdx = headerIdx >= 0 ? headerIdx + 1 : 1;
+
+    const list = [];
+    for(let i = startIdx; i < rows.length; i++){
+      const row = rows[i] || [];
+      const keyword = (row[0] || '').toString().trim();
+      const topPos = num(row[1]);            // "N/A" hoặc ô trống -> null -> bỏ
+      const link = (row[2] || '').toString().trim();
+      if(!keyword || topPos === null || topPos < 1) continue;
+      list.push({keyword, topPos, link});
+    }
+    hardData = list;
+    renderHardChart();
+    sub.textContent = list.length
+      ? `${list.length.toLocaleString('vi-VN')} từ khóa có thứ hạng (đã bỏ N/A)`
+      : 'Đã kết nối — chưa có từ khóa nào có thứ hạng';
+  }catch(err){
+    sub.textContent = 'Lỗi tải dữ liệu từ khóa độ khó 100% — kiểm tra quyền chia sẻ Sheet';
+    console.error(err);
+  }
+}
+
+function hardChipHtml(k){
+  const label = escapeHtml(k.keyword);
+  return /^https?:\/\//i.test(k.link)
+    ? `<a class="tier-chip" href="${escapeHtml(k.link)}" target="_blank" rel="noopener noreferrer">${label}</a>`
+    : `<span class="tier-chip">${label}</span>`;
+}
+
+function renderHardChart(){
+  const el = document.getElementById('hardChart');
+  const alpha = [1,.92,.84,.76,.68,.6,.52,.44,.36,.28];   // Top 1 đậm nhất, nhạt dần
+  let html = '';
+  for(let pos = 1; pos <= 10; pos++){
+    const items = hardData.filter(k => k.topPos === pos);
+    const color = pos <= 6 ? '#fff' : '#1B463D';
+    html += `<div class="tier">
+      <div class="tier-label" style="background:rgba(47,111,98,${alpha[pos-1]});color:${color}">Top ${pos}<small>${items.length} từ khóa</small></div>
+      <div class="tier-body">${items.length ? items.map(hardChipHtml).join('') : '<span class="tier-empty">Chưa có từ khóa</span>'}</div>
+    </div>`;
+  }
+  // từ khóa nằm ngoài Top 10 (vị trí 11, 23, 29…)
+  const beyond = hardData.filter(k => k.topPos > 10).sort((a,b) => a.topPos - b.topPos);
+  if(beyond.length){
+    html += `<div class="tier muted">
+      <div class="tier-label" style="background:var(--line);color:var(--ink-soft)">Trên 10<small>${beyond.length} từ khóa</small></div>
+      <div class="tier-body">${beyond.map(k => hardChipHtml({...k, keyword: k.keyword + ' · ' + k.topPos})).join('')}</div>
+    </div>`;
+  }
+  el.innerHTML = html;
 }
 
 loadAll();
