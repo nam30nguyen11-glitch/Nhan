@@ -360,6 +360,50 @@ function findRow(rows, variants){
   return null;
 }
 
+// Đọc các hàng chỉ số theo NHÃN ở cột B trong từng khối (Impression / Click).
+// Dùng chung cho "theo tuần" và "theo ngày".
+// Nếu không khớp nhãn thì dùng vị trí dự phòng theo thứ tự hiện tại của sheet.
+function readSeoRows(rows, readRow, emptyRow){
+  const imprStart  = rows.findIndex(r => norm(r[0]).includes('impression'));
+  const clickStart = rows.findIndex(r => norm(r[0]).includes('click'));
+  const leadIdx    = rows.findIndex(r => norm(r[0]).includes('lead') || norm(r[1]).includes('lead'));
+  const imprEnd  = clickStart >= 0 ? clickStart : rows.length;
+  const clickEnd = leadIdx >= 0 ? leadIdx : rows.length;
+
+  const pick = (from, to, test, fallbackOffset) => {
+    if(from < 0) return emptyRow();
+    for(let i = from; i < to; i++){
+      const label = norm((rows[i] || [])[1]);
+      if(label && test(label)) return readRow(i);
+    }
+    return readRow(from + fallbackOffset);
+  };
+
+  const isGoogle = l => l === 'google';
+  const isBing   = l => l === 'bing';
+  const isAIOv   = l => l.includes('ai overview');
+  const isImage  = l => l.includes('hinh anh');
+  const isMulti  = l => l.includes('phuong thuc');       // "Đa phương thức"
+  const isCoc    = l => l.includes('coc coc');
+  const isAISrch = l => l.includes('ai search');
+
+  return {
+    imprGoogle:     pick(imprStart,  imprEnd,  isGoogle, 0),
+    imprAIOverview: pick(imprStart,  imprEnd,  isAIOv,   1),
+    imprBing:       pick(imprStart,  imprEnd,  isBing,   2),
+    imprImage:      pick(imprStart,  imprEnd,  isImage,  3),
+    imprMulti:      pick(imprStart,  imprEnd,  isMulti,  4),
+    clickImage:     pick(clickStart, clickEnd, isImage,  0),
+    clickMulti:     pick(clickStart, clickEnd, isMulti,  1),
+    clickGoogle:    pick(clickStart, clickEnd, isGoogle, 2),
+    clickBing:      pick(clickStart, clickEnd, isBing,   3),
+    clickCoc:       pick(clickStart, clickEnd, isCoc,    4),
+    clickAI:        pick(clickStart, clickEnd, isAISrch, 5),
+    leadRow:        leadIdx >= 0 ? readRow(leadIdx) : emptyRow(),
+    missing: [imprStart < 0 && 'Impression', clickStart < 0 && 'Click', leadIdx < 0 && 'Leads'].filter(Boolean)
+  };
+}
+
 // ===== % thay đổi so với kỳ liền trước + plugin vẽ nhãn % trên biểu đồ =====
 // Dùng chung cho cả 3 khối: theo tháng / theo tuần / theo ngày
 function pctChangeArr(arr){
@@ -565,28 +609,15 @@ async function loadWeekly(){
       return colRange.map(c => num(row[c]));
     };
 
-    // Dò vị trí các nhóm dòng theo NHÃN thay vì đếm cứng số thứ tự dòng,
-    // để không bị lệch nếu sheet có thêm/bớt dòng trống hoặc merge cell.
-    const imprStart = rows.findIndex(r => norm(r[0]).includes('impression'));
-    const clickStart = rows.findIndex(r => norm(r[0]).includes('click'));
-    const leadIdx = rows.findIndex(r => norm(r[0]).includes('lead') || norm(r[1]).includes('lead'));
+    // Dò các hàng theo NHÃN ở cột B (không đếm cứng số dòng) — xem readSeoRows()
+    const {
+      imprGoogle, imprAIOverview, imprBing, imprImage, imprMulti,
+      clickImage, clickMulti, clickGoogle, clickBing, clickCoc, clickAI,
+      leadRow: leadWeek
+    } = readSeoRows(rows, readRow, () => colRange.map(()=>null));
 
-    const missing = [];
-    if(imprStart < 0) missing.push('Impression');
-    if(clickStart < 0) missing.push('Click');
-    if(leadIdx < 0) missing.push('Leads');
-
-    const imprGoogle     = imprStart >= 0 ? readRow(imprStart)   : colRange.map(()=>null);
-    const imprAIOverview = imprStart >= 0 ? readRow(imprStart+1) : colRange.map(()=>null);
-    const imprBing       = imprStart >= 0 ? readRow(imprStart+2) : colRange.map(()=>null);
-    const clickGoogle    = clickStart >= 0 ? readRow(clickStart)   : colRange.map(()=>null);
-    const clickBing      = clickStart >= 0 ? readRow(clickStart+1) : colRange.map(()=>null);
-    const clickCoc       = clickStart >= 0 ? readRow(clickStart+2) : colRange.map(()=>null);
-    const clickAI        = clickStart >= 0 ? readRow(clickStart+3) : colRange.map(()=>null);
-    const leadWeek        = leadIdx >= 0 ? readRow(leadIdx) : colRange.map(()=>null);
-
-    const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing);
-    const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
+    const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing, imprImage, imprMulti);
+    const clickTotal = addArr(clickImage, clickMulti, clickGoogle, clickBing, clickCoc, clickAI);
 
     const anyData = [...imprTotal, ...clickTotal, ...leadWeek].some(v=>v!==null);
 
@@ -601,6 +632,10 @@ async function loadWeekly(){
       {label:'Impression - Google', data:imprGoogle},
       {label:'Impression - AI Overview', data:imprAIOverview},
       {label:'Impression - Bing', data:imprBing},
+      {label:'Impression - Hình ảnh', data:imprImage},
+      {label:'Impression - Đa phương thức', data:imprMulti},
+      {label:'Click - Hình ảnh', data:clickImage},
+      {label:'Click - Đa phương thức', data:clickMulti},
       {label:'Click - Google', data:clickGoogle},
       {label:'Click - Bing', data:clickBing},
       {label:'Click - Cốc Cốc, Backlink', data:clickCoc},
@@ -628,7 +663,7 @@ async function loadDaily(){
     const parsed = Papa.parse(csvText, {skipEmptyLines:false});
     const rows = parsed.data;
 
-    if(!rows || rows.length < 9){
+    if(!rows || rows.length < 13){
       dailySub.textContent = 'Chưa có dữ liệu ở tab "Data chi tiết"';
       return;
     }
@@ -651,17 +686,15 @@ async function loadDaily(){
       return colRange.map(c => num(row[c]));
     };
 
-    const imprGoogle     = readRow(1);
-    const imprAIOverview = readRow(2);   // hàng mới
-    const imprBing        = readRow(3);
-    const clickGoogle     = readRow(4);
-    const clickBing        = readRow(5);
-    const clickCoc        = readRow(6);
-    const clickAI         = readRow(7);
-    const leadDay         = readRow(8);
+    // Dò các hàng theo NHÃN ở cột B (không đếm cứng số dòng) — xem readSeoRows()
+    const {
+      imprGoogle, imprAIOverview, imprBing, imprImage, imprMulti,
+      clickImage, clickMulti, clickGoogle, clickBing, clickCoc, clickAI,
+      leadRow: leadDay
+    } = readSeoRows(rows, readRow, () => colRange.map(()=>null));
 
-    const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing);
-    const clickTotal = addArr(clickGoogle, clickBing, clickCoc, clickAI);
+    const imprTotal  = addArr(imprGoogle, imprAIOverview, imprBing, imprImage, imprMulti);
+    const clickTotal = addArr(clickImage, clickMulti, clickGoogle, clickBing, clickCoc, clickAI);
 
     const anyData = [...imprTotal, ...clickTotal, ...leadDay].some(v=>v!==null);
 
@@ -674,8 +707,12 @@ async function loadDaily(){
 
     buildTableDaily(document.getElementById('tableDaily'), dayLabels, [
       {label:'Impression - Google', data:imprGoogle},
-      {label:'Impression - AI Overview', data:imprAIOverview},   // hàng mới
+      {label:'Impression - AI Overview', data:imprAIOverview},
       {label:'Impression - Bing', data:imprBing},
+      {label:'Impression - Hình ảnh', data:imprImage},
+      {label:'Impression - Đa phương thức', data:imprMulti},
+      {label:'Click - Hình ảnh', data:clickImage},
+      {label:'Click - Đa phương thức', data:clickMulti},
       {label:'Click - Google', data:clickGoogle},
       {label:'Click - Bing', data:clickBing},
       {label:'Click - Cốc Cốc, Backlink', data:clickCoc},
