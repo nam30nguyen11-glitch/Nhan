@@ -1162,12 +1162,223 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 
     <div class="container">
         <div class="header">
-            <h1>Số lượng Keyword hiển thị AI (nguồn Semrush)</h1>
+            <h1>Số lượng Keyword hiển thị AI (Nguồn Ahrefs)</h1>
         </div>
         <div class="image-wrapper">
-            <img src="https://i.pinimg.com/736x/d5/7e/e6/d57ee67110a142d11b70e522a95e6b8e.jpg" alt="Số lượng Keyword hiển thị AI (nguồn Semrush)" width="1200">
+            <img src="https://i.pinimg.com/736x/36/77/c8/3677c8c6a46195ab6a9712c464487827.jpg" alt="Số lượng Keyword hiển thị AI (nguồn Semrush)" width="1200">
         </div>
     </div>
 
 </body>
 </html>
+
+
+
+
+<!-- ============ SECTION RIÊNG: CONTENT ĐÃ ACTION ============ -->
+<!-- Code độc lập: CSS/JS đều có tiền tố "ca-", không dùng chung thư viện hay biến với code nào khác -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+#ca-root{
+  --ca-surface:#FFFFFF; --ca-ink:#16262B; --ca-soft:#5B6B6E; --ca-faint:#8B9A9C;
+  --ca-line:#E3E8E6; --ca-jade:#2F6F62; --ca-jade-soft:#E4EFEB; --ca-jade-deep:#1B463D;
+  --ca-gold:#F5B800;
+  max-width:1280px;margin:0 auto;padding:50px 28px 48px;
+  font-family:'Inter',sans-serif;color:var(--ca-ink);-webkit-font-smoothing:antialiased;box-sizing:border-box;
+}
+#ca-root *{box-sizing:border-box;}
+#ca-root .ca-title{position:relative;display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 18px;padding-left:16px;}
+#ca-root .ca-title::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:4px;background:linear-gradient(180deg,var(--ca-jade),#8FBFB1);}
+#ca-root .ca-title h2{font-family:'Fraunces',serif;font-weight:600;font-size:23px;letter-spacing:-.015em;margin:0;color:var(--ca-ink);}
+#ca-root .ca-title span{font-size:12px;font-weight:500;color:var(--ca-jade-deep);background:var(--ca-jade-soft);padding:4px 12px;border-radius:999px;line-height:1.4;}
+#ca-root .ca-actions{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+#ca-root .ca-btn{display:inline-block;background:var(--ca-jade);color:#fff;border:1px solid var(--ca-jade);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;line-height:1.3;}
+#ca-root .ca-btn:hover{background:var(--ca-jade-deep);border-color:var(--ca-jade-deep);}
+#ca-root .ca-btn:disabled{opacity:.6;cursor:default;}
+#ca-root .ca-btn.ca-ghost{background:#fff;color:var(--ca-jade-deep);}
+#ca-root .ca-btn.ca-ghost:hover{background:var(--ca-jade-soft);color:var(--ca-jade-deep);}
+
+#ca-root .ca-card{background:var(--ca-surface);border:1px solid var(--ca-line);border-radius:14px;padding:22px 24px;}
+#ca-root .ca-total{display:flex;align-items:baseline;gap:12px;margin:0 0 16px;}
+#ca-root .ca-total-label{font-size:13px;font-weight:600;color:var(--ca-soft);}
+#ca-root .ca-total-value{font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--ca-jade-deep);}
+
+#ca-root .ca-wrap{max-height:560px;overflow:auto;border:1px solid var(--ca-line);border-radius:12px;}
+#ca-root table{width:100%;margin:0;border-collapse:collapse;table-layout:fixed;font-size:13.5px;}
+/* căn đều: ép text-align để không bị CSS bảng của trang ngoài ghi đè */
+#ca-root thead th{position:sticky;top:0;z-index:1;background:var(--ca-gold);color:#16262B;font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;padding:11px 16px;text-align:left;border-bottom:none;}
+#ca-root tbody td{padding:11px 16px;border-bottom:1px solid var(--ca-line);text-align:left;vertical-align:middle;}
+#ca-root tbody tr:last-child td{border-bottom:none;}
+#ca-root tbody tr:nth-child(even){background:#FAFBFA;}
+#ca-root .ca-c-idx{width:56px;}
+#ca-root .ca-c-topic{width:240px;}
+#ca-root .ca-c-qty{width:110px;}
+#ca-root td.ca-idx{color:var(--ca-faint);font-weight:600;font-size:12px;}
+#ca-root td.ca-topic{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#ca-root th.ca-num,#ca-root td.ca-num{text-align:right;padding-right:24px;}
+#ca-root td.ca-num{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;}
+#ca-root .ca-bar{height:10px;border-radius:999px;background:var(--ca-jade-soft);overflow:hidden;}
+#ca-root .ca-bar i{display:block;height:100%;border-radius:999px;background:var(--ca-jade);}
+#ca-root .ca-empty{padding:24px;text-align:center;color:var(--ca-faint);font-size:13px;}
+@media(max-width:760px){
+  #ca-root .ca-c-topic{width:150px;}
+  #ca-root .ca-c-qty{width:80px;}
+  #ca-root .ca-actions{margin-left:0;}
+}
+</style>
+
+<div id="ca-root">
+  <div class="ca-title">
+    <h2>Content Đã Action</h2>
+    <span id="ca-sub">Số lượng content theo chủ đề</span>
+    <div class="ca-actions">
+      <a class="ca-btn ca-ghost" href="https://docs.google.com/spreadsheets/d/1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs/edit?gid=833603382#gid=833603382" target="_blank" rel="noopener noreferrer">Xem chi tiết →</a>
+    </div>
+  </div>
+
+  <div class="ca-card">
+    <div class="ca-total">
+      <span class="ca-total-label">Tổng cộng</span>
+      <span class="ca-total-value" id="ca-total">–</span>
+    </div>
+    <div class="ca-wrap">
+      <table>
+        <colgroup>
+          <col class="ca-c-idx"><col class="ca-c-topic"><col class="ca-c-qty"><col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Chủ đề</th>
+            <th class="ca-num">Số lượng</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ca-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ====== Cấu hình nguồn dữ liệu ======
+  var CA_SHEET_ID = '1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs';
+  var CA_GID = '0';
+  // Cột F = index 5 (Chủ đề) | G = index 6 (Số lượng) | H = index 7 (Total)
+  var COL_TOPIC = 5, COL_QTY = 6, COL_TOTAL = 7;
+
+  var caRows = [];
+  var caTotal = null;
+
+  function caUrl(){
+    return 'https://docs.google.com/spreadsheets/d/' + CA_SHEET_ID +
+      '/gviz/tq?tqx=out:csv&gid=' + CA_GID + '&t=' + Date.now();
+  }
+
+  // Bộ đọc CSV nhỏ gọn (hỗ trợ ô có dấu ngoặc kép, dấu phẩy, xuống dòng trong ô)
+  function caParseCsv(text){
+    var rows = [], row = [], cur = '', inQ = false;
+    for(var i = 0; i < text.length; i++){
+      var ch = text[i];
+      if(inQ){
+        if(ch === '"'){
+          if(text[i+1] === '"'){ cur += '"'; i++; } else { inQ = false; }
+        } else { cur += ch; }
+      } else {
+        if(ch === '"'){ inQ = true; }
+        else if(ch === ','){ row.push(cur); cur = ''; }
+        else if(ch === '\n'){ row.push(cur); rows.push(row); row = []; cur = ''; }
+        else if(ch === '\r'){ /* bỏ qua */ }
+        else { cur += ch; }
+      }
+    }
+    row.push(cur); rows.push(row);
+    return rows;
+  }
+
+  function caNum(v){
+    if(v === undefined || v === null) return null;
+    var s = String(v).replace(/[^0-9]/g, '');
+    if(s === '') return null;
+    var n = Number(s);
+    return isNaN(n) ? null : n;
+  }
+  function caNorm(s){
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase().trim();
+  }
+  function caEsc(s){
+    return String(s || '').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function caFmt(n){ return n === null ? '–' : n.toLocaleString('vi-VN'); }
+
+  function caRender(){
+    var body = document.getElementById('ca-body');
+    var list = caRows.slice();
+    list.sort(function(a, b){ return (b.qty || 0) - (a.qty || 0); }); // luôn xếp từ cao đến thấp
+    if(!list.length){
+      body.innerHTML = '<tr><td colspan="4" class="ca-empty">Chưa có dữ liệu</td></tr>';
+      return;
+    }
+    var max = 0;
+    list.forEach(function(r){ if(r.qty && r.qty > max) max = r.qty; });
+    body.innerHTML = list.map(function(r, i){
+      var pct = max > 0 && r.qty ? Math.round(r.qty / max * 100) : 0;
+      return '<tr>' +
+        '<td class="ca-idx">' + (i + 1) + '</td>' +
+        '<td class="ca-topic" title="' + caEsc(r.topic) + '">' + caEsc(r.topic) + '</td>' +
+        '<td class="ca-num">' + caFmt(r.qty) + '</td>' +
+        '<td class="ca-barcell"><div class="ca-bar"><i style="width:' + pct + '%"></i></div></td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  async function caLoad(){
+    var subEl = document.getElementById('ca-sub');
+    try{
+      var res = await fetch(caUrl(), {cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      var rows = caParseCsv(await res.text());
+
+      // tìm hàng tiêu đề: cột F = "Chủ đề"
+      var headerIdx = rows.findIndex(function(r){ return caNorm(r[COL_TOPIC]) === 'chu de'; });
+      var start = headerIdx >= 0 ? headerIdx + 1 : 1;
+
+      var list = [];
+      var totalFromSheet = null;
+      for(var i = start; i < rows.length; i++){
+        var r = rows[i] || [];
+        var topic = String(r[COL_TOPIC] || '').trim();
+        var qty = caNum(r[COL_QTY]);
+        var t = caNum(r[COL_TOTAL]);
+        if(t !== null && totalFromSheet === null) totalFromSheet = t; // ô Total (gộp) chỉ có giá trị ở 1 dòng
+        if(!topic) continue;
+        list.push({topic: topic, qty: qty});
+      }
+
+      caRows = list;
+      // ưu tiên số Total ở cột H; nếu không có thì tự cộng cột G
+      caTotal = totalFromSheet !== null
+        ? totalFromSheet
+        : list.reduce(function(s, r){ return s + (r.qty || 0); }, 0);
+
+      document.getElementById('ca-total').textContent = caFmt(caTotal);
+      caRender();
+
+      subEl.textContent = list.length
+        ? list.length + ' chủ đề đã triển khai'
+        : 'Đã kết nối — chưa có dữ liệu';
+    }catch(err){
+      subEl.textContent = 'Lỗi tải dữ liệu — kiểm tra quyền chia sẻ Sheet';
+      console.error(err);
+    }
+  }
+
+  caLoad();
+  setInterval(caLoad, 60000); // tự làm mới mỗi 60 giây
+})();
+</script>
+<!-- ============ HẾT SECTION: CONTENT ĐÃ ACTION ============ -->
+
