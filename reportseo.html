@@ -1174,7 +1174,6 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 
 
 
-
 <!-- ============ SECTION RIÊNG: CONTENT ĐÃ ACTION ============ -->
 <!-- Code độc lập: CSS/JS đều có tiền tố "ca-", không dùng chung thư viện hay biến với code nào khác -->
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1229,7 +1228,7 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 
 <div id="ca-root">
   <div class="ca-title">
-    <h2>Content Đã Action</h2>
+    <h2>Content SEO</h2>
     <span id="ca-sub">Số lượng content theo chủ đề</span>
     <div class="ca-actions">
       <a class="ca-btn ca-ghost" href="https://docs.google.com/spreadsheets/d/1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs/edit?gid=833603382#gid=833603382" target="_blank" rel="noopener noreferrer">Xem chi tiết →</a>
@@ -1265,8 +1264,8 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
   // ====== Cấu hình nguồn dữ liệu ======
   var CA_SHEET_ID = '1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs';
   var CA_GID = '0';
-  // Cột F = index 5 (Chủ đề) | G = index 6 (Số lượng) | H = index 7 (Total)
-  var COL_TOPIC = 5, COL_QTY = 6, COL_TOTAL = 7;
+  // Tự dò vị trí cột theo hàng tiêu đề: ô "Chủ đề" -> cột kế bên là "Số lượng" -> cột kế tiếp là "Total".
+  // Nhờ vậy sheet đổi cột (vd từ F-G-H sang A-B-C) cũng không cần sửa code.
 
   var caRows = [];
   var caTotal = null;
@@ -1342,8 +1341,14 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
       if(!res.ok) throw new Error('HTTP ' + res.status);
       var rows = caParseCsv(await res.text());
 
-      // tìm hàng tiêu đề: cột F = "Chủ đề"
-      var headerIdx = rows.findIndex(function(r){ return caNorm(r[COL_TOPIC]) === 'chu de'; });
+      // tìm hàng tiêu đề chứa ô "Chủ đề" (ở bất kỳ cột nào)
+      var headerIdx = -1, COL_TOPIC = 0;
+      for(var h = 0; h < rows.length && headerIdx < 0; h++){
+        for(var c = 0; c < (rows[h] || []).length; c++){
+          if(caNorm(rows[h][c]) === 'chu de'){ headerIdx = h; COL_TOPIC = c; break; }
+        }
+      }
+      var COL_QTY = COL_TOPIC + 1, COL_TOTAL = COL_TOPIC + 2;
       var start = headerIdx >= 0 ? headerIdx + 1 : 1;
 
       var list = [];
@@ -1382,3 +1387,365 @@ setInterval(loadAll, 60000); // auto refresh mỗi 60 giây
 </script>
 <!-- ============ HẾT SECTION: CONTENT ĐÃ ACTION ============ -->
 
+
+
+
+
+
+
+
+
+
+
+<!-- ============ SECTION RIÊNG: SỐ LƯỢNG BÀI VIẾT TRONG THÁNG (nguyên bảng lớn, từ cột E trở đi) ============ -->
+<!-- Code độc lập: CSS/JS đều có tiền tố "ct-", không dùng chung thư viện hay biến với code nào khác -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+#ct-root{
+  --ct-surface:#FFFFFF; --ct-ink:#16262B; --ct-soft:#5B6B6E; --ct-faint:#8B9A9C;
+  --ct-line:#E3E8E6; --ct-jade:#2F6F62; --ct-jade-soft:#E4EFEB; --ct-jade-deep:#1B463D;
+  max-width:1280px;margin:0 auto;padding:50px 28px 48px;
+  font-family:'Inter',sans-serif;color:var(--ct-ink);-webkit-font-smoothing:antialiased;box-sizing:border-box;
+}
+#ct-root *{box-sizing:border-box;}
+#ct-root .ct-title{position:relative;display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 18px;padding-left:16px;}
+#ct-root .ct-title::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:4px;background:linear-gradient(180deg,var(--ct-jade),#8FBFB1);}
+#ct-root .ct-title h2{font-family:'Fraunces',serif;font-weight:600;font-size:23px;letter-spacing:-.015em;margin:0;color:var(--ct-ink);}
+#ct-root .ct-title span.ct-sub{font-size:12px;font-weight:500;color:var(--ct-jade-deep);background:var(--ct-jade-soft);padding:4px 12px;border-radius:999px;line-height:1.4;}
+#ct-root .ct-title span.ct-sub:empty{display:none;}
+#ct-root .ct-actions{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+#ct-root .ct-btn{display:inline-block;background:#fff;color:var(--ct-jade-deep);border:1px solid var(--ct-jade);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;line-height:1.3;}
+#ct-root .ct-btn:hover{background:var(--ct-jade-soft);color:var(--ct-jade-deep);}
+
+#ct-root .ct-card{background:var(--ct-surface);border:1px solid var(--ct-line);border-radius:14px;padding:18px;}
+#ct-root .ct-wrap{overflow:auto;max-height:640px;border:1px solid var(--ct-line);border-radius:12px;}
+#ct-root table{width:max-content;min-width:100%;margin:0;border-collapse:separate;border-spacing:0;font-size:13px;}
+
+/* ép căn lề + viền để không bị CSS bảng của trang ngoài ghi đè */
+#ct-root th,#ct-root td{height:30px;min-width:58px;padding:0 6px;text-align:center;vertical-align:middle;white-space:nowrap;border-right:1px solid var(--ct-line);border-bottom:1px solid var(--ct-line);font-variant-numeric:tabular-nums;}
+#ct-root thead th{position:sticky;z-index:2;color:#fff;font-weight:700;font-size:12px;text-transform:none;letter-spacing:0;border-right:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);}
+#ct-root thead th.ct-corner{left:0;top:0;z-index:4;min-width:190px;width:190px;background:#000;color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.04em;border-right:2px solid var(--ct-line);}
+#ct-root thead th.ct-total-label{left:0;z-index:3;min-width:190px;width:190px;background:#fff;color:#CC0000;font-size:13px;text-transform:uppercase;letter-spacing:.04em;border-right:2px solid var(--ct-line);}
+#ct-root tbody td{background:#fff;font-weight:600;}
+#ct-root tbody td.ct-topic{position:sticky;left:0;z-index:1;min-width:190px;width:190px;text-align:left;padding:0 10px;border-right:2px solid var(--ct-line);background:#fff;}
+#ct-root .ct-chip{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;vertical-align:middle;font-size:12.5px;font-weight:600;color:var(--ct-jade-deep);background:var(--ct-jade-soft);padding:3px 11px;border-radius:999px;}
+#ct-root td.ct-empty-cell{color:transparent;}
+#ct-root .ct-empty{padding:24px;text-align:center;color:var(--ct-faint);font-size:13px;}
+@media(max-width:760px){
+  #ct-root .ct-actions{margin-left:0;}
+  #ct-root thead th.ct-corner,#ct-root thead th.ct-total-label,#ct-root tbody td.ct-topic{min-width:140px;width:140px;}
+}
+</style>
+
+<div id="ct-root">
+  <div class="ct-title">
+    <h2>Số lượng bài viết trong tháng</h2>
+    <span class="ct-sub" id="ct-sub"></span>
+    <div class="ct-actions">
+      <a class="ct-btn" href="https://docs.google.com/spreadsheets/d/1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs/edit?gid=833603382#gid=833603382" target="_blank" rel="noopener noreferrer">Xem chi tiết →</a>
+    </div>
+  </div>
+
+  <div class="ct-card">
+    <div class="ct-wrap">
+      <table id="ct-table"></table>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ====== Cấu hình nguồn dữ liệu ======
+  var CT_SHEET_ID = '1FPqoaYyAMR3wMGtG-zcQ340Eb4OH0o731luT8IC0wSs';
+  // Thử lần lượt từng tab; tab nào có bảng (hàng TOTAL theo tuần) thì dùng tab đó.
+  // Nếu bảng nằm ở tab khác, thêm gid của tab đó vào danh sách này.
+  var CT_GIDS = ['833603382', '0'];
+
+  // Màu từng tháng (giống màu trong sheet). Tháng lạ -> xoay vòng theo thứ tự xuất hiện.
+  var CT_COLORS = {
+    10:'#E69138', 11:'#B45F06', 12:'#783F04',
+     1:'#EA9999',  2:'#E06666',  3:'#CC0000',
+     4:'#A61C00',  5:'#6AA84F',  6:'#3D85C6',
+     7:'#674EA7',  8:'#C27BA0',  9:'#45818E'
+  };
+  var CT_TET_COLOR = '#000000';
+  var CT_ROW_H = 30; // chiều cao mỗi hàng tiêu đề (px) — dùng để cố định các hàng khi cuộn dọc
+
+  // Số hàng tiêu đề của bảng lớn trong sheet (hàng tháng + hàng W1.. + hàng khoảng ngày = 3 hàng).
+  // Cho Google gộp 3 hàng này thành nhãn cột, để chữ Oct/W1/01 > 07 không bị mất
+  // (nếu để Google tự đoán kiểu dữ liệu, các ô chữ nằm trong cột toàn số sẽ bị bỏ trống).
+  var CT_HEADER_ROWS = 3;
+
+  function ctUrl(gid, headerRows){
+    return 'https://docs.google.com/spreadsheets/d/' + CT_SHEET_ID +
+      '/gviz/tq?tqx=out:csv&gid=' + gid + '&headers=' + headerRows + '&t=' + Date.now();
+  }
+
+  // Bộ đọc CSV nhỏ gọn (hỗ trợ ô có dấu ngoặc kép, dấu phẩy, xuống dòng trong ô)
+  function ctParseCsv(text){
+    var rows = [], row = [], cur = '', inQ = false;
+    for(var i = 0; i < text.length; i++){
+      var ch = text[i];
+      if(inQ){
+        if(ch === '"'){
+          if(text[i+1] === '"'){ cur += '"'; i++; } else { inQ = false; }
+        } else { cur += ch; }
+      } else {
+        if(ch === '"'){ inQ = true; }
+        else if(ch === ','){ row.push(cur); cur = ''; }
+        else if(ch === '\n'){ row.push(cur); rows.push(row); row = []; cur = ''; }
+        else if(ch === '\r'){ /* bỏ qua */ }
+        else { cur += ch; }
+      }
+    }
+    row.push(cur); rows.push(row);
+    return rows;
+  }
+
+  function ctNum(v){
+    if(v === undefined || v === null) return null;
+    var s = String(v).replace(/[^0-9]/g, '');
+    if(s === '') return null;
+    var n = Number(s);
+    return isNaN(n) ? null : n;
+  }
+  function ctNorm(s){
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase().trim();
+  }
+  function ctEsc(s){
+    return String(s || '').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function ctFmt(n){ return n === null ? '' : n.toLocaleString('vi-VN'); }
+
+  // nhận diện ô tên tháng: Oct / October / Tháng 10 / T10 -> số tháng (1-12), không phải ô tháng -> null
+  function ctMonthKey(cell){
+    var s = ctNorm(cell);
+    if(!s) return null;
+    var map = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+    var m = s.match(/^(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/);
+    if(m) return map[m[1].slice(0, 3)];
+    m = s.match(/^thang\s*(\d{1,2})\b/);
+    if(m) return Number(m[1]);
+    m = s.match(/^t(\d{1,2})$/);
+    if(m) return Number(m[1]);
+    return null;
+  }
+
+  // tìm hàng TOTAL: ô "TOTAL" nằm bên phải nhất trong hàng và theo sau là nhiều số (tổng từng tuần)
+  function ctFindTotal(rows){
+    for(var i = 0; i < rows.length; i++){
+      var r = rows[i] || [];
+      var last = -1;
+      for(var c = 0; c < r.length; c++){ if(ctNorm(r[c]) === 'total') last = c; }
+      if(last < 0) continue;
+      var n = 0;
+      for(var c2 = last + 1; c2 < r.length; c2++){ if(ctNum(r[c2]) !== null) n++; }
+      if(n >= 3) return {row: i, col: last};
+    }
+    return null;
+  }
+
+  var CT_FALLBACK = ['#E69138','#B45F06','#783F04','#EA9999','#E06666','#CC0000'];
+  function ctColorGroups(groups){
+    groups.forEach(function(g, idx){
+      g.color = (g.key !== null && CT_COLORS[g.key]) ? CT_COLORS[g.key] : CT_FALLBACK[idx % CT_FALLBACK.length];
+    });
+  }
+
+  // lấy tổng + các hàng chủ đề nằm dưới hàng TOTAL
+  function ctReadBody(rows, tRow, tCol, cols){
+    var totals = cols.map(function(c){ return ctNum((rows[tRow] || [])[c]); });
+    var body = [];
+    for(var b = tRow + 1; b < rows.length; b++){
+      var br = rows[b] || [];
+      var topic = String(br[tCol] || '').trim();
+      if(!topic) continue;
+      body.push({topic: topic, vals: cols.map(function(c){ return ctNum(br[c]); })});
+    }
+    return {totals: totals, body: body};
+  }
+
+  // tách nhãn cột đã bị gộp: "Oct W1 01 > 07" -> {month:"Oct", week:"W1", date:"01 > 07"}
+  function ctSplitLabel(raw){
+    var s = String(raw || '').trim().replace(/\s+/g, ' ');
+    var month = '';
+    var m = s.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(.*)$/i) ||
+            s.match(/^(th[aá]ng\s*\d{1,2})\s+(.*)$/i);
+    if(m){ month = s.slice(0, s.length - m[2].length).trim(); s = m[2]; }
+    var sp = s.indexOf(' ');
+    return {month: month, week: sp < 0 ? s : s.slice(0, sp), date: sp < 0 ? '' : s.slice(sp + 1)};
+  }
+
+  // Cách 1 (chính): Google gộp 3 hàng tiêu đề thành nhãn cột ở dòng đầu của CSV
+  function ctParseLabels(rows){
+    var t = ctFindTotal(rows);
+    if(!t) return null;
+    var isWeek = function(v){ return /(^|\s)(w\d+|tet)(\s|$)/.test(ctNorm(v)); };
+
+    var lRow = -1;
+    for(var j = t.row - 1; j >= Math.max(0, t.row - 3) && lRow < 0; j--){
+      var rr = rows[j] || [], hits = 0;
+      for(var c = t.col + 1; c < rr.length; c++){ if(isWeek(rr[c])) hits++; }
+      if(hits >= 3) lRow = j;
+    }
+    if(lRow < 0) return null;
+
+    var lr = rows[lRow], cols = [], parts = {};
+    for(var c2 = t.col + 1; c2 < lr.length; c2++){
+      if(isWeek(lr[c2])){ cols.push(c2); parts[c2] = ctSplitLabel(lr[c2]); }
+      else if(cols.length) break;
+    }
+    if(!cols.length) return null;
+
+    var groups = [], cur = null, colGroup = {}, tet = {};
+    cols.forEach(function(c){
+      var p = parts[c];
+      if(p.month || !cur){
+        cur = {label: p.month, key: p.month ? ctMonthKey(p.month) : null, span: 0};
+        groups.push(cur);
+      }
+      cur.span++;
+      colGroup[c] = cur;
+      if(ctNorm(p.week).indexOf('tet') === 0) tet[c] = true;
+    });
+    ctColorGroups(groups);
+
+    var midRows = [cols.map(function(c){ return parts[c].week; })];
+    if(cols.some(function(c){ return parts[c].date; })){
+      midRows.push(cols.map(function(c){ return parts[c].date; }));
+    }
+    var rb = ctReadBody(rows, t.row, t.col, cols);
+    return {cols: cols, groups: groups, colGroup: colGroup, tet: tet, midRows: midRows, totals: rb.totals, body: rb.body};
+  }
+
+  // Cách 2 (dự phòng): tiêu đề nằm ở các dòng riêng (tháng / W / khoảng ngày) ngay trên hàng TOTAL
+  function ctParseRows(rows){
+    var t = ctFindTotal(rows);
+    if(!t) return null;
+    var tRow = t.row, tCol = t.col;
+
+    var mRow = -1;
+    for(var j = tRow - 1; j >= Math.max(0, tRow - 8) && mRow < 0; j--){
+      var rr = rows[j] || [];
+      for(var c3 = tCol + 1; c3 < rr.length; c3++){
+        if(ctMonthKey(rr[c3]) !== null){ mRow = j; break; }
+      }
+    }
+    if(mRow < 0) return null;
+
+    var lastCol = -1;
+    for(var h = mRow; h <= tRow; h++){
+      var hr = rows[h] || [];
+      for(var c4 = tCol + 1; c4 < hr.length; c4++){
+        if(String(hr[c4] || '').trim() !== '') lastCol = Math.max(lastCol, c4);
+      }
+    }
+    if(lastCol < 0) return null;
+    var cols = [];
+    for(var c5 = tCol + 1; c5 <= lastCol; c5++) cols.push(c5);
+
+    var mr = rows[mRow] || [];
+    var groups = [], cur = null, colGroup = {};
+    cols.forEach(function(c){
+      var k = ctMonthKey(mr[c]);
+      if(k !== null || !cur){
+        cur = {label: k !== null ? String(mr[c]).trim() : '', key: k, span: 0};
+        groups.push(cur);
+      }
+      cur.span++;
+      colGroup[c] = cur;
+    });
+    ctColorGroups(groups);
+
+    var midRows = [];
+    for(var m = mRow + 1; m < tRow; m++){
+      midRows.push(cols.map(function(c){ return String((rows[m] || [])[c] || '').trim(); }));
+    }
+    var tet = {};
+    cols.forEach(function(c, ci){
+      midRows.forEach(function(mrow){ if(ctNorm(mrow[ci]).indexOf('tet') === 0) tet[c] = true; });
+    });
+    var rb = ctReadBody(rows, tRow, tCol, cols);
+    return {cols: cols, groups: groups, colGroup: colGroup, tet: tet, midRows: midRows, totals: rb.totals, body: rb.body};
+  }
+
+  function ctParse(rows){ return ctParseLabels(rows) || ctParseRows(rows); }
+
+  function ctRender(data){
+    var table = document.getElementById('ct-table');
+    var colorOf = function(c){ return data.tet[c] ? CT_TET_COLOR : data.colGroup[c].color; };
+    var midCount = data.midRows.length;
+    var html = '<thead>';
+
+    // hàng 1: tên tháng (gộp ô) + ô "CHỦ ĐỀ" gộp dọc
+    html += '<tr><th class="ct-corner" rowspan="' + (1 + midCount) + '">Chủ đề</th>';
+    data.groups.forEach(function(g){
+      html += '<th colspan="' + g.span + '" style="top:0;background:' + g.color + '">' + ctEsc(g.label) + '</th>';
+    });
+    html += '</tr>';
+
+    // các hàng giữa: W1, W2... và khoảng ngày
+    data.midRows.forEach(function(mrow, mi){
+      html += '<tr>';
+      data.cols.forEach(function(c, ci){
+        html += '<th style="top:' + ((mi + 1) * CT_ROW_H) + 'px;background:' + colorOf(c) + '">' + ctEsc(mrow[ci]) + '</th>';
+      });
+      html += '</tr>';
+    });
+
+    // hàng TOTAL
+    html += '<tr><th class="ct-total-label" style="top:' + ((1 + midCount) * CT_ROW_H) + 'px">Total</th>';
+    data.cols.forEach(function(c, ci){
+      html += '<th style="top:' + ((1 + midCount) * CT_ROW_H) + 'px;background:' + colorOf(c) + '">' + ctFmt(data.totals[ci]) + '</th>';
+    });
+    html += '</tr></thead><tbody>';
+
+    // các hàng chủ đề
+    if(!data.body.length){
+      html += '<tr><td class="ct-empty" colspan="' + (data.cols.length + 1) + '">Chưa có chủ đề nào</td></tr>';
+    }
+    data.body.forEach(function(r){
+      html += '<tr><td class="ct-topic"><span class="ct-chip" title="' + ctEsc(r.topic) + '">' + ctEsc(r.topic) + '</span></td>';
+      r.vals.forEach(function(v){
+        html += '<td' + (v === null ? ' class="ct-empty-cell"' : '') + '>' + ctFmt(v) + '</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</tbody>';
+    table.innerHTML = html;
+  }
+
+  async function ctLoad(){
+    var subEl = document.getElementById('ct-sub');
+    try{
+      var data = null, lastErr = null;
+      var modes = [CT_HEADER_ROWS, 0];
+      for(var g = 0; g < CT_GIDS.length && !data; g++){
+        for(var mi = 0; mi < modes.length && !data; mi++){
+          try{
+            var res = await fetch(ctUrl(CT_GIDS[g], modes[mi]), {cache:'no-store'});
+            if(!res.ok) throw new Error('HTTP ' + res.status);
+            data = ctParse(ctParseCsv(await res.text()));
+          }catch(e){ lastErr = e; }
+        }
+      }
+      if(!data){
+        if(lastErr) throw lastErr;
+        subEl.textContent = 'Chưa tìm thấy bảng (hàng TOTAL theo tuần) trong sheet';
+        return;
+      }
+      ctRender(data);
+      subEl.textContent = ''; // bình thường để trống; chỉ hiện chữ khi có lỗi
+    }catch(err){
+      subEl.textContent = 'Lỗi tải dữ liệu — kiểm tra quyền chia sẻ Sheet';
+      console.error(err);
+    }
+  }
+
+  ctLoad();
+  setInterval(ctLoad, 60000); // tự làm mới mỗi 60 giây
+})();
+</script>
+<!-- ============ HẾT SECTION: SỐ LƯỢNG BÀI VIẾT TRONG THÁNG ============ -->
