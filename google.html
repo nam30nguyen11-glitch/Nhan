@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Task đăng đánh giá</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{--bg:#f5f1e6;--card:#fff;--tx:#1b2333;--mu:#6b7487;--bd:#e3e7f0;--pr:#8a6a1f;--onpr:#fff;--ok:#16a34a;--okbg:#e7f7ed;--hot:#b9732a;--hotbg:#f8efe0;--bad:#dc2626;--badbg:#fdecec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#192031;--tx:#e8ecf5;--mu:#9aa4b8;--bd:#2a3349;--pr:#cfae5e;--onpr:#2b1d00;--ok:#4ade80;--okbg:#14301f;--hot:#d9a066;--hotbg:#2b2114;--bad:#f87171;--badbg:#3a1717}}
@@ -43,7 +44,7 @@ details .in{padding:0 8px 4px}
 .fl{display:flex;gap:8px;margin:12px 0 0}
 .fl button{flex:1;min-height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-weight:600}
 .fl button.on{background:var(--pr);color:var(--onpr);border-color:var(--pr)}
-.gd{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:12px}.gd h3{margin:0 0 8px;font-size:15px;color:var(--pr)}.gd ol{margin:0;padding-left:0;list-style:none}.gd li{margin-bottom:6px;font-size:14px}.gd li b{color:var(--pr)}.gd .rq{background:var(--badbg);border:1px solid var(--bad);color:var(--tx);border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px}.gd .rq b{color:var(--bad)}.sm{display:flex;flex-direction:column;gap:5px}.dp,.chip.dk{display:inline-block;align-self:flex-start;background:#eadcae;color:#4a3500;border:1px solid #b39549;border-radius:20px;padding:3px 12px;font-size:14px;font-weight:800;letter-spacing:.2px}.sr{display:flex;gap:5px}.sb{display:inline-block;border-radius:8px;padding:1px 8px;font-size:13px;font-weight:700;background:#f6efd6;color:#7a5a10;border:1px solid #dcc787}.sb.s4{background:#f4dfcb;color:#9a4a14;border-color:#d9a066}.row .ck.pe{background:var(--hot);border-color:var(--hot);color:#fff}.row .ck:disabled{opacity:1}.bar{height:6px;background:rgba(59,42,0,.22);border-radius:8px;margin-top:0;overflow:hidden}.bar i{display:block;height:100%;background:#3b2a00;width:0;transition:width .3s}.tabs{display:flex;gap:6px;margin-top:8px}.tb{flex:1;min-height:38px;border:0;border-radius:10px;background:rgba(59,42,0,.13);color:#3b2a00;font-weight:700;font-size:14px}.tb.on{background:#3b2a00;color:#f3e6bd}[hidden]{display:none!important}.tw{overflow-x:auto}#sch{width:100%;border-collapse:collapse;font-size:13px}#sch th{background:#4a3500;color:#f3e6bd;padding:8px 6px;text-align:left}#sch td{padding:7px 6px;border-bottom:1px solid var(--bd)}#sch tr:nth-child(even) td{background:var(--bg)}#sch td small{display:block;color:var(--mu)}#sch tr.now td{background:var(--hotbg);font-weight:700}.cp2{width:100%;min-height:44px;border:0;border-radius:10px;background:var(--pr);color:var(--onpr);font-weight:700;font-size:14px}.xl{display:block;margin-top:12px;background:#3b2a00;color:#f3e6bd;text-align:center;padding:11px;border-radius:10px;font-weight:700;text-decoration:none}.row .cp{background:var(--pr);color:var(--onpr);border-color:var(--pr)}.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#111;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
+.gd{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:12px}.gd h3{margin:0 0 8px;font-size:15px;color:var(--pr)}.gd ol{margin:0;padding-left:0;list-style:none}.gd li{margin-bottom:6px;font-size:14px}.gd li b{color:var(--pr)}.gd .rq{background:var(--badbg);border:1px solid var(--bad);color:var(--tx);border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px}.gd .rq b{color:var(--bad)}.sm{display:flex;flex-direction:column;gap:5px}.dp,.chip.dk{display:inline-block;align-self:flex-start;background:#eadcae;color:#4a3500;border:1px solid #b39549;border-radius:20px;padding:3px 12px;font-size:14px;font-weight:800;letter-spacing:.2px}.sr{display:flex;gap:5px}.sb{display:inline-block;border-radius:8px;padding:1px 8px;font-size:13px;font-weight:700;background:#f6efd6;color:#7a5a10;border:1px solid #dcc787}.sb.s4{background:#f4dfcb;color:#9a4a14;border-color:#d9a066}.row .ck.pe{background:var(--hot);border-color:var(--hot);color:#fff}.row .ck:disabled{opacity:1}.bar{height:6px;background:rgba(59,42,0,.22);border-radius:8px;margin-top:0;overflow:hidden}.bar i{display:block;height:100%;background:#3b2a00;width:0;transition:width .3s}.tabs{display:flex;gap:6px;margin-top:8px}.tb{flex:1;min-height:38px;padding:2px 4px;line-height:1.2;border:0;border-radius:10px;background:rgba(59,42,0,.13);color:#3b2a00;font-weight:700;font-size:14px}.tb.on{background:#3b2a00;color:#f3e6bd}[hidden]{display:none!important}.tw{overflow-x:auto}#sch{width:100%;border-collapse:collapse;font-size:13px}#sch th{background:#4a3500;color:#f3e6bd;padding:8px 6px;text-align:left}#sch td{padding:7px 6px;border-bottom:1px solid var(--bd)}#sch tr:nth-child(even) td{background:var(--bg)}#sch td small{display:block;color:var(--mu)}#sch tr.now td{background:var(--hotbg);font-weight:700}.cp2{width:100%;min-height:44px;border:0;border-radius:10px;background:var(--pr);color:var(--onpr);font-weight:700;font-size:14px}.xl{display:block;margin-top:12px;background:#3b2a00;color:#f3e6bd;text-align:center;padding:11px;border-radius:10px;font-weight:700;text-decoration:none}.row .cp{background:var(--pr);color:var(--onpr);border-color:var(--pr)}.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#111;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.s{opacity:1}
 </style>
 </head>
@@ -51,12 +52,19 @@ details .in{padding:0 8px 4px}
 <div class="top">
   <div class="bar"><i id="pb"></i></div>
   <div class="p" id="pt"></div>
-  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn và Lịch</button><button class="tb" data-t="ptk">📋 Đánh giá</button></div>
+  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn và Lịch</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 Đánh giá</button></div>
 </div>
 <main>
   <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Đăng xong, quay lại trang này bấm <b>Tick khi đã xong</b>. Bấm nhầm thì bấm lại để bỏ tick.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. Tránh định vị và IP tại Bệnh viện.</div></div>
 <div class="gd"><h3>🗓 Lịch đánh giá theo Khoa / Phòng ban</h3><div class="tw"><table id="sch"></table></div></div>
-  <div class="gd" id="adm" hidden><h3>📥 Báo cáo (dành cho quản trị)</h3><button class="cp2" onclick="exp()">Tải bảng trạng thái đã đăng (CSV)</button></div>
+  <div class="gd" id="adm" hidden><h3>📥 Báo cáo (dành cho quản trị)</h3><button class="cp2" onclick="document.getElementById('xf').click()">📤 Cập nhật nội dung từ file Excel (.xlsx)</button><input type="file" id="xf" accept=".xlsx,.xls,.csv" hidden><button class="cp2" style="margin-top:8px" onclick="exp()">📥 Tải bảng trạng thái đã đăng (CSV)</button></div>
+  </section>
+  <section id="pmk" hidden>
+  <div id="mhero"></div>
+  <div id="mlate"></div>
+  <h2>Sắp tới</h2>
+  <div id="mup"></div>
+  <div id="mpast"></div>
   </section>
   <section id="ptk" hidden>
   <div id="hero"></div>
@@ -154,26 +162,28 @@ var now=new Date(),t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
 function diff(t){return Math.round((t.dt-t0)/DAY)}
 function fd(dt){return String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+dt.getFullYear()}
 function lbl(dt){return WD[dt.getDay()]+", "+fd(dt)}
-var filter="all",pend=null,pto,db=null,uid=null;
+var db=null,uid=null;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+var MN=["Hà","Vân","Hiếu","Nam","LAnh","Ce","Nhi","Tâm","A Tân","Duyên","Chiến","Duc Trinh","Chính","Vũ","Duyên","Quỳnh","Tú","B Ngọc","My","Nhân Ads","Nhân SEO"];
+var mk=MN.map(function(n,i){var d=Math.floor(i/2),p=DT[d].split("/");return{id:"m"+(i+1),day:d+1,dt:new Date(p[1]==="01"?2027:2026,+p[1]-1,+p[0]),dept:n,star:5,text:T[i]}});
+var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
 function card(t){
   var d=done[t.id];
-  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+t.id+'</span><span class="chip dk">'+t.dept+'</span><span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+t.text+'</p><div class="row"><button class="cp" onclick="cp('+t.id+')">📋 Copy nội dung</button>'+'<button class="ck" onclick="tg('+t.id+')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button>'+'</div></div>';
+  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span><span class="chip dk">'+esc(t.dept)+'</span><span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button><button class="ck" onclick="tg(\''+t.id+'\')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button></div></div>';
 }
-function vis(t){return filter==="all"||(filter==="done"?done[t.id]:!done[t.id])}
-function list(a){var r=a.filter(vis);return r.length?r.map(card).join(""):'<div class="empty">Không có task</div>'}
-function group(a,open){
+function list(a){return a.length?a.map(card).join(""):'<div class="empty">Không có task</div>'}
+function group(a,open,p){
   var m={};a.forEach(function(t){(m[t.day]=m[t.day]||[]).push(t)});
   return Object.keys(m).map(function(k,i){
     var g=m[k],c=g.filter(function(t){return done[t.id]}).length;
-    return '<details data-d="'+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b><span class="dp">'+g[0].dept+'</span><span class="sr">'+g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join('')+'</span></span><small>'+c+'/'+g.length+' xong</small></summary><div class="in">'+list(g)+'</div></details>';
+    return '<details data-d="'+p+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b><span class="dp">'+esc(g[0].dept)+(g.length>1&&g[1].dept!==g[0].dept?' · '+esc(g[1].dept):'')+'</span><span class="sr">'+g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join('')+'</span></span><small>'+c+'/'+g.length+' xong</small></summary><div class="in">'+list(g)+'</div></details>';
   }).join("");
 }
-function render(){
-  var op=[].map.call(document.querySelectorAll('details[open]'),function(e){return e.getAttribute('data-d')});
-  var today=tasks.filter(function(t){return diff(t)===0});
-  var late=tasks.filter(function(t){return diff(t)<0&&!done[t.id]});
-  var up=tasks.filter(function(t){return diff(t)>0});
-  var past=tasks.filter(function(t){return diff(t)<0&&done[t.id]});
+function renderSet(arr,p){
+  var today=arr.filter(function(t){return diff(t)===0});
+  var late=arr.filter(function(t){return diff(t)<0&&!done[t.id]});
+  var up=arr.filter(function(t){return diff(t)>0});
+  var past=arr.filter(function(t){return diff(t)<0&&done[t.id]});
   var h="";
   if(today.length){
     h='<div class="hero"><h2>🔥 Hôm nay – '+lbl(today[0].dt)+'</h2>'+list(today)+'</div>';
@@ -181,13 +191,17 @@ function render(){
     var nx=up.filter(function(t){return t.day===up[0].day});
     h='<div class="hero wait"><h2>⏳ Hôm nay chưa có task. Sắp tới: '+lbl(nx[0].dt)+' (còn '+diff(nx[0])+' ngày)</h2>'+list(nx)+'</div>';
   }else h='<div class="hero wait"><h2>🎉 Đã hết lịch task</h2></div>';
-  document.getElementById("hero").innerHTML=h;
-  document.getElementById("late").innerHTML=late.length?'<div class="bad"><h2>⚠ Quá hạn chưa đăng ('+late.length+')</h2>'+list(late)+'</div>':"";
+  document.getElementById(p+"hero").innerHTML=h;
+  document.getElementById(p+"late").innerHTML=late.length?'<div class="bad"><h2>⚠ Quá hạn chưa đăng ('+late.length+')</h2>'+list(late)+'</div>':"";
   var rest=today.length?up:up.filter(function(t){return t.day!==up[0].day});
-  document.getElementById("up").innerHTML=rest.length?group(rest,false):'<div class="empty">Không còn task sắp tới</div>';
-  document.getElementById("past").innerHTML=past.length?'<h2>Đã hoàn thành (ngày đã qua)</h2>'+group(past,false):"";
+  document.getElementById(p+"up").innerHTML=rest.length?group(rest,false,p):'<div class="empty">Không còn task sắp tới</div>';
+  document.getElementById(p+"past").innerHTML=past.length?'<h2>Đã hoàn thành (ngày đã qua)</h2>'+group(past,false,p):"";
+}
+function render(){
+  var op=[].map.call(document.querySelectorAll('details[open]'),function(e){return e.getAttribute('data-d')});
+  renderSet(tasks,"");renderSet(mk,"m");
   op.forEach(function(k){var e=document.querySelector('details[data-d="'+k+'"]');if(e)e.open=true});
-  var n=Object.keys(done).length;
+  var n=tasks.filter(function(t){return done[t.id]}).length;
   document.getElementById("pb").style.width=(n/tasks.length*100)+"%";
   document.getElementById("pt").textContent="Đã đăng "+n+"/"+tasks.length+" task ("+Math.round(n/tasks.length*100)+"%)";
 }
@@ -203,20 +217,41 @@ function tg(id){
 }
 function toast(m){var e=document.getElementById("toast");e.textContent=m;e.classList.add("s");setTimeout(function(){e.classList.remove("s")},1400)}
 function cp(id){
-  var tx=tasks[id-1].text;
+  var tx=byId[id].text;
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){toast("Đã copy!")},fb)}else fb();
   function fb(){var a=document.createElement("textarea");a.value=tx;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Đã copy!")}catch(e){toast("Không copy được")}a.remove()}
 }
 render();
-(function(){var s='<tr><th>#</th><th>Khoa / Phòng ban</th><th>Ngày 1</th><th>Ngày 2</th></tr>';for(var i=0;i<18;i++){var a=tasks[i*4].dt,b=tasks[i*4+2].dt,nw=diff(tasks[i*4])===0||diff(tasks[i*4+2])===0;s+='<tr'+(nw?' class="now"':'')+'><td>'+(i+1)+'</td><td><b>'+D[i]+'</b></td><td>'+fd(a)+'<small>'+WD[a.getDay()]+'</small></td><td>'+fd(b)+'<small>'+WD[b.getDay()]+'</small></td></tr>'}document.getElementById("sch").innerHTML=s})();
-document.getElementById("tabs").onclick=function(e){var t=e.target.getAttribute("data-t");if(!t)return;[].forEach.call(this.children,function(b){b.classList.toggle("on",b===e.target)});document.getElementById("pg").hidden=t!=="pg";document.getElementById("ptk").hidden=t!=="ptk";window.scrollTo(0,0)};
+function buildSch(){var o=[],m={};tasks.forEach(function(t){if(!m[t.dept]){m[t.dept]={n:t.dept,d:[]};o.push(m[t.dept])}var g=m[t.dept];if(g.d.indexOf(+t.dt)<0)g.d.push(+t.dt)});
+function c(x){return x?fd(x)+'<small>'+WD[x.getDay()]+'</small>':'-'}
+var s='<tr><th>#</th><th>Khoa / Phòng ban</th><th>Ngày 1</th><th>Ngày 2</th></tr>';
+o.forEach(function(g,i){var a=g.d[0]?new Date(g.d[0]):null,b=g.d[1]?new Date(g.d[1]):null;s+='<tr'+(g.d.indexOf(+t0)>=0?' class="now"':'')+'><td>'+(i+1)+'</td><td><b>'+esc(g.n)+'</b></td><td>'+c(a)+'</td><td>'+c(b)+'</td></tr>'});
+document.getElementById("sch").innerHTML=s}
+buildSch();
+function setPlan(rows){var a=rows.map(function(q,i){var p=String(q.d).split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]);return{id:i+1,day:Math.round(dt/DAY),dt:dt,dept:String(q.k),star:+q.s||5,text:String(q.t)}});if(!a.length)return;tasks=a;idx();buildSch();render()}
+function readX(f){
+  if(!f)return;if(!window.XLSX){toast("Chưa tải được bộ đọc Excel");return}
+  var fr=new FileReader();fr.onload=function(){try{
+    var wb=XLSX.read(fr.result,{type:"array"}),rows=null;
+    wb.SheetNames.forEach(function(n){if(rows)return;var a=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:false,defval:""});for(var i=0;i<Math.min(a.length,10);i++){var hd=a[i].map(function(x){return String(x).toLowerCase()});if(hd.some(function(x){return x.indexOf("nội dung")>=0})){rows={h:hd,a:a.slice(i+1)};break}}});
+    if(!rows){toast("Không thấy cột Nội dung");return}
+    function ix(fn){for(var i=0;i<rows.h.length;i++)if(fn(rows.h[i]))return i;return -1}
+    var cd=ix(function(x){return x.indexOf("ngày đăng")>=0}),ck=ix(function(x){return x.indexOf("bộ phận")>=0||x.indexOf("khoa")===0}),cs=ix(function(x){return x.indexOf("số sao")>=0}),ct=ix(function(x){return x.indexOf("nội dung")>=0});
+    if(cd<0||ck<0){toast("Thiếu cột Ngày đăng hoặc Khoa/Phòng");return}
+    var out=[];rows.a.forEach(function(q){var p=String(q[cd]).trim().split("/"),t=String(q[ct]).trim(),k=String(q[ck]).trim();if(p.length!==3||!/^\d{4}$/.test(p[2])||!t||!k)return;var s=(String(cs<0?"":q[cs]).match(/[45]/)||["5"])[0];out.push({d:p[2]+"-"+("0"+p[1]).slice(-2)+"-"+("0"+p[0]).slice(-2),k:k,s:+s,t:t})});
+    if(!out.length){toast("Không có dòng hợp lệ");return}
+    if(!db){toast("Chưa kết nối lưu trữ");return}
+    db.doc("plan/current").set({rows:out,at:new Date().toISOString(),by:uid||""}).then(function(){toast("Đã cập nhật "+out.length+" task")}).catch(function(){toast("Không đủ quyền cập nhật")})
+  }catch(e){toast("Không đọc được file")}};fr.readAsArrayBuffer(f)}
+document.getElementById("xf").onchange=function(){readX(this.files[0]);this.value=""};
+document.getElementById("tabs").onclick=function(e){var t=e.target.getAttribute("data-t");if(!t)return;[].forEach.call(this.children,function(b){b.classList.toggle("on",b===e.target)});["pg","pmk","ptk"].forEach(function(s){document.getElementById(s).hidden=t!==s});window.scrollTo(0,0)};
 function exp(){claude.use("downloads").then(function(dl){if(!dl){toast("Không tải được");return}
 var rows=[["STT","Ngày đăng","Khoa/Phòng","Số sao","Trạng thái","Thời gian tick"]];
 tasks.forEach(function(t){var d=done[t.id];rows.push([t.id,fd(t.dt),t.dept,t.star,d?"Đã đăng":"Chưa đăng",d&&d.at?d.at:""])});
 var csv="\ufeff"+rows.map(function(x){return x.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
 return dl.save({filename:"trang-thai-danh-gia.csv",data:csv})}).catch(function(){toast("Không tải được")})}
 try{window.claude&&claude.use("user").then(function(u){return u&&u.canEdit()}).then(function(v){if(v)document.getElementById("adm").hidden=false}).catch(function(){})}catch(e){}
-try{window.claude&&claude.use("db").then(function(d){if(!d)return;db=d;return claude.use("user").then(function(u){return u&&u.id?u.id():null}).catch(function(){return null}).then(function(id){uid=id;db.collection("done").onSnapshot(function(s){var x={};s.docs.forEach(function(q){x[q.id]=q.data()||{at:""}});done=x;render()},function(){})})}).catch(function(){})}catch(e){}
+try{window.claude&&claude.use("db").then(function(d){if(!d)return;db=d;return claude.use("user").then(function(u){return u&&u.id?u.id():null}).catch(function(){return null}).then(function(id){uid=id;db.collection("plan").onSnapshot(function(s){s.docs.forEach(function(q){if(q.id==="current"){var d=q.data();if(d&&d.rows)setPlan(d.rows)}})},function(){});db.collection("done").onSnapshot(function(s){var x={};s.docs.forEach(function(q){x[q.id]=q.data()||{at:""}});done=x;render()},function(){})})}).catch(function(){})}catch(e){}
 </script>
 </body>
 </html>
