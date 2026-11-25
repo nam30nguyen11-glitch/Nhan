@@ -185,8 +185,8 @@ function fd(dt){return String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMon
 function lbl(dt){return WD[dt.getDay()]+", "+fd(dt)}
 var db=null,uid=null;
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-var MN=["Hà","Vân","Hiếu","Nam","LAnh","Ce","Nhi","Tâm","A Tân","Duyên","Chiến","Duc Trinh","Chính","Vũ","Duyên","Quỳnh","Tú","B Ngọc","My","Nhân Ads","Nhân SEO"];
-var mk=MN.map(function(n,i){var d=Math.floor(i/2),p=DT[d].split("/");return{id:"m"+(i+1),day:d+1,dt:new Date(p[1]==="01"?2027:2026,+p[1]-1,+p[0]),dept:n,star:5,text:T[i]}});
+var MN=["A. Tân","C. Kiều","Vân","Hiếu","Nam","L.Anh","TreyCE","Nhi","Tâm","Hà","Duyên","Chiến","Duc Trinh","Chính","Vũ","Duyên","Quỳnh","Tú","B.Ngọc","My","Nhân Ads","Nhân SEO"];
+var mk=MN.map(function(n,i){var d=Math.floor(i/2);return{id:"m"+(i+1),day:d+1,dt:new Date(2026,10,25+d),dept:n,star:5,text:T[i]}});
 var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
 function card(t){
   var d=done[t.id];
