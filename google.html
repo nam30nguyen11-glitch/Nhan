@@ -73,7 +73,7 @@ details,.gd{background:rgba(255,255,255,.9);border-color:#f0e6ee;box-shadow:0 2p
 </head>
 <body>
 <div class="top">
-  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 Bộ phận khác</button></div>
+  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 CSKH</button></div>
 </div>
 <main>
   <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Đăng xong, quay lại trang này bấm <b>Tick khi đã xong</b>. Bấm nhầm thì bấm lại để bỏ tick.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. Tránh định vị và IP tại Bệnh viện.</div></div>
@@ -178,7 +178,8 @@ var BASE=new Date(2026,10,30),DAY=864e5,KEY="task_dg_done_v1";
 var done={};try{done=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
 var DT="30/11,01/12,02/12,03/12,04/12,05/12,07/12,08/12,09/12,10/12,11/12,12/12,14/12,15/12,16/12,17/12,18/12,19/12,21/12,22/12,23/12,24/12,25/12,26/12,28/12,29/12,30/12,31/12,04/01,05/01,06/01,07/01,08/01,09/01,11/01,12/01".split(",");
-var tasks=T.map(function(t,i){var d=Math.floor(i/2),p=DT[d].split("/"),dt=new Date(p[1]==="01"?2027:2026,+p[1]-1,+p[0]);return{id:i+1,day:d+1,dt:dt,dept:D[Math.floor(d/2)],star:FOUR.indexOf(i+1)>=0?4:5,text:t}});
+var CS=["Các bạn tư vấn viên nói chuyện nhẹ nhàng, giải thích cặn kẽ từng hạng mục trong hợp đồng trước khi mình ký.", "Mình mua gói chăm sóc da cơ bản bên này, giá hợp lý mà không gian riêng tư, yên tĩnh để nghỉ ngơi cuối tuần.", "Bạn mình làm mũi ở đây đẹp quá nên giới thiệu mình qua. Trải nghiệm thực tế thấy đúng như lời đồn, rất chuyên nghiệp.", "Mình tìm hiểu rất kỹ về an toàn gây mê trước khi làm ngực. Bên Nam An có ekip bác sĩ gây mê hồi sức riêng nên mình hoàn toàn an tâm.", "Tư vấn kỹ, bác sĩ thân thiện. Mình chỉ góp ý xíu là bãi đậu ô tô giờ cao điểm hơi chật, còn lại mọi thứ đều ổn.", "Làm nâng cơ trẻ hóa xong thấy vùng rãnh cười mờ đi rõ rệt, mặt gọn hơn mà không cần nghỉ dưỡng gì cả.", "Mở góc mắt trong kết hợp cắt mí, lúc đầu cũng hơi lo nhưng bác sĩ làm nhẹ nhàng, tiêm tê chỉ hơi nhói xíu lúc đầu thôi.", "Mình ở tỉnh lên làm dịch vụ, được bệnh viện hỗ trợ chỗ nghỉ ngơi hậu phẫu sạch sẽ, có điều dưỡng trực theo dõi xuyên đêm.", "Điều trị sẹo rỗ tới buổi thứ 3 thấy bề mặt da phẳng và mịn hơn nhiều rồi, lỗ chân lông cũng thu nhỏ lại.", "Cơ sở vật chất chuẩn bệnh viện nên từ phòng khám tới phòng tiểu phẫu đều vô trùng kỹ lưỡng, nhìn rất an tâm.", "Sửa lại mũi hỏng từ chỗ cũ qua bên Nam An. May gặp đúng bác sĩ có tâm, xử lý lại phần sụn rất khéo, giờ mũi đã ổn định.", "Thích cách làm việc ở đây là không chèo kéo nâng gói dịch vụ. Mình hỏi gói nào bác sĩ tư vấn đúng gói đó.", "Cuối tuần ghé điện di tinh chất thư giãn, nhân viên không nói chuyện riêng ồn ào trong phòng nên ngủ một giấc rất ngon.", "Khám sức khỏe tổng quát trước phẫu thuật làm rất bài bản, có kết quả đầy đủ bác sĩ mới duyệt cho lên phòng mổ.", "Tiêm filler cằm tạo dáng V-line nhẹ nhàng, bác sĩ nắn chỉnh tỉ mỉ từng chút một nên nhìn tự nhiên lắm.", "Nâng cung chân mày cho mẹ mình tuần trước, nay cắt chỉ xong mắt mẹ hết bị sụp da dư, nhìn tươi tắn hẳn.", "Dịch vụ xứng đáng với chi phí bỏ ra. Từ khâu đặt lịch online tới lúc tới bệnh viện đều trơn tru.", "Hút mỡ bắp tay ở đây được 1 tháng, nay mặc áo sát nách tự tin hẳn, vùng da cánh tay săn chắc không bị lồi lõm.", "Bác sĩ giải thích cặn kẽ về cơ địa và tỷ lệ hồi phục của từng người chứ không hứa hẹn suông. Rất tôn trọng sự thật thà này.", "Mình quên đồ ở sảnh chờ, liên hệ fanpage là các bạn bảo vệ tìm lại và giữ giúp cẩn thận. Rất cảm ơn bệnh viện."];
+var tasks=CS.map(function(t,i){var d=i<10?0:1;return{id:i+1,day:d+1,dt:new Date(2026,10,29+d),dept:"",star:5,text:t}});
 var now=new Date(),t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
 function diff(t){return Math.round((t.dt-t0)/DAY)}
 function fd(dt){return String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+dt.getFullYear()}
@@ -186,19 +187,19 @@ function lbl(dt){return WD[dt.getDay()]+", "+fd(dt)}
 var db=null,uid=null;
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 var MN=["A. Tân","C. Kiều","Vân","Hiếu","Nam","L.Anh","TreyCE","Nhi","Tâm","Hà","Duyên","Chiến","Duc Trinh","Chính","Vũ","Duyên","Quỳnh","Tú","B.Ngọc","My","Nhân Ads","Nhân SEO"];
-var MD=[[27,11],[28,11],[29,11],[30,11],[1,12],[2,12],[3,12],[4,12],[5,12],[12,12],[14,12]];
-var mk=MN.map(function(n,i){var d=Math.floor(i/2);return{id:"m"+(i+1),day:d+1,dt:new Date(2026,MD[d][1]-1,MD[d][0]),dept:n,star:5,text:T[i]}});
+var MD=[[27,11],[28,11]];
+var mk=MN.map(function(n,i){var d=i<11?0:1;return{id:"m"+(i+1),day:d+1,dt:new Date(2026,MD[d][1]-1,MD[d][0]),dept:n,star:5,text:T[i]}});
 var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
 function card(t){
   var d=done[t.id];
-  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span><span class="chip dk">'+esc(t.dept)+'</span><span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button><button class="ck" onclick="tg(\''+t.id+'\')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button></div></div>';
+  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button><button class="ck" onclick="tg(\''+t.id+'\')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button></div></div>';
 }
 function list(a){return a.length?a.map(card).join(""):'<div class="empty">Không có task</div>'}
 function group(a,open,p){
   var m={};a.forEach(function(t){(m[t.day]=m[t.day]||[]).push(t)});
   return Object.keys(m).map(function(k,i){
     var g=m[k],c=g.filter(function(t){return done[t.id]}).length;
-    return '<details data-d="'+p+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b><span class="dp">'+esc(g[0].dept)+(g.length>1&&g[1].dept!==g[0].dept?' · '+esc(g[1].dept):'')+'</span><span class="sr">'+g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join('')+'</span></span><small>'+c+'/'+g.length+' xong</small></summary><div class="in">'+list(g)+'</div></details>';
+    return '<details data-d="'+p+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b>'+(g[0].dept?'<span class="dp">'+esc(g[0].dept)+(g.length>1&&g[1].dept!==g[0].dept?' · '+esc(g[1].dept):'')+'</span>':'')+'<span class="sr">'+(g.length>4?'<span class="sb s5">'+g.length+' task · 5 ★</span>':g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join(''))+'</span></span><small>'+c+'/'+g.length+' xong</small></summary><div class="in">'+list(g)+'</div></details>';
   }).join("");
 }
 function renderSet(arr,p){
