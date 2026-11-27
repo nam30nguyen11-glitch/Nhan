@@ -73,15 +73,14 @@ details,.gd{background:rgba(255,255,255,.9);border-color:#f0e6ee;box-shadow:0 2p
 </head>
 <body>
 <div class="top">
-  <div class="p" id="sy" style="margin-bottom:6px">⏳ Đang kết nối…</div>
-  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 CSKH</button></div>
+    <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 CSKH</button></div>
 </div>
 <main>
-  <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Đăng xong, quay lại trang này bấm <b>Tick khi đã xong</b>. Đã tick thì không bỏ tick được, nên kiểm tra kỹ trước khi bấm.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. Tránh định vị và IP tại Bệnh viện.</div></div>
+  <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Kiểm tra lại số sao và nội dung, đăng xong là hoàn tất.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. <b>Tắt wifi bệnh viện</b> hoặc đăng ở nhà, tránh định vị và IP tại Bệnh viện.</div></div>
 
   </section>
   <section id="pmk" hidden>
-  <div class="mp"><div class="bar"><i id="pb"></i></div><div class="p" id="pt"></div></div>
+  
   <div id="mhero"></div>
   <div id="mlate"></div>
   <h2>Sắp tới</h2>
@@ -193,21 +192,21 @@ var mk=MN.map(function(n,i){var d=i<11?0:1;return{id:"m"+(i+1),day:d+1,dt:new Da
 var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
 function card(t){
   var d=done[t.id];
-  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button>'+(d?'<button class="ck" disabled>✔ Đã đăng</button>':'<button class="ck" onclick="tg(\''+t.id+'\')">☐ Tick khi đã xong</button>')+'</div></div>';
+  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>📵 Tắt wifi bệnh viện hoặc ở nhà</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button>'+'</div></div>';
 }
 function list(a){return a.length?a.map(card).join(""):'<div class="empty">Không có task</div>'}
 function group(a,open,p){
   var m={};a.forEach(function(t){(m[t.day]=m[t.day]||[]).push(t)});
   return Object.keys(m).map(function(k,i){
     var g=m[k],c=g.filter(function(t){return done[t.id]}).length;
-    return '<details data-d="'+p+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b>'+(g[0].dept?'<span class="dp">'+esc(g[0].dept)+(g.length>1&&g[1].dept!==g[0].dept?' · '+esc(g[1].dept):'')+'</span>':'')+'<span class="sr">'+(g.length>4?'<span class="sb s5">'+g.length+' task · 5 ★</span>':g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join(''))+'</span></span><small>'+c+'/'+g.length+' xong</small></summary><div class="in">'+list(g)+'</div></details>';
+    return '<details data-d="'+p+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b>'+(g[0].dept?'<span class="dp">'+esc(g[0].dept)+(g.length>1&&g[1].dept!==g[0].dept?' · '+esc(g[1].dept):'')+'</span>':'')+'<span class="sr">'+(g.length>4?'<span class="sb s5">'+g.length+' task · 5 ★</span>':g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join(''))+'</span></span><small>'+g.length+' task</small></summary><div class="in">'+list(g)+'</div></details>';
   }).join("");
 }
 function renderSet(arr,p){
   var today=arr.filter(function(t){return diff(t)===0});
-  var late=arr.filter(function(t){return diff(t)<0&&!done[t.id]});
+  var late=[];
   var up=arr.filter(function(t){return diff(t)>0});
-  var past=arr.filter(function(t){return diff(t)<0&&done[t.id]});
+  var past=arr.filter(function(t){return diff(t)<0});
   var h="";
   if(today.length){
     h='<div class="hero"><h2>🔥 Hôm nay – '+lbl(today[0].dt)+'</h2>'+list(today)+'</div>';
@@ -219,24 +218,15 @@ function renderSet(arr,p){
   document.getElementById(p+"late").innerHTML=late.length?'<div class="bad"><h2>⚠ Quá hạn chưa đăng ('+late.length+')</h2>'+list(late)+'</div>':"";
   var rest=today.length?up:up.filter(function(t){return t.day!==up[0].day});
   document.getElementById(p+"up").innerHTML=rest.length?group(rest,false,p):'<div class="empty">Không còn task sắp tới</div>';
-  document.getElementById(p+"past").innerHTML=past.length?'<h2>Đã hoàn thành (ngày đã qua)</h2>'+group(past,false,p):"";
+  document.getElementById(p+"past").innerHTML=past.length?'<h2>Ngày đã qua</h2>'+group(past,false,p):"";
 }
 function render(){
   var op=[].map.call(document.querySelectorAll('details[open]'),function(e){return e.getAttribute('data-d')});
   renderSet(tasks,"");renderSet(mk,"m");
   op.forEach(function(k){var e=document.querySelector('details[data-d="'+k+'"]');if(e)e.open=true});
-  var n=mk.filter(function(t){return done[t.id]}).length;
-  document.getElementById("pb").style.width=(n/mk.length*100)+"%";
-  document.getElementById("pt").textContent="Đã đăng "+n+"/"+mk.length+" task MKT ("+Math.round(n/mk.length*100)+"%)";
 }
 function sy(t){var e=document.getElementById("sy");if(e)e.textContent=t}
 function bk(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
-function tg(id){
-  if(done[id]){toast("Đã tick rồi, không thể bỏ tick");return}
-  done[id]={at:new Date().toISOString()};save();render();
-  if(db){db.doc("done/"+id).set({at:done[id].at,by:uid||""}).then(function(){toast("Đã lưu ✔")}).catch(function(){toast("Chưa lưu được lên hệ thống, đang lưu trên máy này")})}
-  else toast("Đã tick (chỉ lưu trên máy này)")
-}
 function toast(m){var e=document.getElementById("toast");e.textContent=m;e.classList.add("s");setTimeout(function(){e.classList.remove("s")},1400)}
 function cp(id){
   var tx=byId[id].text;
@@ -272,8 +262,6 @@ var rows=[["STT","Ngày đăng","Khoa/Phòng","Số sao","Trạng thái","Thời
 tasks.forEach(function(t){var d=done[t.id];rows.push([t.id,fd(t.dt),t.dept,t.star,d?"Đã đăng":"Chưa đăng",d&&d.at?d.at:""])});
 var csv="\ufeff"+rows.map(function(x){return x.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
 return dl.save({filename:"trang-thai-danh-gia.csv",data:csv})}).catch(function(){toast("Không tải được")})}
-try{window.claude&&claude.use("user").then(function(u){return u&&u.canEdit()}).then(function(v){if(v){var ad=document.getElementById("adm");if(ad)ad.hidden=false}}).catch(function(){})}catch(e){}
-try{window.claude&&claude.use("db").then(function(d){if(!d){sy("🟡 Chưa kết nối lưu chung (cần đăng nhập Claude và có quyền Contributor) – tick chỉ lưu trên máy này");return}db=d;sy("🟢 Đang lưu chung cho mọi người");return claude.use("user").then(function(u){return u&&u.id?u.id():null}).catch(function(){return null}).then(function(id){uid=id;db.collection("plan").onSnapshot(function(s){s.docs.forEach(function(q){if(q.id==="current"){var d=q.data();if(d&&d.rows)setPlan(d.rows)}})},function(){});db.collection("done").onSnapshot(function(s){var x={};s.docs.forEach(function(q){x[q.id]=q.data()||{at:""}});var b=bk();Object.keys(b).forEach(function(k){if(!x[k]&&b[k]){x[k]=b[k];if(db)db.doc("done/"+k).set({at:(b[k]&&b[k].at)||"",by:uid||""}).catch(function(){})}});done=x;save();render()},function(){})})}).catch(function(){})}catch(e){}
 </script>
 </body>
 </html>
