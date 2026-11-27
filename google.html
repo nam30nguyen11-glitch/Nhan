@@ -73,7 +73,7 @@ details,.gd{background:rgba(255,255,255,.9);border-color:#f0e6ee;box-shadow:0 2p
 </head>
 <body>
 <div class="top">
-  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 CSKH</button></div>
+  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 Telesale</button></div>
 </div>
 <main>
   <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Đăng xong, quay lại trang này bấm <b>Tick khi đã xong</b>. Bấm nhầm thì bấm lại để bỏ tick.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. Tránh định vị và IP tại Bệnh viện.</div></div>
@@ -192,7 +192,7 @@ var mk=MN.map(function(n,i){var d=i<11?0:1;return{id:"m"+(i+1),day:d+1,dt:new Da
 var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
 function card(t){
   var d=done[t.id];
-  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button><button class="ck" onclick="tg(\''+t.id+'\')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button></div></div>';
+  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>Đừng Mở Wifi Bệnh viện</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button><button class="ck" onclick="tg(\''+t.id+'\')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button></div></div>';
 }
 function list(a){return a.length?a.map(card).join(""):'<div class="empty">Không có task</div>'}
 function group(a,open,p){
