@@ -73,10 +73,11 @@ details,.gd{background:rgba(255,255,255,.9);border-color:#f0e6ee;box-shadow:0 2p
 </head>
 <body>
 <div class="top">
-  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 Telesale</button></div>
+  <div class="p" id="sy" style="margin-bottom:6px">⏳ Đang kết nối…</div>
+  <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 CSKH</button></div>
 </div>
 <main>
-  <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Đăng xong, quay lại trang này bấm <b>Tick khi đã xong</b>. Bấm nhầm thì bấm lại để bỏ tick.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. Tránh định vị và IP tại Bệnh viện.</div></div>
+  <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Đăng xong, quay lại trang này bấm <b>Tick khi đã xong</b>. Đã tick thì không bỏ tick được, nên kiểm tra kỹ trước khi bấm.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. Tránh định vị và IP tại Bệnh viện.</div></div>
 
   </section>
   <section id="pmk" hidden>
@@ -192,7 +193,7 @@ var mk=MN.map(function(n,i){var d=i<11?0:1;return{id:"m"+(i+1),day:d+1,dt:new Da
 var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
 function card(t){
   var d=done[t.id];
-  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>Đừng Mở Wifi Bệnh viện</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button><button class="ck" onclick="tg(\''+t.id+'\')">'+(d?'✔ Đã đăng':'☐ Tick khi đã xong')+'</button></div></div>';
+  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>🕕 Tối từ 18h</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button>'+(d?'<button class="ck" disabled>✔ Đã đăng</button>':'<button class="ck" onclick="tg(\''+t.id+'\')">☐ Tick khi đã xong</button>')+'</div></div>';
 }
 function list(a){return a.length?a.map(card).join(""):'<div class="empty">Không có task</div>'}
 function group(a,open,p){
@@ -228,15 +229,13 @@ function render(){
   document.getElementById("pb").style.width=(n/mk.length*100)+"%";
   document.getElementById("pt").textContent="Đã đăng "+n+"/"+mk.length+" task MKT ("+Math.round(n/mk.length*100)+"%)";
 }
+function sy(t){var e=document.getElementById("sy");if(e)e.textContent=t}
+function bk(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
 function tg(id){
-  if(done[id]){
-    var o=done[id];delete done[id];
-    if(db){db.doc("done/"+id).delete().catch(function(){done[id]=o;render();toast("Lỗi, chưa lưu được")})}else save();
-    render();toast("Đã bỏ tick");return
-  }
-  done[id]={at:new Date().toISOString()};
-  if(db){db.doc("done/"+id).set({at:done[id].at,by:uid||""}).catch(function(){delete done[id];render();toast("Lỗi, chưa lưu được")})}else save();
-  render();toast("Đã ghi nhận ✔")
+  if(done[id]){toast("Đã tick rồi, không thể bỏ tick");return}
+  done[id]={at:new Date().toISOString()};save();render();
+  if(db){db.doc("done/"+id).set({at:done[id].at,by:uid||""}).then(function(){toast("Đã lưu ✔")}).catch(function(){toast("Chưa lưu được lên hệ thống, đang lưu trên máy này")})}
+  else toast("Đã tick (chỉ lưu trên máy này)")
 }
 function toast(m){var e=document.getElementById("toast");e.textContent=m;e.classList.add("s");setTimeout(function(){e.classList.remove("s")},1400)}
 function cp(id){
@@ -274,7 +273,7 @@ tasks.forEach(function(t){var d=done[t.id];rows.push([t.id,fd(t.dt),t.dept,t.sta
 var csv="\ufeff"+rows.map(function(x){return x.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
 return dl.save({filename:"trang-thai-danh-gia.csv",data:csv})}).catch(function(){toast("Không tải được")})}
 try{window.claude&&claude.use("user").then(function(u){return u&&u.canEdit()}).then(function(v){if(v){var ad=document.getElementById("adm");if(ad)ad.hidden=false}}).catch(function(){})}catch(e){}
-try{window.claude&&claude.use("db").then(function(d){if(!d)return;db=d;return claude.use("user").then(function(u){return u&&u.id?u.id():null}).catch(function(){return null}).then(function(id){uid=id;db.collection("plan").onSnapshot(function(s){s.docs.forEach(function(q){if(q.id==="current"){var d=q.data();if(d&&d.rows)setPlan(d.rows)}})},function(){});db.collection("done").onSnapshot(function(s){var x={};s.docs.forEach(function(q){x[q.id]=q.data()||{at:""}});done=x;render()},function(){})})}).catch(function(){})}catch(e){}
+try{window.claude&&claude.use("db").then(function(d){if(!d){sy("🟡 Chưa kết nối lưu chung (cần đăng nhập Claude và có quyền Contributor) – tick chỉ lưu trên máy này");return}db=d;sy("🟢 Đang lưu chung cho mọi người");return claude.use("user").then(function(u){return u&&u.id?u.id():null}).catch(function(){return null}).then(function(id){uid=id;db.collection("plan").onSnapshot(function(s){s.docs.forEach(function(q){if(q.id==="current"){var d=q.data();if(d&&d.rows)setPlan(d.rows)}})},function(){});db.collection("done").onSnapshot(function(s){var x={};s.docs.forEach(function(q){x[q.id]=q.data()||{at:""}});var b=bk();Object.keys(b).forEach(function(k){if(!x[k]&&b[k]){x[k]=b[k];if(db)db.doc("done/"+k).set({at:(b[k]&&b[k].at)||"",by:uid||""}).catch(function(){})}});done=x;save();render()},function(){})})}).catch(function(){})}catch(e){}
 </script>
 </body>
 </html>
