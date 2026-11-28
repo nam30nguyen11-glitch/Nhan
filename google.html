@@ -3,265 +3,52 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Task đăng đánh giá</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<title>TeleSale - Task đăng đánh giá</title>
 <style>
-:root{--bg:#f5f1e6;--card:#fff;--tx:#1b2333;--mu:#6b7487;--bd:#e3e7f0;--pr:#8a6a1f;--onpr:#fff;--ok:#16a34a;--okbg:#e7f7ed;--hot:#b9732a;--hotbg:#f8efe0;--bad:#dc2626;--badbg:#fdecec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#192031;--tx:#e8ecf5;--mu:#9aa4b8;--bd:#2a3349;--pr:#cfae5e;--onpr:#2b1d00;--ok:#4ade80;--okbg:#14301f;--hot:#d9a066;--hotbg:#2b2114;--bad:#f87171;--badbg:#3a1717}}
-:root[data-theme="dark"]{--bg:#0f1420;--card:#192031;--tx:#e8ecf5;--mu:#9aa4b8;--bd:#2a3349;--pr:#cfae5e;--onpr:#2b1d00;--ok:#4ade80;--okbg:#14301f;--hot:#d9a066;--hotbg:#2b2114;--bad:#f87171;--badbg:#3a1717}
+:root{--card:#fff;--tx:#3d3340;--mu:#8b7f90;--bd:#efe4ec}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding-bottom:40px}
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:linear-gradient(135deg,#e8dbb0,#cdb26a);color:#3b2a00;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,.15)}body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:#e8dbb0}
-.top h1{margin:0;font-size:18px}
-.top .d{opacity:.9;font-size:13px;margin-top:2px}
-.bar{height:8px;background:rgba(59,42,0,.22);border-radius:8px;margin-top:12px;overflow:hidden}
-.bar i{display:block;height:100%;background:#3b2a00;width:0;transition:width .3s}
-.top .p{font-size:12px;margin-top:4px;opacity:.95}
+body{margin:0;color:var(--tx);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(160deg,#fdf5ea 0%,#f9eef3 50%,#e9f0fb 100%) fixed;min-height:100vh;padding-bottom:40px}
+.top{position:sticky;top:0;z-index:20;background:linear-gradient(120deg,#fbe3c8,#f6d5e4 55%,#d9e6fa);color:#5b4636;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 12px;box-shadow:0 3px 14px rgba(150,120,150,.15)}
+.top h1{margin:0 0 8px;font-size:17px}
+.map{display:block;text-align:center;text-decoration:none;min-height:44px;line-height:44px;border-radius:12px;background:linear-gradient(120deg,#f6c9a4,#eeb0c8);color:#4a3426;font-weight:700;font-size:15px;box-shadow:0 2px 8px rgba(200,130,140,.25)}
 main{padding:12px;max-width:760px;margin:0 auto}
-h2{font-size:14px;margin:18px 4px 8px;text-transform:uppercase;letter-spacing:.4px;color:var(--mu)}
-.hero{border:2px solid var(--hot);background:var(--hotbg);border-radius:16px;padding:10px;margin-top:4px}
-.hero h2{margin:4px 4px 8px;color:var(--hot)}
-.hero.wait{border-color:var(--pr);background:var(--card)}
-.hero.wait h2{color:var(--pr)}
-.bad h2{color:var(--bad)}
-.t{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:8px}
-.t.done{background:var(--okbg);border-color:var(--ok)}
-.t.done .tx{text-decoration:line-through;opacity:.65}
+.t{background:rgba(255,255,255,.9);border:1px solid #f0e6ee;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 2px 10px rgba(140,110,150,.07)}
 .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--mu);margin-bottom:6px}
-.chip{background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:2px 9px;color:var(--tx);font-weight:600}
-.st{color:#f59e0b;letter-spacing:1px}
-.tx{font-size:15px;margin:0 0 10px;user-select:text}
-.row{display:flex;gap:8px}
-.row button{flex:1;min-height:44px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:14px;font-weight:600}
-.row .ck{background:var(--pr);color:var(--onpr);border-color:var(--pr)}
-.t.done .ck{background:var(--ok);border-color:var(--ok);color:#fff}
-details{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-bottom:8px}
-summary{padding:12px;font-weight:600;list-style:none;display:flex;justify-content:space-between;cursor:pointer}
-summary::-webkit-details-marker{display:none}
-summary small{color:var(--mu);font-weight:500}
-details .in{padding:0 8px 4px}
-.empty{padding:14px;text-align:center;color:var(--mu)}
-.fl{display:flex;gap:8px;margin:12px 0 0}
-.fl button{flex:1;min-height:40px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-weight:600}
-.fl button.on{background:var(--pr);color:var(--onpr);border-color:var(--pr)}
-.gd{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:12px}.gd h3{margin:0 0 8px;font-size:15px;color:var(--pr)}.gd ol{margin:0;padding-left:0;list-style:none}.gd li{margin-bottom:6px;font-size:14px}.gd li b{color:var(--pr)}.gd .rq{background:var(--badbg);border:1px solid var(--bad);color:var(--tx);border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px}.gd .rq b{color:var(--bad)}.sm{display:flex;flex-direction:column;gap:5px}.dp,.chip.dk{display:inline-block;align-self:flex-start;background:#eadcae;color:#4a3500;border:1px solid #b39549;border-radius:20px;padding:3px 12px;font-size:14px;font-weight:800;letter-spacing:.2px}.sr{display:flex;gap:5px}.sb{display:inline-block;border-radius:8px;padding:1px 8px;font-size:13px;font-weight:700;background:#f6efd6;color:#7a5a10;border:1px solid #dcc787}.sb.s4{background:#f4dfcb;color:#9a4a14;border-color:#d9a066}.row .ck.pe{background:var(--hot);border-color:var(--hot);color:#fff}.row .ck:disabled{opacity:1}.bar{height:6px;background:rgba(59,42,0,.22);border-radius:8px;margin-top:0;overflow:hidden}.bar i{display:block;height:100%;background:#3b2a00;width:0;transition:width .3s}.tabs{display:flex;gap:6px;margin-top:8px}.tb{flex:1;min-height:38px;padding:2px 4px;line-height:1.2;border:0;border-radius:10px;background:rgba(59,42,0,.13);color:#3b2a00;font-weight:700;font-size:14px}.tb.on{background:#3b2a00;color:#f3e6bd}[hidden]{display:none!important}.tw{overflow-x:auto}#sch{width:100%;border-collapse:collapse;font-size:14px}#sch th{color:var(--mu);font-size:12px;font-weight:600;padding:4px 6px 8px;text-align:left;border-bottom:1px solid var(--bd)}#sch td{padding:9px 6px;border-bottom:1px solid var(--bd);font-weight:400}#sch td:first-child{color:var(--mu);width:28px}#sch td small{margin-left:4px;color:var(--mu);font-size:12px}#sch tr.now td{background:var(--hotbg)}.cp2{width:100%;min-height:44px;border:0;border-radius:10px;background:var(--pr);color:var(--onpr);font-weight:700;font-size:14px}.xl{display:block;margin-top:12px;background:#3b2a00;color:#f3e6bd;text-align:center;padding:11px;border-radius:10px;font-weight:700;text-decoration:none}.row .cp{background:var(--pr);color:var(--onpr);border-color:var(--pr)}.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#111;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
+.chip{background:linear-gradient(120deg,#fde7cf,#fadbe8);color:#6b4a3a;border:1px solid #f1d2d9;border-radius:20px;padding:2px 10px;font-weight:700;font-size:13px}
+.sb{border-radius:8px;padding:1px 8px;font-size:13px;font-weight:700;background:#fff6dc;color:#8a6a1a;border:1px solid #f3e1ab}
+.tx{margin:0 0 10px;user-select:text}
+.cp{width:100%;min-height:44px;border:0;border-radius:10px;font-size:14px;font-weight:700;background:linear-gradient(120deg,#f6d3b4,#f0bdd0);color:#5a3a2c}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#3d3340;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.s{opacity:1}
-:root{--bg:#f8f1f3;--card:#fff;--tx:#3d3340;--mu:#8b7f90;--bd:#efe4ec;--hot:#c27d4a;--hotbg:#fff1e3;--bad:#c46a6a;--badbg:#fdeeee}
-body{background:linear-gradient(160deg,#fdf5ea 0%,#f9eef3 50%,#e9f0fb 100%) fixed;color:var(--tx)}
-.top{background:linear-gradient(120deg,#fbe3c8,#f6d5e4 55%,#d9e6fa);color:#5b4636;box-shadow:0 3px 14px rgba(150,120,150,.15)}
-body::before{background:#fbe3c8}
-.bar{background:rgba(255,255,255,.65)}.bar i{background:linear-gradient(90deg,#f3b98f,#e79db9)}
-.tb{background:rgba(255,255,255,.55);color:#6b5646}.tb.on{background:linear-gradient(120deg,#f6c9a4,#eeb0c8);color:#4a3426;box-shadow:0 2px 8px rgba(200,130,140,.25)}
-h2{color:#9a8aa0}
-.hero{border:1px solid #f4d3b0;background:linear-gradient(135deg,#fff4e6,#fdebf2)}.hero h2{color:#c27d4a}
-.hero.wait{border-color:#d3e0f5;background:linear-gradient(135deg,#f5f9ff,#f8f2fb)}.hero.wait h2{color:#6b86b8}
-.bad h2{color:#c46a6a}
-.t{background:rgba(255,255,255,.9);border:1px solid #f0e6ee;box-shadow:0 2px 10px rgba(140,110,150,.07)}
-.t.done{background:linear-gradient(135deg,#f0faf4,#eaf6f6);border-color:#c5e6d3}
-.chip{background:#faf4f7;border-color:#efe2ea;color:#6b5a6e}
-.chip.dk,.dp{background:linear-gradient(120deg,#fde7cf,#fadbe8);color:#6b4a3a;border:1px solid #f1d2d9;font-weight:700}
-.sb{background:#fff6dc;color:#8a6a1a;border:1px solid #f3e1ab}.sb.s4{background:#fde6d6;color:#9a5a30;border-color:#f2c9ab}
-.row .cp{background:linear-gradient(120deg,#f6d3b4,#f0bdd0);color:#5a3a2c;border:0}
-.row .ck{background:linear-gradient(120deg,#d4eadf,#cfe0f5);color:#34504a;border:0}
-.t.done .ck{background:linear-gradient(120deg,#bfe5cd,#a9dcc4);color:#1f4a38}
-details,.gd{background:rgba(255,255,255,.9);border-color:#f0e6ee;box-shadow:0 2px 10px rgba(140,110,150,.06)}
-.gd h3,.gd li b{color:#c27d4a}
-.gd .rq{background:#fdeeee;border-color:#f1c8c8}.gd .rq b{color:#c46a6a}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161a26;--card:#1f2333;--tx:#ece6ef;--mu:#a69fb3;--bd:#2d3248;--hot:#e0a574;--hotbg:#2c2433;--bad:#e59a9a;--badbg:#33232a}body{background:linear-gradient(160deg,#171a27,#1d1a29,#151f31) fixed}.top{background:linear-gradient(120deg,#4a3b36,#463349,#2f3d58);color:#f3e9e1}body::before{background:#4a3b36}.tb{background:rgba(255,255,255,.1);color:#eadfd8}.bar{background:rgba(255,255,255,.18)}h2{color:var(--mu)}.hero{background:linear-gradient(135deg,#2e2530,#2a2a3a);border-color:#5a4638}.hero h2{color:#e0a574}.hero.wait{background:linear-gradient(135deg,#222a3d,#2a2638);border-color:#38486a}.hero.wait h2{color:#9db6e8}.t,details,.gd{background:var(--card);border-color:var(--bd);box-shadow:none}.t.done{background:#1c2e2a;border-color:#2f5a48}.chip{background:#2a2e42;border-color:#3a3f58;color:#e6dde9}.chip.dk,.dp{background:linear-gradient(120deg,#5a4540,#5a4256);color:#f6e8df;border-color:#6d5560}.sb{background:#3a3326;color:#f0d9a0;border-color:#574a2e}.sb.s4{background:#47301f;color:#f4c9a5;border-color:#6a4a30}.gd h3,.gd li b{color:#e0a574}.gd .rq{background:var(--badbg);border-color:#5a3a42}.gd .rq b{color:#e59a9a}}
-.top .tabs{margin-top:0}.mp{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-bottom:10px}.mp .bar{background:var(--bd);height:8px}.mp .p{font-size:13px;color:var(--mu);margin-top:6px}
+@media (prefers-color-scheme:dark){
+:root{--card:#1f2333;--tx:#ece6ef;--mu:#a69fb3;--bd:#2d3248}
+body{background:linear-gradient(160deg,#171a27,#1d1a29,#151f31) fixed}
+.top{background:linear-gradient(120deg,#4a3b36,#463349,#2f3d58);color:#f3e9e1}
+.t{background:var(--card);border-color:var(--bd);box-shadow:none}
+.chip{background:linear-gradient(120deg,#5a4540,#5a4256);color:#f6e8df;border-color:#6d5560}
+.sb{background:#3a3326;color:#f0d9a0;border-color:#574a2e}
+}
 </style>
 </head>
 <body>
 <div class="top">
-    <div class="tabs" id="tabs"><button class="tb on" data-t="pg">📖 Hướng dẫn</button><button class="tb" data-t="pmk">👥 MKT</button><button class="tb" data-t="ptk">📋 CSKH</button></div>
+  <h1>📞 TeleSale</h1>
+  <a class="map" href="https://g.page/r/CRUZjG1bWyMOEAI/review" target="_blank" rel="noopener">📍 Click Maps đánh giá</a>
 </div>
-<main>
-  <section id="pg"><div class="gd"><h3>📖 Hướng dẫn thực hiện</h3><ol><li><b>Bước 1:</b> Vào link, bấm <b>Copy nội dung</b> của task hôm nay.</li><li><b>Bước 2:</b> Lên Google gõ từ khóa <b>Bệnh Viện Nam An</b> → kéo xuống một chút sẽ thấy <b>Google Map</b>.</li><li><b>Bước 3:</b> Bấm <b>Đánh giá</b>, chọn đúng số sao ghi trên task và dán nội dung vào. (Riêng <b>MKT, Sale</b> hoặc team nào có ảnh thì thêm ảnh ở bệnh viện vào.)</li><li><b>Bước 4:</b> Kiểm tra lại số sao và nội dung, đăng xong là hoàn tất.</li></ol><div class="rq"><b>⚠ Yêu cầu chính:</b> Dùng <b>Gmail thật</b> + bật <b>4G hoặc Wifi ở nhà</b> để đánh giá. <b>Tắt wifi bệnh viện</b> hoặc đăng ở nhà, tránh định vị và IP tại Bệnh viện.</div></div>
-
-  </section>
-  <section id="pmk" hidden>
-  
-  <div id="mhero"></div>
-  <div id="mlate"></div>
-  <h2>Sắp tới</h2>
-  <div id="mup"></div>
-  <div id="mpast"></div>
-  </section>
-  <section id="ptk" hidden>
-  <div id="hero"></div>
-  <div id="late"></div>
-  <h2>Sắp tới</h2>
-  <div id="up"></div>
-  <div id="past"></div>
-  </section>
-</main>
+<main id="list"></main>
 <div class="toast" id="toast"></div>
 <script>
-var D=["Khoa KB-CC","Khoa PTTM","Khoa PT-GMHS","Khoa Da thẩm mỹ","Khoa RHM","Khoa Dược","Khoa Cận lâm sàng","Phòng ĐD-KSNK","Phòng KHTH - QLCL","Phòng TCKT","Phòng HCNS","Phòng CNTT","Phòng Vận hành","Nam An Lounge","Phòng MKT","Phòng Kinh doanh","Phòng DV-CSKH","Ban mua sắm"];
-var FOUR=[11,27,46,66];
-var T=[
-"Bệnh viện sạch sẽ, rộng rãi hơn mình nghĩ. Vào tới cửa là có bạn lễ tân ra đón nhiệt tình, không phải đứng ngơ ngác tìm quầy.",
-"Mình qua làm liệu trình chăm sóc da chuyên sâu, kỹ thuật viên làm nhẹ tay, nặn mụn không bị bầm hay sưng đỏ nhiều. Rất ưng.",
-"Cắt mí ở đây được 2 tuần rồi nay quay lại tái khám. Trộm vía nếp mí đều, ít sưng, bác sĩ dặn dò cách vệ sinh ở nhà kỹ lắm.",
-"Đi làm về muộn tầm 6h tối ghé tư vấn mà các bạn vẫn vui vẻ hỗ trợ, không có thái độ hối thúc hay chèo kéo mua gói.",
-"Mình tìm hiểu mấy nơi mới chốt qua Nam An nâng mũi. Ưng nhất là bác sĩ tư vấn thẳng thắn, dáng nào hợp mặt mới khuyên làm chứ không vẽ vời.",
-"Khu vực phòng chờ thoáng, có sẵn trà bánh nhẹ. Nhà vệ sinh sạch tinh tươm, mùi tinh dầu dễ chịu chứ không bị mùi thuốc sát trùng nồng.",
-"Dẫn mẹ qua làm trẻ hóa da, mẹ mình khó tính mà về khen suốt vì nhân viên lễ phép, dìu đi từng bước một.",
-"Báo giá rõ ràng ngay từ đầu, làm dịch vụ nào tính tiền dịch vụ đó, không phát sinh chi phí lặt vặt lúc thanh toán.",
-"Làm xong về nhà ngày nào cũng có bạn điều dưỡng nhắn tin hỏi thăm tình trạng sưng nề, hướng dẫn chườm lạnh rất chu đáo.",
-"Mắt mình trước bị sụp mí nhìn buồn ngủ, qua đây bác sĩ tư vấn nhấn mí nhẹ nhàng. Làm tầm 30 phút là xong, giờ nhìn mắt có hồn hơn hẳn.",
-"Bác sĩ tư vấn có tâm, không gian đẹp. Chỉ có điểm trừ nhỏ là trưa nay hơi đông nên mình đợi tầm 15 phút mới tới lượt.",
-"Mình tiêm meso căng bóng da ở đây, thuốc được mở hộp kiểm tra tem mác ngay trước mặt nên rất yên tâm.",
-"Tháo nẹp mũi hôm qua, dáng mũi lên tự nhiên, hài hòa với khuôn mặt chứ không bị cao lố. Cảm ơn ekip bác sĩ nhiều.",
-"Cảm giác yên tâm vì quy mô bệnh viện lớn, có xét nghiệm sức khỏe đầy đủ trước khi làm chứ không làm ẩu như mấy spa nhỏ lẻ.",
-"Da mình nhạy cảm dễ kích ứng nhưng làm liệu trình phục hồi bên Nam An xong thấy da dịu hẳn, ẩm mượt hơn.",
-"Bảo vệ giữ xe ngoài cổng rất nhiệt tình, dắt xe cho khách chu đáo từ lúc tới tới lúc về. Điểm cộng lớn cho dịch vụ.",
-"Mình tham khảo dịch vụ hút mỡ bụng ở đây, bác sĩ phân tích kỹ ưu nhược điểm và thời gian hồi phục để mình sắp xếp công việc.",
-"Cắt mí dưới lấy bọng mỡ xong nhìn trẻ ra mấy tuổi. Vết khâu mảnh nên giờ lành hẳn rồi hầu như không thấy sẹo.",
-"Đi tái khám định kỳ vẫn được đón tiếp niềm nở như lúc mới tới tư vấn, không hề có chuyện làm xong là bỏ mặc khách.",
-"Bệnh viện khang trang, máy móc nhìn hiện đại sạch sẽ. Mình đặt lịch trước nên tới nơi là được vào gặp bác sĩ liền.",
-"Tiêm gọn hàm ở đây bác sĩ canh liều lượng chuẩn, sau 2 tuần mặt thon gọn tự nhiên mà ăn nhai vẫn bình thường không bị đơ.",
-"Mũi mình trước bị lệch vách ngăn nhẹ, qua Nam An bác sĩ chỉnh lại kết hợp nâng cấu trúc. Giờ thở dễ hơn mà dáng mũi cũng đẹp.",
-"Các bạn tư vấn viên nói chuyện nhẹ nhàng, giải thích cặn kẽ từng hạng mục trong hợp đồng trước khi mình ký.",
-"Mình mua gói chăm sóc da cơ bản bên này, giá hợp lý mà không gian riêng tư, yên tĩnh để nghỉ ngơi cuối tuần.",
-"Bạn mình làm mũi ở đây đẹp quá nên giới thiệu mình qua. Trải nghiệm thực tế thấy đúng như lời đồn, rất chuyên nghiệp.",
-"Mình tìm hiểu rất kỹ về an toàn gây mê trước khi làm ngực. Bên Nam An có ekip bác sĩ gây mê hồi sức riêng nên mình hoàn toàn an tâm.",
-"Tư vấn kỹ, bác sĩ thân thiện. Mình chỉ góp ý xíu là bãi đậu ô tô giờ cao điểm hơi chật, còn lại mọi thứ đều ổn.",
-"Làm nâng cơ trẻ hóa xong thấy vùng rãnh cười mờ đi rõ rệt, mặt gọn hơn mà không cần nghỉ dưỡng gì cả.",
-"Mở góc mắt trong kết hợp cắt mí, lúc đầu cũng hơi lo nhưng bác sĩ làm nhẹ nhàng, tiêm tê chỉ hơi nhói xíu lúc đầu thôi.",
-"Mình ở tỉnh lên làm dịch vụ, được bệnh viện hỗ trợ chỗ nghỉ ngơi hậu phẫu sạch sẽ, có điều dưỡng trực theo dõi xuyên đêm.",
-"Điều trị sẹo rỗ tới buổi thứ 3 thấy bề mặt da phẳng và mịn hơn nhiều rồi, lỗ chân lông cũng thu nhỏ lại.",
-"Cơ sở vật chất chuẩn bệnh viện nên từ phòng khám tới phòng tiểu phẫu đều vô trùng kỹ lưỡng, nhìn rất an tâm.",
-"Sửa lại mũi hỏng từ chỗ cũ qua bên Nam An. May gặp đúng bác sĩ có tâm, xử lý lại phần sụn rất khéo, giờ mũi đã ổn định.",
-"Thích cách làm việc ở đây là không chèo kéo nâng gói dịch vụ. Mình hỏi gói nào bác sĩ tư vấn đúng gói đó.",
-"Cuối tuần ghé điện di tinh chất thư giãn, nhân viên không nói chuyện riêng ồn ào trong phòng nên ngủ một giấc rất ngon.",
-"Khám sức khỏe tổng quát trước phẫu thuật làm rất bài bản, có kết quả đầy đủ bác sĩ mới duyệt cho lên phòng mổ.",
-"Tiêm filler cằm tạo dáng V-line nhẹ nhàng, bác sĩ nắn chỉnh tỉ mỉ từng chút một nên nhìn tự nhiên lắm.",
-"Nâng cung chân mày cho mẹ mình tuần trước, nay cắt chỉ xong mắt mẹ hết bị sụp da dư, nhìn tươi tắn hẳn.",
-"Dịch vụ xứng đáng với chi phí bỏ ra. Từ khâu đặt lịch online tới lúc tới bệnh viện đều trơn tru.",
-"Hút mỡ bắp tay ở đây được 1 tháng, nay mặc áo sát nách tự tin hẳn, vùng da cánh tay săn chắc không bị lồi lõm.",
-"Bác sĩ giải thích cặn kẽ về cơ địa và tỷ lệ hồi phục của từng người chứ không hứa hẹn suông. Rất tôn trọng sự thật thà này.",
-"Mình quên đồ ở sảnh chờ, liên hệ fanpage là các bạn bảo vệ tìm lại và giữ giúp cẩn thận. Rất cảm ơn bệnh viện.",
-"Nâng mũi bọc sụn tự thân ở Nam An được 3 tháng, đầu mũi mềm mại tự nhiên, bạn bè gặp không ai nhận ra là đã sửa.",
-"Mình làm liệu trình xóa nhăn vùng trán và đuôi mắt, hiệu quả thấy rõ sau khoảng 10 ngày, biểu cảm vẫn tự nhiên.",
-"Điều dưỡng thay băng, vệ sinh vết thương rất nhẹ tay, vừa làm vừa hỏi thăm xem mình có đau không.",
-"Chất lượng bác sĩ và dịch vụ tốt, phòng ốc sạch đẹp. Thứ 7 hơi đông khách nên mọi người nhớ đặt lịch trước cho đỡ đợi nhé.",
-"Làm ngực xong nghỉ dưỡng 2 ngày ở viện được chăm sóc tận tình từng bữa ăn giấc ngủ. Giờ form ngực mềm mại rất ưng ý.",
-"Peel da trị thâm mụn ở đây xong da bong nhẹ nhàng, không bị rát đỏ kéo dài, vết thâm mờ đi tầm 70-80%.",
-"Đi tư vấn cùng chị gái, ấn tượng vì bệnh viện không gian sang trọng mà nhân viên rất gần gũi, không tạo cảm giác xa cách.",
-"Mí mắt mình trước bên to bên nhỏ, qua đây bác sĩ cân chỉnh lại hai bên đều tăm tắp. Biết vậy đi làm sớm hơn.",
-"Bước vào sảnh là thấy sự chỉn chu, từ đồng phục nhân viên tới cách sắp xếp khu vực tư vấn đều rất chuyên nghiệp.",
-"Tiêm HA cấp ẩm sâu cho da khô, làm xong vài ngày thấy nền da căng bóng, đánh phấn ăn tệp vào da hẳn.",
-"Hỏi thông tin qua tin nhắn hay tới trực tiếp đều được phản hồi nhanh, thông tin đồng nhất chứ không báo một đằng làm một nẻo.",
-"Dáng mũi S-line nhẹ nhàng rất hợp với mặt tròn của mình. Cảm ơn bác sĩ đã tư vấn đúng dáng thay vì làm dáng cao tây.",
-"Liệu trình thải độc da và cấp oxy tươi làm xong thấy mặt nhẹ bẫng, sáng bừng sức sống sau chuỗi ngày thức khuya.",
-"Bác sĩ thăm khám kỹ, đo vẽ tỷ lệ khuôn mặt cẩn thận trước khi thực hiện nên mình thấy rất yên tâm giao phó.",
-"Tái khám sau 6 tháng mà hồ sơ bệnh án vẫn được lưu trữ đầy đủ, bác sĩ kiểm tra lại rất kỹ càng.",
-"Sau sinh bụng mình bị chùng da và mỡ thừa nhiều, qua Nam An tạo hình thành bụng xong tự tin mặc lại đồ ôm sát.",
-"Đưa bạn tới tư vấn làm đẹp, ngồi phòng chờ có nước uống ngon, wifi mạnh, nhân viên hỏi han chu đáo cả người đi cùng.",
-"Bắn laser trị nám tàn nhang ở đây không bị đau rát, bác sĩ chỉnh bước sóng phù hợp với nền da nên không bị tăng sắc tố.",
-"Uy tín từ khâu tư vấn tới hậu phẫu. Mình đã giới thiệu thêm 2 đồng nghiệp ở công ty qua đây trải nghiệm.",
-"Cắt mí mini deep ít xâm lấn nên chỉ 5 ngày là mình đã đi làm lại bình thường, đồng nghiệp khen mắt đẹp tự nhiên.",
-"Thuốc men sau phẫu thuật được kê đơn rõ ràng, có hướng dẫn uống từng cữ sáng chiều tối rất dễ theo dõi.",
-"Làm trẻ hóa vùng cổ và mặt, da săn chắc hơn hẳn, các nếp nhăn li ti mờ đi trông thấy.",
-"Mình từng rất sợ đau nên chần chừ mãi không dám nâng mũi, tới Nam An làm nhẹ nhàng hơn tưởng tượng rất nhiều.",
-"Bác sĩ giỏi, nhân viên nhiệt tình. Hôm mình đi trúng ngày lễ nên đợi làm hồ sơ hơi lâu xíu nhưng vẫn hài lòng.",
-"Mình hay qua đây làm sạch sâu và đắp mặt nạ phục hồi hàng tháng, giá cả minh bạch và không bao giờ bị ép mua thêm mỹ phẩm.",
-"Vị trí bệnh viện dễ tìm, không gian bên trong yên tĩnh và sạch sẽ, tạo cảm giác thư giãn như đi nghỉ dưỡng.",
-"Bác sĩ tư vấn size túi ngực cân đối với khung xương vai và chiều cao nên làm xong nhìn tự nhiên, không bị lộ viền túi.",
-"Tiêm tan mỡ nọng cằm ở đây hiệu quả thật sự, sau 2 lần tiêm góc nghiêng sắc nét hơn hẳn.",
-"Ấn tượng với sự tận tâm của bác sĩ, luôn lắng nghe mong muốn của khách trước khi đưa ra phương án chuyên môn.",
-"Các bạn chăm sóc khách hàng hỗ trợ đổi lịch hẹn rất linh hoạt khi mình bận việc đột xuất."
-];
-var WD=["Chủ Nhật","Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7"];
-var BASE=new Date(2026,10,30),DAY=864e5,KEY="task_dg_done_v1";
-var done={};try{done=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
-var DT="30/11,01/12,02/12,03/12,04/12,05/12,07/12,08/12,09/12,10/12,11/12,12/12,14/12,15/12,16/12,17/12,18/12,19/12,21/12,22/12,23/12,24/12,25/12,26/12,28/12,29/12,30/12,31/12,04/01,05/01,06/01,07/01,08/01,09/01,11/01,12/01".split(",");
-var CS=["Các bạn tư vấn viên nói chuyện nhẹ nhàng, giải thích cặn kẽ từng hạng mục trong hợp đồng trước khi mình ký.", "Mình mua gói chăm sóc da cơ bản bên này, giá hợp lý mà không gian riêng tư, yên tĩnh để nghỉ ngơi cuối tuần.", "Bạn mình làm mũi ở đây đẹp quá nên giới thiệu mình qua. Trải nghiệm thực tế thấy đúng như lời đồn, rất chuyên nghiệp.", "Mình tìm hiểu rất kỹ về an toàn gây mê trước khi làm ngực. Bên Nam An có ekip bác sĩ gây mê hồi sức riêng nên mình hoàn toàn an tâm.", "Tư vấn kỹ, bác sĩ thân thiện. Mình chỉ góp ý xíu là bãi đậu ô tô giờ cao điểm hơi chật, còn lại mọi thứ đều ổn.", "Làm nâng cơ trẻ hóa xong thấy vùng rãnh cười mờ đi rõ rệt, mặt gọn hơn mà không cần nghỉ dưỡng gì cả.", "Mở góc mắt trong kết hợp cắt mí, lúc đầu cũng hơi lo nhưng bác sĩ làm nhẹ nhàng, tiêm tê chỉ hơi nhói xíu lúc đầu thôi.", "Mình ở tỉnh lên làm dịch vụ, được bệnh viện hỗ trợ chỗ nghỉ ngơi hậu phẫu sạch sẽ, có điều dưỡng trực theo dõi xuyên đêm.", "Điều trị sẹo rỗ tới buổi thứ 3 thấy bề mặt da phẳng và mịn hơn nhiều rồi, lỗ chân lông cũng thu nhỏ lại.", "Cơ sở vật chất chuẩn bệnh viện nên từ phòng khám tới phòng tiểu phẫu đều vô trùng kỹ lưỡng, nhìn rất an tâm.", "Sửa lại mũi hỏng từ chỗ cũ qua bên Nam An. May gặp đúng bác sĩ có tâm, xử lý lại phần sụn rất khéo, giờ mũi đã ổn định.", "Thích cách làm việc ở đây là không chèo kéo nâng gói dịch vụ. Mình hỏi gói nào bác sĩ tư vấn đúng gói đó.", "Cuối tuần ghé điện di tinh chất thư giãn, nhân viên không nói chuyện riêng ồn ào trong phòng nên ngủ một giấc rất ngon.", "Khám sức khỏe tổng quát trước phẫu thuật làm rất bài bản, có kết quả đầy đủ bác sĩ mới duyệt cho lên phòng mổ.", "Tiêm filler cằm tạo dáng V-line nhẹ nhàng, bác sĩ nắn chỉnh tỉ mỉ từng chút một nên nhìn tự nhiên lắm.", "Nâng cung chân mày cho mẹ mình tuần trước, nay cắt chỉ xong mắt mẹ hết bị sụp da dư, nhìn tươi tắn hẳn.", "Dịch vụ xứng đáng với chi phí bỏ ra. Từ khâu đặt lịch online tới lúc tới bệnh viện đều trơn tru.", "Hút mỡ bắp tay ở đây được 1 tháng, nay mặc áo sát nách tự tin hẳn, vùng da cánh tay săn chắc không bị lồi lõm.", "Bác sĩ giải thích cặn kẽ về cơ địa và tỷ lệ hồi phục của từng người chứ không hứa hẹn suông. Rất tôn trọng sự thật thà này.", "Mình quên đồ ở sảnh chờ, liên hệ fanpage là các bạn bảo vệ tìm lại và giữ giúp cẩn thận. Rất cảm ơn bệnh viện."];
-var tasks=CS.map(function(t,i){var d=i<10?0:1;return{id:i+1,day:d+1,dt:new Date(2026,10,29+d),dept:"",star:5,text:t}});
-var now=new Date(),t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-function diff(t){return Math.round((t.dt-t0)/DAY)}
-function fd(dt){return String(dt.getDate()).padStart(2,"0")+"/"+String(dt.getMonth()+1).padStart(2,"0")+"/"+dt.getFullYear()}
-function lbl(dt){return WD[dt.getDay()]+", "+fd(dt)}
-var db=null,uid=null;
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-var MN=["A. Tân","C. Kiều","Vân","Hiếu","Nam","L.Anh","TreyCE","Nhi","Tâm","Hà","Duyên","Chiến","Duc Trinh","Chính","Vũ","Duyên","Quỳnh","Tú","B.Ngọc","My","Nhân Ads","Nhân SEO"];
-var MD=[[27,11],[28,11]];
-var mk=MN.map(function(n,i){var d=i<11?0:1;return{id:"m"+(i+1),day:d+1,dt:new Date(2026,MD[d][1]-1,MD[d][0]),dept:n,star:5,text:T[i]}});
-var byId={};function idx(){byId={};tasks.concat(mk).forEach(function(t){byId[t.id]=t})}idx();
-function card(t){
-  var d=done[t.id];
-  return '<div id="c'+t.id+'" class="t'+(d?' done':'')+'"><div class="meta"><span class="chip">#'+String(t.id).replace("m","")+'</span>'+(t.dept?'<span class="chip dk">'+esc(t.dept)+'</span>':'')+'<span class="sb s'+t.star+'">'+t.star+' ★ sao</span><span>📵 Tắt wifi bệnh viện hoặc ở nhà</span></div><p class="tx">'+esc(t.text)+'</p><div class="row"><button class="cp" onclick="cp(\''+t.id+'\')">📋 Copy nội dung</button>'+'</div></div>';
-}
-function list(a){return a.length?a.map(card).join(""):'<div class="empty">Không có task</div>'}
-function group(a,open,p){
-  var m={};a.forEach(function(t){(m[t.day]=m[t.day]||[]).push(t)});
-  return Object.keys(m).map(function(k,i){
-    var g=m[k],c=g.filter(function(t){return done[t.id]}).length;
-    return '<details data-d="'+p+k+'"'+(open&&i===0?' open':'')+'><summary><span class="sm"><b>'+lbl(g[0].dt)+'</b>'+(g[0].dept?'<span class="dp">'+esc(g[0].dept)+(g.length>1&&g[1].dept!==g[0].dept?' · '+esc(g[1].dept):'')+'</span>':'')+'<span class="sr">'+(g.length>4?'<span class="sb s5">'+g.length+' task · 5 ★</span>':g.map(function(t){return '<span class="sb s'+t.star+'">'+t.star+' ★</span>'}).join(''))+'</span></span><small>'+g.length+' task</small></summary><div class="in">'+list(g)+'</div></details>';
-  }).join("");
-}
-function renderSet(arr,p){
-  var today=arr.filter(function(t){return diff(t)===0});
-  var late=[];
-  var up=arr.filter(function(t){return diff(t)>0});
-  var past=arr.filter(function(t){return diff(t)<0});
-  var h="";
-  if(today.length){
-    h='<div class="hero"><h2>🔥 Hôm nay – '+lbl(today[0].dt)+'</h2>'+list(today)+'</div>';
-  }else if(up.length){
-    var nx=up.filter(function(t){return t.day===up[0].day});
-    h='<div class="hero wait"><h2>⏳ Hôm nay chưa có task. Sắp tới: '+lbl(nx[0].dt)+' (còn '+diff(nx[0])+' ngày)</h2>'+list(nx)+'</div>';
-  }else h='<div class="hero wait"><h2>🎉 Đã hết lịch task</h2></div>';
-  document.getElementById(p+"hero").innerHTML=h;
-  document.getElementById(p+"late").innerHTML=late.length?'<div class="bad"><h2>⚠ Quá hạn chưa đăng ('+late.length+')</h2>'+list(late)+'</div>':"";
-  var rest=today.length?up:up.filter(function(t){return t.day!==up[0].day});
-  document.getElementById(p+"up").innerHTML=rest.length?group(rest,false,p):'<div class="empty">Không còn task sắp tới</div>';
-  document.getElementById(p+"past").innerHTML=past.length?'<h2>Ngày đã qua</h2>'+group(past,false,p):"";
-}
-function render(){
-  var op=[].map.call(document.querySelectorAll('details[open]'),function(e){return e.getAttribute('data-d')});
-  renderSet(tasks,"");renderSet(mk,"m");
-  op.forEach(function(k){var e=document.querySelector('details[data-d="'+k+'"]');if(e)e.open=true});
-}
-function sy(t){var e=document.getElementById("sy");if(e)e.textContent=t}
-function bk(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
-function toast(m){var e=document.getElementById("toast");e.textContent=m;e.classList.add("s");setTimeout(function(){e.classList.remove("s")},1400)}
-function cp(id){
-  var tx=byId[id].text;
+var CS=["Các bạn tư vấn viên nói chuyện nhẹ nhàng, giải thích cặn kẽ từng hạng mục trong hợp đồng trước khi mình ký.","Mình mua gói chăm sóc da cơ bản bên này, giá hợp lý mà không gian riêng tư, yên tĩnh để nghỉ ngơi cuối tuần.","Bạn mình làm mũi ở đây đẹp quá nên giới thiệu mình qua. Trải nghiệm thực tế thấy đúng như lời đồn, rất chuyên nghiệp.","Mình tìm hiểu rất kỹ về an toàn gây mê trước khi làm ngực. Bên Nam An có ekip bác sĩ gây mê hồi sức riêng nên mình hoàn toàn an tâm.","Tư vấn kỹ, bác sĩ thân thiện. Mình chỉ góp ý xíu là bãi đậu ô tô giờ cao điểm hơi chật, còn lại mọi thứ đều ổn.","Làm nâng cơ trẻ hóa xong thấy vùng rãnh cười mờ đi rõ rệt, mặt gọn hơn mà không cần nghỉ dưỡng gì cả.","Mở góc mắt trong kết hợp cắt mí, lúc đầu cũng hơi lo nhưng bác sĩ làm nhẹ nhàng, tiêm tê chỉ hơi nhói xíu lúc đầu thôi.","Mình ở tỉnh lên làm dịch vụ, được bệnh viện hỗ trợ chỗ nghỉ ngơi hậu phẫu sạch sẽ, có điều dưỡng trực theo dõi xuyên đêm.","Điều trị sẹo rỗ tới buổi thứ 3 thấy bề mặt da phẳng và mịn hơn nhiều rồi, lỗ chân lông cũng thu nhỏ lại.","Cơ sở vật chất chuẩn bệnh viện nên từ phòng khám tới phòng tiểu phẫu đều vô trùng kỹ lưỡng, nhìn rất an tâm.","Sửa lại mũi hỏng từ chỗ cũ qua bên Nam An. May gặp đúng bác sĩ có tâm, xử lý lại phần sụn rất khéo, giờ mũi đã ổn định.","Thích cách làm việc ở đây là không chèo kéo nâng gói dịch vụ. Mình hỏi gói nào bác sĩ tư vấn đúng gói đó.","Cuối tuần ghé điện di tinh chất thư giãn, nhân viên không nói chuyện riêng ồn ào trong phòng nên ngủ một giấc rất ngon.","Khám sức khỏe tổng quát trước phẫu thuật làm rất bài bản, có kết quả đầy đủ bác sĩ mới duyệt cho lên phòng mổ.","Tiêm filler cằm tạo dáng V-line nhẹ nhàng, bác sĩ nắn chỉnh tỉ mỉ từng chút một nên nhìn tự nhiên lắm.","Nâng cung chân mày cho mẹ mình tuần trước, nay cắt chỉ xong mắt mẹ hết bị sụp da dư, nhìn tươi tắn hẳn.","Dịch vụ xứng đáng với chi phí bỏ ra. Từ khâu đặt lịch online tới lúc tới bệnh viện đều trơn tru.","Hút mỡ bắp tay ở đây được 1 tháng, nay mặc áo sát nách tự tin hẳn, vùng da cánh tay săn chắc không bị lồi lõm.","Bác sĩ giải thích cặn kẽ về cơ địa và tỷ lệ hồi phục của từng người chứ không hứa hẹn suông. Rất tôn trọng sự thật thà này.","Mình quên đồ ở sảnh chờ, liên hệ fanpage là các bạn bảo vệ tìm lại và giữ giúp cẩn thận. Rất cảm ơn bệnh viện."];
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+document.getElementById("list").innerHTML=CS.map(function(t,i){
+  return '<div class="t"><div class="meta"><span class="chip">#'+(i+1)+'</span><span class="sb">5 ★ sao</span><span>📵 Tắt wifi bệnh viện hoặc ở nhà</span></div><p class="tx">'+esc(t)+'</p><button class="cp" data-i="'+i+'">📋 Copy nội dung</button></div>';
+}).join("");
+function toast(m){var e=document.getElementById("toast");e.textContent=m;e.classList.add("s");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("s")},1400)}
+function copyText(tx){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){toast("Đã copy!")},fb)}else fb();
   function fb(){var a=document.createElement("textarea");a.value=tx;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Đã copy!")}catch(e){toast("Không copy được")}a.remove()}
 }
-render();
-function buildSch(){var o=[],m={};tasks.forEach(function(t){if(!m[t.dept]){m[t.dept]={n:t.dept,d:[]};o.push(m[t.dept])}var g=m[t.dept];if(g.d.indexOf(+t.dt)<0)g.d.push(+t.dt)});
-function c(x){return x?String(x.getDate()).padStart(2,"0")+"/"+String(x.getMonth()+1).padStart(2,"0")+'<small>'+(x.getDay()?"T"+(x.getDay()+1):"CN")+'</small>':'-'}
-var s='<tr><th>#</th><th>Khoa / Phòng ban</th><th>Ngày 1</th><th>Ngày 2</th></tr>';
-o.forEach(function(g,i){var a=g.d[0]?new Date(g.d[0]):null,b=g.d[1]?new Date(g.d[1]):null;s+='<tr'+(g.d.indexOf(+t0)>=0?' class="now"':'')+'><td>'+(i+1)+'</td><td>'+esc(g.n)+'</td><td>'+c(a)+'</td><td>'+c(b)+'</td></tr>'});
-var se=document.getElementById("sch");if(se)se.innerHTML=s}
-buildSch();
-function setPlan(rows){var a=rows.map(function(q,i){var p=String(q.d).split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]);return{id:i+1,day:Math.round(dt/DAY),dt:dt,dept:String(q.k),star:+q.s||5,text:String(q.t)}});if(!a.length)return;tasks=a;idx();buildSch();render()}
-function readX(f){
-  if(!f)return;if(!window.XLSX){toast("Chưa tải được bộ đọc Excel");return}
-  var fr=new FileReader();fr.onload=function(){try{
-    var wb=XLSX.read(fr.result,{type:"array"}),rows=null;
-    wb.SheetNames.forEach(function(n){if(rows)return;var a=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:false,defval:""});for(var i=0;i<Math.min(a.length,10);i++){var hd=a[i].map(function(x){return String(x).toLowerCase()});if(hd.some(function(x){return x.indexOf("nội dung")>=0})){rows={h:hd,a:a.slice(i+1)};break}}});
-    if(!rows){toast("Không thấy cột Nội dung");return}
-    function ix(fn){for(var i=0;i<rows.h.length;i++)if(fn(rows.h[i]))return i;return -1}
-    var cd=ix(function(x){return x.indexOf("ngày đăng")>=0}),ck=ix(function(x){return x.indexOf("bộ phận")>=0||x.indexOf("khoa")===0}),cs=ix(function(x){return x.indexOf("số sao")>=0}),ct=ix(function(x){return x.indexOf("nội dung")>=0});
-    if(cd<0||ck<0){toast("Thiếu cột Ngày đăng hoặc Khoa/Phòng");return}
-    var out=[];rows.a.forEach(function(q){var p=String(q[cd]).trim().split("/"),t=String(q[ct]).trim(),k=String(q[ck]).trim();if(p.length!==3||!/^\d{4}$/.test(p[2])||!t||!k)return;var s=(String(cs<0?"":q[cs]).match(/[45]/)||["5"])[0];out.push({d:p[2]+"-"+("0"+p[1]).slice(-2)+"-"+("0"+p[0]).slice(-2),k:k,s:+s,t:t})});
-    if(!out.length){toast("Không có dòng hợp lệ");return}
-    if(!db){toast("Chưa kết nối lưu trữ");return}
-    db.doc("plan/current").set({rows:out,at:new Date().toISOString(),by:uid||""}).then(function(){toast("Đã cập nhật "+out.length+" task")}).catch(function(){toast("Không đủ quyền cập nhật")})
-  }catch(e){toast("Không đọc được file")}};fr.readAsArrayBuffer(f)}
-
-document.getElementById("tabs").onclick=function(e){var t=e.target.getAttribute("data-t");if(!t)return;[].forEach.call(this.children,function(b){b.classList.toggle("on",b===e.target)});["pg","pmk","ptk"].forEach(function(s){document.getElementById(s).hidden=t!==s});window.scrollTo(0,0)};
-function exp(){claude.use("downloads").then(function(dl){if(!dl){toast("Không tải được");return}
-var rows=[["STT","Ngày đăng","Khoa/Phòng","Số sao","Trạng thái","Thời gian tick"]];
-tasks.forEach(function(t){var d=done[t.id];rows.push([t.id,fd(t.dt),t.dept,t.star,d?"Đã đăng":"Chưa đăng",d&&d.at?d.at:""])});
-var csv="\ufeff"+rows.map(function(x){return x.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\r\n");
-return dl.save({filename:"trang-thai-danh-gia.csv",data:csv})}).catch(function(){toast("Không tải được")})}
+document.getElementById("list").onclick=function(e){var b=e.target.closest(".cp");if(b)copyText(CS[+b.getAttribute("data-i")])};
 </script>
 </body>
 </html>
